@@ -9,18 +9,20 @@ import network.mysql.*;
 import Entity.Player;
 import Terracraft.Game;
 import Terracraft.Id;
-import Terracraft.Main;
+import Tile.TestTile;
 import network.abstracts.NetClient;
 import network.packets.Packet;
 import network.packets.Packet.PacketTypes;
 import network.packets.Packet00Login;
 import network.packets.Packet01Disconnect;
 import network.packets.Packet02Move;
-import network.packets.Packet03MySQL_Login;
 import network.packets.Packet05Spawn;
 import network.packets.Packet06Message;
+import network.packets.Packet07AddTile;
 
 public class Client extends NetClient {
+
+	private Game terracraft = null;
 
 	public Client(Terracraft.Game game, int packetSize) {
 		super(game, packetSize);
@@ -56,15 +58,15 @@ public class Client extends NetClient {
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);
-			Game pokemon = new Game(packet05.getX(), packet05.getY(), this);
-			JFrame frame = new JFrame("Pokemon");
-			frame.add(pokemon);
+			terracraft = new Game(packet05.getX(), packet05.getY(), this);
+			JFrame frame = new JFrame("TerraCraft");
+			frame.add(terracraft);
 			frame.pack();
 			frame.setBounds(0, 0, 320 * 4, 180 * 4);
 			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			frame.setVisible(true);
 			frame.setAlwaysOnTop(true);
-			pokemon.start();
+			terracraft.start();
 			break;
 		case MESSAGE:
 			Packet06Message packet06 = new Packet06Message(data);
@@ -74,12 +76,18 @@ public class Client extends NetClient {
 			} else if (packet06.getText()
 					.equalsIgnoreCase("Der angegeben Username ist bereits benutzt! Suche dir einen anderen aus.")) {
 				Register.setStatus(packet06.getText());
-			} else if(packet06.getText().equalsIgnoreCase("Benutzername oder Passwort falsch!")){
+			} else if (packet06.getText().equalsIgnoreCase("Benutzername oder Passwort falsch!")) {
 				Login.setStatus(packet06.getText());
 			} else {
 				System.out.println("[FEHLER] MELDUNG SOLLTE AN CLIENT GESENDET WERDEN: " + packet06.getText());
 			}
 			break;
+		case ADDTILE:
+			Packet07AddTile packet07 = new Packet07AddTile(data);
+			if (packet07.getType().equalsIgnoreCase("TestTile")) {
+				terracraft.handler
+						.addTile(new TestTile(packet07.getX(), packet07.getY(), 64, 64, terracraft.handler, Id.test));
+			}
 		}
 	}
 

@@ -14,6 +14,7 @@ import network.packets.Packet02Move;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
+import Tile.TestTile;
 
 public class Game extends Canvas implements Runnable {
 	public static int breite = 320, höhe = breite / 180, scale = 4;

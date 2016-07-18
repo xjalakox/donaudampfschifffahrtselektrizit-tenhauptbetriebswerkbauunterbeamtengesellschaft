@@ -1,5 +1,5 @@
 package Terracraft;
 
 public enum Id {
-	player;
+	player, test;
 }

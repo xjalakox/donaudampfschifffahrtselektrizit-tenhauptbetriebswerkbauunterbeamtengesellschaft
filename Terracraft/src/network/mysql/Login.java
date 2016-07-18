@@ -60,7 +60,7 @@ public class Login implements ActionListener {
 		panel.add(password);
 		panel.add(login);
 		panel.add(statuslabel);
-		
+
 		panel.revalidate();
 	}
 
@@ -77,17 +77,32 @@ public class Login implements ActionListener {
 			if (!testpassword.equalsIgnoreCase("")) {
 				client.setConnection(username.getText(), "localhost:1337");
 				new Packet03MySQL_Login(username.getText(), password.getText()).send(client);
-				this.frame.dispose();
-			}else{
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (getStatus().equalsIgnoreCase("Benutzername oder Passwort falsch!")) {
+					
+				} else {
+					this.frame.dispose();
+				}
+
+			} else {
 				setStatus("Wie willst du Idiot dich ohne Passwort anmelden?!");
 			}
-		}else{
+		} else {
 			setStatus("Wie willst du Idiot dich ohne Username anmelden?!");
 		}
 	}
-	
+
 	public static void setStatus(String text) {
 		statuslabel.setText(text);
+	}
+
+	private String getStatus() {
+		return statuslabel.getText();
 	}
 
 }
