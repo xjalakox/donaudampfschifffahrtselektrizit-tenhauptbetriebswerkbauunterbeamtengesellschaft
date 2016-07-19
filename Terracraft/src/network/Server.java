@@ -45,7 +45,7 @@ public class Server extends NetServer {
 	@Override
 	protected void init() {
 
-		JFrame frame = new JFrame();
+		/*JFrame frame = new JFrame();
 		frame.setTitle("Server");
 		frame.setSize(240, 180);
 		frame.setLocationRelativeTo(null);
@@ -62,7 +62,7 @@ public class Server extends NetServer {
 
 		frame.add(playeranzahl);
 		frame.add(querylabel);
-
+*/
 		players = new HashMap<NetUser, Player>();
 
 		handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
@@ -109,7 +109,7 @@ public class Server extends NetServer {
 							players.get(u).getY()).getData(), user);
 				}
 			}
-			playeranzahl.setText("Spieleranzahl : " + users.size());
+		//	playeranzahl.setText("Spieleranzahl : " + users.size());
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
@@ -135,7 +135,7 @@ public class Server extends NetServer {
 				}
 			}
 			packet01.send(this);
-			playeranzahl.setText("Spieleranzahl : " + users.size());
+		//	playeranzahl.setText("Spieleranzahl : " + users.size());
 			break;
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);

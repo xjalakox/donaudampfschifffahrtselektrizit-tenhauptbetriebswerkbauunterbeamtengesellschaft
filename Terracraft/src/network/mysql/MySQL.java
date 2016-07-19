@@ -18,7 +18,7 @@ public class MySQL {
 	}
 
 	public void connect() {
-		String host = "jdbc:mysql://80.82.219.161:3306/terra";
+		String host = "jdbc:mysql://127.0.0.1:3306/terra";
 		String user = "terra";
 		String pw = "7f7f1e6";
 		try {
@@ -136,8 +136,8 @@ public class MySQL {
 	}
 
 	private void updateQueryAmount() {
-		Server.queryanzahl++;
-		Server.querylabel.setText("Querys : " + Server.queryanzahl );
+		//Server.queryanzahl++;
+		//Server.querylabel.setText("Querys : " + Server.queryanzahl );
 		
 	}
 }
