@@ -4,7 +4,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.InetAddress;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -165,6 +164,13 @@ public class Server extends NetServer {
 						new Packet06Message("Der angegeben Username ist bereits benutzt! Suche dir einen anderen aus.")
 								.getData(),
 						user3);
+			}
+			break;
+		case ADDTILE:
+			Packet07AddTile packet07 = new Packet07AddTile(data);
+			handler.addTile(new TestTile(packet07.getX(),packet07.getY(),64,64,handler,Id.test));
+			for (NetUser u : users) {
+				super.send(new Packet07AddTile(packet07.getX(),packet07.getY(),"TestTile").getData(), u);
 			}
 		}
 	}

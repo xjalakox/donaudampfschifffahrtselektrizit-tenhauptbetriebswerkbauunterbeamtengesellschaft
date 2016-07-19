@@ -88,6 +88,7 @@ public class Client extends NetClient {
 				terracraft.handler
 						.addTile(new TestTile(packet07.getX(), packet07.getY(), 64, 64, terracraft.handler, Id.test));
 			}
+		break;
 		}
 	}
 
