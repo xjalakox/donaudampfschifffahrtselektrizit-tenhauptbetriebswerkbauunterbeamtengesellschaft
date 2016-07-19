@@ -12,9 +12,11 @@ public class Handler {
 
 	public static LinkedList<Entity> entity = new LinkedList<Entity>();
 	public LinkedList<Tile> tile = new LinkedList<Tile>();
-
+	public LinkedList<Tile> tile2 = new LinkedList<Tile>();
+	int tilecounter=0;
 	public void render(Graphics g) {
-		for (Tile ti : tile) {
+		tile2 =(LinkedList<Tile>)tile.clone();
+		for (Tile ti : tile2) {
 			ti.render(g);
 		}
 
@@ -24,7 +26,7 @@ public class Handler {
 	}
 
 	public void tick() {
-		for (Tile ti : tile) {
+		for (Tile ti : tile2) {
 			ti.tick();
 		}
 		for (Entity en : entity) {
