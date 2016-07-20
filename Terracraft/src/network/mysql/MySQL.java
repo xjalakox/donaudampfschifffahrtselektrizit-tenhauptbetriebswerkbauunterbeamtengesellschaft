@@ -4,9 +4,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import Terracraft.Id;
+import Tile.TestTile;
+import Tile.Tile;
 import network.Server;
 
 public class MySQL {
@@ -139,5 +143,20 @@ public class MySQL {
 		Server.queryanzahl++;
 		Server.querylabel.setText("Querys : " + Server.queryanzahl );
 		
+	}
+
+	public ArrayList LoadMap() {
+		try {
+			ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
+			ResultSet myRs = query.executeQuery("select * from blocks");
+			updateQueryAmount();
+			while (myRs.next()) {
+				LoadingTilesIntoList.add(new TestTile(myRs.getInt("x"),myRs.getInt("y"),64,64,Server.handler,Id.test));
+			}
+			return LoadingTilesIntoList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

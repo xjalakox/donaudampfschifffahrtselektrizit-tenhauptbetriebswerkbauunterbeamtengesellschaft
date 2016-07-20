@@ -34,7 +34,8 @@ public class Server extends NetServer {
 	private Map<NetUser, Player> players;
 	public static MySQL mysql;
 	private static int id;
-	private Handler handler = new Handler();
+	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
+	public static Handler handler = new Handler();
 	public static int queryanzahl = 1;
 	public static JLabel playeranzahl, querylabel;
 
@@ -65,9 +66,15 @@ public class Server extends NetServer {
 		frame.add(querylabel);
 
 		players = new HashMap<NetUser, Player>();
+		LoadingTilesIntoList = mysql.LoadMap();
+		for(Tile ti : LoadingTilesIntoList){
+			handler.addTile(ti);
+		}
+		
+		System.out.println(handler.tile.size());
 
-		handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
-		handler.addTile(new TestTile(192, 64, 64, 64, handler, Id.test));
+		//handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
+		//handler.addTile(new TestTile(192, 64, 64, 64, handler, Id.test));
 	}
 
 	public static void main(String[] args) {
