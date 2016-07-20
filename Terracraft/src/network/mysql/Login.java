@@ -21,7 +21,7 @@ import network.packets.Packet04MySQL_Register;
 public class Login implements ActionListener {
 
 	private JTextField username, password;
-	private JFrame frame;
+	public static JFrame frame;
 	private JPanel panel;
 	private JButton login;
 	private static JLabel statuslabel;
@@ -77,17 +77,6 @@ public class Login implements ActionListener {
 			if (!testpassword.equalsIgnoreCase("")) {
 				client.setConnection(username.getText(), "localhost:1337");
 				new Packet03MySQL_Login(username.getText(), password.getText()).send(client);
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (getStatus().equalsIgnoreCase("Benutzername oder Passwort falsch!")) {
-					
-				} else {
-					this.frame.dispose();
-				}
 
 			} else {
 				setStatus("Wie willst du Idiot dich ohne Passwort anmelden?!");

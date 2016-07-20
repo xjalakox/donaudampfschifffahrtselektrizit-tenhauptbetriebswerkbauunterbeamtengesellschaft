@@ -3,6 +3,7 @@ package network;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class Server extends NetServer {
 	@Override
 	protected void init() {
 
-		/*JFrame frame = new JFrame();
+		JFrame frame = new JFrame();
 		frame.setTitle("Server");
 		frame.setSize(240, 180);
 		frame.setLocationRelativeTo(null);
@@ -62,7 +63,7 @@ public class Server extends NetServer {
 
 		frame.add(playeranzahl);
 		frame.add(querylabel);
-*/
+
 		players = new HashMap<NetUser, Player>();
 
 		handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
@@ -78,6 +79,7 @@ public class Server extends NetServer {
 	protected void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
+		System.out.println(users.size());
 		switch (type) {
 		default:
 		case INVALID:
@@ -100,8 +102,9 @@ public class Server extends NetServer {
 			players.put(user, player);
 			packet00.send(this);
 			for (Tile ti : handler.tile) {
-				System.out.println("test");
-				super.send(new Packet07AddTile(ti.getX(),ti.getY(),"TestTile").getData(), user);
+				if (ti.getId() == Id.test) {
+					super.send(new Packet07AddTile(ti.getX(), ti.getY(), "TestTile").getData(), user);
+				}
 			}
 			for (NetUser u : users) {
 				if (players.get(u) != null && !u.equals(user)) {
@@ -109,7 +112,7 @@ public class Server extends NetServer {
 							players.get(u).getY()).getData(), user);
 				}
 			}
-		//	playeranzahl.setText("Spieleranzahl : " + users.size());
+			playeranzahl.setText("Spieleranzahl : " + users.size());
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
@@ -135,7 +138,7 @@ public class Server extends NetServer {
 				}
 			}
 			packet01.send(this);
-		//	playeranzahl.setText("Spieleranzahl : " + users.size());
+			playeranzahl.setText("Spieleranzahl : " + users.size());
 			break;
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);
@@ -143,34 +146,35 @@ public class Server extends NetServer {
 			break;
 		case MYSQL_LOGIN:
 			Packet03MySQL_Login packet03 = new Packet03MySQL_Login(data);
-			NetUser user2 = new NetUser(packet03.getUsername(), address, port);
+			NetUser temporary_user = new NetUser(packet03.getUsername(), address, port);
 			if (mysql.checkIfUserRegistered(packet03.getUsername(), packet03.getPassword())) {
 				int x = mysql.getX(packet03.getUsername());
 				int y = mysql.getY(packet03.getUsername());
-				super.send(new Packet05Spawn(x, y).getData(), user2);
+				super.send(new Packet05Spawn(x, y).getData(), temporary_user);
+				super.send(new Packet06Message("Du hast dich erfolgreich eingeloggt!").getData(), temporary_user);
 			} else {
-				super.send(new Packet06Message("Benutzername oder Passwort falsch!").getData(), user2);
+				super.send(new Packet06Message("Benutzername oder Passwort falsch!").getData(), temporary_user);
 			}
 			break;
 		case MYSQL_REGISTER:
 			Packet04MySQL_Register packet04 = new Packet04MySQL_Register(data);
-			NetUser user3 = new NetUser(packet04.getUsername(), address, port);
+			NetUser temporary_user2 = new NetUser(packet04.getUsername(), address, port);
 			if (mysql.checkIfUsernameTaken(packet04.getUsername())) {
 				mysql.registerAccount(packet04.getUsername(), packet04.getPassword());
 				super.send(new Packet06Message("Du hast dich erfolgreich registriert und kannst dich nun anmelden!")
-						.getData(), user3);
+						.getData(), temporary_user2);
 			} else {
 				super.send(
 						new Packet06Message("Der angegeben Username ist bereits benutzt! Suche dir einen anderen aus.")
 								.getData(),
-						user3);
+						temporary_user2);
 			}
 			break;
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
-			handler.addTile(new TestTile(packet07.getX(),packet07.getY(),64,64,handler,Id.test));
+			handler.addTile(new TestTile(packet07.getX(), packet07.getY(), 64, 64, handler, Id.test));
 			for (NetUser u : users) {
-				super.send(new Packet07AddTile(packet07.getX(),packet07.getY(),"TestTile").getData(), u);
+				super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), "TestTile").getData(), u);
 			}
 		}
 	}

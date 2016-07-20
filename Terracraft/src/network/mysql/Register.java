@@ -64,7 +64,7 @@ public class Register implements ActionListener {
 
 	public void actionPerformed(ActionEvent a) {
 		if (!started_client) {
-			client = new Client(128);
+			client = new Client(32);
 			client.start();
 			started_client = true;
 		}

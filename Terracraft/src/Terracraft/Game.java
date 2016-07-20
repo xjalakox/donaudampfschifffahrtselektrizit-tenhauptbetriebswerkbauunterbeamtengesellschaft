@@ -9,6 +9,7 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JOptionPane;
 
 import network.Client;
+import network.mysql.Login;
 import network.packets.Packet00Login;
 import network.packets.Packet02Move;
 import Entity.Player;
@@ -27,6 +28,7 @@ public class Game extends Canvas implements Runnable {
 	private Key key;
 
 	public void init() {
+		Login.frame.dispose();
 		handler = new Handler();
 		key = new Key();
 		

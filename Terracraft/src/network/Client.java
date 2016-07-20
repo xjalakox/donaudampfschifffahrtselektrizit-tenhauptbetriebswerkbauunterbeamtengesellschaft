@@ -78,6 +78,8 @@ public class Client extends NetClient {
 				Register.setStatus(packet06.getText());
 			} else if (packet06.getText().equalsIgnoreCase("Benutzername oder Passwort falsch!")) {
 				Login.setStatus(packet06.getText());
+			} else if(packet06.getText().equalsIgnoreCase("Du hast dich erfolgreich eingeloggt!")){
+				Login.setStatus(packet06.getText());
 			} else {
 				System.out.println("[FEHLER] MELDUNG SOLLTE AN CLIENT GESENDET WERDEN: " + packet06.getText());
 			}
