@@ -24,7 +24,7 @@ public class MySQL {
 	public void connect() {
 		String host = "jdbc:mysql://80.82.219.161:3306/terra";
 		String user = "terra";
-		String pw = "7f7f1e6";
+		String pw = "qwZm5VAWbLPFs3Tc";
 		try {
 			myConn = DriverManager.getConnection(host, user, pw);
 			query = myConn.createStatement();
