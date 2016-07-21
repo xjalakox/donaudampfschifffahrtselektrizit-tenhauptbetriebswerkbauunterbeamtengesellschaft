@@ -6,13 +6,13 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import Entity.Player;
+import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Tile.Grass;
 import Tile.TestTile;
 import Tile.Tile;
 import network.abstracts.NetServer;
@@ -65,7 +65,6 @@ public class Server extends NetServer {
 		frame.add(querylabel);
 
 		players = new HashMap<NetUser, Player>();
-
 		LoadingTilesIntoList = mysql.LoadMap();
 		for (Tile ti : LoadingTilesIntoList) {
 			handler.addTile(ti);
@@ -75,8 +74,6 @@ public class Server extends NetServer {
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		frame.setVisible(true);
 
-		// handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
-		// handler.addTile(new TestTile(192, 64, 64, 64, handler, Id.test));
 	}
 
 	public static void main(String[] args) {
@@ -112,6 +109,8 @@ public class Server extends NetServer {
 			for (Tile ti : handler.tile) {
 				if (ti.getId() == Id.test) {
 					super.send(new Packet07AddTile(ti.getX(), ti.getY(), "TestTile").getData(), user);
+				} else if (ti.getId() == Id.grass) {
+					super.send(new Packet07AddTile(ti.getX(), ti.getY(), "grass").getData(), user);
 				}
 			}
 			for (NetUser u : users) {
@@ -126,19 +125,8 @@ public class Server extends NetServer {
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
 			for (NetUser u : users) {
 				if (u.getUsername().equalsIgnoreCase(packet01.getUsername())) {
-					int x = 0;
-					int y = 0;
-					int x2 = packet01.getX();
-					int y2 = packet01.getY();
-					while (x2 >= 60) {
-						x += 60;
-						x2 -= 60;
-					}
-
-					while (y2 >= 60) {
-						y += 60;
-						y2 -= 60;
-					}
+					int x = packet01.getX();
+					int y = packet01.getY();
 
 					mysql.setCoordinates(packet01.getUsername(), x, y);
 					users.remove(u);
@@ -180,11 +168,20 @@ public class Server extends NetServer {
 			break;
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
-			Tile tile = new TestTile(packet07.getX(), packet07.getY(), 64, 64, handler, Id.test);
+			Tile tile;
+			if (packet07.getType().equalsIgnoreCase("grass")) {
+				tile = new Grass(packet07.getX(), packet07.getY(), 64, 64, handler, Id.grass);
+			} else {
+				tile = new TestTile(packet07.getX(), packet07.getY(), 64, 64, handler, Id.test);
+			}
 			handler.addTile(tile);
 			mysql.addTile(tile);
 			for (NetUser u : users) {
-				super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), "TestTile").getData(), u);
+				if (tile.getId() == Id.grass) {
+					super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), "grass").getData(), u);
+				} else {
+					super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), "TestTile").getData(), u);
+				}
 			}
 		}
 	}

@@ -1,15 +1,14 @@
 package Input;
 
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.event.MouseInputListener;
-
 import Terracraft.Game;
 import network.packets.Packet07AddTile;
 
-public class Mouse implements MouseMotionListener {
+public class Mouse implements MouseListener, MouseMotionListener {
 
 	private int x;
 	private int y;
@@ -27,15 +26,15 @@ public class Mouse implements MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent m) {
-		new Packet07AddTile(x, y, "TestTile").send(Game.client);
+		System.out.println("?!");
+		new Packet07AddTile(x, y, "grass").send(Game.client);
 	}
 
 	public void mouseReleased(MouseEvent m) {
 
 	}
-	
-	public void mouseDragged(MouseEvent m){
-		System.out.println("gg");
+
+	public void mouseDragged(MouseEvent m) {
 		x = m.getX();
 		y = m.getY();
 	}
@@ -48,10 +47,14 @@ public class Mouse implements MouseMotionListener {
 		return y;
 	}
 
+	public Rectangle Collision() {
+		return new Rectangle(x, y, 2, 2);
+	}
+
 	@Override
 	public void mouseMoved(MouseEvent m) {
 		x = m.getX();
-		y = m.getY();	
+		y = m.getY();
 	}
 
 }

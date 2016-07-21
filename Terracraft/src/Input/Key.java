@@ -34,6 +34,7 @@ public class Key implements KeyListener {
 			new Packet01Disconnect(Game.player.getUsername(), Game.player.getX(), Game.player.getY()).send(Game.client);
 			System.exit(0);
 			break;
+		
 		}
 	}
 
