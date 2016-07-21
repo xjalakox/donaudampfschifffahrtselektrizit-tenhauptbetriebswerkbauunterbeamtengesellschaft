@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
@@ -26,8 +27,10 @@ public class MySQL {
 		String user = "terra";
 		String pw = "qwZm5VAWbLPFs3Tc";
 		try {
+			System.out.println("[MySQL] Trying to connect to the MySQL Server");
 			myConn = DriverManager.getConnection(host, user, pw);
 			query = myConn.createStatement();
+			System.out.println("[MySQL] Connected to the MySQL Server");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -141,22 +144,41 @@ public class MySQL {
 
 	private void updateQueryAmount() {
 		Server.queryanzahl++;
-		Server.querylabel.setText("Querys : " + Server.queryanzahl );
-		
+		Server.querylabel.setText("Querys : " + Server.queryanzahl);
+
 	}
 
-	public ArrayList LoadMap() {
+	public ArrayList<Tile> LoadMap() {
 		try {
 			ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 			ResultSet myRs = query.executeQuery("select * from blocks");
 			updateQueryAmount();
 			while (myRs.next()) {
-				LoadingTilesIntoList.add(new TestTile(myRs.getInt("x"),myRs.getInt("y"),64,64,Server.handler,Id.test));
+				LoadingTilesIntoList
+						.add(new TestTile(myRs.getInt("x"), myRs.getInt("y"), 64, 64, Server.handler, Id.test));
 			}
 			return LoadingTilesIntoList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void saveMap(LinkedList<Tile> list){
+		try {
+			int id = 0;
+			query.executeUpdate("DELETE FROM blocks");
+			for(Tile ti : list){
+				int x = ti.getX();
+				int y = ti.getY();
+				if(ti.getId()==Id.test){
+					System.out.println("INSERT INTO blocks " + "VALUES (" + id +", " + x + ", " + y + ", " + "'TestTile')");
+					query.executeUpdate("INSERT INTO blocks " + "VALUES (" + id +", " + x + ", " + y + ", " + "'TestTile')");
+				}
+			}
+			updateQueryAmount();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

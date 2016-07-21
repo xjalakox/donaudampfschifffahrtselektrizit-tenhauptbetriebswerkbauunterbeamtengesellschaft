@@ -36,7 +36,7 @@ public class Server extends NetServer {
 	private static int id;
 	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 	public static Handler handler = new Handler();
-	public static int queryanzahl = 1;
+	public static int queryanzahl = 0;
 	public static JLabel playeranzahl, querylabel;
 
 	public Server(int port, int packetSize) {
@@ -45,14 +45,14 @@ public class Server extends NetServer {
 	}
 
 	@Override
-	protected void init() {
-
+	protected void init(long time) {
+		
 		JFrame frame = new JFrame();
 		frame.setTitle("Server");
 		frame.setSize(240, 180);
 		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new WindowInput(this));
-		frame.setVisible(true);
+		
 
 		playeranzahl = new JLabel("Spieleranzahl : 0");
 		playeranzahl.setVisible(true);
@@ -66,18 +66,22 @@ public class Server extends NetServer {
 		frame.add(querylabel);
 
 		players = new HashMap<NetUser, Player>();
+		
 		LoadingTilesIntoList = mysql.LoadMap();
 		for(Tile ti : LoadingTilesIntoList){
 			handler.addTile(ti);
 		}
 		
-		System.out.println(handler.tile.size());
+		System.out.println("[SERVER] READY TO ACCEPT CONNECTIONS");
+		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms" );
+		frame.setVisible(true);
 
 		//handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
 		//handler.addTile(new TestTile(192, 64, 64, 64, handler, Id.test));
 	}
 
 	public static void main(String[] args) {
+		System.out.println("[SERVER] STARTING");
 		mysql = new MySQL();
 		id = mysql.getId();
 		new Server(1337, 64);
@@ -217,6 +221,8 @@ public class Server extends NetServer {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
+			System.out.println("ja");
+			mysql.saveMap(handler.tile);
 			server.stop();
 		}
 

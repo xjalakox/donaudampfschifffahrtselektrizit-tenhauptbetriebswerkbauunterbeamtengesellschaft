@@ -46,9 +46,9 @@ public abstract class NetServer implements Runnable {
 
 	@Override
 	public void run() {
-		init();
-		long lastTime = System.nanoTime();
 		long timer = System.currentTimeMillis();
+		long lastTime = System.nanoTime();
+		init(timer);
 		double delta = 0;
 		double ns = 1000000000.0 / 60.0;
 		int ticks = 0;
@@ -84,7 +84,7 @@ public abstract class NetServer implements Runnable {
 
 	public abstract void tick();
 
-	protected abstract void init();
+	protected abstract void init(long time);
 
 	protected abstract void parsePacket(byte[] data, InetAddress address, int port);
 
