@@ -163,22 +163,36 @@ public class MySQL {
 		}
 		return null;
 	}
-	
-	public void saveMap(LinkedList<Tile> list){
+
+	/**
+	 * 
+	 * saveMap OUTDATED
+	 * 
+	 * 
+	 */
+
+	/*
+	 * public void saveMap(LinkedList<Tile> list){ try { int id = 0;
+	 * query.executeUpdate("DELETE FROM blocks"); for(Tile ti : list){ int x =
+	 * ti.getX(); int y = ti.getY(); if(ti.getId()==Id.test){
+	 * System.out.println("INSERT INTO blocks " + "VALUES (" + id +", " + x +
+	 * ", " + y + ", " + "'TestTile')");
+	 * query.executeUpdate("INSERT INTO blocks " + "VALUES (" + id +", " + x +
+	 * ", " + y + ", " + "'TestTile')"); } } updateQueryAmount(); } catch
+	 * (SQLException e) { e.printStackTrace(); } }
+	 */
+
+	public void addTile(Tile ti) {
 		try {
-			int id = 0;
-			query.executeUpdate("DELETE FROM blocks");
-			for(Tile ti : list){
-				int x = ti.getX();
-				int y = ti.getY();
-				if(ti.getId()==Id.test){
-					System.out.println("INSERT INTO blocks " + "VALUES (" + id +", " + x + ", " + y + ", " + "'TestTile')");
-					query.executeUpdate("INSERT INTO blocks " + "VALUES (" + id +", " + x + ", " + y + ", " + "'TestTile')");
-				}
-			}
+			int x = ti.getX();
+			int y = ti.getY();
+
+			query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'TestTile')");
+
 			updateQueryAmount();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 	}
 }

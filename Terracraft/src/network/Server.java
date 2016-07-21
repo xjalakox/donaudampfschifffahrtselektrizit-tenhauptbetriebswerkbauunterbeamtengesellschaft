@@ -46,13 +46,12 @@ public class Server extends NetServer {
 
 	@Override
 	protected void init(long time) {
-		
+
 		JFrame frame = new JFrame();
 		frame.setTitle("Server");
 		frame.setSize(240, 180);
 		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new WindowInput(this));
-		
 
 		playeranzahl = new JLabel("Spieleranzahl : 0");
 		playeranzahl.setVisible(true);
@@ -66,18 +65,18 @@ public class Server extends NetServer {
 		frame.add(querylabel);
 
 		players = new HashMap<NetUser, Player>();
-		
+
 		LoadingTilesIntoList = mysql.LoadMap();
-		for(Tile ti : LoadingTilesIntoList){
+		for (Tile ti : LoadingTilesIntoList) {
 			handler.addTile(ti);
 		}
-		
+
 		System.out.println("[SERVER] READY TO ACCEPT CONNECTIONS");
-		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms" );
+		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		frame.setVisible(true);
 
-		//handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
-		//handler.addTile(new TestTile(192, 64, 64, 64, handler, Id.test));
+		// handler.addTile(new TestTile(64, 64, 64, 64, handler, Id.test));
+		// handler.addTile(new TestTile(192, 64, 64, 64, handler, Id.test));
 	}
 
 	public static void main(String[] args) {
@@ -90,16 +89,14 @@ public class Server extends NetServer {
 	protected void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
-		System.out.println(users.size());
 		switch (type) {
 		default:
 		case INVALID:
 			break;
 		case LOGIN:
-			System.out.println(handler.tile.size());
 			Packet00Login packet00 = new Packet00Login(data);
-			System.out.println("[" + address.getHostAddress() + ":" + ":" + port + "] " + packet00.getUsername()
-					+ " ist verbunden.");
+			// System.out.println("[" + address.getHostAddress() + ":" + ":" +
+			// port + "] " + packet00.getUsername() + " ist verbunden.");
 			for (NetUser u : users) {
 				if (u.getUsername().equalsIgnoreCase(packet00.getUsername())) {
 					users.remove(u);
@@ -183,7 +180,9 @@ public class Server extends NetServer {
 			break;
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
-			handler.addTile(new TestTile(packet07.getX(), packet07.getY(), 64, 64, handler, Id.test));
+			Tile tile = new TestTile(packet07.getX(), packet07.getY(), 64, 64, handler, Id.test);
+			handler.addTile(tile);
+			mysql.addTile(tile);
 			for (NetUser u : users) {
 				super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), "TestTile").getData(), u);
 			}
@@ -221,8 +220,6 @@ public class Server extends NetServer {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-			System.out.println("ja");
-			mysql.saveMap(handler.tile);
 			server.stop();
 		}
 

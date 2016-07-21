@@ -34,8 +34,6 @@ public class Key implements KeyListener {
 			new Packet01Disconnect(Game.player.getUsername(), Game.player.getX(), Game.player.getY()).send(Game.client);
 			System.exit(0);
 			break;
-		case KeyEvent.VK_0:
-				new Packet07AddTile(Game.player.getX() + 50, Game.player.getY(), "TestTile").send(Game.client);
 		}
 	}
 
