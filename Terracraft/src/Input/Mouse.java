@@ -9,13 +9,12 @@ import javax.swing.event.MouseInputListener;
 import Terracraft.Game;
 import network.packets.Packet07AddTile;
 
-public class Mouse implements MouseMotionListener {
+public class Mouse implements MouseListener, MouseMotionListener {
 
 	private int x;
 	private int y;
 
 	public void mouseClicked(MouseEvent m) {
-
 	}
 
 	public void mouseEntered(MouseEvent m) {
@@ -33,12 +32,6 @@ public class Mouse implements MouseMotionListener {
 	public void mouseReleased(MouseEvent m) {
 
 	}
-	
-	public void mouseDragged(MouseEvent m){
-		System.out.println("gg");
-		x = m.getX();
-		y = m.getY();
-	}
 
 	public int getX() {
 		return x;
@@ -52,6 +45,12 @@ public class Mouse implements MouseMotionListener {
 	public void mouseMoved(MouseEvent m) {
 		x = m.getX();
 		y = m.getY();	
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

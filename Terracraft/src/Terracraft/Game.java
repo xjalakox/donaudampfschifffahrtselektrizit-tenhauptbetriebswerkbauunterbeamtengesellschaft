@@ -41,8 +41,8 @@ public class Game extends Canvas implements Runnable {
 		handler.addEntity(player);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
 
+		addMouseListener(m);
 		addMouseMotionListener(m);
-		
 		addKeyListener(new Key());
 	}
 
