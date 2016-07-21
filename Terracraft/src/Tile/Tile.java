@@ -1,29 +1,32 @@
 package Tile;
 
 import java.awt.Graphics;
-
+import java.awt.Rectangle;
 import Terracraft.Handler;
 import Terracraft.Id;
 
 public class Tile {
 
-	public int x, y, breite, höhe, velX, velY;
+	public int x, y, width, height, velX, velY;
 	Handler handler;
 	Id id;
+	private int damage =100;
 
-	public Tile(int x, int y, int breite, int höhe, Handler handler, Id id) {
+	public Tile(int x, int y, int Width, int height, Handler handler, Id id) {
 		this.x = x;
 		this.y = y;
-		this.breite = breite;
-		this.höhe = höhe;
+		this.width = Width;
+		this.height = height;
 		this.handler = handler;
 		this.id = id;
 	}
 
-	public void render(Graphics g) {
+	public  void render(Graphics g){
+		
 	}
 
-	public void tick() {
+	public  void tick(){
+		
 	}
 
 	public int getX() {
@@ -42,20 +45,20 @@ public class Tile {
 		this.y = y;
 	}
 
-	public int getBreite() {
-		return breite;
+	public int getWidth() {
+		return width;
 	}
 
-	public void setBreite(int breite) {
-		this.breite = breite;
+	public void setWidth(int Width) {
+		this.width = Width;
 	}
 
-	public int getHöhe() {
-		return höhe;
+	public int getheight() {
+		return height;
 	}
 
-	public void setHöhe(int höhe) {
-		this.höhe = höhe;
+	public void setheight(int height) {
+		this.height = height;
 	}
 
 	public int getVelX() {
@@ -74,19 +77,23 @@ public class Tile {
 		this.velY = velY;
 	}
 
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
-
 	public Id getId() {
 		return id;
 	}
 
 	public void setId(Id id) {
 		this.id = id;
+	}
+	
+	public Rectangle getBounds(){
+		return new Rectangle(x,y,width,height);
+	}
+	
+	public int getDamage(){
+		return damage;
+	}
+	
+	public void setDamage(int damage){
+		this.damage = damage;
 	}
 }

@@ -9,6 +9,7 @@ import network.mysql.*;
 import Entity.Player;
 import Terracraft.Game;
 import Terracraft.Id;
+import Tile.Grass;
 import Tile.TestTile;
 import network.abstracts.NetClient;
 import network.packets.Packet;
@@ -89,6 +90,9 @@ public class Client extends NetClient {
 			if (packet07.getType().equalsIgnoreCase("TestTile")) {
 				terracraft.handler
 						.addTile(new TestTile(packet07.getX(), packet07.getY(), 64, 64, terracraft.handler, Id.test));
+			}else if(packet07.getType().equalsIgnoreCase("grass")){
+				terracraft.handler
+				.addTile(new Grass(packet07.getX(), packet07.getY(), 64, 64, terracraft.handler, Id.grass));
 			}
 		break;
 		}
