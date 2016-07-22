@@ -9,18 +9,10 @@ public class MiningHandler {
 	
 	private ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
 	private Sprite[] scrollsprite = new Sprite[10];
+	private Sprite scrollspriteaimed = new Sprite(Game.sheet,3,1,1,1);
 	private boolean aimed;
 	
 	public void init(){
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Pickaxe);
 		scrollbarTiles.add(Id.Pickaxe);
 		for(int i=0;i<10;i++){
 			scrollsprite[i] = new Sprite(Game.sheet,1,1,1,1);
@@ -30,7 +22,7 @@ public class MiningHandler {
 	public void render(Graphics g){
 		for(int i=0;i<10;i++){
 			if(Mouse.mouseRotation==i){
-				g.drawImage(scrollsprite[i].getBufferedImage(),i*74+17,17,70,70,null);
+				g.drawImage(scrollspriteaimed.getBufferedImage(),i*74+17,17,70,70,null);
 			}else{
 				g.drawImage(scrollsprite[i].getBufferedImage(),i*74+20,20,64,64,null);
 			}
