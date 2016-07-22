@@ -196,7 +196,6 @@ public class MySQL {
 		}
 
 	}
-<<<<<<< HEAD
 
 	public boolean isAdmin(String username) {
 		try {
@@ -215,6 +214,3 @@ public class MySQL {
 		return false;
 	}
 }
-=======
-}
->>>>>>> origin/master
