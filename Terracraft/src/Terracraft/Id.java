@@ -3,16 +3,12 @@ package Terracraft;
 import Tile.*;
 
 public enum Id {
-	player(00), TestTile(01), grass(02);
-
-	private Id(int id) {
-
-	}
+	player, TestTile, grass ;
 
 	public String toString() {
 		switch (this) {
 		case player:
-			return "noTile";
+			return null;
 		case TestTile:
 			return "TestTile";
 		case grass:
@@ -21,14 +17,14 @@ public enum Id {
 		return null;
 	}
 
-	public Tile getTile(int x, int y) {
-		switch (this) {
-		case player:
+	public static Tile getTile(String tileId, int x, int y) {
+		switch (tileId) {
+		case "player":
 			return null;
-		case TestTile:
+		case "TestTile":
 			return new TestTile(x, y, 64, 64, Id.TestTile);
-		case grass:
-			return "grass";
+		case "grass":
+			return new Grass(x, y, 64, 64, Id.grass);
 		}
 		return null;
 	}

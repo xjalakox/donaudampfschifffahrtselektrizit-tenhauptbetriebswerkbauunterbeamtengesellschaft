@@ -154,8 +154,8 @@ public class MySQL {
 			ResultSet myRs = query.executeQuery("select * from blocks");
 			updateQueryAmount();
 			while (myRs.next()) {
-				LoadingTilesIntoList
-						.add(new TestTile(myRs.getInt("x"), myRs.getInt("y"), 64, 64, Id.TestTile));
+				Tile t = Id.getTile(myRs.getString("TileID"), myRs.getInt("x"), myRs.getInt("y"));
+				LoadingTilesIntoList.add(t);
 			}
 			return LoadingTilesIntoList;
 		} catch (SQLException e) {
@@ -187,12 +187,30 @@ public class MySQL {
 			int x = ti.getX();
 			int y = ti.getY();
 
-			query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'TestTile')");
+			query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
+					+ ti.getId().toString() + "')");
 
 			updateQueryAmount();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public boolean isAdmin(String username) {
+		try {
+			ResultSet myRs = query.executeQuery("select 'isAdmin' from terra WHERE 'username' = " + username);
+			updateQueryAmount();
+			while (myRs.next()) {
+				if (myRs.getInt("isAdmin") == 1) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

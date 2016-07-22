@@ -9,8 +9,7 @@ import network.mysql.*;
 import Entity.Player;
 import Terracraft.Game;
 import Terracraft.Id;
-import Tile.Grass;
-import Tile.TestTile;
+import Tile.Tile;
 import network.abstracts.NetClient;
 import network.packets.Packet;
 import network.packets.Packet.PacketTypes;
@@ -46,16 +45,16 @@ public class Client extends NetClient {
 		case LOGIN:
 			Packet00Login packet00 = new Packet00Login(data);
 			if (!username.equals(packet00.getUsername()))
-				Terracraft.Game.handler.addEntity(
+				Game.handler.addEntity(
 						new Player(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24, Id.player));
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
-			Terracraft.Game.handler.removePlayer(packet01.getUsername());
+			Game.handler.removePlayer(packet01.getUsername());
 			break;
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);
-			Terracraft.Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY());
+			Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY());
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);
@@ -87,13 +86,9 @@ public class Client extends NetClient {
 			break;
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
-			if (packet07.getType().equalsIgnoreCase("TestTile")) {
-				terracraft.handler.addTile(
-						new TestTile(packet07.getX(), packet07.getY(), 64, 64, Id.TestTile));
-			} else if (packet07.getType().equalsIgnoreCase("grass")) {
-				terracraft.handler
-						.addTile(new Grass(packet07.getX(), packet07.getY(), 64, 64, Id.grass));
-			}
+			
+			Tile ti = Id.getTile(packet07.getType(), packet07.getX(), packet07.getY());
+			terracraft.handler.addTile(ti);
 			break;
 		}
 	}

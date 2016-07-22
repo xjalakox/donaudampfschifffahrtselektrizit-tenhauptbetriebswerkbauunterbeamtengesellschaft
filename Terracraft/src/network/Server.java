@@ -12,8 +12,6 @@ import Entity.Player;
 import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
-import Tile.Grass;
-import Tile.TestTile;
 import Tile.Tile;
 import network.abstracts.NetServer;
 import network.abstracts.NetUser;
@@ -70,6 +68,7 @@ public class Server extends NetServer {
 			handler.addTile(ti);
 		}
 
+		System.out.println("[SERVER] Loaded " + handler.tile.size() + " Tiles");
 		System.out.println("[SERVER] READY TO ACCEPT CONNECTIONS");
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		frame.setVisible(true);
@@ -107,11 +106,7 @@ public class Server extends NetServer {
 			players.put(user, player);
 			packet00.send(this);
 			for (Tile ti : handler.tile) {
-				if (ti.getId() == Id.TestTile) {
-					super.send(new Packet07AddTile(ti.getX(), ti.getY(), "TestTile").getData(), user);
-				} else if (ti.getId() == Id.grass) {
-					super.send(new Packet07AddTile(ti.getX(), ti.getY(), "grass").getData(), user);
-				}
+					super.send(new Packet07AddTile(ti.getX(), ti.getY(), ti.getId().toString()).getData(), user);
 			}
 			for (NetUser u : users) {
 				if (players.get(u) != null && !u.equals(user)) {
@@ -168,20 +163,11 @@ public class Server extends NetServer {
 			break;
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
-			Tile tile;
-			if (packet07.getType().equalsIgnoreCase("grass")) {
-				tile = new Grass(packet07.getX(), packet07.getY(), 64, 64, Id.grass);
-			} else {
-				tile = new TestTile(packet07.getX(), packet07.getY(), 64, 64, Id.TestTile);
-			}
+			Tile tile = Id.getTile(packet07.getType(), packet07.getX(), packet07.getY());
 			handler.addTile(tile);
 			mysql.addTile(tile);
 			for (NetUser u : users) {
-				if (tile.getId() == Id.grass) {
-					super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), "grass").getData(), u);
-				} else {
-					super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), "TestTile").getData(), u);
-				}
+				super.send(new Packet07AddTile(packet07.getX(),packet07.getY(),tile.getId().toString()).getData(), u);
 			}
 		}
 	}
