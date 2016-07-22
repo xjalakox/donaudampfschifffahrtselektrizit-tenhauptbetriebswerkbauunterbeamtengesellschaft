@@ -69,8 +69,13 @@ public class Game extends Canvas implements Runnable {
 				g.drawLine(985, 650, 985, 680);
 			}
 			renderConsole(g);
-			if (TextToDrawInConsole != null)
-				renderKeyInput(g, TextToDrawInConsole);
+			if (TextToDrawInConsole != null) {
+				if (!TextToDrawInConsole.equals("/")) {
+					renderKeyInput(g, TextToDrawInConsole);
+				}else{
+					renderKeyInput(g, "Console : " + TextToDrawInConsole);
+				}
+			}
 		} else {
 			renderLookingBlock(g);
 		}
