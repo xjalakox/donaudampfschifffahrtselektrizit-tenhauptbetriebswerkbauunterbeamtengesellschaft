@@ -12,12 +12,11 @@ public class Tile {
 	Id id;
 	private int damage =100;
 
-	public Tile(int x, int y, int Width, int height, Handler handler, Id id) {
+	public Tile(int x, int y, int Width, int height,Id id) {
 		this.x = x;
 		this.y = y;
 		this.width = Width;
 		this.height = height;
-		this.handler = handler;
 		this.id = id;
 	}
 

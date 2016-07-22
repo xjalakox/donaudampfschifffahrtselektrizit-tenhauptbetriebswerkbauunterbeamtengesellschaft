@@ -79,7 +79,7 @@ public class Client extends NetClient {
 				Register.setStatus(packet06.getText());
 			} else if (packet06.getText().equalsIgnoreCase("Benutzername oder Passwort falsch!")) {
 				Login.setStatus(packet06.getText());
-			} else if(packet06.getText().equalsIgnoreCase("Du hast dich erfolgreich eingeloggt!")){
+			} else if (packet06.getText().equalsIgnoreCase("Du hast dich erfolgreich eingeloggt!")) {
 				Login.setStatus(packet06.getText());
 			} else {
 				System.out.println("[FEHLER] MELDUNG SOLLTE AN CLIENT GESENDET WERDEN: " + packet06.getText());
@@ -88,13 +88,13 @@ public class Client extends NetClient {
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
 			if (packet07.getType().equalsIgnoreCase("TestTile")) {
+				terracraft.handler.addTile(
+						new TestTile(packet07.getX(), packet07.getY(), 64, 64, Id.TestTile));
+			} else if (packet07.getType().equalsIgnoreCase("grass")) {
 				terracraft.handler
-						.addTile(new TestTile(packet07.getX(), packet07.getY(), 64, 64, terracraft.handler, Id.test));
-			}else if(packet07.getType().equalsIgnoreCase("grass")){
-				terracraft.handler
-				.addTile(new Grass(packet07.getX(), packet07.getY(), 64, 64, terracraft.handler, Id.grass));
+						.addTile(new Grass(packet07.getX(), packet07.getY(), 64, 64, Id.grass));
 			}
-		break;
+			break;
 		}
 	}
 

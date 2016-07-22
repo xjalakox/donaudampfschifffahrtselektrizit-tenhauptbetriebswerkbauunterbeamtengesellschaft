@@ -9,8 +9,8 @@ import Terracraft.Id;
 
 public class Grass extends Tile{
 
-	public Grass(int x, int y, int width, int height, Handler handler, Id id) {
-		super(x, y, width, height, handler, id);
+	public Grass(int x, int y, int width, int height, Id id) {
+		super(x, y, width, height, id);
 	}
 
 	public void render(Graphics g) {

@@ -155,7 +155,7 @@ public class MySQL {
 			updateQueryAmount();
 			while (myRs.next()) {
 				LoadingTilesIntoList
-						.add(new TestTile(myRs.getInt("x"), myRs.getInt("y"), 64, 64, Server.handler, Id.test));
+						.add(new TestTile(myRs.getInt("x"), myRs.getInt("y"), 64, 64, Id.TestTile));
 			}
 			return LoadingTilesIntoList;
 		} catch (SQLException e) {

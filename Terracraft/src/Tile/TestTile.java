@@ -8,8 +8,8 @@ import Terracraft.Id;
 
 public class TestTile extends Tile{
 
-	public TestTile(int x, int y, int width, int height, Handler handler, Id id) {
-		super(x, y, width, height, handler, id);
+	public TestTile(int x, int y, int width, int height, Id id) {
+		super(x, y, width, height, id);
 		
 	}
 	
