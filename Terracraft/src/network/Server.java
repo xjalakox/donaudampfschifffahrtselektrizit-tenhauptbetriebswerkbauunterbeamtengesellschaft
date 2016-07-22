@@ -14,7 +14,7 @@ import Terracraft.Handler;
 import Terracraft.Id;
 import Tile.Grass;
 import Tile.TestTile;
-import Tile.Tile;
+import Tile.source.Tile;
 import network.abstracts.NetServer;
 import network.abstracts.NetUser;
 import network.mysql.MySQL;

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import Terracraft.Handler;
 import Terracraft.Id;
+import Tile.source.Tile;
 
 public class TestTile extends Tile{
 

@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import Terracraft.Id;
 import Tile.Grass;
 import Tile.TestTile;
-import Tile.Tile;
+import Tile.source.Tile;
 import network.Server;
 
 public class MySQL {

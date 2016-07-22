@@ -4,20 +4,16 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
-
-import javax.swing.JOptionPane;
-
-import network.Client;
-import network.mysql.Login;
-import network.packets.Packet00Login;
-import network.packets.Packet02Move;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
 import Tile.Grass;
-import Tile.TestTile;
+import gfx.Spritesheet;
+import network.Client;
+import network.mysql.Login;
+import network.packets.Packet00Login;
+import network.packets.Packet02Move;
 
 public class Game extends Canvas implements Runnable {
 
@@ -33,6 +29,8 @@ public class Game extends Canvas implements Runnable {
 	private Key key;
 	public static Mouse m = new Mouse();
 	private Grass grass;
+	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
+	private MiningHandler mininghandler = new MiningHandler();
 
 	public void init() {
 		Login.frame.dispose();
@@ -61,6 +59,7 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		handler.render(g);
 		renderLookingBlock(g);
+		mininghandler.render(g);
 		g.dispose();
 		bs.show();
 	}
@@ -94,6 +93,7 @@ public class Game extends Canvas implements Runnable {
 			networktick++;
 		}
 		handler.tick();
+		mininghandler.tick();
 	}
 
 	public synchronized void start() {
