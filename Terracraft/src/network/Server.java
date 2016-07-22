@@ -71,12 +71,11 @@ public class Server extends NetServer {
 		System.out.println("[SERVER] READY TO ACCEPT CONNECTIONS");
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		frame.setVisible(true);
-<<<<<<< HEAD
+
 
 //		mysql.deleteTiles();
-=======
-		mysql.deleteTiles();
->>>>>>> origin/master
+
+
 	}
 
 	public static void main(String[] args) {

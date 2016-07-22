@@ -20,18 +20,6 @@ public class Key implements KeyListener {
 		if (!Game.consoleOpen) {
 			switch (key) {
 			case KeyEvent.VK_W:
-<<<<<<< HEAD
-				Game.player.y-=1;
-				break;
-			case KeyEvent.VK_D:
-				Game.player.x+=1;
-				break;
-			case KeyEvent.VK_S:
-				Game.player.y+=1;
-				break;
-			case KeyEvent.VK_A:
-				Game.player.x-=1;
-=======
 				if(!Game.player.jumping&&!Game.player.falling){
 					if(!Game.player.jumping&&!Game.player.falling){
 						Game.player.jumping=true;
@@ -44,7 +32,7 @@ public class Key implements KeyListener {
 				break;
 			case KeyEvent.VK_A:
 				a=true;
->>>>>>> origin/master
+
 				break;
 			case KeyEvent.VK_T:
 				Game.consoleOpen = true;
