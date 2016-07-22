@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 /Terracraft/
 /network/
 /Input/
 /gfx/
+=======
+/network/
+/Input/
+/Terracraft/
+/Entity/
+/Tile/
+>>>>>>> origin/master

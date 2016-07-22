@@ -14,6 +14,7 @@
  */
 package audio;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +29,13 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.Mixer.Info;
 
+import jaco.mp3.player.MP3Player;
+
 public class Audio {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(getHierarchyInfo());
-		System.out.println(getMasterOutputVolume());
+		//System.out.println(getHierarchyInfo());
+		new MP3Player(new File("res/test.mp3")).play();
 	}
 
 	public static void setMasterOutputVolume(float value) {

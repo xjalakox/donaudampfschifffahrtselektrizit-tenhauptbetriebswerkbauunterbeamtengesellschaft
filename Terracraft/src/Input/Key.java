@@ -3,13 +3,14 @@ package Input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
 import Terracraft.Game;
 import network.packets.Packet01Disconnect;
 
 public class Key implements KeyListener {
 
 	private int key;
-
+	public static boolean run = false,d=false,shift=false,a=false;
 	public void keyPressed(KeyEvent k) {
 		key = k.getKeyCode();
 		if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -19,6 +20,7 @@ public class Key implements KeyListener {
 		if (!Game.consoleOpen) {
 			switch (key) {
 			case KeyEvent.VK_W:
+<<<<<<< HEAD
 				Game.player.y-=1;
 				break;
 			case KeyEvent.VK_D:
@@ -29,6 +31,20 @@ public class Key implements KeyListener {
 				break;
 			case KeyEvent.VK_A:
 				Game.player.x-=1;
+=======
+				if(!Game.player.jumping&&!Game.player.falling){
+					if(!Game.player.jumping&&!Game.player.falling){
+						Game.player.jumping=true;
+						Game.player.gravity=17.0f;
+					}
+					}
+				break;
+			case KeyEvent.VK_D:
+				d = true;
+				break;
+			case KeyEvent.VK_A:
+				a=true;
+>>>>>>> origin/master
 				break;
 			case KeyEvent.VK_T:
 				Game.consoleOpen = true;
@@ -41,7 +57,7 @@ public class Key implements KeyListener {
 				text = " ";
 				Game.drawKeyInput(text);
 			} else if (k.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-				Game.drawKeyInput(text);
+				Game.drawKeyInput("backspace");
 			} else {
 				char t = k.getKeyChar();
 				String textToWrite = t + "";
@@ -56,17 +72,14 @@ public class Key implements KeyListener {
 	public void keyReleased(KeyEvent k) {
 		key = k.getKeyCode();
 		switch (key) {
-		case KeyEvent.VK_W:
-			// Game.p.setVelY(0);
-			break;
+		
 		case KeyEvent.VK_D:
-			// Game.p.setVelX(0);
-			break;
-		case KeyEvent.VK_S:
-			// Game.p.setVelY(0);
+			Game.player.setVelX(0);
+			d=false;
 			break;
 		case KeyEvent.VK_A:
-			// Game.p.setVelX(0);
+			Game.player.setVelX(0);
+			a=false;
 			break;
 		case KeyEvent.VK_ENTER:
 			if (Game.consoleOpen) {

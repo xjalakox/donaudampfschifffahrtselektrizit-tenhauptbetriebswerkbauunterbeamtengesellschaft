@@ -71,8 +71,12 @@ public class Server extends NetServer {
 		System.out.println("[SERVER] READY TO ACCEPT CONNECTIONS");
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		frame.setVisible(true);
+<<<<<<< HEAD
 
 //		mysql.deleteTiles();
+=======
+		mysql.deleteTiles();
+>>>>>>> origin/master
 	}
 
 	public static void main(String[] args) {
@@ -80,6 +84,7 @@ public class Server extends NetServer {
 		mysql = new MySQL();
 		id = mysql.getId();
 		new Server(1337, 64);
+		
 	}
 
 	protected void parsePacket(byte[] data, InetAddress address, int port) {

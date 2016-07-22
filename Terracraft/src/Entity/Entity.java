@@ -1,9 +1,12 @@
 package Entity;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
+import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+
 
 public class Entity {
 
@@ -11,7 +14,8 @@ public class Entity {
 	private boolean removed;
 	Handler handler;
 	Id id;
-	
+	public boolean jumping = false,falling = true;
+	public float gravity = 0f;
 	public Entity(int x, int y, int breite, int höhe, Handler handler, Id id) {
 		this.x = x;
 		this.y = y;
@@ -19,12 +23,37 @@ public class Entity {
 		this.höhe = höhe;
 		this.handler = handler;
 		this.id = id;
+		
 	}
 
 	public void render(Graphics g){}
 	public void tick(){}
 	
 	
+	public boolean isJumping() {
+		return jumping;
+	}
+
+	public void setJumping(boolean jumping) {
+		this.jumping = jumping;
+	}
+
+	public boolean isFalling() {
+		return falling;
+	}
+
+	public void setFalling(boolean falling) {
+		this.falling = falling;
+	}
+
+	public float getGravity() {
+		return gravity;
+	}
+
+	public void setGravity(float gravity) {
+		this.gravity = gravity;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -96,4 +125,36 @@ public class Entity {
 	public boolean isRemoved() {
 		return removed;
 	}
+	public void jumping(float grav){
+		gravity -= grav;
+		setVelY((int) -gravity);
+		if (gravity <= 0.0f) {
+			falling = true;
+			jumping = false;
+		}
+	}
+	
+	
+	public void falling(){
+		if (falling) {
+			gravity += 0.5f;
+				if (y>Game.getFrameHöhe()-100) {
+					
+						gravity = 0f;
+						jumping = false;
+						falling = false;
+					
+				}
+			}
+			setVelY((int) gravity);
+		}
+	
+	public Rectangle getBounds() {
+		
+			return new Rectangle(getX(), getY(),breite, höhe );
+			
+	}
+	
+	
+	
 }

@@ -23,8 +23,8 @@ public class Game extends Canvas implements Runnable {
 	public static int breite = 320, höhe = 180, scale = 4;
 	public static boolean running = false;
 	private static Thread thread = new Thread();
-	public static Handler handler;
-	public static Player player;
+	public static Handler handler;	public static Player player;
+	private int rendertick = 0;
 	public static Client client;
 	private int x, y, networktick;
 	private Key key;
@@ -34,7 +34,6 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
 	private MiningHandler mininghandler = new MiningHandler();
 	private JFrame frame;
-
 
 	public void init() {
 		mininghandler.init();
@@ -63,14 +62,27 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.white);
 		g.fillRect(0, 0, getWidth(), getHeight());
+
 		handler.render(g);
-		renderLookingBlock(g);
+
 		if (consoleOpen) {
+			if (rendertick < 30) {
+				g.drawLine(985, 650, 985, 680);
+			}
 			renderConsole(g);
-			if (TextToDrawInConsole != null)
-				renderKeyInput(g, TextToDrawInConsole);
+			if (TextToDrawInConsole != null) {
+				if (!TextToDrawInConsole.equals("/")) {
+					renderKeyInput(g, TextToDrawInConsole);
+				}else{
+					renderKeyInput(g, "Console : " + TextToDrawInConsole);
+				}
+			}
+		} else {
+			renderLookingBlock(g);
 		}
+
 		mininghandler.render(g);
+
 		g.dispose();
 		bs.show();
 	}
@@ -119,7 +131,7 @@ public class Game extends Canvas implements Runnable {
 		double nanoseconds = 1000000000.0 / 60.0;
 		int frames = 0;
 		int ticks = 0;
-		int rendertick = 0;
+		rendertick = 0;
 		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nanoseconds;
@@ -203,7 +215,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static void drawKeyInput(String keyText) {
-		if (keyText.equalsIgnoreCase("Backspace")) {
+		if (keyText.equalsIgnoreCase("backspace")) {
 			removeLastChar(TextToDrawInConsole);
 			TextToDrawInConsole = removeLastChar(TextToDrawInConsole);
 		} else {
@@ -212,7 +224,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private static String removeLastChar(String str) {
-		if (str.length() > 0) {
+		if (str != null) {
 			return str.substring(0, str.length() - 1);
 		} else {
 			return "";

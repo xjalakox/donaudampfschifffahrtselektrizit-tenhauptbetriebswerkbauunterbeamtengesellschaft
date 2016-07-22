@@ -213,4 +213,13 @@ public class MySQL {
 		}
 		return false;
 	}
+	
+	public void deleteTiles(){
+		try {
+			query.executeUpdate("DELETE FROM `blocks`");
+			updateQueryAmount();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

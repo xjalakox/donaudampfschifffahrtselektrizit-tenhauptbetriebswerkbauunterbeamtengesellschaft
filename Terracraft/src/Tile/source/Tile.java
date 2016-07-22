@@ -95,4 +95,5 @@ public class Tile {
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
+	
 }
