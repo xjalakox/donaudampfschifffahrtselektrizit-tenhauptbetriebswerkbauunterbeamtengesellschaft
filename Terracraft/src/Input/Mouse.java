@@ -27,8 +27,9 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	public void mousePressed(MouseEvent m) {
 		// Das hier grass platziert wird ist erstmal nur testweise und kann noch
 		// geändert werden bzw. wird auch geändert
-		new Packet07AddTile(x, y, "grass").send(Game.client);
-		new Packet07AddTile(x+50, y, "TestTile").send(Game.client);
+		if (Game.consoleOpen) {
+			new Packet07AddTile(x, y, "grass").send(Game.client);
+		}
 	}
 
 	public void mouseReleased(MouseEvent m) {

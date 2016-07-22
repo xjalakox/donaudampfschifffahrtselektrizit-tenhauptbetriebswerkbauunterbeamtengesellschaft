@@ -26,6 +26,7 @@ public class Game extends Canvas implements Runnable {
 	private static Thread thread = new Thread();
 	public static Handler handler;
 	public static Player player;
+	private int rendertick = 0;
 	public static Client client;
 	private int x, y, networktick;
 	private Key key;
@@ -34,7 +35,6 @@ public class Game extends Canvas implements Runnable {
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
 	private MiningHandler mininghandler = new MiningHandler();
-
 
 	public void init() {
 		System.out.println(breite * scale + "  " + höhe * scale);
@@ -61,14 +61,22 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.white);
 		g.fillRect(0, 0, getWidth(), getHeight());
+
 		handler.render(g);
-		renderLookingBlock(g);
+
 		if (consoleOpen) {
+			if (rendertick < 30) {
+				g.drawLine(985, 650, 985, 680);
+			}
 			renderConsole(g);
 			if (TextToDrawInConsole != null)
 				renderKeyInput(g, TextToDrawInConsole);
+		} else {
+			renderLookingBlock(g);
 		}
+
 		mininghandler.render(g);
+
 		g.dispose();
 		bs.show();
 	}
@@ -117,7 +125,7 @@ public class Game extends Canvas implements Runnable {
 		double nanoseconds = 1000000000.0 / 60.0;
 		int frames = 0;
 		int ticks = 0;
-		int rendertick = 0;
+		rendertick = 0;
 		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nanoseconds;
