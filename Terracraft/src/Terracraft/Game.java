@@ -24,8 +24,7 @@ public class Game extends Canvas implements Runnable {
 	public static int breite = 320, höhe = 180, scale = 4;
 	public static boolean running = false;
 	private static Thread thread = new Thread();
-	public static Handler handler;
-	public static Player player;
+	public static Handler handler;	public static Player player;
 	private int rendertick = 0;
 	public static Client client;
 	private int x, y, networktick;
@@ -213,7 +212,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static void drawKeyInput(String keyText) {
-		if (keyText.equalsIgnoreCase("Backspace")) {
+		if (keyText.equalsIgnoreCase("backspace")) {
 			removeLastChar(TextToDrawInConsole);
 			TextToDrawInConsole = removeLastChar(TextToDrawInConsole);
 		} else {
@@ -222,7 +221,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private static String removeLastChar(String str) {
-		if (str.length() > 0) {
+		if (str != null) {
 			return str.substring(0, str.length() - 1);
 		} else {
 			return "";

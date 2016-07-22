@@ -42,7 +42,7 @@ public class Key implements KeyListener {
 				text = " ";
 				Game.drawKeyInput(text);
 			} else if (k.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-				Game.drawKeyInput(text);
+				Game.drawKeyInput("backspace");
 			} else {
 				char t = k.getKeyChar();
 				String textToWrite = t + "";
