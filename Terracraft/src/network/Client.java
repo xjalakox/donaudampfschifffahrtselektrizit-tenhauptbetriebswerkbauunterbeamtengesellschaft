@@ -46,7 +46,7 @@ public class Client extends NetClient {
 			Packet00Login packet00 = new Packet00Login(data);
 			if (!username.equals(packet00.getUsername()))
 				Game.handler.addEntity(
-						new Player(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24, Id.player));
+						new Player(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24, Id.Player));
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
@@ -58,8 +58,9 @@ public class Client extends NetClient {
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);
-			terracraft = new Game(packet05.getX(), packet05.getY(), this);
+			
 			JFrame frame = new JFrame("TerraCraft");
+			terracraft = new Game(packet05.getX(), packet05.getY(), this,frame);
 			frame.add(terracraft);
 			frame.pack();
 			frame.setBounds(0, 0, 320 * 4, 180 * 4);

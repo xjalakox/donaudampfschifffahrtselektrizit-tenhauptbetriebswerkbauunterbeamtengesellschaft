@@ -6,11 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-
+import javax.swing.JFrame;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
-import Tile.Grass;
 import gfx.Spritesheet;
 import network.Client;
 import network.mysql.Login;
@@ -34,14 +33,16 @@ public class Game extends Canvas implements Runnable {
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
 	private MiningHandler mininghandler = new MiningHandler();
+	private JFrame frame;
 
 
 	public void init() {
+		mininghandler.init();
 		System.out.println(breite * scale + "  " + höhe * scale);
 		Login.frame.dispose();
 		handler = new Handler();
 		key = new Key();
-		player = new Player(client.getUsername(), x, y, 24, 24, Id.player, key);
+		player = new Player(client.getUsername(), x, y, 24, 24, Id.Player, key);
 		handler.addEntity(player);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
 
@@ -49,13 +50,14 @@ public class Game extends Canvas implements Runnable {
 		addMouseMotionListener(m);
 		addMouseListener(m);
 		addKeyListener(new Key());
+		addMouseWheelListener(m);
 		requestFocus();
 	}
 
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
-			createBufferStrategy(4);
+			createBufferStrategy(2);
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
@@ -74,18 +76,18 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void tick() {
+		handler.tick();
+		mininghandler.tick();
 		if (networktick == 2) {
 			networktick = 0;
 			for (Entity.Entity e : Handler.entity) {
-				if (e.getId() == Id.player) {
+				if (e.getId() == Id.Player) {
 					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY()).send(client);
 				}
 			}
 		} else {
 			networktick++;
 		}
-		handler.tick();
-		mininghandler.tick();
 	}
 
 	public synchronized void start() {
@@ -132,7 +134,7 @@ public class Game extends Canvas implements Runnable {
 			frames++;
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-
+				frame.setTitle("Terracraft FPS: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
 				rendertick = 0;
@@ -148,10 +150,11 @@ public class Game extends Canvas implements Runnable {
 		setMaximumSize(size);
 	}
 
-	public Game(int x, int y, Client client) {
+	public Game(int x, int y, Client client, JFrame frame) {
 		this.x = x;
 		this.y = y;
 		this.client = client;
+		this.frame = frame;
 		Dimension size = new Dimension(breite * scale, höhe * scale);
 		setPreferredSize(size);
 		setMinimumSize(size);

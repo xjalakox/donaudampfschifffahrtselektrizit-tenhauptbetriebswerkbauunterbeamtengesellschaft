@@ -9,11 +9,8 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import Entity.Player;
-import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
-import Tile.Grass;
-import Tile.TestTile;
 import Tile.source.Tile;
 import network.abstracts.NetServer;
 import network.abstracts.NetUser;
@@ -75,6 +72,7 @@ public class Server extends NetServer {
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		frame.setVisible(true);
 
+//		mysql.deleteTiles();
 	}
 
 	public static void main(String[] args) {
@@ -103,7 +101,7 @@ public class Server extends NetServer {
 			}
 			NetUser user = new NetUser(packet00.getUsername(), address, port);
 			Player player = new Player(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24,
-					Terracraft.Id.player);
+					Terracraft.Id.Player);
 			users.add(user);
 			players.put(user, player);
 			packet00.send(this);

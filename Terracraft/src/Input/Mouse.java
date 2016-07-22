@@ -4,14 +4,16 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import Terracraft.Game;
 import network.packets.Packet07AddTile;
 
-public class Mouse implements MouseListener, MouseMotionListener {
+public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	private int x;
 	private int y;
+	public static int mouseRotation=0;
 
 	public void mouseClicked(MouseEvent m) {
 	}
@@ -21,14 +23,13 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseExited(MouseEvent m) {
-
+		
 	}
 
 	public void mousePressed(MouseEvent m) {
 		// Das hier grass platziert wird ist erstmal nur testweise und kann noch
 		// geändert werden bzw. wird auch geändert
 		new Packet07AddTile(x, y, "grass").send(Game.client);
-		new Packet07AddTile(x+50, y, "TestTile").send(Game.client);
 	}
 
 	public void mouseReleased(MouseEvent m) {
@@ -52,10 +53,18 @@ public class Mouse implements MouseListener, MouseMotionListener {
 		return new Rectangle(x, y, 2, 2);
 	}
 
-	@Override
 	public void mouseMoved(MouseEvent m) {
 		x = m.getX();
 		y = m.getY();
+	}
+
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if(e.getWheelRotation()<0){
+			mouseRotation++;
+		}
+		if(e.getWheelRotation()>0){
+			mouseRotation--;
+		}
 	}
 
 }

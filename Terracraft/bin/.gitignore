@@ -1,11 +1,4 @@
-/Tile/
 /Terracraft/
-/Spritesheet.png
-/gfx/
 /network/
-<<<<<<< HEAD
-/gfx/
-=======
-/Entity/
 /Input/
->>>>>>> origin/master
+/gfx/

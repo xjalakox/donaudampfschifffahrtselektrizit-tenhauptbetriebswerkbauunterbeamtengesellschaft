@@ -5,7 +5,6 @@ import java.awt.event.KeyListener;
 
 import Terracraft.Game;
 import network.packets.Packet01Disconnect;
-import network.packets.Packet07AddTile;
 
 public class Key implements KeyListener {
 
@@ -13,23 +12,23 @@ public class Key implements KeyListener {
 
 	public void keyPressed(KeyEvent k) {
 		key = k.getKeyCode();
+		if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			new Packet01Disconnect(Game.player.getUsername(), Game.player.getX(), Game.player.getY()).send(Game.client);
+			System.exit(0);
+		}
 		if (!Game.consoleOpen) {
 			switch (key) {
 			case KeyEvent.VK_W:
-				if (Game.player.velY == 0 && Game.player.velX == 0)
-					Game.player.velY = -60;
+				Game.player.y-=1;
 				break;
 			case KeyEvent.VK_D:
-				if (Game.player.velX == 0 && Game.player.velY == 0)
-					Game.player.velX = 60;
+				Game.player.x+=1;
 				break;
 			case KeyEvent.VK_S:
-				if (Game.player.velY == 0 && Game.player.velX == 0)
-					Game.player.velY = 60;
+				Game.player.y+=1;
 				break;
 			case KeyEvent.VK_A:
-				if (Game.player.velX == 0 && Game.player.velY == 0)
-					Game.player.velX = -60;
+				Game.player.x-=1;
 				break;
 			case KeyEvent.VK_T:
 				Game.consoleOpen = true;
@@ -51,10 +50,7 @@ public class Key implements KeyListener {
 			}
 		}
 
-		if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			new Packet01Disconnect(Game.player.getUsername(), Game.player.getX(), Game.player.getY()).send(Game.client);
-			System.exit(0);
-		}
+		
 	}
 
 	public void keyReleased(KeyEvent k) {
