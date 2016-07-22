@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
@@ -28,23 +29,22 @@ public class Game extends Canvas implements Runnable {
 	private int x, y, networktick;
 	private Key key;
 	public static Mouse m = new Mouse();
-	private Grass grass;
+
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
 	private MiningHandler mininghandler = new MiningHandler();
+
 
 	public void init() {
 		Login.frame.dispose();
 		handler = new Handler();
 		key = new Key();
-		grass = new Grass(0,0,50,50,handler,Id.test);		
-		handler.addTile(grass);
 		player = new Player(client.getUsername(), x, y, 24, 24, Id.player, key);
 		handler.addEntity(player);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
 
+		addMouseListener(m);
 		addMouseMotionListener(m);
 		addMouseListener(m);
-		
 		addKeyListener(new Key());
 	}
 

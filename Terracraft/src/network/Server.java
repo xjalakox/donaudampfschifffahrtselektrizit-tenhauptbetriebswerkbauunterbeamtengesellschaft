@@ -107,7 +107,7 @@ public class Server extends NetServer {
 			players.put(user, player);
 			packet00.send(this);
 			for (Tile ti : handler.tile) {
-				if (ti.getId() == Id.test) {
+				if (ti.getId() == Id.TestTile) {
 					super.send(new Packet07AddTile(ti.getX(), ti.getY(), "TestTile").getData(), user);
 				} else if (ti.getId() == Id.grass) {
 					super.send(new Packet07AddTile(ti.getX(), ti.getY(), "grass").getData(), user);
@@ -170,9 +170,9 @@ public class Server extends NetServer {
 			Packet07AddTile packet07 = new Packet07AddTile(data);
 			Tile tile;
 			if (packet07.getType().equalsIgnoreCase("grass")) {
-				tile = new Grass(packet07.getX(), packet07.getY(), 64, 64, handler, Id.grass);
+				tile = new Grass(packet07.getX(), packet07.getY(), 64, 64, Id.grass);
 			} else {
-				tile = new TestTile(packet07.getX(), packet07.getY(), 64, 64, handler, Id.test);
+				tile = new TestTile(packet07.getX(), packet07.getY(), 64, 64, Id.TestTile);
 			}
 			handler.addTile(tile);
 			mysql.addTile(tile);

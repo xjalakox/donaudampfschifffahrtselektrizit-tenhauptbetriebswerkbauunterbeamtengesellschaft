@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 import Terracraft.Id;
-import Tile.Grass;
 import Tile.TestTile;
 import Tile.source.Tile;
 import network.Server;
@@ -155,13 +154,8 @@ public class MySQL {
 			ResultSet myRs = query.executeQuery("select * from blocks");
 			updateQueryAmount();
 			while (myRs.next()) {
-				if (myRs.getString("TileID").equalsIgnoreCase("grass")) {
-					LoadingTilesIntoList
-							.add(new Grass(myRs.getInt("x"), myRs.getInt("y"), 64, 64, Server.handler, Id.grass));
-				} else {
-					LoadingTilesIntoList
-							.add(new TestTile(myRs.getInt("x"), myRs.getInt("y"), 64, 64, Server.handler, Id.test));
-				}
+				LoadingTilesIntoList
+						.add(new TestTile(myRs.getInt("x"), myRs.getInt("y"), 64, 64, Id.TestTile));
 			}
 			return LoadingTilesIntoList;
 		} catch (SQLException e) {
@@ -193,13 +187,8 @@ public class MySQL {
 			int x = ti.getX();
 			int y = ti.getY();
 
-			if (ti.getId() == Id.grass) {
-				query.executeUpdate(
-						"INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'grass')");
-			} else {
-				query.executeUpdate(
-						"INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'TestTile')");
-			}
+			query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'TestTile')");
+
 			updateQueryAmount();
 		} catch (SQLException e) {
 			e.printStackTrace();
