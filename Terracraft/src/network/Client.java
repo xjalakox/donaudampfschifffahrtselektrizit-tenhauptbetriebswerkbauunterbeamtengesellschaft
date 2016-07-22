@@ -9,7 +9,7 @@ import network.mysql.*;
 import Entity.Player;
 import Terracraft.Game;
 import Terracraft.Id;
-import Tile.Tile;
+import Tile.source.Tile;
 import network.abstracts.NetClient;
 import network.packets.Packet;
 import network.packets.Packet.PacketTypes;

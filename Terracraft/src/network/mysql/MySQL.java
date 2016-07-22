@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 import Terracraft.Id;
 import Tile.TestTile;
-import Tile.Tile;
+import Tile.source.Tile;
 import network.Server;
 
 public class MySQL {
@@ -196,6 +196,7 @@ public class MySQL {
 		}
 
 	}
+<<<<<<< HEAD
 
 	public boolean isAdmin(String username) {
 		try {
@@ -214,3 +215,6 @@ public class MySQL {
 		return false;
 	}
 }
+=======
+}
+>>>>>>> origin/master

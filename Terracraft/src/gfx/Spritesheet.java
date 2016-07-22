@@ -16,6 +16,6 @@ public class Spritesheet {
 	}
 	
 	public BufferedImage getSprite(int x,int y,int a,int b){
-		return sheet.getSubimage(x*32-32, y*32-32, 32*a, 32*b);
+		return sheet.getSubimage(x*16-16, y*16-16, 16*a, 16*b);
 	}
 }

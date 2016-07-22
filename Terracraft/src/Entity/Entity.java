@@ -7,8 +7,6 @@ import Terracraft.Id;
 
 public class Entity {
 
-	
-
 	public int x, y, breite, höhe, velX, velY;
 	private boolean removed;
 	Handler handler;

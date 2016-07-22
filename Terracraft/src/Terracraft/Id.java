@@ -1,6 +1,7 @@
 package Terracraft;
 
 import Tile.*;
+import Tile.source.Tile;
 
 public enum Id {
 	player, TestTile, grass ;

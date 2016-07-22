@@ -1,7 +1,11 @@
-/audio/
-/test.mp3
 /Tile/
-/Input/
 /Terracraft/
-/network/
+/Spritesheet.png
 /gfx/
+/network/
+<<<<<<< HEAD
+/gfx/
+=======
+/Entity/
+/Input/
+>>>>>>> origin/master

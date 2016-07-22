@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import Entity.Entity;
 import Entity.Player;
-import Tile.Tile;
+import Tile.source.Tile;
 
 public class Handler {
 
