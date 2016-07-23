@@ -138,7 +138,7 @@ public class Entity {
 	public void falling(){
 		if (falling) {
 			gravity += 0.5f;
-				if (y>Game.getFrameHöhe()-100) {
+				if (y>Game.getFrameHöhe()-200) {
 					
 						gravity = 0f;
 						jumping = false;
@@ -151,10 +151,29 @@ public class Entity {
 	
 	public Rectangle getBounds() {
 		
-			return new Rectangle(getX(), getY(),breite, höhe );
+		return new Rectangle(getX(), getY(),breite,höhe);
 			
 	}
-	
+	public Rectangle getBottom() {
+		
+		return new Rectangle(getX()+5, getY()+höhe-10,54,10);
+		
+	}
+	public Rectangle getRight() {
+		
+		return new Rectangle(getX()+breite-5, getY()+5,5, höhe-10);
+		
+	}
+	public Rectangle getLeft() {
+		
+		return new Rectangle(getX(), getY()+5,5, höhe-10);
+		
+	}
+	public Rectangle getTop() {
+		
+		return new Rectangle(getX()+5, getY(),54,5);
+		
+	}
 	
 	
 }

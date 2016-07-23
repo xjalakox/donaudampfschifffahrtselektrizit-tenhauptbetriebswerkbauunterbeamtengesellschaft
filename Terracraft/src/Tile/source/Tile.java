@@ -98,6 +98,19 @@ public class Tile {
 		return new Rectangle(x,y,width,height);
 	}
 	
+	public Rectangle getRight(){
+		return new Rectangle(x+width-5,y+5,5,height-10);
+	}
+	public Rectangle getLeft(){
+		return new Rectangle(x,y+5,5,height-10);
+	}
+	public Rectangle getBottom(){
+		return new Rectangle(x+2,y+height-5,width-4,5);
+	}
+	public Rectangle getTop(){
+		return new Rectangle(x+2,y,width-4,10);
+	}
+	
 	public int getDamage(){
 		return damage;
 	}
