@@ -1,30 +1,24 @@
 package Terracraft;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+
 import Input.Mouse;
+import Tile.source.Tile;
 import gfx.Sprite;
+import javafx.scene.control.ScrollBar;
 
 public class MiningHandler {
 	
 	private ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
+	private boolean[] aimed = new boolean[10];
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet,3,1,1,1);
-	private boolean aimed;
 	private boolean left,right=true;
 	
 	public void init(){
 		scrollbarTiles.add(Id.Pickaxe);
-		scrollbarTiles.add(Id.Hammer);
-		scrollbarTiles.add(Id.Hammer);
-		scrollbarTiles.add(Id.Hammer);
-		scrollbarTiles.add(Id.Hammer);
-		scrollbarTiles.add(Id.Hammer);
-		scrollbarTiles.add(Id.Hammer);
-		scrollbarTiles.add(Id.Hammer);
-		scrollbarTiles.add(Id.Hammer);
 		scrollbarTiles.add(Id.Hammer);
 		for(int i=0;i<10;i++){
 			scrollsprite[i] = new Sprite(Game.sheet,1,1,1,1);
@@ -42,11 +36,14 @@ public class MiningHandler {
 			
 		for(int i=0;i<scrollbarTiles.size();i++){
 				if(Mouse.mouseRotation==i){
-					aimed = true;
+					for(int k=0;k<scrollbarTiles.size();k++){
+						aimed[k]=false;
+					}
+					aimed[i] = true;
 				}else{
-					aimed = false;
+					aimed[i] = false;
 				}
-			if(!aimed){
+			if(!aimed[i]){
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i*74)+34, 36, 32, 32, null);
 			}else{
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i*74)+34, 33, 35, 35, null);			
@@ -65,9 +62,20 @@ public class MiningHandler {
 		
 		if(Mouse.mouseRotation<0)Mouse.mouseRotation=9;
 		if(Mouse.mouseRotation>9)Mouse.mouseRotation=0;
+		
 	}
 	
 	public void tick(){
-		
+		boolean click=false;
+		for(int i=0;i<10;i++){
+			for(Tile ti:Game.handler.tile){
+				if(aimed[i]==true&&Mouse.pressed&&Game.m.Collision().intersects(ti.getBounds())&&!click){
+					click=true;
+					if(ti.getId().getTool().equalsIgnoreCase(scrollbarTiles.get(i).name())){
+						ti.addDamage(-3);
+					}
+				}
+			}
+		}
 	}
 }
