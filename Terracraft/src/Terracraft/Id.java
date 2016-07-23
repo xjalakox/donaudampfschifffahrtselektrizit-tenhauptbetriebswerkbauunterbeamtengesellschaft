@@ -56,7 +56,7 @@ public enum Id {
 		case "player":
 			return null;
 		case "grass":
-			return new Grass(x, y, 64, 64, Id.Grass);
+			return new Grass(x, y, 24, 24, Id.Grass);
 		}
 		return null;
 	}
