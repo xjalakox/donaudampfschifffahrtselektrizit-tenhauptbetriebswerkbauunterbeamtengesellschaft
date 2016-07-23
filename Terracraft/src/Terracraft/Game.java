@@ -5,11 +5,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
+import gfx.Sprite;
 import gfx.Spritesheet;
 import network.Client;
 import network.mysql.Login;
@@ -51,6 +56,10 @@ public class Game extends Canvas implements Runnable {
 		addKeyListener(new Key());
 		addMouseWheelListener(m);
 		requestFocus();
+		
+		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+				new ImageIcon(new Sprite(sheet,5,1,1,1).getBufferedImage()).getImage(),
+				new Point(0,0),"custom cursor"));
 	}
 
 	public void render() {
