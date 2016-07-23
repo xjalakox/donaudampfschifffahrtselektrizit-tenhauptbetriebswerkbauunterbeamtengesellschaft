@@ -6,7 +6,7 @@ import gfx.Sprite;
 
 public enum Id {
 
-	Player,Stone("pickaxe"), Dirt("shovel"), Pickaxe(new Sprite(Game.sheet,2,1,1,1),"stone",4), Grass("shovel");
+	Player,Stone("pickaxe"), Dirt("shovel"), Pickaxe(new Sprite(Game.sheet,2,1,1,1),"stone",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10), Grass("shovel");
 	
 	private String tool,block;
 	private int efficiency;

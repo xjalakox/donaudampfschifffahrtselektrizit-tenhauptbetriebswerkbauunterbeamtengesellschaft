@@ -1,6 +1,8 @@
 package Terracraft;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import Input.Mouse;
 import gfx.Sprite;
@@ -11,9 +13,19 @@ public class MiningHandler {
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet,3,1,1,1);
 	private boolean aimed;
+	private boolean left,right=true;
 	
 	public void init(){
 		scrollbarTiles.add(Id.Pickaxe);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Hammer);
 		for(int i=0;i<10;i++){
 			scrollsprite[i] = new Sprite(Game.sheet,1,1,1,1);
 		}
@@ -37,7 +49,17 @@ public class MiningHandler {
 			if(!aimed){
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i*74)+34, 36, 32, 32, null);
 			}else{
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i*74)+34, 33, 35, 35, null);
+				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i*74)+34, 33, 35, 35, null);			
+				if(Game.player.getVelX()>0||right){
+					g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(),Game.player.getX()+10,Game.player.getY()+10,32,32,null);
+					left=false;
+					right=true;
+				}
+				if(Game.player.getVelX()<0||left){
+					g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(),Game.player.getX()+10,Game.player.getY()+10,-32,32,null);
+					right=false;
+					left=true;
+				}
 			}
 		}
 		
