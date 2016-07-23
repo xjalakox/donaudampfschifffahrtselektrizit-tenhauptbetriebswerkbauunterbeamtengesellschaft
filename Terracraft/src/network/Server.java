@@ -73,7 +73,7 @@ public class Server extends NetServer {
 		frame.setVisible(true);
 
 
-//		mysql.deleteTiles();
+	//	mysql.deleteTiles();
 
 
 	}

@@ -7,11 +7,13 @@ import Input.Key;
 
 import Terracraft.Game;
 import Terracraft.Id;
+import gfx.Sprite;
 
 
 public class Player extends Entity {
 	private String username;
 	private Key key;
+	private Sprite sprite;
 
 	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key ) {
 		super(x, y, breite, höhe, Game.handler,id);
@@ -26,8 +28,8 @@ public class Player extends Entity {
 
 
 	public void render(Graphics g) {
-		g.setColor(Color.green);
-		g.fillRect(x, y, breite, höhe);
+		sprite=new Sprite(Game.sheet,6,1,1,2);
+		g.drawImage(sprite.getBufferedImage(), x,y-24,breite,höhe+24,null);
 	}
 
 	public void tick() {

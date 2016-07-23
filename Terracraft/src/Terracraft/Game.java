@@ -46,7 +46,7 @@ public class Game extends Canvas implements Runnable {
 		Login.frame.dispose();
 		handler = new Handler();
 		key = new Key();
-		player = new Player(client.getUsername(), x, y, 24, 24, Id.Player, key);
+		player = new Player(client.getUsername(), x, y, 48, 72, Id.Player, key);
 		handler.addEntity(player);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
 
