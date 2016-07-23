@@ -29,7 +29,7 @@ public class Player extends Entity {
 
 	public void render(Graphics g) {
 		sprite=new Sprite(Game.sheet,6,1,1,2);
-		g.drawImage(sprite.getBufferedImage(), x,y-24,breite,höhe+24,null);
+		g.drawImage(sprite.getBufferedImage(), x,y-32,breite,höhe,null);
 	}
 
 	public void tick() {

@@ -138,7 +138,7 @@ public class Entity {
 	public void falling(){
 		if (falling) {
 			gravity += 0.5f;
-				if (y>Game.getFrameHöhe()-100) {
+				if (y>Game.getFrameHöhe()-200) {
 					
 						gravity = 0f;
 						jumping = false;
