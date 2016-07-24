@@ -194,9 +194,9 @@ public class Player extends Entity {
 		if (moving == -1 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);g.drawImage(armor[17].getBufferedImage(), x-24,y+20,30*3,29*2,null);}
 		if (moving == -2 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(), x,y-32,breite,4*32,null);g.drawImage(armor[17].getBufferedImage(), x-24+60+53,y+20,-30*3,29*2,null);}
         if (moving == 2 && !jumping && !falling) {g.drawImage(sprite_moving[frame].getBufferedImage(), x,y-32,breite,4*32,null);
-        g.drawImage(armor[frame2+7].getBufferedImage(), x-24+60+53,y+20,-30*3,29*2,null);}
+        g.drawImage(armor[frame2+7].getBufferedImage(), x-24+60+53,y+20,-30*2,29*3,null);}
       if (moving ==1 && !jumping && !falling) {g.drawImage(sprite_moving[frame].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);
-      g.drawImage(armor[frame2+7].getBufferedImage(), x-24,y+20,30*3,29*2,null);}
+      g.drawImage(armor[frame2+7].getBufferedImage(), x-24,y+20,30*2,29*3,null);}
        
     }
 
