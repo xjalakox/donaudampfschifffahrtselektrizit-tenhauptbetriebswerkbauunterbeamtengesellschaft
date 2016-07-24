@@ -16,6 +16,7 @@ import Input.Key;
 import Input.Mouse;
 import gfx.Sprite;
 import gfx.Spritesheet;
+import gfx.Spritesheet2;
 import network.Client;
 import network.mysql.Login;
 import network.packets.Packet00Login;
@@ -37,6 +38,7 @@ public class Game extends Canvas implements Runnable {
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
+	public static Spritesheet2 armor = new Spritesheet2("/Armor.png");
 	private MiningHandler mininghandler = new MiningHandler();
 	private JFrame frame;
 

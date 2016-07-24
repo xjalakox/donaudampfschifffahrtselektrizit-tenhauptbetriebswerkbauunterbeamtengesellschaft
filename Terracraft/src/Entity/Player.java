@@ -8,12 +8,15 @@ import Input.Key;
 import Terracraft.Game;
 import Terracraft.Id;
 import gfx.Sprite;
+import gfx.Sprite2;
 
 
 public class Player extends Entity {
 	private String username;
 	private Key key;
 	private Sprite sprite;
+	private int counter,counter2;
+	private Sprite2[] armor=new Sprite2[8];
 	private Sprite []sprite_moving=new Sprite[13];
 	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key ) {
 		super(x, y, breite, höhe, Game.handler,id);
@@ -28,19 +31,28 @@ public class Player extends Entity {
 
 
 	public void render(Graphics g) {
-		for(int i=0;i<6;i++){
-			sprite_moving[i+7]=new Sprite(Game.sheet,i,3,1,2);
-		}
-		for(int i=0;i<7;i++){
-			sprite_moving[i]=new Sprite(Game.sheet,9+i,1,1,2);
-		}
+		
+			sprite_moving[0]=new Sprite(Game.sheet,9,1,1,2);
+			sprite_moving[1]=new Sprite(Game.sheet,10,1,1,2);
+			sprite_moving[2]=new Sprite(Game.sheet,11,1,1,2);
+			sprite_moving[3]=new Sprite(Game.sheet,12,1,1,2);
+			sprite_moving[4]=new Sprite(Game.sheet,13,1,1,2);
+			sprite_moving[5]=new Sprite(Game.sheet,14,1,1,2);
+			sprite_moving[6]=new Sprite(Game.sheet,15,1,1,2);
+			sprite_moving[7]=new Sprite(Game.sheet,1,3,1,2);
+			sprite_moving[8]=new Sprite(Game.sheet,2,3,1,2);
+			sprite_moving[9]=new Sprite(Game.sheet,3,3,1,2);
+			sprite_moving[10]=new Sprite(Game.sheet,4,3,1,2);
+			sprite_moving[11]=new Sprite(Game.sheet,5,3,1,2);
+			sprite_moving[12]=new Sprite(Game.sheet,6,3,1,2);
+			for(int i =1;i<armor.length;i++){
+				armor[i]=new Sprite2(Game.armor,1,i,1,1);
+			}
+			
+			g.drawImage(armor[2].getBufferedImage(), x,y-32,breite,4*32,null);
 		sprite=new Sprite(Game.sheet,6,1,1,2);
-		if(moving==2||moving==-2){
-			g.drawImage(sprite.getBufferedImage(), x,y-32,breite,4*32,null);
-		}else{
-			g.drawImage(sprite.getBufferedImage(), x+breite,y-32,-breite,4*32,null);
-		}
-
+		
+		Zeichnung(g);
       
 	}
 
@@ -80,6 +92,7 @@ public class Player extends Entity {
 				x = ti.getX() - 64;
 			
 			}
+			
 		}
 			
 		
@@ -106,6 +119,36 @@ public class Player extends Entity {
 		if (falling) {
 			falling();
 		}
+		
+		framedelay++;
+		if (framedelay >= 2) {
+			frame++;
+			if (frame >= 13) {
+				frame = 0;
+			}
+			framedelay = 0;
+		}
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	public String getUsername() {
@@ -120,5 +163,15 @@ public class Player extends Entity {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	
+	
+	public void Zeichnung(Graphics g){
+		if (moving == -1 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);}
+		if (moving == -2 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(), x,y-32,breite,4*32,null);}
+        if (moving == 2 && !jumping && !falling) {g.drawImage(sprite_moving[frame].getBufferedImage(), x,y-32,breite,4*32,null);}
+      if (moving ==1 && !jumping && !falling) {g.drawImage(sprite_moving[frame ].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);}
+       
+    }
 
 }

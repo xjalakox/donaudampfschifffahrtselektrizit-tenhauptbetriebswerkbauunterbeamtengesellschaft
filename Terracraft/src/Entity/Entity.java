@@ -14,7 +14,7 @@ public class Entity {
 	private boolean removed;
 	Handler handler;
 	Id id;
-	public int moving;
+	public int moving,frame,framedelay;
 	public boolean jumping = false,falling = true;
 	public float gravity = 0f;
 	public Entity(int x, int y, int breite, int höhe, Handler handler, Id id) {
