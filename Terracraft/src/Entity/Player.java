@@ -14,7 +14,7 @@ public class Player extends Entity {
 	private String username;
 	private Key key;
 	private Sprite sprite;
-
+	private Sprite []sprite_moving=new Sprite[13];
 	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key ) {
 		super(x, y, breite, höhe, Game.handler,id);
 		this.key = key;
@@ -28,18 +28,19 @@ public class Player extends Entity {
 
 
 	public void render(Graphics g) {
+		for(int i=0;i<6;i++){
+			sprite_moving[i+7]=new Sprite(Game.sheet,i,3,1,2);
+		}
+		for(int i=0;i<7;i++){
+			sprite_moving[i]=new Sprite(Game.sheet,9+i,1,1,2);
+		}
 		sprite=new Sprite(Game.sheet,6,1,1,2);
-		g.drawImage(sprite.getBufferedImage(), x,y-32,breite,4*32,null);
-//		 g.setColor(Color.blue);
-//       g.drawRect(getX(), getY(),breite,höhe);
-//       g.setColor(Color.red);
-//       g.drawRect(getX()+5, getY()+höhe-30,54,30);
-//       g.setColor(Color.green);
-//       g.drawRect(getX()+breite-5, getY()+5,5, höhe-10);
-//       g.setColor(Color.CYAN);
-//       g.drawRect(getX(), getY()+5,5, höhe-10);
-//       g.setColor(Color.MAGENTA);
-//       g.drawRect(getX()+5, getY(),54,5);
+		if(moving==2||moving==-2){
+			g.drawImage(sprite.getBufferedImage(), x,y-32,breite,4*32,null);
+		}else{
+			g.drawImage(sprite.getBufferedImage(), x+breite,y-32,-breite,4*32,null);
+		}
+
       
 	}
 
@@ -89,11 +90,13 @@ public class Player extends Entity {
 		
 		//Movement
 		if (key.d ) {
+			moving=1;
 			setVelX(4);
 		}
 		
 
 		if (Key.a ) {
+			moving=2;
 			setVelX(-4);
 		}
 		
