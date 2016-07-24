@@ -21,36 +21,54 @@ public class Player extends Entity {
 		super(x, y, breite, höhe, Game.handler,id);
 		this.key = key;
 		this.username = username;
+		sprite_moving[0]=new Sprite(Game.sheet,9,1,1,2);
+		sprite_moving[1]=new Sprite(Game.sheet,10,1,1,2);
+		sprite_moving[2]=new Sprite(Game.sheet,11,1,1,2);
+		sprite_moving[3]=new Sprite(Game.sheet,12,1,1,2);
+		sprite_moving[4]=new Sprite(Game.sheet,13,1,1,2);
+		sprite_moving[5]=new Sprite(Game.sheet,14,1,1,2);
+		sprite_moving[6]=new Sprite(Game.sheet,15,1,1,2);
+		sprite_moving[7]=new Sprite(Game.sheet,1,3,1,2);
+		sprite_moving[8]=new Sprite(Game.sheet,2,3,1,2);
+		sprite_moving[9]=new Sprite(Game.sheet,3,3,1,2);
+		sprite_moving[10]=new Sprite(Game.sheet,4,3,1,2);
+		sprite_moving[11]=new Sprite(Game.sheet,5,3,1,2);
+		sprite_moving[12]=new Sprite(Game.sheet,6,3,1,2);
+		sprite=new Sprite(Game.sheet,6,1,1,2);
 	}
 	
 	public Player(String username, int x, int y, int breite, int höhe, Id id) {
 		super(x, y, breite, höhe, Game.handler,id);
 		this.username = username;
+		sprite_moving[0]=new Sprite(Game.sheet,9,1,1,2);
+		sprite_moving[1]=new Sprite(Game.sheet,10,1,1,2);
+		sprite_moving[2]=new Sprite(Game.sheet,11,1,1,2);
+		sprite_moving[3]=new Sprite(Game.sheet,12,1,1,2);
+		sprite_moving[4]=new Sprite(Game.sheet,13,1,1,2);
+		sprite_moving[5]=new Sprite(Game.sheet,14,1,1,2);
+		sprite_moving[6]=new Sprite(Game.sheet,15,1,1,2);
+		sprite_moving[7]=new Sprite(Game.sheet,1,3,1,2);
+		sprite_moving[8]=new Sprite(Game.sheet,2,3,1,2);
+		sprite_moving[9]=new Sprite(Game.sheet,3,3,1,2);
+		sprite_moving[10]=new Sprite(Game.sheet,4,3,1,2);
+		sprite_moving[11]=new Sprite(Game.sheet,5,3,1,2);
+		sprite_moving[12]=new Sprite(Game.sheet,6,3,1,2);
+		sprite=new Sprite(Game.sheet,6,1,1,2);
 	}
 
 
 	public void render(Graphics g) {
 		
-			sprite_moving[0]=new Sprite(Game.sheet,9,1,1,2);
-			sprite_moving[1]=new Sprite(Game.sheet,10,1,1,2);
-			sprite_moving[2]=new Sprite(Game.sheet,11,1,1,2);
-			sprite_moving[3]=new Sprite(Game.sheet,12,1,1,2);
-			sprite_moving[4]=new Sprite(Game.sheet,13,1,1,2);
-			sprite_moving[5]=new Sprite(Game.sheet,14,1,1,2);
-			sprite_moving[6]=new Sprite(Game.sheet,15,1,1,2);
-			sprite_moving[7]=new Sprite(Game.sheet,1,3,1,2);
-			sprite_moving[8]=new Sprite(Game.sheet,2,3,1,2);
-			sprite_moving[9]=new Sprite(Game.sheet,3,3,1,2);
-			sprite_moving[10]=new Sprite(Game.sheet,4,3,1,2);
-			sprite_moving[11]=new Sprite(Game.sheet,5,3,1,2);
-			sprite_moving[12]=new Sprite(Game.sheet,6,3,1,2);
+			
 			for(int i =1;i<armor.length;i++){
 				armor[i]=new Sprite2(Game.armor,1,i,1,1);
 				
 			}
 			
+
 			
 		sprite=new Sprite(Game.sheet,6,1,1,2);
+
 		
 		Zeichnung(g);
 		
