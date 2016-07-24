@@ -19,16 +19,17 @@ public class Player extends Entity {
 		super(x, y, breite, höhe, Game.handler,id);
 		this.key = key;
 		this.username = username;
+		sprite=new Sprite(Game.sheet,6,1,1,2);
 	}
 	
 	public Player(String username, int x, int y, int breite, int höhe, Id id) {
 		super(x, y, breite, höhe, Game.handler,id);
 		this.username = username;
+		sprite=new Sprite(Game.sheet,6,1,1,2);
 	}
 
 
 	public void render(Graphics g) {
-		sprite=new Sprite(Game.sheet,6,1,1,2);
 		g.drawImage(sprite.getBufferedImage(), x,y-32,breite,4*32,null);
 //		 g.setColor(Color.blue);
 //       g.drawRect(getX(), getY(),breite,höhe);
