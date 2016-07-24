@@ -21,10 +21,12 @@ public class Key implements KeyListener {
 			switch (key) {
 			case KeyEvent.VK_W:
 				if(!Game.player.jumping&&!Game.player.falling){
-					
+					if(!Game.player.jumping&&!Game.player.falling){
+						
 						Game.player.jumping=true;
 						Game.player.gravity=17.0f;
 					}
+				}
 					
 				break;
 			case KeyEvent.VK_D:

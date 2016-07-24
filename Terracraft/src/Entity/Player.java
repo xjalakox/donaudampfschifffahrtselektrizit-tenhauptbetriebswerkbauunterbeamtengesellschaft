@@ -30,22 +30,23 @@ public class Player extends Entity {
 	public void render(Graphics g) {
 		sprite=new Sprite(Game.sheet,6,1,1,2);
 		g.drawImage(sprite.getBufferedImage(), x,y-32,breite,4*32,null);
-		 g.setColor(Color.white);
-       g.drawRect(getX(), getY(),breite,höhe);
-       g.setColor(Color.red);
-       g.drawRect(getX()+5, getY()+höhe-5,54,5);
-       g.setColor(Color.green);
-       g.drawRect(getX()+breite-5, getY()+5,5, höhe-10);
-       g.setColor(Color.CYAN);
-       g.drawRect(getX(), getY()+5,5, höhe-10);
-       g.setColor(Color.MAGENTA);
-       g.drawRect(getX()+5, getY(),54,5);
+//		 g.setColor(Color.blue);
+//       g.drawRect(getX(), getY(),breite,höhe);
+//       g.setColor(Color.red);
+//       g.drawRect(getX()+5, getY()+höhe-30,54,30);
+//       g.setColor(Color.green);
+//       g.drawRect(getX()+breite-5, getY()+5,5, höhe-10);
+//       g.setColor(Color.CYAN);
+//       g.drawRect(getX(), getY()+5,5, höhe-10);
+//       g.setColor(Color.MAGENTA);
+//       g.drawRect(getX()+5, getY(),54,5);
       
 	}
 
 	public void tick() {
 		x+=velX;
 		y+=velY;
+		
 		for (Tile.source.Tile ti : handler.tile) {
 			
 			if (getTop().intersects(ti.getBottom())) {
@@ -58,18 +59,15 @@ public class Player extends Entity {
 			}
 			if (getBottom().intersects(ti.getTop())) {
 				setVelY(0);
-				y = ti.getY() -höhe-10;
+			
+				y = ti.getY() - 90;
 				
-				if (falling) {
-					falling = false;
-					
-					
-				}
 				
 			} else if (!jumping) {
 				falling = true;
-				
 			}
+			
+
 
 			if (getLeft().intersects(ti.getRight())) {
 				setVelX(0);
@@ -78,7 +76,7 @@ public class Player extends Entity {
 			}
 			if (getRight().intersects(ti.getLeft())) {
 				setVelX(0);
-				x = ti.getX() - 60;
+				x = ti.getX() - 64;
 			
 			}
 		}

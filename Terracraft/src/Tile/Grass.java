@@ -21,6 +21,16 @@ public class Grass extends Tile{
 		if(Game.m.Collision().intersects(getBounds())){
 			g.drawImage(sprite_hovered.getBufferedImage(),x,y,16,16,null);
 		}
+//		 g.setColor(Color.blue);
+//	       g.drawRect(x,y,width,height);
+//	       g.setColor(Color.red);
+//	       g.drawRect(x+width-5,y+5,5,height-10);
+//	       g.setColor(Color.green);
+//	       g.drawRect(x,y+5,5,height-10);
+//	       g.setColor(Color.CYAN);
+//	       g.drawRect(x+2,y+height-5,width-4,5);
+//	       g.setColor(Color.MAGENTA);
+//	       g.drawRect(x+2,y,width-4,16);
 	}
 
 	public void tick() {
