@@ -1,12 +1,14 @@
 package Terracraft;
 
+import java.awt.Rectangle;
+
 import Tile.Grass;
 import Tile.source.Tile;
 import gfx.Sprite;
 
 public enum Id {
 
-	Player,Stone("pickaxe"), Dirt("shovel"), Pickaxe(new Sprite(Game.sheet,2,1,1,1),"stone",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10), Grass("shovel");
+	Player,Stone("pickaxe"), Dirt("shovel"), Pickaxe(new Sprite(Game.sheet,2,1,1,1),"stone",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10), Grass("Pickaxe");
 	
 	private String tool,block;
 	private int efficiency;
@@ -39,6 +41,10 @@ public enum Id {
 	
 	public Sprite getImage(){
 		return image;
+	}
+	
+	public Rectangle getToolBounds(int x,int y){
+		return new Rectangle(x,y,32,32);
 	}
 	
 	public String toString() {

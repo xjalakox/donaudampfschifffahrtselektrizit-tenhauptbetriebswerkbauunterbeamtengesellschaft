@@ -1,7 +1,10 @@
 package Tile.source;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
+import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
 
@@ -25,7 +28,14 @@ public class Tile {
 	}
 
 	public  void tick(){
-		
+	
+	}
+	
+	public void showDamage(Graphics g){
+		if(Game.m.Collision().intersects(getBounds())){
+			g.setColor(Color.green);
+			g.fillRect(x,y-8,getDamage()/3,3);
+		}
 	}
 
 	public int getX() {
@@ -107,6 +117,10 @@ public class Tile {
 	
 	public void setDamage(int damage){
 		this.damage = damage;
+	}
+	
+	public void addDamage(int damage){
+		this.damage += damage;
 	}
 	
 }
