@@ -65,10 +65,12 @@ public class Key implements KeyListener {
 		
 		case KeyEvent.VK_D:
 			Game.player.setVelX(0);
+			Game.player.moving=-1;
 			d=false;
 			break;
 		case KeyEvent.VK_A:
 			Game.player.setVelX(0);
+			Game.player.moving=-2;
 			a=false;
 			break;
 		case KeyEvent.VK_ENTER:
