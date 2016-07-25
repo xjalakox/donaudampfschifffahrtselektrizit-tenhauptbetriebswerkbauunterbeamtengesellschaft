@@ -15,7 +15,9 @@ public class Player extends Entity {
 	private String username;
 	private Key key;
 	private Sprite sprite;
-	private Sprite2[] armor=new Sprite2[8];
+
+	private Sprite2[] armor=new Sprite2[18];
+
 	private Sprite []sprite_moving=new Sprite[13];
 	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key ) {
 		super(x, y, breite, höhe, Game.handler,id);
@@ -64,11 +66,21 @@ public class Player extends Entity {
 
 
 	public void render(Graphics g) {
-			g.drawImage(armor[2].getBufferedImage(), x,y-32,breite,4*32,null);
+
 		
+			
+			for(int i =1;i<armor.length;i++){
+				armor[i]=new Sprite2(Game.armor,1,i,1,1);
+				
+			}
+			
+
+			
+
+
 		
 		Zeichnung(g);
-      
+		
 	}
 
 	public void tick() {
@@ -146,6 +158,17 @@ public class Player extends Entity {
 	
 		
 		
+
+		framedelay2++;
+		if (framedelay2 >= 4) {
+			frame2++;
+			if (frame2 >= 11) {
+				frame2 = 0;
+			}
+			framedelay2 = 0;
+		}
+		
+
 		
 		
 	}
@@ -166,10 +189,12 @@ public class Player extends Entity {
 	
 	
 	public void Zeichnung(Graphics g){
-		if (moving == -1 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);}
-		if (moving == -2 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(), x,y-32,breite,4*32,null);}
-        if (moving == 2 && !jumping && !falling) {g.drawImage(sprite_moving[frame].getBufferedImage(), x,y-32,breite,4*32,null);}
-      if (moving ==1 && !jumping && !falling) {g.drawImage(sprite_moving[frame ].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);}
+		if (moving == -1 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);g.drawImage(armor[17].getBufferedImage(), x-24,y+20,30*3,29*2,null);}
+		if (moving == -2 && !jumping && !falling) {g.drawImage(sprite_moving[5].getBufferedImage(), x,y-32,breite,4*32,null);g.drawImage(armor[17].getBufferedImage(), x-24+60+53,y+20,-30*3,29*2,null);}
+        if (moving == 2 && !jumping && !falling) {g.drawImage(sprite_moving[frame].getBufferedImage(), x,y-32,breite,4*32,null);
+        g.drawImage(armor[frame2+7].getBufferedImage(), x-24+60+53,y+20,-30*2,29*3,null);}
+      if (moving ==1 && !jumping && !falling) {g.drawImage(sprite_moving[frame].getBufferedImage(),  x+breite,y-32,-breite,4*32,null);
+      g.drawImage(armor[frame2+7].getBufferedImage(), x-24,y+20,30*2,29*3,null);}
        
     }
 
