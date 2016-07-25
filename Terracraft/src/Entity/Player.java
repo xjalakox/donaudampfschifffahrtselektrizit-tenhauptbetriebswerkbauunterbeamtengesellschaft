@@ -1,12 +1,12 @@
 package Entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import Input.Key;
 
 import Terracraft.Game;
 import Terracraft.Id;
+import Tile.source.Tile;
 import gfx.Sprite;
 import gfx.Sprite2;
 
@@ -15,7 +15,6 @@ public class Player extends Entity {
 	private String username;
 	private Key key;
 	private Sprite sprite;
-	private int counter,counter2;
 	private Sprite2[] armor=new Sprite2[8];
 	private Sprite []sprite_moving=new Sprite[13];
 	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key ) {
@@ -36,6 +35,9 @@ public class Player extends Entity {
 		sprite_moving[11]=new Sprite(Game.sheet,5,3,1,2);
 		sprite_moving[12]=new Sprite(Game.sheet,6,3,1,2);
 		sprite=new Sprite(Game.sheet,6,1,1,2);
+		for(int i =1;i<armor.length;i++){
+			armor[i]=new Sprite2(Game.armor,1,i,1,1);
+		}
 	}
 	
 	public Player(String username, int x, int y, int breite, int höhe, Id id) {
@@ -55,16 +57,13 @@ public class Player extends Entity {
 		sprite_moving[11]=new Sprite(Game.sheet,5,3,1,2);
 		sprite_moving[12]=new Sprite(Game.sheet,6,3,1,2);
 		sprite=new Sprite(Game.sheet,6,1,1,2);
+		for(int i =1;i<armor.length;i++){
+			armor[i]=new Sprite2(Game.armor,1,i,1,1);
+		}
 	}
 
 
 	public void render(Graphics g) {
-		
-			
-			for(int i =1;i<armor.length;i++){
-				armor[i]=new Sprite2(Game.armor,1,i,1,1);
-			}
-			
 			g.drawImage(armor[2].getBufferedImage(), x,y-32,breite,4*32,null);
 		
 		
@@ -76,7 +75,7 @@ public class Player extends Entity {
 		x+=velX;
 		y+=velY;
 		
-		for (Tile.source.Tile ti : handler.tile) {
+		for (Tile ti : handler.tile) {
 			
 			if (getTop().intersects(ti.getBottom())) {
 				setVelY(0);
@@ -118,7 +117,7 @@ public class Player extends Entity {
 		
 		
 		//Movement
-		if (key.d ) {
+		if (Key.d ) {
 			moving=1;
 			setVelX(4);
 		}
@@ -145,22 +144,6 @@ public class Player extends Entity {
 			framedelay = 0;
 		}
 	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
