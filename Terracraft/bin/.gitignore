@@ -1,6 +1,17 @@
 /Entity/
+<<<<<<< HEAD
 /Input/
 /Terracraft/
 /Tile/
 /gfx/
 /Armor.png
+=======
+/Armor_Legs_79.png
+/gfx/
+/Legs.png
+/Terracraft/
+/Head.png
+/Input/
+/Body.png
+/Hair.png
+>>>>>>> origin/master
