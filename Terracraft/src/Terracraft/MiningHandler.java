@@ -1,21 +1,18 @@
 package Terracraft;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-
 import Input.Mouse;
 import Tile.source.Tile;
 import gfx.Sprite;
-import javafx.scene.control.ScrollBar;
 
 public class MiningHandler {
 	
 	private ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
-	private boolean[] aimed = new boolean[10];
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet,3,1,1,1);
 	private boolean left,right=true;
+	private int tick=0;
 	
 	public void init(){
 		scrollbarTiles.add(Id.Pickaxe);
@@ -26,56 +23,54 @@ public class MiningHandler {
 	}
 	
 	public void render(Graphics g){
+		
 		for(int i=0;i<10;i++){
-			if(Mouse.mouseRotation==i){
-				g.drawImage(scrollspriteaimed.getBufferedImage(),i*74+17,17,70,70,null);
-			}else{
-				g.drawImage(scrollsprite[i].getBufferedImage(),i*74+20,20,64,64,null);
-			}
+			g.drawImage(scrollsprite[i].getBufferedImage(),i*74+20,20,64,64,null);
 		}
-			
+		if(Mouse.mouseRotation<10&&Mouse.mouseRotation>-1){
+			g.drawImage(scrollspriteaimed.getBufferedImage(),Mouse.mouseRotation*74+17,17,70,70,null);
+		}
+		
 		for(int i=0;i<scrollbarTiles.size();i++){
-				if(Mouse.mouseRotation==i){
-					for(int k=0;k<scrollbarTiles.size();k++){
-						aimed[k]=false;
-					}
-					aimed[i] = true;
-				}else{
-					aimed[i] = false;
-				}
-			if(!aimed[i]){
+			if(Mouse.mouseRotation!=i){
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i*74)+34, 36, 32, 32, null);
-			}else{
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i*74)+34, 33, 35, 35, null);			
-				if(Game.player.getVelX()>0||right){
-					g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(),Game.player.getX()+10,Game.player.getY()+10,32,32,null);
-					left=false;
-					right=true;
-				}
-				if(Game.player.getVelX()<0||left){
-					g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(),Game.player.getX()+10,Game.player.getY()+10,-32,32,null);
-					right=false;
-					left=true;
-				}
 			}
 		}
 		
+		if(Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1){
+			g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), (Mouse.mouseRotation*74)+34, 33, 35, 35, null);
+			if(Game.player.getVelX()>0||right){
+				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(),Game.player.getX()+10,Game.player.getY()+10,32,32,null);
+				left=false;
+				right=true;
+			}
+			if(Game.player.getVelX()<0||left){
+				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(),Game.player.getX()+10,Game.player.getY()+10,-32,32,null);
+				right=false;
+				left=true;
+			}
+		}
+			
 		if(Mouse.mouseRotation<0)Mouse.mouseRotation=9;
 		if(Mouse.mouseRotation>9)Mouse.mouseRotation=0;
 		
 	}
 	
 	public void tick(){
-		boolean click=false;
-		for(int i=0;i<10;i++){
-			for(Tile ti:Game.handler.tile){
-				if(aimed[i]==true&&Mouse.pressed&&Game.m.Collision().intersects(ti.getBounds())&&!click){
-					click=true;
-					if(ti.getId().getTool().equalsIgnoreCase(scrollbarTiles.get(i).name())){
-						ti.addDamage(-3);
-					}
+		
+		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==10){
+			tick=0;
+			for(Tile ti:Game.handler.tile2){
+				if(scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(ti.getId().toString())){
+					ti.addDamage(10);
+				}else{
+					ti.addDamage(1);
 				}
 			}
+		}
+		
+		if(tick<10){
+			tick++;
 		}
 	}
 }

@@ -46,7 +46,7 @@ public class Player extends Entity {
 	public void tick() {
 		x+=velX;
 		y+=velY;
-		for (Tile.source.Tile ti : handler.tile) {
+		for (Tile.source.Tile ti : handler.tile2) {
 			
 			if (getTop().intersects(ti.getBottom())) {
 				setVelY(0);

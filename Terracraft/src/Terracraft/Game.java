@@ -37,7 +37,7 @@ public class Game extends Canvas implements Runnable {
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
-	private MiningHandler mininghandler = new MiningHandler();
+	public static MiningHandler mininghandler = new MiningHandler();
 	private JFrame frame;
 
 	public void init() {
@@ -52,7 +52,6 @@ public class Game extends Canvas implements Runnable {
 
 		addMouseListener(m);
 		addMouseMotionListener(m);
-		addMouseListener(m);
 		addKeyListener(new Key());
 		addMouseWheelListener(m);
 		requestFocus();
