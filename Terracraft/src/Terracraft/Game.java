@@ -39,7 +39,11 @@ public class Game extends Canvas implements Runnable {
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
-	public static Spritesheet2 armor = new Spritesheet2("/Armor.png");
+	public static Spritesheet2 sheet_armor = new Spritesheet2("/Armor.png");
+	public static Spritesheet2 sheet_legs = new Spritesheet2("/Legs.png");
+	public static Spritesheet2 sheet_head = new Spritesheet2("/Head.png");
+	public static Spritesheet2 sheet_body = new Spritesheet2("/Body.png");
+	public static Spritesheet2 sheet_hair = new Spritesheet2("/Hair.png");
 	private MiningHandler mininghandler = new MiningHandler();
 	private JFrame frame;
 
