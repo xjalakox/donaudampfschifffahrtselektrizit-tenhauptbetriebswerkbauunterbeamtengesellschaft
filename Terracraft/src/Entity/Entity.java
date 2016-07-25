@@ -14,6 +14,7 @@ public class Entity {
 	private boolean removed;
 	Handler handler;
 	Id id;
+	public int moving,frame,framedelay,frame2,framedelay2;
 	public boolean jumping = false,falling = true;
 	public float gravity = 0f;
 	public Entity(int x, int y, int breite, int höhe, Handler handler, Id id) {
@@ -27,6 +28,8 @@ public class Entity {
 	}
 
 	public void render(Graphics g){}
+	
+
 	public void tick(){}
 	
 	
@@ -145,7 +148,20 @@ public class Entity {
 						falling = false;
 					
 				}
+				for(Tile.source.Tile ti : handler.tile){
+				if (getBottom().intersects(ti.getTop())) {
+					
+					
+					
+					
+					gravity=0f;
+					jumping = false;
+					falling = false;
+					
+				}
 			}
+				
+		}
 			setVelY((int) gravity);
 		}
 	
@@ -156,7 +172,7 @@ public class Entity {
 	}
 	public Rectangle getBottom() {
 		
-		return new Rectangle(getX()+5, getY()+höhe-10,54,10);
+		return new Rectangle(getX()+6, getY()+höhe-16,52,16);
 		
 	}
 	public Rectangle getRight() {
@@ -171,7 +187,7 @@ public class Entity {
 	}
 	public Rectangle getTop() {
 		
-		return new Rectangle(getX()+5, getY(),54,5);
+		return new Rectangle(getX()+5, getY(),54,16);
 		
 	}
 	

@@ -2,12 +2,12 @@ package gfx;
 
 import java.awt.image.BufferedImage;
 
-public class Sprite {
+public class Sprite2 {
 	
-	public Spritesheet sheet;
+	public Spritesheet2 sheet;
 	public BufferedImage image;
 	
-	public Sprite(Spritesheet sheet, int x,int y, int a,int b){
+	public Sprite2(Spritesheet2 sheet, int x,int y, int a,int b){
 		image = sheet.getSprite(x,y,a,b);
 	}
 	

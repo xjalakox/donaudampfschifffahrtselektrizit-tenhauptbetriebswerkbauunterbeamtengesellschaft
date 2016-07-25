@@ -98,10 +98,10 @@ public class Tile {
 		return new Rectangle(x,y+5,5,height-10);
 	}
 	public Rectangle getBottom(){
-		return new Rectangle(x+2,y+height-5,width-4,5);
+		return new Rectangle(x,y+height-8,width,8);
 	}
 	public Rectangle getTop(){
-		return new Rectangle(x+2,y,width-4,10);
+		return new Rectangle(x+2,y,width-4,8);
 	}
 	
 	public int getDamage(){

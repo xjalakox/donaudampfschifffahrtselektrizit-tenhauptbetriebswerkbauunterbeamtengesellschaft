@@ -16,6 +16,7 @@ import Input.Key;
 import Input.Mouse;
 import gfx.Sprite;
 import gfx.Spritesheet;
+import gfx.Spritesheet2;
 import network.Client;
 import network.mysql.Login;
 import network.packets.Packet00Login;
@@ -28,7 +29,8 @@ public class Game extends Canvas implements Runnable {
 	public static int breite = 320, höhe = 180, scale = 4;
 	public static boolean running = false;
 	private static Thread thread = new Thread();
-	public static Handler handler;	public static Player player;
+	public static Handler handler;
+	public static Player player;
 	private int rendertick = 0;
 	public static Client client;
 	private int x, y, networktick;
@@ -37,7 +39,12 @@ public class Game extends Canvas implements Runnable {
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
+
 	public static MiningHandler mininghandler = new MiningHandler();
+
+	public static Spritesheet2 armor = new Spritesheet2("/Armor.png");
+
+
 	private JFrame frame;
 
 	public void init() {
@@ -55,10 +62,10 @@ public class Game extends Canvas implements Runnable {
 		addKeyListener(new Key());
 		addMouseWheelListener(m);
 		requestFocus();
-		
+
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-				new ImageIcon(new Sprite(sheet,5,1,1,1).getBufferedImage()).getImage(),
-				new Point(0,0),"custom cursor"));
+				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
+				"custom cursor"));
 	}
 
 	public void render() {
@@ -79,10 +86,12 @@ public class Game extends Canvas implements Runnable {
 			}
 			renderConsole(g);
 			if (TextToDrawInConsole != null) {
-				if (!TextToDrawInConsole.equals("/")) {
+				String without = removeFirstChar(TextToDrawInConsole);
+				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
 					renderKeyInput(g, TextToDrawInConsole);
-				}else{
+				} else {
 					renderKeyInput(g, "Console : " + TextToDrawInConsole);
+					System.out.println(without);
 				}
 			}
 		} else {
@@ -232,8 +241,16 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private static String removeLastChar(String str) {
-		if (str != null) {
+		if (str.length() >= 1) {
 			return str.substring(0, str.length() - 1);
+		} else {
+			return "";
+		}
+	}
+
+	private static String removeFirstChar(String str) {
+		if (str.length() >= 1) {
+			return str.substring(1, str.length());
 		} else {
 			return "";
 		}
