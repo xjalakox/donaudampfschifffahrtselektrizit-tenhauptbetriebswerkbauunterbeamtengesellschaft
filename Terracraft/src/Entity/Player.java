@@ -87,7 +87,7 @@ public class Player extends Entity {
 		x+=velX;
 		y+=velY;
 		
-		for (Tile ti : handler.tile) {
+		for (Tile ti : handler.tile2) {
 			
 			if (getTop().intersects(ti.getBottom())) {
 				setVelY(0);

@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Tile.source.Tile;
 
 
 public class Entity {
@@ -148,7 +149,7 @@ public class Entity {
 						falling = false;
 					
 				}
-				for(Tile.source.Tile ti : handler.tile){
+				for(Tile ti : handler.tile2){
 				if (getBottom().intersects(ti.getTop())) {
 					
 					
