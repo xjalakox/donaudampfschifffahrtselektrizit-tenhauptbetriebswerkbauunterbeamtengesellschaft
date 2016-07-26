@@ -1,5 +1,11 @@
 /Entity/
 <<<<<<< HEAD
+/network/
+/Terracraft/
+/Input/
+/gfx/
+=======
+<<<<<<< HEAD
 /Input/
 /Terracraft/
 /Tile/
@@ -15,4 +21,8 @@
 /Body.png
 /Hair.png
 >>>>>>> origin/master
+<<<<<<< HEAD
 /network/
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master

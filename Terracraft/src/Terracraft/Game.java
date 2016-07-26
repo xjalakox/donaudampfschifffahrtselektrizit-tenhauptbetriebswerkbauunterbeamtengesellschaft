@@ -21,6 +21,7 @@ import network.Client;
 import network.mysql.Login;
 import network.packets.Packet00Login;
 import network.packets.Packet02Move;
+import network.packets.Packet07AddTile;
 
 public class Game extends Canvas implements Runnable {
 
@@ -53,6 +54,8 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_hair = new Spritesheet2("/Hair.png");
 
 	private JFrame frame;
+
+	public static boolean execute;
 
 	public void init() {
 		mininghandler.init();
@@ -98,7 +101,11 @@ public class Game extends Canvas implements Runnable {
 					renderKeyInput(g, TextToDrawInConsole);
 				} else {
 					renderKeyInput(g, "Console : " + TextToDrawInConsole);
-					System.out.println(without);
+					if(without.equalsIgnoreCase("killtimo")&&execute){
+						System.out.println("test");
+						new Packet07AddTile(player.x, player.y, "grass").send(Game.client);
+						execute = false;
+					}
 				}
 			}
 		} else {

@@ -77,6 +77,7 @@ public class Key implements KeyListener {
 			if (Game.consoleOpen) {
 				Game.TextToDrawInConsole = "";
 				Game.consoleOpen = false;
+				Game.execute = true;
 				// send to all und evtl. command ausführen
 
 			}

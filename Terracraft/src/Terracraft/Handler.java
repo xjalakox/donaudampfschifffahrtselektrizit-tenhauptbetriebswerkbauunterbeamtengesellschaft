@@ -9,6 +9,7 @@ import Tile.source.Tile;
 public class Handler {
 
 	public static LinkedList<Entity> entity = new LinkedList<Entity>();
+	public static LinkedList<Entity> entity2 = new LinkedList<Entity>();
 	public LinkedList<Tile> tile = new LinkedList<Tile>();
 	public LinkedList<Tile> tile2 = new LinkedList<Tile>();
 	public void render(Graphics g) {
@@ -27,6 +28,7 @@ public class Handler {
 		for (Tile ti : tile2) {
 			ti.tick();
 		}
+		entity2 = (LinkedList<Entity>)entity.clone();
 		for (Entity en : entity) {
 			en.tick();
 		}
