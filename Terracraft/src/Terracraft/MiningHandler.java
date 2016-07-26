@@ -16,6 +16,7 @@ public class MiningHandler {
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet, 3, 1, 1, 1);
 	private boolean left, right = true;
+	private int tick;
 
 	public void init() {
 		scrollbarTiles.add(Id.Pickaxe);
@@ -68,8 +69,7 @@ public class MiningHandler {
 			Mouse.mouseRotation = 0;
 
 	}
-<<<<<<< HEAD
-	
+
 	public void tick(){
 		
 		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==10){
@@ -78,19 +78,11 @@ public class MiningHandler {
 					Mouse.degradedTile.addDamage(10);
 				}else{
 					Mouse.degradedTile.addDamage(1);
-=======
 
-	public void tick() {
-		boolean click = false;
-		for (int i = 0; i < 10; i++) {
-			for (Tile ti : Game.handler.tile2) {
-				if (aimed[i] == true && Mouse.pressed && Game.m.Collision().intersects(ti.getBounds()) && !click) {
-					click = true;
-					if (ti.getId().getTool().equalsIgnoreCase(scrollbarTiles.get(i).name())) {
-						ti.addDamage(-3);
-					}
->>>>>>> origin/master
 				}
+		}
+		if(tick<10){
+			tick++;
 		}
 	}
 }

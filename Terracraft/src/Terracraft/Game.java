@@ -41,11 +41,7 @@ public class Game extends Canvas implements Runnable {
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
 
-
 	public static MiningHandler mininghandler = new MiningHandler();
-
-
-
 
 	public static Spritesheet2 sheet_armor = new Spritesheet2("/Armor.png");
 	public static Spritesheet2 sheet_legs = new Spritesheet2("/Legs.png");
@@ -55,7 +51,6 @@ public class Game extends Canvas implements Runnable {
 
 	private JFrame frame;
 
-	public static boolean execute;
 
 	public void init() {
 		mininghandler.init();
@@ -91,22 +86,22 @@ public class Game extends Canvas implements Runnable {
 		handler.render(g);
 
 		if (consoleOpen) {
-			if (rendertick < 30) {
-				g.drawLine(985, 650, 985, 680);
-			}
 			renderConsole(g);
 			if (TextToDrawInConsole != null) {
 				String without = removeFirstChar(TextToDrawInConsole);
 				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
 					renderKeyInput(g, TextToDrawInConsole);
+					
 				} else {
 					renderKeyInput(g, "Console : " + TextToDrawInConsole);
-					if(without.equalsIgnoreCase("killtimo")&&execute){
-						System.out.println("test");
+					if (without.equalsIgnoreCase("killtimo")) {
+						System.out.println("?!");
 						new Packet07AddTile(player.x, player.y, "grass").send(Game.client);
-						execute = false;
 					}
 				}
+			}
+			if (rendertick < 30) {
+				g.drawLine(985, 650, 985, 680);
 			}
 		} else {
 			renderLookingBlock(g);
@@ -139,9 +134,6 @@ public class Game extends Canvas implements Runnable {
 		running = true;
 		thread = new Thread(this);
 		thread.start();
-
-		// client = new Client(this, 64);
-		// client.start();
 	}
 
 	public synchronized static void stop() {
@@ -217,16 +209,20 @@ public class Game extends Canvas implements Runnable {
 		int y = 0;
 		int x2 = m.getX();
 		int y2 = m.getY();
-		while (x2 >= 60) {
-			x += 60;
-			x2 -= 60;
+		while (x2 >= 32) {
+			x += 32;
+			x2 -= 32;
+			
 		}
-		while (y2 >= 60) {
-			y += 60;
-			y2 -= 60;
+		while (y2 >= 32) {
+			y += 32;
+			y2 -= 32;
+			
 		}
+		m.lookingAtX = x;
+		m.lookingAtY = y;
 		g.setColor(Color.RED);
-		g.drawRect(x, y, 60, 60);
+		g.drawRect(x, y, 32, 32);
 	}
 
 	private void renderConsole(Graphics g) {
@@ -268,5 +264,14 @@ public class Game extends Canvas implements Runnable {
 		} else {
 			return "";
 		}
+	}
+
+	public static void executeCommand() {
+		String without = removeFirstChar(TextToDrawInConsole);
+		if (without.equalsIgnoreCase("killtimo")) {
+			System.out.println("placed tile at " + player.x + "   " + player.y);
+			new Packet07AddTile(player.x, player.y, "grass").send(Game.client);
+		}
+		
 	}
 }

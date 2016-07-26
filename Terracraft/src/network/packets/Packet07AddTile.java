@@ -9,15 +9,17 @@ public class Packet07AddTile extends Packet {
 	private String type;
 
 	public Packet07AddTile(byte[] data) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.ADDTILE.getId());
 		String[] message = readData(data).split(",");
+
 		x = Integer.parseInt(message[0]);
 		y = Integer.parseInt(message[1]);
 		type = message[2];
 	}
 
 	public Packet07AddTile(int x, int y, String type) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.ADDTILE.getId());
+		
 		this.x = x;
 		this.y = y;
 		this.type = type;

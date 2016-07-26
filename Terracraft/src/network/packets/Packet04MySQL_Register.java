@@ -8,14 +8,14 @@ public class Packet04MySQL_Register extends Packet {
 	private String username, password;
 
 	public Packet04MySQL_Register(byte[] data) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.MYSQL_REGISTER.getId());
 		String[] message = readData(data).split(",");
 		username = message[0];
 		password = message[1];
 	}
 
 	public Packet04MySQL_Register(String username, String password) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.MYSQL_REGISTER.getId());
 		this.username = username;
 		this.password = password;
 	}

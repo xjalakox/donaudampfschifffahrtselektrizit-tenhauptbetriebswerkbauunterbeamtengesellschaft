@@ -149,11 +149,9 @@ public class Entity {
 						falling = false;
 					
 				}
-<<<<<<< HEAD
-				for(Tile.source.Tile ti : handler.tile2){
-=======
+
 				for(Tile ti : handler.tile2){
->>>>>>> origin/master
+
 				if (getBottom().intersects(ti.getTop())) {
 					
 					

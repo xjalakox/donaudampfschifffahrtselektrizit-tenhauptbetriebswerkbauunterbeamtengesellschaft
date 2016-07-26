@@ -60,6 +60,8 @@ public class Server extends NetServer {
 
 		frame.add(playeranzahl);
 		frame.add(querylabel);
+		
+		//mysql.deleteTiles();
 
 		players = new HashMap<NetUser, Player>();
 		LoadingTilesIntoList = mysql.LoadMap();
@@ -73,7 +75,7 @@ public class Server extends NetServer {
 		frame.setVisible(true);
 
 
-		//mysql.deleteTiles();
+		
 
 
 	}

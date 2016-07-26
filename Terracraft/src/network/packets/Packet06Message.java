@@ -8,13 +8,13 @@ public class Packet06Message extends Packet {
 	private String text;
 
 	public Packet06Message(byte[] data) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.MESSAGE.getId());
 		String[] message = readData(data).split(",");
 		text = message[0];
 	}
 
 	public Packet06Message(String text) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.MESSAGE.getId());
 		this.text = text;
 	}
 

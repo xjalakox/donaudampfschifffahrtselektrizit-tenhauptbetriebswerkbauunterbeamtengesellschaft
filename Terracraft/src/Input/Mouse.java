@@ -11,16 +11,18 @@ import Terracraft.Game;
 import Tile.source.Tile;
 import network.packets.Packet07AddTile;
 
-public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
+public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
 	private int x;
 	private int y;
-	public static int mouseRotation=0;
+	public static int mouseRotation = 0;
 	public static boolean pressed;
 	public static Tile degradedTile;
+	public int lookingAtX;
+	public int lookingAtY;
 
 	public void mouseClicked(MouseEvent m) {
-	
+
 	}
 
 	public void mouseEntered(MouseEvent m) {
@@ -28,28 +30,26 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void mouseExited(MouseEvent m) {
-		
+
 	}
 
 	public void mousePressed(MouseEvent m) {
-		// Das hier grass platziert wird ist erstmal nur testweise und kann noch
-		// geändert werden bzw. wird auch geändert
 
-	
-		for(Tile ti:Game.handler.tile2){
-			if(m.getButton()==m.BUTTON1&&Collision().intersects(ti.getBounds())){
+		for (Tile ti : Game.handler.tile2) {
+			if (m.getButton() == m.BUTTON1 && Collision().intersects(ti.getBounds())) {
 				pressed = true;
 				degradedTile = ti;
 			}
 		}
-		
+
 		if (!Game.consoleOpen) {
-//			new Packet07AddTile(x, y, "grass").send(Game.client);
+			new Packet07AddTile(lookingAtX, lookingAtY, "grass").send(Game.client);
+
 		}
 	}
 
 	public void mouseReleased(MouseEvent m) {
-		pressed=false;
+		pressed = false;
 	}
 
 	public void mouseDragged(MouseEvent m) {
@@ -75,10 +75,10 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(e.getWheelRotation()<0){
+		if (e.getWheelRotation() < 0) {
 			mouseRotation++;
 		}
-		if(e.getWheelRotation()>0){
+		if (e.getWheelRotation() > 0) {
 			mouseRotation--;
 		}
 	}

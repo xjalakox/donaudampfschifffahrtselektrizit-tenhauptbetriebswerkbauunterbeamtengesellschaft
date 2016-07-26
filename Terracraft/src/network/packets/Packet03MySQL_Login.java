@@ -8,14 +8,14 @@ public class Packet03MySQL_Login extends Packet {
 	private String username, password;
 
 	public Packet03MySQL_Login(byte[] data) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.MYSQL_LOGIN.getId());
 		String[] message = readData(data).split(",");
 		username = message[0];
 		password = message[1];
 	}
 
 	public Packet03MySQL_Login(String username, String password) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.MYSQL_LOGIN.getId());
 		this.username = username;
 		this.password = password;
 	}

@@ -8,14 +8,14 @@ public class Packet05Spawn extends Packet {
 	private int x, y;
 
 	public Packet05Spawn(byte[] data) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.SPAWN.getId());
 		String[] message = readData(data).split(",");
 		x = Integer.parseInt(message[0]);
 		y = Integer.parseInt(message[1]);
 	}
 
 	public Packet05Spawn(int x, int y) {
-		super(PacketTypes.LOGIN.getId());
+		super(PacketTypes.SPAWN.getId());
 		this.x = x;
 		this.y = y;
 	}

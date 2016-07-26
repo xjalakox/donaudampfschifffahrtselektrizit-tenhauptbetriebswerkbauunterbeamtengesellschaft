@@ -75,9 +75,10 @@ public class Key implements KeyListener {
 			break;
 		case KeyEvent.VK_ENTER:
 			if (Game.consoleOpen) {
-				Game.TextToDrawInConsole = "";
+				Game.executeCommand();
 				Game.consoleOpen = false;
-				Game.execute = true;
+				Game.TextToDrawInConsole = "";
+				
 				// send to all und evtl. command ausführen
 
 			}
