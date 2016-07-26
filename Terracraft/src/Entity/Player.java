@@ -18,10 +18,10 @@ public class Player extends Entity {
 	private Key key;
 
 	private Sprite2[] armor=new Sprite2[20];
-	private Sprite2[] legs=new Sprite2[20];
-	private Sprite2[] head=new Sprite2[20];
-	private Sprite2[] body=new Sprite2[20];
-	private Sprite2[] armor_head=new Sprite2[20];
+	private Sprite2[] legs=new Sprite2[21];
+	private Sprite2[] head=new Sprite2[21];
+	private Sprite2[] body=new Sprite2[21];
+	private Sprite2[] armor_head=new Sprite2[21];
 	public int spritex,spritey;
 	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key ) {
 		super(x, y, breite, höhe, Game.handler,id);
@@ -125,23 +125,15 @@ public class Player extends Entity {
 			falling();
 		}
 		
-		framedelay++;
-		if (framedelay >= 2) {
-			frame++;
-			if (frame >= 13) {
-				frame = 0;
-			}
-			framedelay = 0;
-		}
-	
+
 		
 		
 
 		framedelay2++;
 		if (framedelay2 >= 4) {
-			frame2++;
-			if (frame2 >= 13) {
-				frame2 = 0;
+			frame++;
+			if (frame >= 13) {
+				frame = 0;
 			}
 			framedelay2 = 0;
 		}
@@ -169,40 +161,75 @@ public class Player extends Entity {
 	public void Zeichnung(Graphics g){
 		
 		if (moving == -1 && !jumping && !falling) {
-			g.drawImage(body[17].getBufferedImage(),x-10,y+2,70,96,null);
-			g.drawImage(legs[17].getBufferedImage(),x-10,y+2,70,96,null);
-			g.drawImage(head[17].getBufferedImage(),x-10,y+2,70,96,null);
-			g.drawImage(armor[17].getBufferedImage(),x-10,y+2,70,96,null);
-			g.drawImage(armor_head[17].getBufferedImage(),x-10,y+2,70,96,null);
+			g.drawImage(body[1].getBufferedImage(),x-10,y+2,70,96,null);
+			g.drawImage(legs[1].getBufferedImage(),x-10,y+2,70,96,null);
+			g.drawImage(head[1].getBufferedImage(),x-10,y+2,70,96,null);
+			g.drawImage(armor[1].getBufferedImage(),x-10,y+2,70,96,null);
+			g.drawImage(armor_head[1].getBufferedImage(),x-10,y+2,70,96,null);
 		}
 		
 		
 		if (moving == -2 && !jumping && !falling) {
-			g.drawImage(body[17].getBufferedImage(),x+56,y+2,-70,96,null);
-			g.drawImage(legs[17].getBufferedImage(),x+56,y+2,-70,96,null);
-			g.drawImage(head[17].getBufferedImage(),x+56,y+2,-70,96,null);
-			g.drawImage(armor[17].getBufferedImage(),x+56,y+2,-70,96,null);
-			g.drawImage(armor_head[17].getBufferedImage(),x+56,y+2,-70,96,null);
+			g.drawImage(body[1].getBufferedImage(),x+56,y+2,-70,96,null);
+			g.drawImage(legs[1].getBufferedImage(),x+56,y+2,-70,96,null);
+			g.drawImage(head[1].getBufferedImage(),x+56,y+2,-70,96,null);
+			g.drawImage(armor[1].getBufferedImage(),x+56,y+2,-70,96,null);
+			g.drawImage(armor_head[1].getBufferedImage(),x+56,y+2,-70,96,null);
 		}
         
 		
 		if (moving == 2 && !jumping && !falling) {
-        	g.drawImage(body[frame2+7].getBufferedImage(),x+56,y+2,-70,96,null); 	
-        	g.drawImage(legs[frame2+7].getBufferedImage(),x+56,y+2,-70,96,null);
-        	g.drawImage(armor[frame2+7].getBufferedImage(),x+56,y+2,-70,96,null);
-        	g.drawImage(head[frame2+7].getBufferedImage(),x+56,y+2,-70,96,null);
-        	g.drawImage(armor_head[frame2+7].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(body[frame+7].getBufferedImage(),x+56,y+2,-70,96,null); 	
+        	g.drawImage(legs[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(armor[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(head[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(armor_head[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
         }
         
         
         if (moving ==1 && !jumping && !falling) {
-        	g.drawImage(body[frame2+7].getBufferedImage(),x-10,y+2,70,96,null);
-        	g.drawImage(legs[frame2+7].getBufferedImage(),x-10,y+2,70,96,null);
-        	g.drawImage(armor[frame2+7].getBufferedImage(),x-10,y+2,70,96,null);
-        	g.drawImage(head[frame2+7].getBufferedImage(),x-10,y+2,70,96,null);
-        	g.drawImage(armor_head[frame2+7].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(body[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(legs[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(armor[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(head[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(armor_head[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
         }
-       
+        
+        
+        if (moving == 1 && jumping && !falling || moving == -1 && jumping && !falling) {
+        	g.drawImage(body[1].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(legs[6].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(armor[1].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(head[1].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(armor_head[1].getBufferedImage(),x-10,y+2,70,96,null);
+        }
+        
+        
+        if (moving == 1 && !jumping && falling || moving == -1 && !jumping && falling) {
+        	g.drawImage(body[6].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(legs[6].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(armor[6].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(head[6].getBufferedImage(),x-10,y+2,70,96,null);
+        	g.drawImage(armor_head[6].getBufferedImage(),x-10,y+2,70,96,null);
+        }
+        
+        
+        if (moving == 2 && jumping && !falling || moving == -2 && jumping && !falling) {
+        	g.drawImage(body[1].getBufferedImage(),x+56,y+2,-70,96,null); 	
+        	g.drawImage(legs[6].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(armor[1].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(head[1].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(armor_head[1].getBufferedImage(),x+56,y+2,-70,96,null);
+        }
+        
+        
+        if (moving == 2 && !jumping && falling || moving == -2 && !jumping && falling) {
+        	g.drawImage(body[6].getBufferedImage(),x+56,y+2,-70,96,null); 	
+        	g.drawImage(legs[6].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(armor[6].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(head[6].getBufferedImage(),x+56,y+2,-70,96,null);
+        	g.drawImage(armor_head[6].getBufferedImage(),x+56,y+2,-70,96,null);
+        }
     }
 
 }

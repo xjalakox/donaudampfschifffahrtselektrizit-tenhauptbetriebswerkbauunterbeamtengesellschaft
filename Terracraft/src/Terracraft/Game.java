@@ -47,7 +47,6 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_legs = new Spritesheet2("/Legs.png");
 	public static Spritesheet2 sheet_head = new Spritesheet2("/Head.png");
 	public static Spritesheet2 sheet_body = new Spritesheet2("/Body.png");
-	public static Spritesheet2 sheet_hair = new Spritesheet2("/Hair.png");
 	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Armor_Head.png");
 	private JFrame frame;
 
