@@ -48,7 +48,7 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_head = new Spritesheet2("/Head.png");
 	public static Spritesheet2 sheet_body = new Spritesheet2("/Body.png");
 	public static Spritesheet2 sheet_hair = new Spritesheet2("/Hair.png");
-
+	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Armor_Head.png");
 	private JFrame frame;
 
 
@@ -58,7 +58,7 @@ public class Game extends Canvas implements Runnable {
 		Login.frame.dispose();
 		handler = new Handler();
 		key = new Key();
-		player = new Player(client.getUsername(), x, y, 64, 96, Id.Player, key);
+		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
 		handler.addEntity(player);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
 
