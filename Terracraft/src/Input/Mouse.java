@@ -17,6 +17,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	private int y;
 	public static int mouseRotation=0;
 	public static boolean pressed;
+	public static Tile degradedTile;
 
 	public void mouseClicked(MouseEvent m) {
 	
@@ -38,14 +39,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		for(Tile ti:Game.handler.tile2){
 			if(m.getButton()==m.BUTTON1&&Collision().intersects(ti.getBounds())){
 				pressed = true;
+				degradedTile = ti;
 			}
 		}
 		
-
 		if (!Game.consoleOpen) {
 //			new Packet07AddTile(x, y, "grass").send(Game.client);
 		}
-
 	}
 
 	public void mouseReleased(MouseEvent m) {

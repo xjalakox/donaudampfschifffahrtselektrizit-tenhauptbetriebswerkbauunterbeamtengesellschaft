@@ -60,13 +60,11 @@ public class MiningHandler {
 		
 		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==10){
 			tick=0;
-			for(Tile ti:Game.handler.tile2){
-				if(scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(ti.getId().toString())){
-					ti.addDamage(10);
+				if(scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(Mouse.degradedTile.getId().toString())){
+					Mouse.degradedTile.addDamage(10);
 				}else{
-					ti.addDamage(1);
+					Mouse.degradedTile.addDamage(1);
 				}
-			}
 		}
 		
 		if(tick<10){

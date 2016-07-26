@@ -148,7 +148,7 @@ public class Entity {
 						falling = false;
 					
 				}
-				for(Tile.source.Tile ti : handler.tile){
+				for(Tile.source.Tile ti : handler.tile2){
 				if (getBottom().intersects(ti.getTop())) {
 					
 					
