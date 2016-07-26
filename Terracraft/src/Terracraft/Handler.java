@@ -73,4 +73,5 @@ public class Handler {
 		if (!username.equals(Game.player.getUsername())&&getPlayer(username)!=null)
 			((Player) getPlayer(username)).setPosition(x, y);
 	}
+	
 }

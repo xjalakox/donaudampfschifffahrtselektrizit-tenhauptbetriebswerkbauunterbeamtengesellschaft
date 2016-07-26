@@ -8,15 +8,16 @@ import gfx.Sprite;
 
 public enum Id {
 
-	Player,Stone("pickaxe"), Dirt("shovel"), Pickaxe(new Sprite(Game.sheet,2,1,1,1),"stone",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10), Grass("Pickaxe");
+	//Block
+	Player, Stone(), Dirt(), Grass(),
+	
+	//Tool
+	Pickaxe(new Sprite(Game.sheet,2,1,1,1),"grass",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10);
 	
 	private String tool,block;
 	private int efficiency;
 	private Sprite image;
 	
-	Id(String tool){
-		this.tool = tool;
-	}
 	
 	Id(){
 	}

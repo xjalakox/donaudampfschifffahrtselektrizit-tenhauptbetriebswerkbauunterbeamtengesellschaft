@@ -6,7 +6,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+
 import Terracraft.Game;
+import Tile.source.Tile;
 import network.packets.Packet07AddTile;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
@@ -17,6 +19,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public static boolean pressed;
 
 	public void mouseClicked(MouseEvent m) {
+	
 	}
 
 	public void mouseEntered(MouseEvent m) {
@@ -30,11 +33,17 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mousePressed(MouseEvent m) {
 		// Das hier grass platziert wird ist erstmal nur testweise und kann noch
 		// geändert werden bzw. wird auch geändert
-		if(m.getButton()==m.BUTTON1){
-			pressed = true;
+
+	
+		for(Tile ti:Game.handler.tile2){
+			if(m.getButton()==m.BUTTON1&&Collision().intersects(ti.getBounds())){
+				pressed = true;
+			}
 		}
+		
+
 		if (!Game.consoleOpen) {
-			new Packet07AddTile(x, y, "grass").send(Game.client);
+//			new Packet07AddTile(x, y, "grass").send(Game.client);
 		}
 
 	}

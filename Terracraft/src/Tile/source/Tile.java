@@ -13,7 +13,7 @@ public class Tile {
 	public int x, y, width, height, velX, velY;
 	Handler handler;
 	Id id;
-	private int damage =100;
+	public int damage;
 
 	public Tile(int x, int y, int Width, int height,Id id) {
 		this.x = x;
@@ -29,13 +29,6 @@ public class Tile {
 
 	public  void tick(){
 	
-	}
-	
-	public void showDamage(Graphics g){
-		if(Game.m.Collision().intersects(getBounds())){
-			g.setColor(Color.green);
-			g.fillRect(x,y-8,getDamage()/3,3);
-		}
 	}
 
 	public int getX() {
@@ -120,7 +113,7 @@ public class Tile {
 	}
 	
 	public void addDamage(int damage){
-		this.damage += damage;
+		this.damage -= damage;
 	}
 	
 }
