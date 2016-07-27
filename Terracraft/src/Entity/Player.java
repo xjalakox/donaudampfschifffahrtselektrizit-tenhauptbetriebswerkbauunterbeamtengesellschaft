@@ -129,13 +129,13 @@ public class Player extends Entity {
 		
 		
 
-		framedelay++;
-		if (framedelay >= 4) {
+		framedelay2++;
+		if (framedelay2 >= 4) {
 			frame++;
 			if (frame >= 13) {
 				frame = 0;
 			}
-			framedelay = 0;
+			framedelay2 = 0;
 		}
 		
 
