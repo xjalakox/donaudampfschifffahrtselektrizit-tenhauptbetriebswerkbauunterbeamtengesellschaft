@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import Input.Key;
 import Terracraft.Game;
 import Terracraft.Id;
+import Tile.source.Tile;
 import gfx.Sprite2;
 
 public class NetPlayer extends Entity {
@@ -18,6 +19,11 @@ public class NetPlayer extends Entity {
 	private Sprite2[] body = new Sprite2[21];
 	private Sprite2[] armor_head = new Sprite2[21];
 	public int spritex, spritey;
+	private int lastx = 0;
+
+	private int lastmoving;
+
+	private int still_tick = 0;
 
 	public NetPlayer(String username, int x, int y, int breite, int höhe, Id id) {
 		super(x, y, breite, höhe, Game.handler, id);
@@ -40,6 +46,31 @@ public class NetPlayer extends Entity {
 	}
 
 	public void tick() {
+		if (lastx < x) {
+			System.out.println("<");
+			still_tick = 0;
+			moving = 1;
+			lastmoving = 1;
+		} else if (lastx  > x) {
+			still_tick = 0;
+			System.out.println(">");
+			moving = 2;
+			lastmoving = 2;
+
+		}
+		if (lastx == x&&still_tick  >=5) {
+			System.out.println("ja");
+			if (lastmoving == 2) {
+				moving = -2;
+			} else {
+				moving = -1;
+			}
+		}else {
+			still_tick++;
+		}
+
+		lastx = x;
+
 		framedelay++;
 		if (framedelay >= 4) {
 			frame++;
@@ -49,8 +80,43 @@ public class NetPlayer extends Entity {
 			framedelay = 0;
 		}
 
+		for (Tile ti : handler.tile2) {
+
+			if (getTop().intersects(ti.getBottom())) {
+				setVelY(0);
+				y = ti.getY() + 33;
+				jumping = false;
+				falling = true;
+				gravity = 0;
+
+			}
+			if (getBottom().intersects(ti.getTop())) {
+				setVelY(0);
+				y = ti.getY() - 90;
+
+			} else if (!jumping) {
+				falling = true;
+			}
+
+			if (getLeft().intersects(ti.getRight())) {
+				setVelX(0);
+				x = ti.getX() + 33;
+
+			}
+			if (getRight().intersects(ti.getLeft())) {
+				setVelX(0);
+				x = ti.getX() - 46;
+
+			}
+
+		}
+
+		if (falling) {
+			falling();
+		}
+
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -124,9 +190,5 @@ public class NetPlayer extends Entity {
 			g.drawImage(head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(armor_head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 		}
-	}
-
-	public void falling() {
-
 	}
 }

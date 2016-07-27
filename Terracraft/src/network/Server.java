@@ -164,7 +164,7 @@ public class Server extends NetServer {
 						.getData(), temporary_user2);
 			} else {
 				super.send(
-						new Packet06Message("Der angegeben Username ist bereits benutzt! Suche dir einen anderen aus.")
+						new Packet06Message("Der angegebene Username ist bereits benutzt! Suche dir einen anderen aus.")
 								.getData(),
 						temporary_user2);
 			}

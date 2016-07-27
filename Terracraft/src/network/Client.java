@@ -77,7 +77,7 @@ public class Client extends NetClient {
 					.equalsIgnoreCase("Du hast dich erfolgreich registriert und kannst dich nun anmelden!")) {
 				Register.setStatus(packet06.getText());
 			} else if (packet06.getText()
-					.equalsIgnoreCase("Der angegeben Username ist bereits benutzt! Suche dir einen anderen aus.")) {
+					.equalsIgnoreCase("Der angegebene Username ist bereits benutzt! Suche dir einen anderen aus.")) {
 				Register.setStatus(packet06.getText());
 			} else if (packet06.getText().equalsIgnoreCase("Benutzername oder Passwort falsch!")) {
 				Login.setStatus(packet06.getText());
