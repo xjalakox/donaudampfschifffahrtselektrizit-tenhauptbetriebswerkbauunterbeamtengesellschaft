@@ -9,7 +9,7 @@ import Terracraft.Id;
 import Tile.source.Tile;
 
 
-public class Entity {
+public abstract class Entity {
 
 	public int x, y, breite, höhe, velX, velY;
 	public boolean removed,clicked;
@@ -37,10 +37,10 @@ public class Entity {
 		
 	}
 
-	public void render(Graphics g){}
+	public abstract void render(Graphics g);
 	
 
-	public void tick(){}
+	public abstract void tick();
 	
 	
 	public boolean isJumping() {

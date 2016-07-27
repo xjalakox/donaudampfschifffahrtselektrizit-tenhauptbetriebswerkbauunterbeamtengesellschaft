@@ -47,19 +47,16 @@ public class NetPlayer extends Entity {
 
 	public void tick() {
 		if (lastx < x) {
-			System.out.println("<");
 			still_tick = 0;
 			moving = 1;
 			lastmoving = 1;
 		} else if (lastx  > x) {
 			still_tick = 0;
-			System.out.println(">");
 			moving = 2;
 			lastmoving = 2;
 
 		}
 		if (lastx == x&&still_tick  >=5) {
-			System.out.println("ja");
 			if (lastmoving == 2) {
 				moving = -2;
 			} else {
