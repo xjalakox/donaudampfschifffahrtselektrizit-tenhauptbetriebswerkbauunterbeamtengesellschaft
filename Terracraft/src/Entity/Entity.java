@@ -202,6 +202,13 @@ public class Entity {
 		return new Rectangle(getX()+5, getY(),54,16);
 		
 	}
+
+
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	
 	
 }

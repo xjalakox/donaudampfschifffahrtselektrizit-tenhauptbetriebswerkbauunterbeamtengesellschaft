@@ -5,7 +5,7 @@ import java.net.InetAddress;
 import javax.swing.JFrame;
 
 import network.mysql.*;
-
+import Entity.NetPlayer;
 import Entity.Player;
 import Terracraft.Game;
 import Terracraft.Id;
@@ -44,9 +44,13 @@ public class Client extends NetClient {
 			break;
 		case LOGIN:
 			Packet00Login packet00 = new Packet00Login(data);
-			if (!username.equals(packet00.getUsername()))
+			if (!username.equals(packet00.getUsername())) {
 				Game.handler.addEntity(
-						new Player(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24, Id.Player));
+
+						new NetPlayer(packet00.getUsername(), packet00.getX(), packet00.getY(), 46, 96, Id.NetPlayer));
+			}
+
+
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
@@ -58,9 +62,9 @@ public class Client extends NetClient {
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);
-			
+
 			JFrame frame = new JFrame("TerraCraft");
-			terracraft = new Game(packet05.getX(), packet05.getY(), this,frame);
+			terracraft = new Game(packet05.getX(), packet05.getY(), this, frame);
 			frame.add(terracraft);
 			frame.pack();
 			frame.setBounds(0, 0, 320 * 4, 180 * 4);
@@ -87,11 +91,12 @@ public class Client extends NetClient {
 			break;
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
-			
+
 			Tile ti = Id.getTile(packet07.getType(), packet07.getX(), packet07.getY());
 			terracraft.handler.addTile(ti);
 			break;
 		}
+
 	}
 
 	@Override

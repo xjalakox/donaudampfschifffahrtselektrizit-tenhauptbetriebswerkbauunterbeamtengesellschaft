@@ -3,7 +3,6 @@ package Input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import com.sun.java.accessibility.util.java.awt.TextComponentTranslator;
 
 import Terracraft.Game;
 import network.packets.Packet01Disconnect;

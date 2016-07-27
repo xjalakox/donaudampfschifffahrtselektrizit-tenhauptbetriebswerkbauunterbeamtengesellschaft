@@ -48,7 +48,6 @@ public class Player extends Entity {
 			body[i]=new Sprite2(Game.sheet_body,1,i,1,1);
 			armor_head[i]=new Sprite2(Game.sheet_armor_head,1,i,1,1);
 		}
-		
 	}
 
 
@@ -107,13 +106,13 @@ public class Player extends Entity {
 		
 		
 		//Movement
-		if (Key.d ) {
+		if (key.d ) {
 			moving=1;
 			setVelX(4);
 		}
 		
 
-		if (Key.a ) {
+		if (key.a ) {
 			moving=2;
 			setVelX(-4);
 		}
@@ -153,11 +152,6 @@ public class Player extends Entity {
 
 	public String getUsername() {
 		return username;
-	}
-
-	public void setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
 	}
 
 	public void setUsername(String username) {

@@ -9,7 +9,7 @@ import gfx.Sprite;
 public enum Id {
 
 	//Block
-	Player, Stone(), Dirt(), Grass(),
+	Player,NetPlayer, Stone, Dirt, Grass,
 	
 	//Tool
 	Pickaxe(new Sprite(Game.sheet,2,1,1,1),"grass",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10);
@@ -20,6 +20,7 @@ public enum Id {
 	
 	
 	Id(){
+		
 	}
 	
 	Id(Sprite image, String block, int efficiency){
