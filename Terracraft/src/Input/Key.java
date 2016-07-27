@@ -3,6 +3,7 @@ package Input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.sun.java.accessibility.util.java.awt.TextComponentTranslator;
 
 import Terracraft.Game;
 import network.packets.Packet01Disconnect;
@@ -75,7 +76,12 @@ public class Key implements KeyListener {
 			break;
 		case KeyEvent.VK_ENTER:
 			if (Game.consoleOpen) {
-				Game.executeCommand();
+				String without = Game.removeFirstChar(Game.TextToDrawInConsole);
+				String[] commands = without.split("\\s");
+				for(int i=0;i<commands.length;i++){
+					System.out.println(commands[i]);
+				}
+				Game.executeCommand(commands);
 				Game.consoleOpen = false;
 				Game.TextToDrawInConsole = "";
 				

@@ -94,10 +94,6 @@ public class Game extends Canvas implements Runnable {
 					
 				} else {
 					renderKeyInput(g, "Console : " + TextToDrawInConsole);
-					if (without.equalsIgnoreCase("killtimo")) {
-						System.out.println("?!");
-						new Packet07AddTile(player.x, player.y, "grass").send(Game.client);
-					}
 				}
 			}
 			if (rendertick < 30) {
@@ -258,7 +254,7 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-	private static String removeFirstChar(String str) {
+	public static String removeFirstChar(String str) {
 		if (str.length() >= 1) {
 			return str.substring(1, str.length());
 		} else {
@@ -266,7 +262,7 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-	public static void executeCommand() {
+	public static void executeCommand(String[] args) {
 		String without = removeFirstChar(TextToDrawInConsole);
 		if (without.equalsIgnoreCase("killtimo")) {
 			System.out.println("placed tile at " + player.x + "   " + player.y);
