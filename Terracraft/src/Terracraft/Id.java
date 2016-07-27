@@ -14,7 +14,7 @@ public enum Id {
 	//Tool
 	Pickaxe(new Sprite(Game.sheet,2,1,1,1),"grass",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10);
 	
-	private String tool,block;
+	public String tool,block;
 	private int efficiency;
 	private Sprite image;
 	
@@ -55,6 +55,10 @@ public enum Id {
 			return null;
 		case Grass:
 			return "grass";
+		case Pickaxe:
+			return "Pickaxe";
+		case Hammer:
+			return "hammer";
 		}
 		return null;
 	}

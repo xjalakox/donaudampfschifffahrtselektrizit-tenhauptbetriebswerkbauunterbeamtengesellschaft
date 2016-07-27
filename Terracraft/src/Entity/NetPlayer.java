@@ -21,8 +21,11 @@ public class NetPlayer extends Entity {
 	public int spritex, spritey;
 	private int lastx = 0;
 
+	private int ToolX,ToolY;
 	private int lastmoving;
 
+	private Id tool;
+	
 	private int still_tick = 0;
 
 	public NetPlayer(String username, int x, int y, int breite, int höhe, Id id) {
@@ -42,6 +45,10 @@ public class NetPlayer extends Entity {
 		g.setColor(Color.blue);
 		g.drawRect(x, y, breite, höhe);
 		Zeichnung(g);
+		
+		if(tool!=null){
+			//g.drawImage(Game.player.tool.getImage().getBufferedImage(), ToolX + 10,ToolY + 10, 62, 62, null);
+		}
 
 	}
 
@@ -113,7 +120,12 @@ public class NetPlayer extends Entity {
 		}
 
 	}
-
+	
+	public void setTool(Id tool,int x,int y){
+		this.tool = tool;
+		this.ToolX = x;
+		this.ToolY = y;
+	}
 	public String getUsername() {
 		return username;
 	}

@@ -58,7 +58,7 @@ public class Client extends NetClient {
 			break;
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);
-			Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY());
+			Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY(),packet02.getTool());
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);

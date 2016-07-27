@@ -115,7 +115,7 @@ public class Game extends Canvas implements Runnable {
 			networktick = 0;
 			for (Entity.Entity e : Handler.entity) {
 				if (e.getId() == Id.Player) {
-					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY()).send(client);
+					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),MiningHandler.equippedTool).send(client);
 				}
 			}
 		} else {

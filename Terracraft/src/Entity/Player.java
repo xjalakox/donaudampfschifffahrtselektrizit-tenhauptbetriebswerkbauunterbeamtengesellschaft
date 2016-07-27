@@ -16,7 +16,8 @@ import gfx.Sprite2;
 public class Player extends Entity {
 	private String username;
 	private Key key;
-
+	public Id tool;
+	public int ToolX,ToolY;
 	private Sprite2[] armor=new Sprite2[20];
 	private Sprite2[] legs=new Sprite2[21];
 	private Sprite2[] head=new Sprite2[21];
@@ -149,7 +150,12 @@ public class Player extends Entity {
 		
 		
 	}
-
+	public void setTool(Id tool,int x,int y){
+		this.tool = tool;
+		this.ToolX = x;
+		this.ToolY = y;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
