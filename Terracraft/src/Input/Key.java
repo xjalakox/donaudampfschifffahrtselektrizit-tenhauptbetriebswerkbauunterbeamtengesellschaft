@@ -22,7 +22,6 @@ public class Key implements KeyListener {
 			case KeyEvent.VK_W:
 				if(!Game.player.jumping&&!Game.player.falling){
 					if(!Game.player.jumping&&!Game.player.falling){
-						
 						Game.player.jumping=true;
 						Game.player.gravity=17.0f;
 					}

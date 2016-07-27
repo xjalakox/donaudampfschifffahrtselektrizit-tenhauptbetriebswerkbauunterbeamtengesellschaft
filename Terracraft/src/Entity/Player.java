@@ -125,6 +125,14 @@ public class Player extends Entity {
 		}
 		
 
+		framedelay2++;
+		if (framedelay2 >= 9) {
+			frame2++;
+			if (frame2 >= 3) {
+				frame2 = 0;
+			}
+			framedelay2 = 0;
+		}
 		
 		
 
@@ -224,6 +232,15 @@ public class Player extends Entity {
         	g.drawImage(head[6].getBufferedImage(),x+56,y+2,-70,96,null);
         	g.drawImage(armor_head[6].getBufferedImage(),x+56,y+2,-70,96,null);
         }
+        
+       if(clicked){
+    	   if (moving == 2 || moving == -2 ) {
+    		   g.drawImage(armor[2+frame2].getBufferedImage(),x+56,y+2,-70,96,null);
+    	   }
+    	   if (moving == 1 || moving == -1 ) {
+    		   g.drawImage(armor[2+frame2].getBufferedImage(),x-10,y+2,70,96,null);
+    	   }
+       }
     }
 
 }

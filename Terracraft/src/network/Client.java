@@ -46,8 +46,10 @@ public class Client extends NetClient {
 			Packet00Login packet00 = new Packet00Login(data);
 			if (!username.equals(packet00.getUsername())) {
 				Game.handler.addEntity(
+
 						new NetPlayer(packet00.getUsername(), packet00.getX(), packet00.getY(), 46, 96, Id.NetPlayer));
 			}
+
 
 			break;
 		case DISCONNECT:
