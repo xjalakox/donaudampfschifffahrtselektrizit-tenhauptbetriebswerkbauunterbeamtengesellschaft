@@ -20,7 +20,7 @@ public class NetPlayer extends Entity {
 	private Sprite2[] armor_head = new Sprite2[21];
 	public int spritex, spritey;
 	private int lastx = 0;
-
+	private int lasty = 0;
 	private int ToolX,ToolY;
 	private int lastmoving;
 
@@ -74,7 +74,7 @@ public class NetPlayer extends Entity {
 		}
 
 		lastx = x;
-
+		lasty=y;
 		framedelay++;
 		if (framedelay >= 4) {
 			frame++;
