@@ -12,12 +12,20 @@ import Tile.source.Tile;
 public class Entity {
 
 	public int x, y, breite, höhe, velX, velY;
-	private boolean removed;
+	public boolean removed,clicked;
 	Handler handler;
 	Id id;
 	public int frame,framedelay,frame2,framedelay2;
 	public int moving=-1;
 	public boolean jumping = false,falling = true;
+	
+	public boolean isClicked() {
+		return clicked;
+	}
+
+	public void setClicked(boolean clicked) {
+		this.clicked = clicked;
+	}
 	public float gravity = 0f;
 	public Entity(int x, int y, int breite, int höhe, Handler handler, Id id) {
 		this.x = x;

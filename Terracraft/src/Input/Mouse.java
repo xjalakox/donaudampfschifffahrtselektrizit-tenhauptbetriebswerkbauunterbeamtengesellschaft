@@ -7,6 +7,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
+import Entity.Entity;
 import Terracraft.Game;
 import Tile.source.Tile;
 import network.packets.Packet07AddTile;
@@ -36,20 +39,26 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mousePressed(MouseEvent m) {
 
 		for (Tile ti : Game.handler.tile2) {
-			if (m.getButton() == m.BUTTON1 && Collision().intersects(ti.getBounds())) {
-				pressed = true;
-				degradedTile = ti;
-			}
+			if (m.getButton() == m.BUTTON1) {
+				if ( Collision().intersects(ti.getBounds())){
+					degradedTile = ti;
+					pressed = true;
+				}
+				 	Game.player.setClicked(true);
+				
+				
+				
 		}
-
-		if (!Game.consoleOpen) {
+		}
+		if (m.getButton() == m.BUTTON3 &&!Game.consoleOpen) {
 			new Packet07AddTile(lookingAtX, lookingAtY, "grass").send(Game.client);
-
+			
 		}
 	}
 
 	public void mouseReleased(MouseEvent m) {
 		pressed = false;
+		Game.player.setClicked(false);
 	}
 
 	public void mouseDragged(MouseEvent m) {
