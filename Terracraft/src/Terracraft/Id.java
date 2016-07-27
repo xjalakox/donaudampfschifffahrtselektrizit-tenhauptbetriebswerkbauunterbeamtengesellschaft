@@ -58,7 +58,7 @@ public enum Id {
 		case Pickaxe:
 			return "Pickaxe";
 		case Hammer:
-			return "hammer";
+			return "Hammer";
 		}
 		return null;
 	}
