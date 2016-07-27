@@ -51,8 +51,8 @@ public class NetPlayer extends Entity {
 		Zeichnung(g);
 
 		if (tool != null) {
-			// g.drawImage(Game.player.tool.getImage().getBufferedImage(), ToolX
-			// + 10,ToolY + 10, 62, 62, null);
+			 g.drawImage(this.tool.getImage().getBufferedImage(), ToolX
+			 + 10,ToolY + 10, 62, 62, null);
 		}
 
 	}

@@ -3,10 +3,9 @@ package Terracraft;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import Entity.Player;
 import Input.Mouse;
+import Tile.source.Tile;
 import gfx.Sprite;
-import network.packets.Packet02Move;
 
 public class MiningHandler {
 
@@ -38,12 +37,6 @@ public class MiningHandler {
 			if (Mouse.mouseRotation==i) {
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34, 33, 35, 35, null);
 				equippedTool = scrollbarTiles.get(i);
-				System.out.println(equippedTool.toString());
-//				for (Entity.Entity e : Handler.entity) {
-//					if (e.getId() == Id.Player) {
-//						new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),equippedTool).send(Game.client);
-//					}
-//				}
 			} else {
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34, 36, 32, 32, null);
 			}
@@ -73,7 +66,7 @@ public class MiningHandler {
 
 	public void tick(){
 		
-		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==10){
+		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==10&&Mouse.degradedTile.getBounds().intersects(Game.player.getArea())){
 			tick=0;
 				if(scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(Mouse.degradedTile.getId().toString())){
 					Mouse.degradedTile.addDamage(10);
@@ -82,6 +75,16 @@ public class MiningHandler {
 
 				}
 		}
+		if(Mouse.degradedTile!=null){
+			if(Mouse.degradedTile.getDamage()<=0){
+				for(Tile ti:Game.handler.tile2){
+					if(ti==Mouse.degradedTile){
+						ti.setAsRemoved();
+					}
+				}
+			}
+		}
+		
 		if(tick<10){
 			tick++;
 		}
