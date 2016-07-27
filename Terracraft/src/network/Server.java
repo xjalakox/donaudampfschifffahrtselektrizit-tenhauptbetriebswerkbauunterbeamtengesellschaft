@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import Entity.NetPlayer;
 import Entity.Player;
 import Terracraft.Handler;
 import Terracraft.Id;
@@ -28,7 +30,7 @@ import network.packets.Packet07AddTile;
 
 public class Server extends NetServer {
 
-	private Map<NetUser, Player> players;
+	private Map<NetUser, NetPlayer> players;
 	public static MySQL mysql;
 	private static int id;
 	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
@@ -63,7 +65,7 @@ public class Server extends NetServer {
 		
 		//mysql.deleteTiles();
 
-		players = new HashMap<NetUser, Player>();
+		players = new HashMap<NetUser, NetPlayer>();
 		LoadingTilesIntoList = mysql.LoadMap();
 		for (Tile ti : LoadingTilesIntoList) {
 			handler.addTile(ti);
@@ -106,7 +108,7 @@ public class Server extends NetServer {
 				}
 			}
 			NetUser user = new NetUser(packet00.getUsername(), address, port);
-			Player player = new Player(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24,
+			NetPlayer player = new NetPlayer(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24,
 					Terracraft.Id.Player);
 			users.add(user);
 			players.put(user, player);

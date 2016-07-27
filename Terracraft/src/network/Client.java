@@ -5,7 +5,7 @@ import java.net.InetAddress;
 import javax.swing.JFrame;
 
 import network.mysql.*;
-
+import Entity.NetPlayer;
 import Entity.Player;
 import Terracraft.Game;
 import Terracraft.Id;
@@ -46,7 +46,7 @@ public class Client extends NetClient {
 			Packet00Login packet00 = new Packet00Login(data);
 			if (!username.equals(packet00.getUsername()))
 				Game.handler.addEntity(
-						new Player(packet00.getUsername(), packet00.getX(), packet00.getY(), 24, 24, Id.Player));
+						new NetPlayer(packet00.getUsername(), packet00.getX(), packet00.getY(), 46, 96, Id.NetPlayer));
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
