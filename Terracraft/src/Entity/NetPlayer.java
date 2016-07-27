@@ -20,12 +20,16 @@ public class NetPlayer extends Entity {
 	private Sprite2[] armor_head = new Sprite2[21];
 	public int spritex, spritey;
 	private int lastx = 0;
+
 	private int lasty = 0;
 	private int ToolX,ToolY;
+
+
+
 	private int lastmoving;
 
 	private Id tool;
-	
+
 	private int still_tick = 0;
 
 	public NetPlayer(String username, int x, int y, int breite, int höhe, Id id) {
@@ -45,9 +49,10 @@ public class NetPlayer extends Entity {
 		g.setColor(Color.blue);
 		g.drawRect(x, y, breite, höhe);
 		Zeichnung(g);
-		
-		if(tool!=null){
-			//g.drawImage(Game.player.tool.getImage().getBufferedImage(), ToolX + 10,ToolY + 10, 62, 62, null);
+
+		if (tool != null) {
+			// g.drawImage(Game.player.tool.getImage().getBufferedImage(), ToolX
+			// + 10,ToolY + 10, 62, 62, null);
 		}
 
 	}
@@ -57,19 +62,19 @@ public class NetPlayer extends Entity {
 			still_tick = 0;
 			moving = 1;
 			lastmoving = 1;
-		} else if (lastx  > x) {
+		} else if (lastx > x) {
 			still_tick = 0;
 			moving = 2;
 			lastmoving = 2;
-
 		}
-		if (lastx == x&&still_tick  >=5) {
+
+		if (lastx == x && still_tick >= 5) {
 			if (lastmoving == 2) {
 				moving = -2;
 			} else {
 				moving = -1;
 			}
-		}else {
+		} else {
 			still_tick++;
 		}
 
@@ -100,6 +105,7 @@ public class NetPlayer extends Entity {
 
 			} else if (!jumping) {
 				falling = true;
+
 			}
 
 			if (getLeft().intersects(ti.getRight())) {
@@ -120,12 +126,13 @@ public class NetPlayer extends Entity {
 		}
 
 	}
-	
-	public void setTool(Id tool,int x,int y){
+
+	public void setTool(Id tool, int x, int y) {
 		this.tool = tool;
 		this.ToolX = x;
 		this.ToolY = y;
 	}
+
 	public String getUsername() {
 		return username;
 	}

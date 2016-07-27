@@ -76,9 +76,6 @@ public class Key implements KeyListener {
 			if (Game.consoleOpen) {
 				String without = Game.removeFirstChar(Game.TextToDrawInConsole);
 				String[] commands = without.split("\\s");
-				for(int i=0;i<commands.length;i++){
-					System.out.println(commands[i]);
-				}
 				Game.executeCommand(commands);
 				Game.consoleOpen = false;
 				Game.TextToDrawInConsole = "";
