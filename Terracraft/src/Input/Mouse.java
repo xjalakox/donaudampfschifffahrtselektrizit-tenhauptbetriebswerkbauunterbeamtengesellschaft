@@ -37,14 +37,16 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void mousePressed(MouseEvent m) {
-
+		if (m.getButton() == m.BUTTON1) {
+			Game.player.setClicked(true);
+		}
 		for (Tile ti : Game.handler.tile2) {
 			if (m.getButton() == m.BUTTON1) {
 				if ( Collision().intersects(ti.getBounds())){
 					degradedTile = ti;
 					pressed = true;
 				}
-				 	Game.player.setClicked(true);
+				 	
 				
 				
 				

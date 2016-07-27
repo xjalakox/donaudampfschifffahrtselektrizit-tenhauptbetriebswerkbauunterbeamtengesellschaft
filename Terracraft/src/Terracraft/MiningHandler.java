@@ -38,7 +38,6 @@ public class MiningHandler {
 			if (Mouse.mouseRotation==i) {
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34, 33, 35, 35, null);
 				equippedTool = scrollbarTiles.get(i);
-				System.out.println(equippedTool.toString());
 //				for (Entity.Entity e : Handler.entity) {
 //					if (e.getId() == Id.Player) {
 //						new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),equippedTool).send(Game.client);
