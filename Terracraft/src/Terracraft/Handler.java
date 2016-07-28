@@ -38,7 +38,18 @@ public class Handler {
 			if (entity.get(i).isRemoved())
 				entity.remove(i);
 		}
+		
+		remove();
 	}
+	
+	public void remove(){
+		for(int i = 0; i < tile.size(); i++){
+			if(tile.get(i).shouldRemove()) {
+				tile.remove(i);
+			}
+		}
+	}
+	
 
 	public void addEntity(Entity en) {
 		entity.add(en);

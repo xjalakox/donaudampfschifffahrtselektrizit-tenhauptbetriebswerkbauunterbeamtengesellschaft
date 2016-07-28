@@ -14,6 +14,7 @@ public class Tile {
 	Handler handler;
 	Id id;
 	public int damage;
+	public boolean shouldRemove;
 
 	public Tile(int x, int y, int Width, int height,Id id) {
 		this.x = x;
@@ -29,6 +30,14 @@ public class Tile {
 
 	public  void tick(){
 	
+	}
+	
+	public boolean shouldRemove() {
+		return shouldRemove;
+	}
+	
+	public void setAsRemoved(){
+		shouldRemove=true;
 	}
 
 	public int getX() {

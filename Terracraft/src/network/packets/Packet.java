@@ -1,5 +1,6 @@
 package network.packets;
 
+import Terracraft.Utils;
 import network.Client;
 import network.Server;
 
@@ -46,7 +47,7 @@ public abstract class Packet {
 
 	public static PacketTypes lookupPacket(String packetId) {
 		try {
-			return lookupPacket(Integer.parseInt(packetId));
+			return lookupPacket(Utils.toInt(packetId));
 		} catch (NumberFormatException e) {
 			return PacketTypes.INVALID;
 		}

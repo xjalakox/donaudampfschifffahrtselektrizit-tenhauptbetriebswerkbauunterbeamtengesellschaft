@@ -2,14 +2,12 @@ package Entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import Input.Key;
-
 import Terracraft.Game;
 import Terracraft.Id;
 import Tile.source.Tile;
-import gfx.Sprite;
-import gfx.Sprite2;
 import gfx.Sprite2;
 
 
@@ -53,11 +51,16 @@ public class Player extends Entity {
 
 
 	public void render(Graphics g) {
-
-			g.setColor(Color.blue);
-			g.drawRect(x, y, breite, höhe);
-			Zeichnung(g);
+			
 		
+		Zeichnung(g);
+			if (tool != null) {
+				 g.drawImage(Game.player.tool.getImage().getBufferedImage(), ToolX
+				 + 10,ToolY + 10, 62, 62, null);
+				 System.out.println("Player: "+Game.player.tool.toString());
+			}
+			g.setColor(Color.black);
+			g.drawRect(x-96,y-96,96*2+breite,96*2+höhe);
 	}
 
 	public void tick() {
@@ -99,12 +102,6 @@ public class Player extends Entity {
 			}
 			
 		}
-			
-		
-		
-		
-		
-		
 		
 		//Movement
 		if (key.d ) {
@@ -145,11 +142,10 @@ public class Player extends Entity {
 			}
 			framedelay = 0;
 		}
-		
-System.out.println(clicked);
-		
-		
+
 	}
+	
+	
 	public void setTool(Id tool,int x,int y){
 		this.tool = tool;
 		this.ToolX = x;
@@ -164,6 +160,9 @@ System.out.println(clicked);
 		this.username = username;
 	}
 	
+	public Rectangle getArea(){
+		return new Rectangle(x-96,y-96,96*2+breite,96*2+höhe);
+	}
 	
 	
 	public void Zeichnung(Graphics g){

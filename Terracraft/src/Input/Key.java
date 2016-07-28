@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-import Terracraft.Game;
+import Terracraft.*;
 import network.packets.Packet01Disconnect;
 
 public class Key implements KeyListener {
@@ -74,7 +74,7 @@ public class Key implements KeyListener {
 			break;
 		case KeyEvent.VK_ENTER:
 			if (Game.consoleOpen) {
-				String without = Game.removeFirstChar(Game.TextToDrawInConsole);
+				String without = Utils.removeFirstChar(Game.TextToDrawInConsole);
 				String[] commands = without.split("\\s");
 				Game.executeCommand(commands);
 				Game.consoleOpen = false;

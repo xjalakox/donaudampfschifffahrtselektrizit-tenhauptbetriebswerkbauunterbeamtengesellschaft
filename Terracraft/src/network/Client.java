@@ -46,11 +46,8 @@ public class Client extends NetClient {
 			Packet00Login packet00 = new Packet00Login(data);
 			if (!username.equals(packet00.getUsername())) {
 				Game.handler.addEntity(
-
 						new NetPlayer(packet00.getUsername(), packet00.getX(), packet00.getY(), 46, 96, Id.NetPlayer));
 			}
-
-
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
@@ -59,6 +56,7 @@ public class Client extends NetClient {
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);
 			Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY(),packet02.getTool());
+			System.out.println("client: "+packet02.getTool().toString());
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);

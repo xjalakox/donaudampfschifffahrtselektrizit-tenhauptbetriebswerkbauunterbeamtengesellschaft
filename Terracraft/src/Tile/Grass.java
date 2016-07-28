@@ -24,7 +24,7 @@ public class Grass extends Tile{
 
 
 
-
+		g.drawRect(x, y, width,height);
 		
 		g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
 
