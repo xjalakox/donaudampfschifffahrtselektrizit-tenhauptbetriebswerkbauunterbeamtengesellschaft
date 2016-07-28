@@ -1,5 +1,6 @@
 package network.packets;
 
+import Terracraft.Utils;
 import network.Client;
 import network.Server;
 
@@ -12,8 +13,8 @@ public class Packet07AddTile extends Packet {
 		super(PacketTypes.ADDTILE.getId());
 		String[] message = readData(data).split(",");
 
-		x = Integer.parseInt(message[0]);
-		y = Integer.parseInt(message[1]);
+		x = Utils.toInt(message[0]);
+		y = Utils.toInt(message[1]);
 		type = message[2];
 	}
 

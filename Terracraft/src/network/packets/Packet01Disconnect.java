@@ -1,5 +1,6 @@
 package network.packets;
 
+import Terracraft.Utils;
 import network.Client;
 import network.Server;
 
@@ -12,8 +13,8 @@ public class Packet01Disconnect extends Packet {
 		super(PacketTypes.DISCONNECT.getId());
 		String[] message = readData(data).split(",");
 		username = message[0];
-		x = Integer.parseInt(message[1]);
-		y = Integer.parseInt(message[2]);
+		x = Utils.toInt(message[1]);
+		y = Utils.toInt(message[2]);
 	}
 
 	public Packet01Disconnect(String username, int x,int y) {

@@ -1,5 +1,6 @@
 package network.packets;
 
+import Terracraft.Utils;
 import network.Client;
 import network.Server;
 
@@ -10,8 +11,8 @@ public class Packet05Spawn extends Packet {
 	public Packet05Spawn(byte[] data) {
 		super(PacketTypes.SPAWN.getId());
 		String[] message = readData(data).split(",");
-		x = Integer.parseInt(message[0]);
-		y = Integer.parseInt(message[1]);
+		x = Utils.toInt(message[0]);
+		y = Utils.toInt(message[1]);
 	}
 
 	public Packet05Spawn(int x, int y) {

@@ -1,6 +1,7 @@
 package network.packets;
 
 import Terracraft.Id;
+import Terracraft.Utils;
 import network.Client;
 import network.Server;
 
@@ -14,8 +15,8 @@ public class Packet02Move extends Packet {
 		super(PacketTypes.MOVE.getId());
 		String[] message = readData(data).split(",");
 		username = message[0];
-		x = Integer.parseInt(message[1]);
-		y = Integer.parseInt(message[2]);
+		x = Utils.toInt(message[1]);
+		y = Utils.toInt(message[2]);
 //		if (message.length>=5) {
 			tool = Id.valueOf(message[3]);
 //		}

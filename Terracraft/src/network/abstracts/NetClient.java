@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import Terracraft.Utils;
+
 public abstract class NetClient implements Runnable {
 
 	private Thread thread;
@@ -65,7 +67,7 @@ public abstract class NetClient implements Runnable {
 		this.username = username;
 		try {
 			this.ipAddress = InetAddress.getByName(ipAddress.split(":")[0]);
-			this.port = Integer.parseInt(ipAddress.split(":")[1]);
+			this.port = Utils.toInt(ipAddress.split(":")[1]);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}

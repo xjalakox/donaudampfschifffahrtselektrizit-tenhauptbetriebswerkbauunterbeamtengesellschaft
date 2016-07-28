@@ -86,7 +86,7 @@ public class Game extends Canvas implements Runnable {
 		if (consoleOpen) {
 			renderConsole(g);
 			if (TextToDrawInConsole != null) {
-				String without = removeFirstChar(TextToDrawInConsole);
+				String without = Utils.removeFirstChar(TextToDrawInConsole);
 				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
 					renderKeyInput(g, TextToDrawInConsole);
 
@@ -238,28 +238,13 @@ public class Game extends Canvas implements Runnable {
 
 	public static void drawKeyInput(String keyText) {
 		if (keyText.equalsIgnoreCase("backspace")) {
-			removeLastChar(TextToDrawInConsole);
-			TextToDrawInConsole = removeLastChar(TextToDrawInConsole);
+			Utils.removeLastChar(TextToDrawInConsole);
+			TextToDrawInConsole = Utils.removeLastChar(TextToDrawInConsole);
 		} else {
 			TextToDrawInConsole = TextToDrawInConsole + keyText;
 		}
 	}
 
-	private static String removeLastChar(String str) {
-		if (str.length() >= 1) {
-			return str.substring(0, str.length() - 1);
-		} else {
-			return "";
-		}
-	}
-
-	public static String removeFirstChar(String str) {
-		if (str.length() >= 1) {
-			return str.substring(1, str.length());
-		} else {
-			return "";
-		}
-	}
 
 	public static void executeCommand(String[] args) {
 		if (args[0].equalsIgnoreCase("placeblock")) {
@@ -268,7 +253,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		if (args[0].equalsIgnoreCase("give")) {
 			for (int i = 0; i < args.length; i++) {
-				if (args[i] != null && !args[i].isEmpty()) {
+				if(Utils.isNotNull(args)){
 					System.out.println(args[i]);
 				}
 			}
