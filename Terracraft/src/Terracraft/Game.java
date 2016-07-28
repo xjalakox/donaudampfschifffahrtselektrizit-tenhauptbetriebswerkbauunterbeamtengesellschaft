@@ -50,7 +50,6 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Armor_Head.png");
 	private JFrame frame;
 
-
 	public void init() {
 		mininghandler.init();
 		System.out.println(breite * scale + "  " + höhe * scale);
@@ -90,7 +89,7 @@ public class Game extends Canvas implements Runnable {
 				String without = removeFirstChar(TextToDrawInConsole);
 				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
 					renderKeyInput(g, TextToDrawInConsole);
-					
+
 				} else {
 					renderKeyInput(g, "Console : " + TextToDrawInConsole);
 				}
@@ -115,7 +114,8 @@ public class Game extends Canvas implements Runnable {
 			networktick = 0;
 			for (Entity.Entity e : Handler.entity) {
 				if (e.getId() == Id.Player) {
-					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),MiningHandler.equippedTool).send(client);
+					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
+							MiningHandler.equippedTool).send(client);
 				}
 			}
 		} else {
@@ -207,12 +207,12 @@ public class Game extends Canvas implements Runnable {
 		while (x2 >= 32) {
 			x += 32;
 			x2 -= 32;
-			
+
 		}
 		while (y2 >= 32) {
 			y += 32;
 			y2 -= 32;
-			
+
 		}
 		m.lookingAtX = x;
 		m.lookingAtY = y;
@@ -262,11 +262,22 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static void executeCommand(String[] args) {
-		String without = removeFirstChar(TextToDrawInConsole);
-		if (without.equalsIgnoreCase("killtimo")) {
-			System.out.println("placed tile at " + player.x + "   " + player.y);
+		if (args[0].equalsIgnoreCase("placeblock")) {
+			System.out.println("placed block at " + player.x + "   " + player.y);
 			new Packet07AddTile(player.x, player.y, "grass").send(Game.client);
 		}
-		
+		if (args[0].equalsIgnoreCase("give")) {
+			for (int i = 0; i < args.length; i++) {
+				if (args[i] != null && !args[i].isEmpty()) {
+					System.out.println(args[i]);
+				}
+			}
+
+
+			// 2 Arg Block
+			// 3 Arg Anzahl
+
+		}
+
 	}
 }
