@@ -206,5 +206,6 @@ public class NetPlayer extends Entity {
 			g.drawImage(head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(armor_head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 		}
+		
 	}
 }
