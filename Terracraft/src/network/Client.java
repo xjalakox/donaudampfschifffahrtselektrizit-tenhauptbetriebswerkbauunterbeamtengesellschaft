@@ -19,6 +19,7 @@ import network.packets.Packet02Move;
 import network.packets.Packet05Spawn;
 import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
+import network.packets.Packet10RemoveTile;
 
 public class Client extends NetClient {
 
@@ -56,7 +57,6 @@ public class Client extends NetClient {
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);
 			Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY(),packet02.getTool());
-			System.out.println("client: "+packet02.getTool().toString());
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);
@@ -92,6 +92,16 @@ public class Client extends NetClient {
 
 			Tile ti = Id.getTile(packet07.getType(), packet07.getX(), packet07.getY());
 			terracraft.handler.addTile(ti);
+			break;
+		case REMOVETILE:
+			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
+			
+			for(Tile tile : terracraft.handler.tile){
+				if(tile.getX()==packet10.getX()&&tile.getY()==packet10.getY()){
+					tile.setAsRemoved();
+					break;
+				}
+			}
 			break;
 		}
 

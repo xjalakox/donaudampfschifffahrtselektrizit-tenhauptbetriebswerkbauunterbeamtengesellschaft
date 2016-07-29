@@ -53,7 +53,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		}
 		}
 		if (m.getButton() == m.BUTTON3 &&!Game.consoleOpen) {
-			new Packet07AddTile(lookingAtX, lookingAtY, "grass").send(Game.client);
+			new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);
 			
 		}
 	}

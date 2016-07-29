@@ -249,7 +249,7 @@ public class Game extends Canvas implements Runnable {
 	public static void executeCommand(String[] args) {
 		if (args[0].equalsIgnoreCase("placeblock")) {
 			System.out.println("placed block at " + player.x + "   " + player.y);
-			new Packet07AddTile(player.x, player.y, "grass").send(Game.client);
+			new Packet07AddTile(player.x, player.y, "Grass").send(Game.client);
 		}
 		if (args[0].equalsIgnoreCase("give")) {
 			for (int i = 0; i < args.length; i++) {

@@ -222,4 +222,18 @@ public class MySQL {
 			e.printStackTrace();
 		}
 	}
+
+	public void removeTile(int x, int y) {
+		try {
+
+			
+			//DELETE FROM `blocks` WHERE `x` = 640 AND `y` = 512
+			query.executeUpdate("DELETE FROM `blocks` WHERE `x` = " + x + " AND `y` = " + y);
+			updateQueryAmount();
+
+			updateQueryAmount();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

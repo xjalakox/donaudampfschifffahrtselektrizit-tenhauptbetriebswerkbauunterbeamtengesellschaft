@@ -27,6 +27,7 @@ import network.packets.Packet04MySQL_Register;
 import network.packets.Packet05Spawn;
 import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
+import network.packets.Packet10RemoveTile;
 
 public class Server extends NetServer {
 
@@ -35,8 +36,8 @@ public class Server extends NetServer {
 	private static int id;
 	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 	public static Handler handler = new Handler();
-	public static int queryanzahl = 0;
-	public static JLabel playeranzahl, querylabel;
+	public static int queryanzahl = 0, tileanzahl = 0;
+	public static JLabel playeranzahl, querylabel, tilelabel;
 
 	public Server(int port, int packetSize) {
 		super(port, packetSize);
@@ -54,31 +55,33 @@ public class Server extends NetServer {
 
 		playeranzahl = new JLabel("Spieleranzahl : 0");
 		playeranzahl.setVisible(true);
-		playeranzahl.setSize(150, 200);
+		playeranzahl.setSize(100, 50);
 
 		querylabel = new JLabel("Querys : 0");
 		querylabel.setVisible(true);
-		querylabel.setSize(50, 250);
+		querylabel.setSize(100, 100);
+
+		tilelabel = new JLabel("Tiles : 0");
+		tilelabel.setVisible(true);
+		tilelabel.setSize(100, 150);
 
 		frame.add(playeranzahl);
 		frame.add(querylabel);
-		
-		//mysql.deleteTiles();
+		frame.add(tilelabel);
+
+		// mysql.deleteTiles();
 
 		players = new HashMap<NetUser, NetPlayer>();
 		LoadingTilesIntoList = mysql.LoadMap();
 		for (Tile ti : LoadingTilesIntoList) {
 			handler.addTile(ti);
 		}
+		tilelabel.setText("Tiles : " + handler.tile.size());
 
 		System.out.println("[SERVER] Loaded " + handler.tile.size() + " Tiles");
 		System.out.println("[SERVER] READY TO ACCEPT CONNECTIONS");
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		frame.setVisible(true);
-
-
-		
-
 
 	}
 
@@ -87,7 +90,7 @@ public class Server extends NetServer {
 		mysql = new MySQL();
 		id = mysql.getId();
 		new Server(1337, 64);
-		
+
 	}
 
 	protected void parsePacket(byte[] data, InetAddress address, int port) {
@@ -114,7 +117,7 @@ public class Server extends NetServer {
 			players.put(user, player);
 			packet00.send(this);
 			for (Tile ti : handler.tile) {
-					super.send(new Packet07AddTile(ti.getX(), ti.getY(), ti.getId().toString()).getData(), user);
+				super.send(new Packet07AddTile(ti.getX(), ti.getY(), ti.getId().toString()).getData(), user);
 			}
 			for (NetUser u : users) {
 				if (players.get(u) != null && !u.equals(user)) {
@@ -175,8 +178,27 @@ public class Server extends NetServer {
 			handler.addTile(tile);
 			mysql.addTile(tile);
 			for (NetUser u : users) {
-				super.send(new Packet07AddTile(packet07.getX(),packet07.getY(),tile.getId().toString()).getData(), u);
+				super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), tile.getId().toString()).getData(), u);
 			}
+
+			tilelabel.setText("Tiles : " + tileanzahl++);
+			break;
+		case REMOVETILE:
+			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
+			System.out.println("zwei mal?!");
+			for (Tile ti : handler.tile) {
+				if (ti.getX() == packet10.getX() && ti.getY() == packet10.getY()) {
+					ti.setAsRemoved();
+					mysql.removeTile(packet10.getX(), packet10.getY());
+					break;
+				}
+			}
+			for (NetUser u : users) {
+				super.send(new Packet10RemoveTile(packet10.getX(), packet10.getY()).getData(), u);
+			}
+			System.out.println("zwei mal?!");
+			tilelabel.setText("Tiles : " + tileanzahl--);
+			break;
 		}
 	}
 
