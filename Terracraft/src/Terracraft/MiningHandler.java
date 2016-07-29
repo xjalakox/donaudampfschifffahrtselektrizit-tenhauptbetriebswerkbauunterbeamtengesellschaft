@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import Input.Mouse;
 import Tile.source.Tile;
 import gfx.Sprite;
-import network.packets.Packet07AddTile;
-import network.packets.Packet10RemoveTile;
 
 public class MiningHandler {
 
@@ -81,7 +79,6 @@ public class MiningHandler {
 			if(Mouse.degradedTile.getDamage()<=0){
 				for(Tile ti:Game.handler.tile2){
 					if(ti==Mouse.degradedTile){
-						new Packet10RemoveTile(ti.getX(), ti.getY()).send(Game.client);
 						ti.setAsRemoved();
 					}
 				}

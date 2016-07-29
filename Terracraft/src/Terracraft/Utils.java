@@ -3,7 +3,37 @@ package Terracraft;
 import static java.lang.Math.toIntExact;
 
 public final class Utils {
-	
+
+	public static boolean isNotNull(String toCheck) {
+		if (toCheck != null && !toCheck.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isNotNull(String[] toCheck) {
+		if (toCheck[0] != null && !toCheck[0].isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static String removeLastChar(String str) {
+		if (str.length() >= 1) {
+			return str.substring(0, str.length() - 1);
+		} else {
+			return "";
+		}
+	}
+
+	public static String removeFirstChar(String str) {
+		if (str.length() >= 1) {
+			return str.substring(1, str.length());
+		} else {
+			return "";
+		}
+	}
+
 	public static int toInt(Object toConvert) {
 		if (toConvert instanceof Integer) {
 			int toReturn = (int) toConvert;
@@ -48,37 +78,5 @@ public final class Utils {
 		return "";
 
 	}
-
-	public static boolean isNotNull(String toCheck) {
-		if (toCheck != null && !toCheck.isEmpty()) {
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isNotNull(String[] toCheck) {
-		if (toCheck[0] != null && !toCheck[0].isEmpty()) {
-			return true;
-		}
-		return false;
-	}
-
-	public static String removeLastChar(String str) {
-		if (str.length() >= 1) {
-			return str.substring(0, str.length() - 1);
-		} else {
-			return "";
-		}
-	}
-
-	public static String removeFirstChar(String str) {
-		if (str.length() >= 1) {
-			return str.substring(1, str.length());
-		} else {
-			return "";
-		}
-	}
-
-	
 
 }

@@ -184,7 +184,7 @@ public class MySQL {
 
 	public void addTile(Tile ti) {
 		try {
-			int x = ti.getX(); 
+			int x = ti.getX();
 			int y = ti.getY();
 
 			query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
@@ -194,20 +194,7 @@ public class MySQL {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void removeTile(int x, int y) {
-		try {
 
-			
-			//DELETE FROM `blocks` WHERE `x` = 640 AND `y` = 512
-			query.executeUpdate("DELETE FROM `blocks` WHERE `x` = " + x + " AND `y` = " + y);
-			updateQueryAmount();
-
-			updateQueryAmount();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public boolean isAdmin(String username) {

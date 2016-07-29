@@ -27,7 +27,6 @@ import network.packets.Packet04MySQL_Register;
 import network.packets.Packet05Spawn;
 import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
-import network.packets.Packet10RemoveTile;
 
 public class Server extends NetServer {
 
@@ -172,26 +171,11 @@ public class Server extends NetServer {
 			break;
 		case ADDTILE:
 			Packet07AddTile packet07 = new Packet07AddTile(data);
-			System.out.println(packet07.getType());
-			System.out.println(packet07.getX());
-			System.out.println(packet07.getY());
 			Tile tile = Id.getTile(packet07.getType(), packet07.getX(), packet07.getY());
 			handler.addTile(tile);
 			mysql.addTile(tile);
 			for (NetUser u : users) {
 				super.send(new Packet07AddTile(packet07.getX(),packet07.getY(),tile.getId().toString()).getData(), u);
-			}
-		case REMOVETILE:
-			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
-			for(Tile ti : handler.tile){
-				if(ti.getX() == packet10.getX() && ti.getY() == packet10.getY()){
-					ti.setAsRemoved();
-					mysql.removeTile(packet10.getX(), packet10.getY());
-					break;
-				}
-			}
-			for(NetUser u : users) {
-				super.send(new Packet10RemoveTile(packet10.getX(), packet10.getY()).getData(), u);
 			}
 		}
 	}
