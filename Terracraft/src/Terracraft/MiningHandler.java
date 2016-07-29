@@ -78,7 +78,7 @@ public class MiningHandler {
 		}
 		if(Mouse.degradedTile!=null){
 			if(Mouse.degradedTile.getDamage()<=0){
-				for(Tile ti:Game.handler.tile2){
+				for(Tile ti:Game.handler.tile){
 					if(ti==Mouse.degradedTile){
 						System.out.println("2 mal");
 						new Packet10RemoveTile(ti.getX(), ti.getY()).send(Game.client);

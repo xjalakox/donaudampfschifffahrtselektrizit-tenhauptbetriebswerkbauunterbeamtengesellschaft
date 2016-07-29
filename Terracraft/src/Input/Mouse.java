@@ -39,6 +39,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mousePressed(MouseEvent m) {
 		if (m.getButton() == m.BUTTON1) {
 			Game.player.setClicked(true);
+			Game.player.setClick(true);
 		}
 		for (Tile ti : Game.handler.tile2) {
 			if (m.getButton() == m.BUTTON1) {

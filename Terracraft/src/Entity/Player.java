@@ -2,11 +2,13 @@ package Entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import Input.Key;
 import Terracraft.Game;
 import Terracraft.Id;
+import Terracraft.MiningHandler;
 import Tile.source.Tile;
 import gfx.Sprite2;
 
@@ -16,6 +18,7 @@ public class Player extends Entity {
 	private Key key;
 	public Id tool;
 	public int ToolX,ToolY;
+	public int rotateAnglesLeft[]={-45,-90,-150,-170};
 	private Sprite2[] armor=new Sprite2[20];
 	private Sprite2[] legs=new Sprite2[21];
 	private Sprite2[] head=new Sprite2[21];
@@ -51,16 +54,7 @@ public class Player extends Entity {
 
 
 	public void render(Graphics g) {
-			
-		
 		Zeichnung(g);
-			if (tool != null) {
-				 g.drawImage(Game.player.tool.getImage().getBufferedImage(), ToolX
-				 + 10,ToolY + 10, 62, 62, null);
-				 System.out.println("Player: "+Game.player.tool.toString());
-			}
-			g.setColor(Color.black);
-			g.drawRect(x-96,y-96,96*2+breite,96*2+höhe);
 	}
 
 	public void tick() {
@@ -124,15 +118,19 @@ public class Player extends Entity {
 		
 
 		framedelay2++;
-		if (framedelay2 >= 9) {
+		if (framedelay2 >= 7) {
 			frame2++;
-			if (frame2 >= 3) {
+			if (frame2 >= 4) {
 				frame2 = 0;
+				click=false;
 			}
 			framedelay2 = 0;
 		}
 		
-		
+		if(framereset==true){
+			frame2=0;
+			framedelay2=0;
+		}
 
 		framedelay++;
 		if (framedelay >= 4) {
@@ -170,7 +168,7 @@ public class Player extends Entity {
 		if (moving == -1 && !jumping && !falling) {
 			g.drawImage(legs[1].getBufferedImage(),x-10,y+2,70,96,null);
 			g.drawImage(head[1].getBufferedImage(),x-10,y+2,70,96,null);
-			if(!clicked){
+			if(!click){
 				g.drawImage(body[1].getBufferedImage(),x-10,y+2,70,96,null);
 				g.drawImage(armor[1].getBufferedImage(),x-10,y+2,70,96,null);
 			}
@@ -181,7 +179,7 @@ public class Player extends Entity {
 		if (moving == -2 && !jumping && !falling) {
 			g.drawImage(legs[1].getBufferedImage(),x+56,y+2,-70,96,null);
 			g.drawImage(head[1].getBufferedImage(),x+56,y+2,-70,96,null);
-			if(!clicked){
+			if(!click){
 				g.drawImage(body[1].getBufferedImage(),x+56,y+2,-70,96,null);
 				g.drawImage(armor[1].getBufferedImage(),x+56,y+2,-70,96,null);
 			}
@@ -191,7 +189,7 @@ public class Player extends Entity {
 		
 		if (moving == 2 && !jumping && !falling) {	
         	g.drawImage(legs[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
-        	if(!clicked){
+        	if(!click){
         		g.drawImage(body[frame+7].getBufferedImage(),x+56,y+2,-70,96,null); 
         		g.drawImage(armor[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
         	}
@@ -202,7 +200,7 @@ public class Player extends Entity {
         
         if (moving ==1 && !jumping && !falling) {
         	g.drawImage(legs[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
-        	if(!clicked){
+        	if(!click){
         		g.drawImage(body[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
         		g.drawImage(armor[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
         	}
@@ -213,7 +211,7 @@ public class Player extends Entity {
         
         if (moving == 1 && jumping && !falling || moving == -1 && jumping && !falling) {
         	g.drawImage(legs[6].getBufferedImage(),x-10,y+2,70,96,null);
-        	if(!clicked){
+        	if(!click){
         		g.drawImage(body[1].getBufferedImage(),x-10,y+2,70,96,null);
         		g.drawImage(armor[1].getBufferedImage(),x-10,y+2,70,96,null);
         	}
@@ -224,7 +222,7 @@ public class Player extends Entity {
         
         if (moving == 1 && !jumping && falling || moving == -1 && !jumping && falling) {
         	g.drawImage(legs[6].getBufferedImage(),x-10,y+2,70,96,null);
-        	if(!clicked){
+        	if(!click){
         		g.drawImage(body[6].getBufferedImage(),x-10,y+2,70,96,null);
         		g.drawImage(armor[6].getBufferedImage(),x-10,y+2,70,96,null);
         	}
@@ -235,7 +233,7 @@ public class Player extends Entity {
         
         if (moving == 2 && jumping && !falling || moving == -2 && jumping && !falling) {
         	g.drawImage(legs[6].getBufferedImage(),x+56,y+2,-70,96,null);
-        	if(!clicked){
+        	if(!click){
         		g.drawImage(body[1].getBufferedImage(),x+56,y+2,-70,96,null); 	
         		g.drawImage(armor[1].getBufferedImage(),x+56,y+2,-70,96,null);
         	}
@@ -246,7 +244,7 @@ public class Player extends Entity {
         
         if (moving == 2 && !jumping && falling || moving == -2 && !jumping && falling) {
         	g.drawImage(legs[6].getBufferedImage(),x+56,y+2,-70,96,null);
-        	 if(!clicked){
+        	 if(!click){
         		 g.drawImage(body[6].getBufferedImage(),x+56,y+2,-70,96,null); 	
         		 g.drawImage(armor[6].getBufferedImage(),x+56,y+2,-70,96,null);
         	 }
@@ -254,8 +252,16 @@ public class Player extends Entity {
         	g.drawImage(armor_head[6].getBufferedImage(),x+56,y+2,-70,96,null);
         }
         
-       if(clicked){
+       if(clicked||click){
+    	   framereset=false;
     	   if (moving == 2 || moving == -2 ) {
+    		   Graphics2D g2d;
+    		   g2d = (Graphics2D)g.create();
+    	       g2d.rotate(Math.toRadians(rotateAnglesLeft[frame2]), x+32, y+54);
+    	       if (MiningHandler.equippedTool != null) {
+    	       g2d.drawImage(MiningHandler.equippedTool.getImage().getBufferedImage(),x+44,y+8,32,32,null );
+    	       }
+    	       g2d.dispose();
     		   g.drawImage(body[2+frame2].getBufferedImage(),x+56,y+2,-70,96,null);
     		   g.drawImage(armor[2+frame2].getBufferedImage(),x+56,y+2,-70,96,null);
     	   }
@@ -263,6 +269,8 @@ public class Player extends Entity {
     		   g.drawImage(body[2+frame2].getBufferedImage(),x-10,y+2,70,96,null);
     		   g.drawImage(armor[2+frame2].getBufferedImage(),x-10,y+2,70,96,null);
     	   }
+       }else{
+    	   framereset=true;
        }
     }
 
