@@ -15,7 +15,8 @@ public abstract class Packet {
 		MYSQL_REGISTER	(04),
 		SPAWN			(05),
 		MESSAGE			(06), 
-		ADDTILE			(07);
+		ADDTILE			(07),
+		REMOVETILE		(10);
 
 		private int packetId;
 

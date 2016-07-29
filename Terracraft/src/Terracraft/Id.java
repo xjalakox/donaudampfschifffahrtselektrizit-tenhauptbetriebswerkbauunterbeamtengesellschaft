@@ -54,7 +54,7 @@ public enum Id {
 		case Player:
 			return null;
 		case Grass:
-			return "grass";
+			return "Grass";
 		case Pickaxe:
 			return "Pickaxe";
 		case Hammer:
@@ -65,9 +65,9 @@ public enum Id {
 
 	public static Tile getTile(String tileId, int x, int y) {
 		switch (tileId) {
-		case "player":
+		case "Player":
 			return null;
-		case "grass":
+		case "Grass":
 			return new Grass(x, y, 32, 32, Id.Grass);
 		}
 		return null;
