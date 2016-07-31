@@ -43,20 +43,20 @@ public class MiningHandler {
 			}
 		}
 		
-		if(Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1){
-			if (Game.player.getVelX() > 0 || right) {
-				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), Game.player.getX() + 10,
-						Game.player.getY() + 10, 32, 32, null);
-				left = false;
-				right = true;
-			}
-			if (Game.player.getVelX() < 0 || left) {
-				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), Game.player.getX() + 10,
-						Game.player.getY() + 10, -32, 32, null);
-				right = false;
-				left = true;
-			}
-		}
+//		if(Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1){
+//			if (Game.player.getVelX() > 0 || right) {
+//				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), Game.player.getX() + 10,
+//						Game.player.getY() + 10, 32, 32, null);
+//				left = false;
+//				right = true;
+//			}
+//			if (Game.player.getVelX() < 0 || left) {
+//				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), Game.player.getX() + 10,
+//						Game.player.getY() + 10, -32, 32, null);
+//				right = false;
+//				left = true;
+//			}
+//		}
 
 		if (Mouse.mouseRotation < 0)
 			Mouse.mouseRotation = 9;

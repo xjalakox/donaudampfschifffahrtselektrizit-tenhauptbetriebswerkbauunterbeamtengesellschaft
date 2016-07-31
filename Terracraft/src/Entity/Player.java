@@ -19,6 +19,7 @@ public class Player extends Entity {
 	public Id tool;
 	public int ToolX,ToolY;
 	public int rotateAnglesLeft[]={-45,-90,-150,-170};
+	public int rotateAnglesRight[]={-45,0,60,80};
 	private Sprite2[] armor=new Sprite2[20];
 	private Sprite2[] legs=new Sprite2[21];
 	private Sprite2[] head=new Sprite2[21];
@@ -54,6 +55,8 @@ public class Player extends Entity {
 
 
 	public void render(Graphics g) {
+		g.setColor(Color.red);
+		g.drawRect(x, y, breite, höhe);
 		Zeichnung(g);
 	}
 
@@ -168,7 +171,7 @@ public class Player extends Entity {
 		if (moving == -1 && !jumping && !falling) {
 			g.drawImage(legs[1].getBufferedImage(),x-10,y+2,70,96,null);
 			g.drawImage(head[1].getBufferedImage(),x-10,y+2,70,96,null);
-			if(!click){
+			if(!click&&!clicked){
 				g.drawImage(body[1].getBufferedImage(),x-10,y+2,70,96,null);
 				g.drawImage(armor[1].getBufferedImage(),x-10,y+2,70,96,null);
 			}
@@ -179,7 +182,7 @@ public class Player extends Entity {
 		if (moving == -2 && !jumping && !falling) {
 			g.drawImage(legs[1].getBufferedImage(),x+56,y+2,-70,96,null);
 			g.drawImage(head[1].getBufferedImage(),x+56,y+2,-70,96,null);
-			if(!click){
+			if(!click&&!clicked){
 				g.drawImage(body[1].getBufferedImage(),x+56,y+2,-70,96,null);
 				g.drawImage(armor[1].getBufferedImage(),x+56,y+2,-70,96,null);
 			}
@@ -189,7 +192,7 @@ public class Player extends Entity {
 		
 		if (moving == 2 && !jumping && !falling) {	
         	g.drawImage(legs[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
-        	if(!click){
+        	if(!click&&!clicked){
         		g.drawImage(body[frame+7].getBufferedImage(),x+56,y+2,-70,96,null); 
         		g.drawImage(armor[frame+7].getBufferedImage(),x+56,y+2,-70,96,null);
         	}
@@ -200,7 +203,7 @@ public class Player extends Entity {
         
         if (moving ==1 && !jumping && !falling) {
         	g.drawImage(legs[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
-        	if(!click){
+        	if(!click&&!clicked){
         		g.drawImage(body[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
         		g.drawImage(armor[frame+7].getBufferedImage(),x-10,y+2,70,96,null);
         	}
@@ -211,7 +214,7 @@ public class Player extends Entity {
         
         if (moving == 1 && jumping && !falling || moving == -1 && jumping && !falling) {
         	g.drawImage(legs[6].getBufferedImage(),x-10,y+2,70,96,null);
-        	if(!click){
+        	if(!click&&!clicked){
         		g.drawImage(body[1].getBufferedImage(),x-10,y+2,70,96,null);
         		g.drawImage(armor[1].getBufferedImage(),x-10,y+2,70,96,null);
         	}
@@ -222,7 +225,7 @@ public class Player extends Entity {
         
         if (moving == 1 && !jumping && falling || moving == -1 && !jumping && falling) {
         	g.drawImage(legs[6].getBufferedImage(),x-10,y+2,70,96,null);
-        	if(!click){
+        	if(!click&&!clicked){
         		g.drawImage(body[6].getBufferedImage(),x-10,y+2,70,96,null);
         		g.drawImage(armor[6].getBufferedImage(),x-10,y+2,70,96,null);
         	}
@@ -233,7 +236,7 @@ public class Player extends Entity {
         
         if (moving == 2 && jumping && !falling || moving == -2 && jumping && !falling) {
         	g.drawImage(legs[6].getBufferedImage(),x+56,y+2,-70,96,null);
-        	if(!click){
+        	if(!click&&!clicked){
         		g.drawImage(body[1].getBufferedImage(),x+56,y+2,-70,96,null); 	
         		g.drawImage(armor[1].getBufferedImage(),x+56,y+2,-70,96,null);
         	}
@@ -244,7 +247,7 @@ public class Player extends Entity {
         
         if (moving == 2 && !jumping && falling || moving == -2 && !jumping && falling) {
         	g.drawImage(legs[6].getBufferedImage(),x+56,y+2,-70,96,null);
-        	 if(!click){
+        	 if(!click&&!clicked){
         		 g.drawImage(body[6].getBufferedImage(),x+56,y+2,-70,96,null); 	
         		 g.drawImage(armor[6].getBufferedImage(),x+56,y+2,-70,96,null);
         	 }
@@ -266,6 +269,21 @@ public class Player extends Entity {
     		   g.drawImage(armor[2+frame2].getBufferedImage(),x+56,y+2,-70,96,null);
     	   }
     	   if (moving == 1 || moving == -1 ) {
+    		   Graphics2D g2d;
+    		   g2d = (Graphics2D)g.create();
+    	       g2d.rotate(Math.toRadians(rotateAnglesRight[frame2]), x+32, y+54);
+    	       if (MiningHandler.equippedTool != null) {
+    	    	   if(frame2==0){
+    	    		   	g2d.drawImage(MiningHandler.equippedTool.getImage().getBufferedImage(),x+30,y-5,32,32,null );
+    	    	   }else if(frame2==1){
+    	    		   	g2d.drawImage(MiningHandler.equippedTool.getImage().getBufferedImage(),x+30,y+10,32,32,null );
+    	    	   }else if(frame2==2){
+    	    	   		g2d.drawImage(MiningHandler.equippedTool.getImage().getBufferedImage(),x+40,y+25,32,32,null );
+    	    	   }else if(frame2==3){
+	    	   			g2d.drawImage(MiningHandler.equippedTool.getImage().getBufferedImage(),x+40,y+30,32,32,null );
+    	    	   }
+    	       }
+    	       g2d.dispose();
     		   g.drawImage(body[2+frame2].getBufferedImage(),x-10,y+2,70,96,null);
     		   g.drawImage(armor[2+frame2].getBufferedImage(),x-10,y+2,70,96,null);
     	   }
