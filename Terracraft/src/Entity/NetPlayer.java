@@ -67,13 +67,24 @@ public class NetPlayer extends Entity {
 			moving = 2;
 			lastmoving = 2;
 		}
-
-		if (lastx == x && still_tick >= 5) {
+		if (lasty < y) {
+			still_tick = 0;
+			falling=true;
+			jumping=false;
+		} else if (lasty > y) {
+			still_tick = 0;
+			falling=false;
+			jumping=true;
+		}
+		
+		if (lastx == x && still_tick >= 5||lasty==y&&still_tick>=5) {
 			if (lastmoving == 2) {
 				moving = -2;
 			} else {
 				moving = -1;
 			}
+			jumping=false;
+			falling=false;
 		} else {
 			still_tick++;
 		}
