@@ -12,13 +12,30 @@ import Tile.source.Tile;
 public abstract class Entity {
 
 	public int x, y, breite, höhe, velX, velY;
-	public boolean removed,clicked;
+	public boolean removed,clicked,click;
 	Handler handler;
 	Id id;
 	public int frame,framedelay,frame2,framedelay2;
 	public int moving=-1;
 	public boolean jumping = false,falling = true;
+	public boolean framereset=false;
+
+	public boolean isClick() {
+		return click;
+	}
+
+	public void setClick(boolean click) {
+		this.click = click;
+	}
 	
+	public boolean isFramereset() {
+		return framereset;
+	}
+
+	public void setFramereset(boolean framereset) {
+		this.framereset = framereset;
+	}
+
 	public boolean isClicked() {
 		return clicked;
 	}
