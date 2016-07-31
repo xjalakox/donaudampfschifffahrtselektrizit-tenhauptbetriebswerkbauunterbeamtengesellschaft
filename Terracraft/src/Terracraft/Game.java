@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
@@ -43,6 +44,8 @@ public class Game extends Canvas implements Runnable {
 
 	public static MiningHandler mininghandler = new MiningHandler();
 
+	public static Camera cam;
+
 	public static Spritesheet2 sheet_armor = new Spritesheet2("/Armor.png");
 	public static Spritesheet2 sheet_legs = new Spritesheet2("/Legs.png");
 	public static Spritesheet2 sheet_head = new Spritesheet2("/Head.png");
@@ -62,8 +65,9 @@ public class Game extends Canvas implements Runnable {
 
 		addMouseListener(m);
 		addMouseMotionListener(m);
-		addKeyListener(new Key());
+		addKeyListener(key);
 		addMouseWheelListener(m);
+		cam = new Camera();
 		requestFocus();
 
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
@@ -78,10 +82,14 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
+		Graphics2D g2d = (Graphics2D) g;
 		g.setColor(Color.white);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
+		g2d.translate(cam.getX(), cam.getY());
 		handler.render(g);
+		mininghandler.render(g);
+		g2d.translate(-cam.getX(), -cam.getY());
 
 		if (consoleOpen) {
 			renderConsole(g);
@@ -101,23 +109,29 @@ public class Game extends Canvas implements Runnable {
 			renderLookingBlock(g);
 		}
 
-		mininghandler.render(g);
-
 		g.dispose();
 		bs.show();
 	}
 
 	public void tick() {
+		cam.tick(player);
 		handler.tick();
 		mininghandler.tick();
-		if (networktick == 2) {
+		if (networktick == 6) {
 			networktick = 0;
-			for (Entity.Entity e : Handler.entity) {
-				if (e.getId() == Id.Player) {
-					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
-							MiningHandler.equippedTool).send(client);
-				}
-			}
+			new Packet02Move(player.getUsername(), player.getX(), player.getY(), MiningHandler.equippedTool)
+					.send(client);
+
+			/**
+			 * Ich glaube das ist useless, wenn irgendwas mit dem Movement buggt
+			 * einfach oben die Zeile ausklammern und das wieder aktivieren
+			 */
+			/*
+			 * for (Entity.Entity e : Handler.entity) { if (e.getId() ==
+			 * Id.Player) { new Packet02Move(((Player) e).getUsername(),
+			 * ((Player) e).getX(), ((Player) e).getY(),
+			 * MiningHandler.equippedTool).send(client); } }
+			 */
 		} else {
 			networktick++;
 		}
@@ -204,15 +218,32 @@ public class Game extends Canvas implements Runnable {
 		int y = 0;
 		int x2 = m.getX();
 		int y2 = m.getY();
+		
+		int x3 = player.getX() - 640;
+		if(x3<=0){
+			x3 = 0;
+		}
+		int y3 = player.getY() - 360;
+		if(y3<=0){
+			y3 = 0;
+		}
+		System.out.println(x3);
+		//System.out.println(y3);
+		while (x3 >= 32) {
+			x += 32;
+			x3 -= 32;
+		}
+		while (y3 >= 32) {
+			y += 32;
+			y3 -= 32;
+		}
 		while (x2 >= 32) {
 			x += 32;
 			x2 -= 32;
-
 		}
 		while (y2 >= 32) {
 			y += 32;
 			y2 -= 32;
-
 		}
 		m.lookingAtX = x;
 		m.lookingAtY = y;
@@ -245,7 +276,6 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-
 	public static void executeCommand(String[] args) {
 		if (args[0].equalsIgnoreCase("placeblock")) {
 			System.out.println("placed block at " + player.x + "   " + player.y);
@@ -253,11 +283,10 @@ public class Game extends Canvas implements Runnable {
 		}
 		if (args[0].equalsIgnoreCase("give")) {
 			for (int i = 0; i < args.length; i++) {
-				if(Utils.isNotNull(args)){
+				if (Utils.isNotNull(args)) {
 					System.out.println(args[i]);
 				}
 			}
-
 
 			// 2 Arg Block
 			// 3 Arg Anzahl

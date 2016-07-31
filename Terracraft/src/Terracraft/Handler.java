@@ -94,11 +94,14 @@ public class Handler {
 	public void setPlayerPosition(String username, int x, int y, Id tool) {
 		if (!username.equals(Game.player.getUsername()) && getPlayer(username) != null) {
 			if (getPlayer(username).getId() == Id.Player) {
-				((Player) getPlayer(username)).setPosition(x, y);
-				((Player) getPlayer(username)).setTool(tool, x, y);
-			} else if (getPlayer(username).getId() == Id.NetPlayer) {
+				//((Player) getPlayer(username)).setPosition(x, y);
+				//((Player) getPlayer(username)).setTool(tool, x, y);
+			} else if (getPlayer(username).getId() == Id.NetPlayer) { 
+				
+				((NetPlayer) getPlayer(username)).setDirectionGoing(x);
 				((NetPlayer) getPlayer(username)).setPosition(x, y);
 				((NetPlayer) getPlayer(username)).setTool(tool, x, y);
+				
 			}
 		}
 	}
