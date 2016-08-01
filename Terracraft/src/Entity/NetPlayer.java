@@ -18,20 +18,18 @@ public class NetPlayer extends Entity {
 	private Sprite2[] head = new Sprite2[21];
 	private Sprite2[] body = new Sprite2[21];
 	private Sprite2[] armor_head = new Sprite2[21];
-
 	public int spritex, spritey;
+
 	private int lastx = 0, lasty = 0;;
 	private int ToolX, ToolY;
+
+
 
 	private int lastmoving;
 
 	private Id tool;
 
 	private int still_tick = 0;
-
-	private int xnetwork = 0;
-
-	private boolean goLeft, goRight;
 
 	public NetPlayer(String username, int x, int y, int breite, int höhe, Id id) {
 		super(x, y, breite, höhe, Game.handler, id);
@@ -52,19 +50,13 @@ public class NetPlayer extends Entity {
 		Zeichnung(g);
 
 		if (tool != null) {
-			g.drawImage(this.tool.getImage().getBufferedImage(), ToolX + 10, ToolY + 10, 62, 62, null);
+			 g.drawImage(this.tool.getImage().getBufferedImage(), ToolX
+			 + 10,ToolY + 10, 62, 62, null);
 		}
 
 	}
 
 	public void tick() {
-
-		if (goLeft) {
-			x -= 4;
-		}
-		if (goRight) {
-			x += 4;
-		}
 		if (lastx < x) {
 			still_tick = 0;
 			moving = 1;
@@ -97,6 +89,7 @@ public class NetPlayer extends Entity {
 		}
 
 		lastx = x;
+		lasty=y;
 		framedelay++;
 		if (framedelay >= 4) {
 			frame++;
@@ -223,22 +216,6 @@ public class NetPlayer extends Entity {
 			g.drawImage(head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(armor_head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 		}
-
-	}
-
-	public void setDirectionGoing(int x) {
-		if (x > xnetwork) {
-			goLeft  = false;
-			goRight = true;
-		} else if(x< xnetwork) {
-			goRight = false;
-			goLeft = true;
-		} else {
-			goRight = false;
-			goLeft = false;
-		}
 		
-		xnetwork = x;
-
 	}
 }

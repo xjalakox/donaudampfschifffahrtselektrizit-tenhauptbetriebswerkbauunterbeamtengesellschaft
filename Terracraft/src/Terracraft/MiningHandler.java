@@ -27,19 +27,19 @@ public class MiningHandler {
 
 	public void render(Graphics g) {
 		for (int i = 0; i < 10; i++) {
-				g.drawImage(scrollsprite[i].getBufferedImage(), i * 74 + 20 + Game.player.getX()-650, Game.player.getY()-350, 64, 64, null);
+				g.drawImage(scrollsprite[i].getBufferedImage(), i * 74 + 20, 20, 64, 64, null);
 		}
 		
 		if(Mouse.mouseRotation<10&&Mouse.mouseRotation>-1){
-			g.drawImage(scrollspriteaimed.getBufferedImage(), Mouse.mouseRotation * 74 + Game.player.getX()-650 + 17, Game.player.getY()-353, 70, 70, null);
+			g.drawImage(scrollspriteaimed.getBufferedImage(), Mouse.mouseRotation * 74 + 17, 17, 70, 70, null);
 		}
 			
 		for (int i = 0; i < scrollbarTiles.size(); i++) {
 			if (Mouse.mouseRotation==i) {
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34 + Game.player.getX()-650, Game.player.getY()-338, 36, 36, null);
+				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34, 33, 35, 35, null);
 				equippedTool = scrollbarTiles.get(i);
 			} else {
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34 + Game.player.getX()-650, Game.player.getY()-338, 36, 36, null);
+				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34, 36, 32, 32, null);
 			}
 		}
 		
@@ -80,6 +80,7 @@ public class MiningHandler {
 			if(Mouse.degradedTile.getDamage()<=0){
 				for(Tile ti:Game.handler.tile){
 					if(ti==Mouse.degradedTile){
+						System.out.println("2 mal");
 						new Packet10RemoveTile(ti.getX(), ti.getY()).send(Game.client);
 						ti.setAsRemoved();
 					}

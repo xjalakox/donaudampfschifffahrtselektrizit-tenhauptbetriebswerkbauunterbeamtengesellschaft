@@ -185,6 +185,7 @@ public class Server extends NetServer {
 			break;
 		case REMOVETILE:
 			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
+			System.out.println("zwei mal?!");
 			for (Tile ti : handler.tile) {
 				if (ti.getX() == packet10.getX() && ti.getY() == packet10.getY()) {
 					ti.setAsRemoved();
@@ -195,6 +196,7 @@ public class Server extends NetServer {
 			for (NetUser u : users) {
 				super.send(new Packet10RemoveTile(packet10.getX(), packet10.getY()).getData(), u);
 			}
+			System.out.println("zwei mal?!");
 			tilelabel.setText("Tiles : " + tileanzahl--);
 			break;
 		}
