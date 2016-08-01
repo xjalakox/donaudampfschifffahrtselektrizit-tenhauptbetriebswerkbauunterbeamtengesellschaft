@@ -110,7 +110,7 @@ public class Game extends Canvas implements Runnable {
 	public void tick() {
 		handler.tick();
 		mininghandler.tick();
-		if (networktick == 2) {
+		if (networktick == 6) {
 			networktick = 0;
 			for (Entity.Entity e : Handler.entity) {
 				if (e.getId() == Id.Player) {
