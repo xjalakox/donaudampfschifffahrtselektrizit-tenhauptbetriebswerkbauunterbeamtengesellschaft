@@ -11,6 +11,8 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import Entity.Entity;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
@@ -32,6 +34,8 @@ public class Game extends Canvas implements Runnable {
 	private static Thread thread = new Thread();
 	public static Handler handler;
 	public static Player player;
+	public static Camera cam;
+
 	private int rendertick = 0;
 	public static Client client;
 	private int x, y, networktick;
@@ -55,6 +59,7 @@ public class Game extends Canvas implements Runnable {
 		System.out.println(breite * scale + "  " + höhe * scale);
 		Login.frame.dispose();
 		handler = new Handler();
+		cam = new Camera();
 		key = new Key();
 		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
 		handler.addEntity(player);
@@ -108,11 +113,16 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void tick() {
+		for (Entity e : handler.entity) {
+			if (e.getId() == Id.Player) {
+				cam.tick(e);
+			}
+		}
 		handler.tick();
 		mininghandler.tick();
-		if (networktick == 6) {
+		if (networktick == 2) {
 			networktick = 0;
-			for (Entity.Entity e : Handler.entity) {
+			for (Entity e : Handler.entity) {
 				if (e.getId() == Id.Player) {
 					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
 							MiningHandler.equippedTool).send(client);
@@ -245,7 +255,6 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-
 	public static void executeCommand(String[] args) {
 		if (args[0].equalsIgnoreCase("placeblock")) {
 			System.out.println("placed block at " + player.x + "   " + player.y);
@@ -253,11 +262,10 @@ public class Game extends Canvas implements Runnable {
 		}
 		if (args[0].equalsIgnoreCase("give")) {
 			for (int i = 0; i < args.length; i++) {
-				if(Utils.isNotNull(args)){
+				if (Utils.isNotNull(args)) {
 					System.out.println(args[i]);
 				}
 			}
-
 
 			// 2 Arg Block
 			// 3 Arg Anzahl

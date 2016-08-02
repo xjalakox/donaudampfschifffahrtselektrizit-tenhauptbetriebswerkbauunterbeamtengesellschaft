@@ -38,18 +38,17 @@ public class Handler {
 			if (entity.get(i).isRemoved())
 				entity.remove(i);
 		}
-		
+
 		remove();
 	}
-	
-	public void remove(){
-		for(int i = 0; i < tile.size(); i++){
-			if(tile.get(i).shouldRemove()) {
+
+	public void remove() {
+		for (int i = 0; i < tile.size(); i++) {
+			if (tile.get(i).shouldRemove()) {
 				tile.remove(i);
 			}
 		}
 	}
-	
 
 	public void addEntity(Entity en) {
 		entity.add(en);
@@ -90,16 +89,14 @@ public class Handler {
 		return null;
 	}
 
-
 	public void setPlayerPosition(String username, int x, int y, Id tool) {
 		if (!username.equals(Game.player.getUsername()) && getPlayer(username) != null) {
 			if (getPlayer(username).getId() == Id.Player) {
 				((Player) getPlayer(username)).setPosition(x, y);
-				
 				((Player) getPlayer(username)).setTool(tool, x, y);
 			} else if (getPlayer(username).getId() == Id.NetPlayer) {
-				((NetPlayer) getPlayer(username)).setPosition(x, y);
-				((NetPlayer) getPlayer(username)).setDirectionGoing(x);
+				// ((NetPlayer) getPlayer(username)).setPosition(x, y);
+				((NetPlayer) getPlayer(username)).setDirectionGoing(x, y);
 				((NetPlayer) getPlayer(username)).setTool(tool, x, y);
 			}
 		}

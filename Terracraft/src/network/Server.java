@@ -13,6 +13,7 @@ import Entity.NetPlayer;
 import Entity.Player;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import network.abstracts.NetServer;
 import network.abstracts.NetUser;
@@ -37,7 +38,9 @@ public class Server extends NetServer {
 	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 	public static Handler handler = new Handler();
 	public static int queryanzahl = 0, tileanzahl = 0;
+	public static JFrame frame;
 	public static JLabel playeranzahl, querylabel, tilelabel;
+	public static boolean noframe;
 
 	public Server(int port, int packetSize) {
 		super(port, packetSize);
@@ -47,27 +50,30 @@ public class Server extends NetServer {
 	@Override
 	protected void init(long time) {
 
-		JFrame frame = new JFrame();
-		frame.setTitle("Server");
-		frame.setSize(240, 180);
-		frame.setLocationRelativeTo(null);
-		frame.addWindowListener(new WindowInput(this));
+		if (!noframe) {
 
-		playeranzahl = new JLabel("Spieleranzahl : 0");
-		playeranzahl.setVisible(true);
-		playeranzahl.setSize(100, 50);
+			frame = new JFrame();
+			frame.setTitle("Server");
+			frame.setSize(240, 180);
+			frame.setLocationRelativeTo(null);
+			frame.addWindowListener(new WindowInput(this));
 
-		querylabel = new JLabel("Querys : 0");
-		querylabel.setVisible(true);
-		querylabel.setSize(100, 100);
+			playeranzahl = new JLabel("Spieleranzahl : 0");
+			playeranzahl.setVisible(true);
+			playeranzahl.setSize(100, 50);
 
-		tilelabel = new JLabel("Tiles : 0");
-		tilelabel.setVisible(true);
-		tilelabel.setSize(100, 150);
+			querylabel = new JLabel("Querys : 0");
+			querylabel.setVisible(true);
+			querylabel.setSize(100, 100);
 
-		frame.add(playeranzahl);
-		frame.add(querylabel);
-		frame.add(tilelabel);
+			tilelabel = new JLabel("Tiles : 0");
+			tilelabel.setVisible(true);
+			tilelabel.setSize(100, 150);
+
+			frame.add(playeranzahl);
+			frame.add(querylabel);
+			frame.add(tilelabel);
+		}
 
 		// mysql.deleteTiles();
 
@@ -76,12 +82,14 @@ public class Server extends NetServer {
 		for (Tile ti : LoadingTilesIntoList) {
 			handler.addTile(ti);
 		}
-		tilelabel.setText("Tiles : " + handler.tile.size());
+		if (!noframe)
+			tilelabel.setText("Tiles : " + handler.tile.size());
 
 		System.out.println("[SERVER] Loaded " + handler.tile.size() + " Tiles");
 		System.out.println("[SERVER] READY TO ACCEPT CONNECTIONS");
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
-		frame.setVisible(true);
+		if (!noframe)
+			frame.setVisible(true);
 
 	}
 
@@ -89,6 +97,12 @@ public class Server extends NetServer {
 		System.out.println("[SERVER] STARTING");
 		mysql = new MySQL();
 		id = mysql.getId();
+
+		if (args.length != 0) {
+			if (args[0].equalsIgnoreCase("noframe")) {
+				noframe = true;
+			}
+		}
 		new Server(1337, 64);
 
 	}
@@ -125,7 +139,8 @@ public class Server extends NetServer {
 							players.get(u).getY()).getData(), user);
 				}
 			}
-			playeranzahl.setText("Spieleranzahl : " + users.size());
+			if (!noframe)
+				playeranzahl.setText("Spieleranzahl : " + users.size());
 			break;
 		case DISCONNECT:
 			Packet01Disconnect packet01 = new Packet01Disconnect(data);
@@ -140,7 +155,8 @@ public class Server extends NetServer {
 				}
 			}
 			packet01.send(this);
-			playeranzahl.setText("Spieleranzahl : " + users.size());
+			if (!noframe)
+				playeranzahl.setText("Spieleranzahl : " + users.size());
 			break;
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);
@@ -181,7 +197,8 @@ public class Server extends NetServer {
 				super.send(new Packet07AddTile(packet07.getX(), packet07.getY(), tile.getId().toString()).getData(), u);
 			}
 
-			tilelabel.setText("Tiles : " + tileanzahl++);
+			if (!noframe)
+				tilelabel.setText("Tiles : " + tileanzahl++);
 			break;
 		case REMOVETILE:
 			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
@@ -197,7 +214,8 @@ public class Server extends NetServer {
 				super.send(new Packet10RemoveTile(packet10.getX(), packet10.getY()).getData(), u);
 			}
 			System.out.println("zwei mal?!");
-			tilelabel.setText("Tiles : " + tileanzahl--);
+			if (!noframe)
+				tilelabel.setText("Tiles : " + tileanzahl--);
 			break;
 		}
 	}

@@ -45,6 +45,13 @@ public class MySQL {
 		}
 	}
 
+	private void updateQueryAmount() {
+		if (!network.Server.noframe) {
+			Server.queryanzahl++;
+			Server.querylabel.setText("Querys : " + Server.queryanzahl);
+		}
+	}
+
 	public boolean checkIfUserRegistered(String username, String password) {
 		try {
 			ResultSet myRs = query.executeQuery("select * from terra");
@@ -142,12 +149,6 @@ public class MySQL {
 		return id;
 	}
 
-	private void updateQueryAmount() {
-		Server.queryanzahl++;
-		Server.querylabel.setText("Querys : " + Server.queryanzahl);
-
-	}
-
 	public ArrayList<Tile> LoadMap() {
 		try {
 			ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
@@ -184,13 +185,16 @@ public class MySQL {
 
 	public void addTile(Tile ti) {
 		try {
+
 			int x = ti.getX();
 			int y = ti.getY();
 
-			query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
-					+ ti.getId().toString() + "')");
+				query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
+						+ ti.getId().toString() + "')");
+			
 
 			updateQueryAmount();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -213,8 +217,8 @@ public class MySQL {
 		}
 		return false;
 	}
-	
-	public void deleteTiles(){
+
+	public void deleteTiles() {
 		try {
 			query.executeUpdate("DELETE FROM `blocks`");
 			updateQueryAmount();
@@ -226,8 +230,7 @@ public class MySQL {
 	public void removeTile(int x, int y) {
 		try {
 
-			
-			//DELETE FROM `blocks` WHERE `x` = 640 AND `y` = 512
+			// DELETE FROM `blocks` WHERE `x` = 640 AND `y` = 512
 			query.executeUpdate("DELETE FROM `blocks` WHERE `x` = " + x + " AND `y` = " + y);
 			updateQueryAmount();
 

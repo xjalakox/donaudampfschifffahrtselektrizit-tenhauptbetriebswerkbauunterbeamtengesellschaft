@@ -19,21 +19,10 @@ public class NetPlayer extends Entity {
 	private Sprite2[] body = new Sprite2[21];
 	private Sprite2[] armor_head = new Sprite2[21];
 	public int spritex, spritey;
-
-	private int lastx = 0, lasty = 0;;
 	private int ToolX, ToolY;
-
-	private int lastmoving;
-
 	private Id tool;
-
-	private int still_tick = 0;
-
-	private int xnetwork;
-
-	private boolean goRight;
-
-	private boolean goLeft;
+	private int xnetwork, ynetwork;
+	private boolean goRight, goLeft, goUp,goDown,still;
 
 	public NetPlayer(String username, int x, int y, int breite, int höhe, Id id) {
 		super(x, y, breite, höhe, Game.handler, id);
@@ -56,43 +45,34 @@ public class NetPlayer extends Entity {
 		if (tool != null) {
 			g.drawImage(this.tool.getImage().getBufferedImage(), ToolX + 10, ToolY + 10, 62, 62, null);
 		}
-
 	}
 
 	public void tick() {
-		if (lastx < x) {
-			still_tick = 0;
-			moving = 1;
-			lastmoving = 1;
-		} else if (lastx > x) {
-			still_tick = 0;
+		if (goLeft) {
+			x -= 4;
 			moving = 2;
-			lastmoving = 2;
 		}
-		if (lasty < y) {
-			still_tick = 0;
-			falling = true;
-			jumping = false;
-		} else if (lasty > y) {
-			still_tick = 0;
-			falling = false;
-			jumping = true;
+		if (goRight) {
+			x += 4;
+			moving = 1;
+		}
+		if (goUp) {
+			y -= 4;
+		}
+		if (goDown) {
+			y += 4;
 		}
 
-		if (lastx == x && still_tick >= 5 || lasty == y && still_tick >= 5) {
-			if (lastmoving == 2) {
+		if (still) {
+			if (moving == 2) {
 				moving = -2;
-			} else {
+			} else if (moving == 1) {
 				moving = -1;
 			}
 			jumping = false;
 			falling = false;
-		} else {
-			still_tick++;
 		}
 
-		lastx = x;
-		lasty = y;
 		framedelay++;
 		if (framedelay >= 4) {
 			frame++;
@@ -140,19 +120,37 @@ public class NetPlayer extends Entity {
 
 	}
 
-	public void setDirectionGoing(int x) {
+	public void setDirectionGoing(int x, int y) {
+		this.x = x;
+		this.y = y;
 		if (x > xnetwork) {
 			goLeft = false;
 			goRight = true;
+			still = false;
 		} else if (x < xnetwork) {
 			goRight = false;
 			goLeft = true;
+			still = false;
 		} else {
 			goRight = false;
 			goLeft = false;
+			still = true;
 		}
 
+		if (y < ynetwork) {
+			goDown = false;
+			goUp = true;
+			still = false;
+		} else if(y > ynetwork) {
+			goUp = false;
+			goDown = true;
+			still = false;
+		} else {
+			goDown = false;
+			goUp = false;
+		}
 		xnetwork = x;
+		ynetwork = y;
 	}
 
 	public void setTool(Id tool, int x, int y) {
