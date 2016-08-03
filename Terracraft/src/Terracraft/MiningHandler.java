@@ -13,7 +13,6 @@ public class MiningHandler {
 	private ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet, 3, 1, 1, 1);
-	private boolean left, right = true;
 	private int tick;
 	public static Id equippedTool;
 
@@ -27,19 +26,19 @@ public class MiningHandler {
 
 	public void render(Graphics g) {
 		for (int i = 0; i < 10; i++) {
-				g.drawImage(scrollsprite[i].getBufferedImage(), i * 74 + 20, 20, 64, 64, null);
+				g.drawImage(scrollsprite[i].getBufferedImage(), i * 74 + 20 + Game.player.getX()- 650, 20 + Game.player.getY()-450, 64, 64, null);
 		}
 		
 		if(Mouse.mouseRotation<10&&Mouse.mouseRotation>-1){
-			g.drawImage(scrollspriteaimed.getBufferedImage(), Mouse.mouseRotation * 74 + 17, 17, 70, 70, null);
+			g.drawImage(scrollspriteaimed.getBufferedImage(), Mouse.mouseRotation * 74 + 17+ Game.player.getX() - 650, 17 + Game.player.getY() -450, 70, 70, null);
 		}
 			
 		for (int i = 0; i < scrollbarTiles.size(); i++) {
 			if (Mouse.mouseRotation==i) {
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34, 33, 35, 35, null);
+				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34 + Game.player.getX()- 650, 33 + Game.player.getY() - 450, 35, 35, null);
 				equippedTool = scrollbarTiles.get(i);
 			} else {
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34, 36, 32, 32, null);
+				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34+ Game.player.getX()- 650, 36+ Game.player.getY() - 450, 32, 32, null);
 			}
 		}
 		

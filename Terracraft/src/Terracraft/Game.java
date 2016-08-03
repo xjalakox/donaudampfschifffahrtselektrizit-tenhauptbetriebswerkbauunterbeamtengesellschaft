@@ -85,28 +85,11 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.white);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		g.translate(cam.getX(), cam.getY());
 
 		handler.render(g);
-
-		if (consoleOpen) {
-			renderConsole(g);
-			if (TextToDrawInConsole != null) {
-				String without = Utils.removeFirstChar(TextToDrawInConsole);
-				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
-					renderKeyInput(g, TextToDrawInConsole);
-
-				} else {
-					renderKeyInput(g, "Console : " + TextToDrawInConsole);
-				}
-			}
-			if (rendertick < 30) {
-				g.drawLine(985, 650, 985, 680);
-			}
-		} else {
-			renderLookingBlock(g);
-		}
-
 		mininghandler.render(g);
+		doConsoleStuff(g);
 
 		g.dispose();
 		bs.show();
@@ -209,20 +192,59 @@ public class Game extends Canvas implements Runnable {
 		return höhe * scale;
 	}
 
+	private void doConsoleStuff(Graphics g) {
+		if (consoleOpen) {
+			renderConsole(g);
+			if (TextToDrawInConsole != null) {
+				String without = Utils.removeFirstChar(TextToDrawInConsole);
+				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
+					renderKeyInput(g, TextToDrawInConsole);
+
+				} else {
+					renderKeyInput(g, "Console : " + TextToDrawInConsole);
+				}
+			}
+			if (rendertick < 30) {
+				g.drawLine(985, 650, 985, 680);
+			}
+		} else {
+			renderLookingBlock(g);
+		}
+	}
+
 	private void renderLookingBlock(Graphics g) {
 		int x = 0;
 		int y = 0;
-		int x2 = m.getX();
-		int y2 = m.getY();
-		while (x2 >= 32) {
-			x += 32;
-			x2 -= 32;
-
+		int x2 = m.getX() - cam.getX();
+		int y2 = m.getY() - cam.getY();
+		/**
+		 * Der Code sieht nach Cancer aus
+		 * Und er ist Hodenkrebs im Endstadium...
+		 */
+		if (x2 > 0) {
+			while (x2 >= 32) {
+				x += 32;
+				x2 -= 32;
+			}
+		} else if (x2 < 0) {
+			while (x2 <= 32) {
+				x -= 32;
+				x2 += 32;
+			}
+			x+=32;
 		}
-		while (y2 >= 32) {
-			y += 32;
-			y2 -= 32;
-
+		if (y2 > 0) {
+			while (y2 >= 32) {
+				y += 32;
+				y2 -= 32;
+			}
+			
+		} else if (y2 < 0) {
+			while (y2 <= 32) {
+				y -= 32;
+				y2 += 32;
+			}
+			y+=32;
 		}
 		m.lookingAtX = x;
 		m.lookingAtY = y;
