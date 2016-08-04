@@ -11,18 +11,23 @@ import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import Entity.Entity;
 import Terracraft.Game;
+import Terracraft.Id;
+import Terracraft.MiningHandler;
 import Tile.source.Tile;
 import network.packets.Packet07AddTile;
+import network.packets.Packet11Mine;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-	private int x;
-	private int y;
+	public int x;
+	public int y;
 	public static int mouseRotation = 0;
 	public static boolean pressed;
 	public static Tile degradedTile;
 	public int lookingAtX;
 	public int lookingAtY;
+	public static boolean mousedown;
+	public Id mouseItem;
 
 	public void mouseClicked(MouseEvent m) {
 
@@ -37,30 +42,76 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void mousePressed(MouseEvent m) {
-		if (m.getButton() == m.BUTTON1) {
-			Game.player.setClicked(true);
-			Game.player.setClick(true);
-		}
-		for (Tile ti : Game.handler.tile2) {
+		if(!Game.player.InventoryBounds().intersects(Collision())){
 			if (m.getButton() == m.BUTTON1) {
-				if ( Collision().intersects(ti.getBounds())){
-					degradedTile = ti;
-					pressed = true;
+				Game.player.setClicked(true);
+				Game.player.setClick(true);
+				new Packet11Mine(1,1,Game.player.getUsername()).send(Game.client);
+			}
+			if (m.getButton() == m.BUTTON1) {
+				mousedown=true;
+			}
+		
+			if (m.getButton() == m.BUTTON3 &&!Game.consoleOpen&&!lookIfOccupied()) {
+				System.out.println(MiningHandler.equippedTool.toString());
+				if(MiningHandler.equippedTool.equals(Id.Grass)&&MiningHandler.equippedTool.getAmount()>=-10){
+					new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);
+					MiningHandler.equippedTool.setAmount(-1);
 				}
-				 	
-				
-				
-				
-		}
-		}
-		if (m.getButton() == m.BUTTON3 &&!Game.consoleOpen) {
-			new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);
+			}
+		}else{
+			for(int i=0;i<10;i++){
+				for(int j=0;j<3;j++){
+					
+					if(Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX()- 650, 20 + Game.player.getY()-450+74*j+74, 64, 64))){
+						if(mouseItem.equals(Id.Empty)){
+							mouseItem=Game.player.Inventory.get(j*10+i);
+							Game.player.Inventory.set(j*10+i, Id.Empty);
+						}else{
+							Id temporary=Game.player.Inventory.get(j*10+i);
+							Game.player.Inventory.set(j*10+i, mouseItem);
+							mouseItem=temporary;
+								
+							
+						}
+						
+					}
+				}	
+			}
 			
-		}
+			
+			for(int i=0;i<10;i++){
+				
+				
+				if(Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX()- 650, 20 + Game.player.getY()-450, 64, 64))){
+					if(mouseItem.equals(Id.Empty)){
+						mouseItem=MiningHandler.scrollbarTiles.get(i);
+						MiningHandler.scrollbarTiles.set(i,Id.Empty);
+					}else{
+						Id temporary=MiningHandler.scrollbarTiles.get(i);
+						MiningHandler.scrollbarTiles.set(i,mouseItem);
+						mouseItem=temporary;
+							
+						
+					}
+					
+			}
+			
+			
+			
+			
+		}}
 	}
 
 	public void mouseReleased(MouseEvent m) {
+		mousedown = false;
 		pressed = false;
+		
+		if(Game.player.click==false){
+			new Packet11Mine(0, 0,Game.player.getUsername()).send(Game.client);
+		}else{
+			new Packet11Mine(1, 0,Game.player.getUsername()).send(Game.client);
+		}
 		Game.player.setClicked(false);
 	}
 
@@ -76,9 +127,18 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public int getY() {
 		return y;
 	}
+	
+	public boolean lookIfOccupied(){
+		for(Tile ti:Game.handler.tile2){
+			if(ti.getX()==lookingAtX&&ti.getY()==lookingAtY){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Rectangle Collision() {
-		return new Rectangle(x, y, 2, 2);
+		return new Rectangle(lookingAtX, lookingAtY, 2, 2);
 	}
 
 	public void mouseMoved(MouseEvent m) {

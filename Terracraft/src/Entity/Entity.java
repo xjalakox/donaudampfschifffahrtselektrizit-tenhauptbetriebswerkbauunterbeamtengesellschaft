@@ -8,17 +8,18 @@ import Terracraft.Handler;
 import Terracraft.Id;
 import Tile.source.Tile;
 
-
 public abstract class Entity {
 
 	public int x, y, breite, höhe, velX, velY;
-	public boolean removed,clicked,click;
+	public boolean removed, clicked, click;
 	Handler handler;
 	Id id;
-	public int frame,framedelay,frame2,framedelay2;
-	public int moving=-1;
-	public boolean jumping = false,falling = true;
-	public boolean framereset=false;
+	public int rotateAnglesLeft[] = { -45, -90, -150, -170 };
+	public int rotateAnglesRight[] = { -45, 0, 60, 80 };
+	public int frame, framedelay, frame2, framedelay2;
+	public int moving = -1;
+	public boolean jumping = false, falling = true;
+	public boolean framereset = false;
 
 	public boolean isClick() {
 		return click;
@@ -27,7 +28,7 @@ public abstract class Entity {
 	public void setClick(boolean click) {
 		this.click = click;
 	}
-	
+
 	public boolean isFramereset() {
 		return framereset;
 	}
@@ -43,7 +44,9 @@ public abstract class Entity {
 	public void setClicked(boolean clicked) {
 		this.clicked = clicked;
 	}
+
 	public float gravity = 0f;
+
 	public Entity(int x, int y, int breite, int höhe, Handler handler, Id id) {
 		this.x = x;
 		this.y = y;
@@ -51,15 +54,17 @@ public abstract class Entity {
 		this.höhe = höhe;
 		this.handler = handler;
 		this.id = id;
-		
+
+	}
+	
+	public Rectangle getArea() {
+		return new Rectangle(x - 128, y - 128, 96 * 3 + breite, 96 * 3 + höhe);
 	}
 
 	public abstract void render(Graphics g);
-	
 
 	public abstract void tick();
-	
-	
+
 	public boolean isJumping() {
 		return jumping;
 	}
@@ -147,15 +152,16 @@ public abstract class Entity {
 	public void setId(Id id) {
 		this.id = id;
 	}
-	
+
 	public void remove() {
 		removed = true;
 	}
-	
+
 	public boolean isRemoved() {
 		return removed;
 	}
-	public void jumping(float grav){
+
+	public void jumping(float grav) {
 		gravity -= grav;
 		setVelY((int) -gravity);
 		if (gravity <= 0.0f) {
@@ -163,67 +169,66 @@ public abstract class Entity {
 			jumping = false;
 		}
 	}
-	
-	
-	public void falling(){
+
+	public void falling() {
 		if (falling) {
 			gravity += 0.5f;
-				if (y>Game.getFrameHöhe()-200) {
-					
-						gravity = 0f;
-						jumping = false;
-						falling = false;
-					
-				}
+			if (y > Game.getFrameHöhe() - 200) {
 
-				for(Tile ti : handler.tile2){
+				gravity = 0f;
+				jumping = false;
+				falling = false;
+
+			}
+
+			for (Tile ti : handler.tile2) {
 
 				if (getBottom().intersects(ti.getTop())) {
-					
-					
-					
-					
-					gravity=0f;
+
+					gravity = 0f;
 					jumping = false;
 					falling = false;
-					
+
 				}
 			}
-				
+
 		}
-			setVelY((int) gravity);
-		}
-	
-	public Rectangle getBounds() {
-		
-		return new Rectangle(getX(), getY(),breite,höhe);
-			
-	}
-	public Rectangle getBottom() {
-		
-		return new Rectangle(getX()+6, getY()+höhe-16,52,16);
-		
-	}
-	public Rectangle getRight() {
-		
-		return new Rectangle(getX()+breite-5, getY()+5,5, höhe-10);
-		
-	}
-	public Rectangle getLeft() {
-		
-		return new Rectangle(getX(), getY()+5,5, höhe-10);
-		
-	}
-	public Rectangle getTop() {
-		
-		return new Rectangle(getX()+5, getY(),54,16);
-		
+		setVelY((int) gravity);
 	}
 
+	public Rectangle getBounds() {
+
+		return new Rectangle(getX(), getY(), breite, höhe);
+
+	}
+
+	public Rectangle getBottom() {
+
+		return new Rectangle(getX() + 6, getY() + höhe - 16, 52, 16);
+
+	}
+
+	public Rectangle getRight() {
+
+		return new Rectangle(getX() + breite - 5, getY() + 5, 5, höhe - 10);
+
+	}
+
+	public Rectangle getLeft() {
+
+		return new Rectangle(getX(), getY() + 5, 5, höhe - 10);
+
+	}
+
+	public Rectangle getTop() {
+
+		return new Rectangle(getX() + 5, getY(), 54, 16);
+
+	}
 
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 }

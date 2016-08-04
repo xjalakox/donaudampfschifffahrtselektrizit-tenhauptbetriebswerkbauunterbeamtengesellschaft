@@ -16,7 +16,9 @@ public abstract class Packet {
 		SPAWN			(05),
 		MESSAGE			(06), 
 		ADDTILE			(07),
-		REMOVETILE		(10);
+		REMOVETILE		(10),
+		MINE			(11),
+		ADDITEM			(12);
 
 		private int packetId;
 

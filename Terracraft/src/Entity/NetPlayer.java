@@ -1,13 +1,18 @@
 package Entity;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import Input.Key;
 import Terracraft.Game;
 import Terracraft.Id;
+import Terracraft.MiningHandler;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import gfx.Sprite2;
+import network.packets.Packet11Mine;
 
 public class NetPlayer extends Entity {
 
@@ -41,13 +46,13 @@ public class NetPlayer extends Entity {
 		g.setColor(Color.blue);
 		g.drawRect(x, y, breite, höhe);
 		Zeichnung(g);
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		g.drawString(getUsername(), getX(), getY()-10);
 
-		if (tool != null) {
-			g.drawImage(this.tool.getImage().getBufferedImage(), ToolX + 10, ToolY + 10, 62, 62, null);
-		}
 	}
 
 	public void tick() {
+		//System.out.println("Clicked: "+clicked+" Click: "+click);
 		if (goLeft) {
 			x -= 4;
 			moving = 2;
@@ -71,6 +76,27 @@ public class NetPlayer extends Entity {
 			}
 			jumping = false;
 			falling = false;
+		}
+		if (framereset == true) {
+			frame2 = 0;
+			framedelay2 = 0;
+		}
+
+
+		framedelay2++;
+		if (framedelay2 >= 7) {
+			frame2++;
+			if (frame2 >= 4) {
+				frame2 = 0;
+				click = false;
+				
+			}
+			framedelay2 = 0;
+		}
+
+		if (framereset == true) {
+			frame2 = 0;
+			framedelay2 = 0;
 		}
 
 		framedelay++;
@@ -170,68 +196,124 @@ public class NetPlayer extends Entity {
 	public void Zeichnung(Graphics g) {
 
 		if (moving == -1 && !jumping && !falling) {
-			g.drawImage(body[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(legs[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(head[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
-			g.drawImage(armor[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+				g.drawImage(armor[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			}
 			g.drawImage(armor_head[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 		}
 
 		if (moving == -2 && !jumping && !falling) {
-			g.drawImage(body[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(legs[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(head[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
-			g.drawImage(armor[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+				g.drawImage(armor[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			}
 			g.drawImage(armor_head[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 		}
 
 		if (moving == 2 && !jumping && !falling) {
-			g.drawImage(body[frame + 7].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(legs[frame + 7].getBufferedImage(), x + 56, y + 2, -70, 96, null);
-			g.drawImage(armor[frame + 7].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[frame + 7].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+				g.drawImage(armor[frame + 7].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			}
 			g.drawImage(head[frame + 7].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(armor_head[frame + 7].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 		}
 
 		if (moving == 1 && !jumping && !falling) {
-			g.drawImage(body[frame + 7].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(legs[frame + 7].getBufferedImage(), x - 10, y + 2, 70, 96, null);
-			g.drawImage(armor[frame + 7].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[frame + 7].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+				g.drawImage(armor[frame + 7].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			}
 			g.drawImage(head[frame + 7].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(armor_head[frame + 7].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 		}
 
 		if (moving == 1 && jumping && !falling || moving == -1 && jumping && !falling) {
-			g.drawImage(body[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(legs[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
-			g.drawImage(armor[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+				g.drawImage(armor[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			}
 			g.drawImage(head[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(armor_head[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 		}
 
 		if (moving == 1 && !jumping && falling || moving == -1 && !jumping && falling) {
-			g.drawImage(body[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(legs[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
-			g.drawImage(armor[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+				g.drawImage(armor[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			}
 			g.drawImage(head[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 			g.drawImage(armor_head[6].getBufferedImage(), x - 10, y + 2, 70, 96, null);
 		}
 
 		if (moving == 2 && jumping && !falling || moving == -2 && jumping && !falling) {
-			g.drawImage(body[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(legs[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
-			g.drawImage(armor[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+				g.drawImage(armor[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			}
 			g.drawImage(head[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(armor_head[1].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 		}
 
 		if (moving == 2 && !jumping && falling || moving == -2 && !jumping && falling) {
-			g.drawImage(body[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(legs[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
-			g.drawImage(armor[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			if (!click && !clicked) {
+				g.drawImage(body[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+				g.drawImage(armor[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			}
 			g.drawImage(head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 			g.drawImage(armor_head[6].getBufferedImage(), x + 56, y + 2, -70, 96, null);
 		}
 
+		if (clicked || click) {
+			framereset = false;
+			if (moving == 2 || moving == -2) {
+				Graphics2D g2d;
+				g2d = (Graphics2D) g.create();
+				g2d.rotate(Math.toRadians(rotateAnglesLeft[frame2]), x + 32, y + 54);
+				if (tool != null) {
+					g2d.drawImage(tool.getImage().getBufferedImage(), x + 44, y + 8, 32, 32,
+							null);
+				}
+				g2d.dispose();
+				g.drawImage(body[2 + frame2].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+				g.drawImage(armor[2 + frame2].getBufferedImage(), x + 56, y + 2, -70, 96, null);
+			}
+			if (moving == 1 || moving == -1) {
+				Graphics2D g2d;
+				g2d = (Graphics2D) g.create();
+				g2d.rotate(Math.toRadians(rotateAnglesRight[frame2]), x + 32, y + 54);
+				if (tool != null) {
+					if (frame2 == 0) {
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 30, y - 5, 32, 32,
+								null);
+					} else if (frame2 == 1) {
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 30, y + 10, 32, 32,
+								null);
+					} else if (frame2 == 2) {
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 40, y + 25, 32, 32,
+								null);
+					} else if (frame2 == 3) {
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 40, y + 30, 32, 32,
+								null);
+					}
+				}
+				g2d.dispose();
+				g.drawImage(body[2 + frame2].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+				g.drawImage(armor[2 + frame2].getBufferedImage(), x - 10, y + 2, 70, 96, null);
+			}
+		} else {
+			framereset = true;
+		}
 	}
 }

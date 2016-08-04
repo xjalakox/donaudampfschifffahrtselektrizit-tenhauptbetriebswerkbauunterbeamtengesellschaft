@@ -14,7 +14,7 @@ public class Tile {
 	Handler handler;
 	Id id;
 	public int damage;
-	public boolean shouldRemove;
+	public boolean shouldRemove,underground;
 
 	public Tile(int x, int y, int Width, int height,Id id) {
 		this.x = x;
@@ -111,6 +111,10 @@ public class Tile {
 	}
 	public Rectangle getTop(){
 		return new Rectangle(x+2,y,width-4,8);
+	}
+	
+	public Rectangle getTileTop(){
+		return new Rectangle(x,y-height,width,height);
 	}
 	
 	public int getDamage(){

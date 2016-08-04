@@ -11,7 +11,7 @@ import gfx.Sprite;
 public class Grass extends Tile{
 
 	private Sprite sprite = new Sprite(Game.sheet,7,1,1,1);
-	private Sprite sprite_hovered = new Sprite(Game.sheet,1,1,1,1);
+	private Sprite sprite2 = new Sprite(Game.sheet,6,1,1,1);
 	
 	public Grass(int x, int y, int width, int height, Id id) {
 		super(x, y, width, height, id);
@@ -19,24 +19,22 @@ public class Grass extends Tile{
 	}
 
 	public void render(Graphics g) {
-		g.setColor(Color.green);
-		g.fillRect(x, y-8, getDamage(), 3);
-
-
-
-		g.drawRect(x, y, width,height);
-		
-		g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
-
-
-		if(Game.m.Collision().intersects(getBounds())){
-			g.drawImage(sprite_hovered.getBufferedImage(),x,y,16,16,null);
+		for(Tile ti:Game.handler.tile2){
+			if(getTileTop().intersects(ti.getBounds())&&ti.getId().equals(Id.Grass)){
+				underground=true;
+			}
 		}
+		if(underground){
+			g.drawImage(sprite2.getBufferedImage(),x,y,width,height,null);
+		}else{
+			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
+		}
+		underground=false;
+		
 
 	}
 
 	public void tick() {
-		
 	}
 
 }

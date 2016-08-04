@@ -127,7 +127,7 @@ public class MySQL {
 	public void registerAccount(String username, String password) {
 		try {
 			query.executeUpdate(
-					"INSERT INTO terra " + "VALUES (" + getId() + ", '" + username + "', '" + password + "', 0, 0) ");
+					"INSERT INTO terra " + "VALUES (" + getId() + ", '" + username + "', '" + password + "', 0, 0, 0) ");
 			updateQueryAmount();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -136,6 +136,7 @@ public class MySQL {
 
 	public int getId() {
 		int id = 1;
+		
 
 		try {
 			ResultSet myRs = query.executeQuery("select id from terra");
@@ -145,7 +146,7 @@ public class MySQL {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println(id);
 		return id;
 	}
 

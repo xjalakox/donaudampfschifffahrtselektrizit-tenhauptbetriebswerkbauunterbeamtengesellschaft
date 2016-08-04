@@ -5,28 +5,46 @@ import java.awt.Rectangle;
 import Tile.Grass;
 import Tile.source.Tile;
 import gfx.Sprite;
-
 public enum Id {
 
 	//Block
-	Player,NetPlayer, Stone, Dirt, Grass,
+	Player,NetPlayer, Stone, Dirt(new Sprite(Game.sheet,6,1,1,1),"block"), Grass(new Sprite(Game.sheet,13,1,1,1),"block"),Drache,
+	Empty(new Sprite(Game.sheet,14,1,1,1),"empty"),
 	
 	//Tool
-	Pickaxe(new Sprite(Game.sheet,2,1,1,1),"grass",4), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10);
+	Pickaxe(new Sprite(Game.sheet,2,1,1,1),"grass",4,"tool"), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10,"tool");
 	
-	public String tool,block;
-	private int efficiency;
+	public String tool,block,type;
+	private int efficiency,amount;
 	private Sprite image;
 	
 	
+	
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount += amount;
+	}
 	Id(){
 		
 	}
+	Id(Sprite image,String type){
+		this.type=type;
+		this.image=image;
+	}
 	
-	Id(Sprite image, String block, int efficiency){
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	Id(Sprite image, String block, int efficiency,String type){
 		this.image = image;
 		this.block = block;
 		this.efficiency = efficiency;
+		this.type=type;
 	}
 	
 	public String getTool(){
@@ -59,6 +77,10 @@ public enum Id {
 			return "Pickaxe";
 		case Hammer:
 			return "Hammer";
+		case Dirt:
+			return "Dirt";
+		case Empty:
+			return "Empty";
 		}
 		return null;
 	}
@@ -72,5 +94,6 @@ public enum Id {
 		}
 		return null;
 	}
+	
 
 }

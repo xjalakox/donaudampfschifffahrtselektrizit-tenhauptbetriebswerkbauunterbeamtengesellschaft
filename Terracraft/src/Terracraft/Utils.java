@@ -2,8 +2,9 @@ package Terracraft;
 
 import static java.lang.Math.toIntExact;
 
+import java.util.Random;
+
 public final class Utils {
-	
 	public static int toInt(Object toConvert) {
 		if (toConvert instanceof Integer) {
 			int toReturn = (int) toConvert;
@@ -17,7 +18,7 @@ public final class Utils {
 		} else if (toConvert instanceof Double) {
 			Double toReturn = (Double) toConvert;
 			return toReturn.intValue();
-		}else if(toConvert instanceof Float) {
+		} else if (toConvert instanceof Float) {
 			Float toReturn = (Float) toConvert;
 			return Math.round(toReturn);
 		} else {
@@ -39,10 +40,14 @@ public final class Utils {
 		} else if (toConvert instanceof Double) {
 			Double toReturn = (Double) toConvert;
 			return toReturn + "";
-		} else if(toConvert instanceof Float) {
+		} else if (toConvert instanceof Float) {
 			Float toReturn = (Float) toConvert;
 			return toReturn + "";
-		}else {
+		} else if (toConvert instanceof Boolean) {
+			Boolean toReturn = (Boolean) toConvert;
+			return toReturn + "";
+
+		} else {
 			System.out.println("Konnte Datentyp " + toConvert.getClass() + " nicht konvertieren!");
 		}
 		return "";
@@ -78,7 +83,17 @@ public final class Utils {
 			return "";
 		}
 	}
-
 	
+	public static int RandomInt(int max){
+		Random random = new Random(); 
+		int integer = random.nextInt(max);
+		return integer;
+	}
+	
+	public static int RandomInt(int min,int max){
+		Random random = new Random(); 
+		int integer = random.nextInt(max)+min;
+		return integer;
+	}
 
 }

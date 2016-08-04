@@ -15,6 +15,7 @@ import Terracraft.Handler;
 import Terracraft.Id;
 import Terracraft.Utils;
 import Tile.source.Tile;
+import Worldgen.Generator;
 import network.abstracts.NetServer;
 import network.abstracts.NetUser;
 import network.mysql.MySQL;
@@ -29,6 +30,7 @@ import network.packets.Packet05Spawn;
 import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
 import network.packets.Packet10RemoveTile;
+import network.packets.Packet11Mine;
 
 public class Server extends NetServer {
 
@@ -75,7 +77,7 @@ public class Server extends NetServer {
 			frame.add(tilelabel);
 		}
 
-		// mysql.deleteTiles();
+		mysql.deleteTiles();
 
 		players = new HashMap<NetUser, NetPlayer>();
 		LoadingTilesIntoList = mysql.LoadMap();
@@ -90,6 +92,13 @@ public class Server extends NetServer {
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		if (!noframe)
 			frame.setVisible(true);
+		
+		Generator gen = new Generator(10, 20);
+		//gen.generateWorld();
+		
+		for(Tile ti : gen.tile){
+			handler.addTile(ti);
+		}
 
 	}
 
@@ -202,7 +211,6 @@ public class Server extends NetServer {
 			break;
 		case REMOVETILE:
 			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
-			System.out.println("zwei mal?!");
 			for (Tile ti : handler.tile) {
 				if (ti.getX() == packet10.getX() && ti.getY() == packet10.getY()) {
 					ti.setAsRemoved();
@@ -213,9 +221,16 @@ public class Server extends NetServer {
 			for (NetUser u : users) {
 				super.send(new Packet10RemoveTile(packet10.getX(), packet10.getY()).getData(), u);
 			}
-			System.out.println("zwei mal?!");
 			if (!noframe)
 				tilelabel.setText("Tiles : " + tileanzahl--);
+			break;
+		case MINE:
+			Packet11Mine packet11 = new Packet11Mine(data);
+			for (NetUser u : users) {
+				super.send(
+						new Packet11Mine(packet11.getClick(), packet11.getClicked(), packet11.getUsername()).getData(),
+						u);
+			}
 			break;
 		}
 	}

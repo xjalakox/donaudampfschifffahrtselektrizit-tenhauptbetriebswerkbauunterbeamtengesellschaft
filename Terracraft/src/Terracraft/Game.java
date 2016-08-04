@@ -12,10 +12,12 @@ import java.awt.image.BufferStrategy;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import Entity.Dragon;
 import Entity.Entity;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
+import audio.SoundManager;
 import gfx.Sprite;
 import gfx.Spritesheet;
 import gfx.Spritesheet2;
@@ -35,7 +37,6 @@ public class Game extends Canvas implements Runnable {
 	public static Handler handler;
 	public static Player player;
 	public static Camera cam;
-
 	private int rendertick = 0;
 	public static Client client;
 	private int x, y, networktick;
@@ -44,7 +45,8 @@ public class Game extends Canvas implements Runnable {
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
-
+	public Dragon dragon;
+	public static SoundManager sm = new SoundManager();
 	public static MiningHandler mininghandler = new MiningHandler();
 
 	public static Spritesheet2 sheet_armor = new Spritesheet2("/Armor.png");
@@ -56,15 +58,15 @@ public class Game extends Canvas implements Runnable {
 
 	public void init() {
 		mininghandler.init();
-		System.out.println(breite * scale + "  " + höhe * scale);
 		Login.frame.dispose();
 		handler = new Handler();
 		cam = new Camera();
 		key = new Key();
 		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
+		dragon=new Dragon(x+1000,300,64,64,handler,Id.Drache);
 		handler.addEntity(player);
+		handler.addEntity(dragon);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
-
 		addMouseListener(m);
 		addMouseMotionListener(m);
 		addKeyListener(new Key());
@@ -74,6 +76,8 @@ public class Game extends Canvas implements Runnable {
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
+		//sm.playSound(0);
+		m.mouseItem=Id.Empty;
 	}
 
 	public void render() {
@@ -255,10 +259,10 @@ public class Game extends Canvas implements Runnable {
 	private void renderConsole(Graphics g) {
 		Color ConsoleColor = new Color(200, 0, 200, 50);
 		g.setColor(ConsoleColor);
-		g.fillRect(980, 450, 300, 200);
+		g.fillRect(980 + player.getX(), 450 + player.getY(), 300, 200);
 		Color WritingText = new Color(0, 0, 0, 100);
 		g.setColor(WritingText);
-		g.drawRect(980, 650, 300, 30);
+		g.drawRect(980 + player.getX(), 650 + player.getY(), 300, 30);
 	}
 
 	private void renderKeyInput(Graphics g, String keyToDraw) {
@@ -281,6 +285,9 @@ public class Game extends Canvas implements Runnable {
 		if (args[0].equalsIgnoreCase("placeblock")) {
 			System.out.println("placed block at " + player.x + "   " + player.y);
 			new Packet07AddTile(player.x, player.y, "Grass").send(Game.client);
+		}
+		if(args[0].equalsIgnoreCase("fly")){
+			player.fly = true;
 		}
 		if (args[0].equalsIgnoreCase("give")) {
 			for (int i = 0; i < args.length; i++) {

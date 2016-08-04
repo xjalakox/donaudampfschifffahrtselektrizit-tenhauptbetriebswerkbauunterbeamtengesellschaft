@@ -1,8 +1,9 @@
 package Terracraft;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
-
 import Input.Mouse;
 import Tile.source.Tile;
 import gfx.Sprite;
@@ -10,15 +11,23 @@ import network.packets.Packet10RemoveTile;
 
 public class MiningHandler {
 
-	private ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
+	public static ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet, 3, 1, 1, 1);
 	private int tick;
 	public static Id equippedTool;
-
 	public void init() {
 		scrollbarTiles.add(Id.Pickaxe);
 		scrollbarTiles.add(Id.Hammer);
+		scrollbarTiles.add(Id.Grass);
+		scrollbarTiles.add(Id.Empty);
+		scrollbarTiles.add(Id.Empty);
+		scrollbarTiles.add(Id.Empty);
+		scrollbarTiles.add(Id.Empty);
+		scrollbarTiles.add(Id.Empty);
+		scrollbarTiles.add(Id.Empty);
+		scrollbarTiles.add(Id.Empty);
+		
 		for (int i = 0; i < 10; i++) {
 			scrollsprite[i] = new Sprite(Game.sheet, 1, 1, 1, 1);
 		}
@@ -35,32 +44,28 @@ public class MiningHandler {
 			
 		for (int i = 0; i < scrollbarTiles.size(); i++) {
 			if (Mouse.mouseRotation==i) {
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34 + Game.player.getX()- 650, 33 + Game.player.getY() - 450, 35, 35, null);
+				if(scrollbarTiles.get(i).getType().equals("block")){
+					g.setColor(Color.white);
+					g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+					g.drawString(Utils.toString(scrollbarTiles.get(i).getAmount()),(i * 74) + 34 + Game.player.getX()- 650-10, 33 + Game.player.getY() - 400);
+				}
+				if(!scrollbarTiles.get(i).equals(Id.Empty)){
+				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34 + Game.player.getX()- 650, 33 + Game.player.getY() - 450, 35, 35, null);}
 				equippedTool = scrollbarTiles.get(i);
 			} else {
+				if(scrollbarTiles.get(i).getType().equals("block")){
+					g.setColor(Color.white);
+					g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+					g.drawString(Utils.toString(scrollbarTiles.get(i).getAmount()),(i * 74) + 34 + Game.player.getX()- 650-10, 33 + Game.player.getY() - 400);
+				}
+				if(!scrollbarTiles.get(i).equals(Id.Empty)){
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34+ Game.player.getX()- 650, 36+ Game.player.getY() - 450, 32, 32, null);
+				}
 			}
 		}
-		
-//		if(Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1){
-//			if (Game.player.getVelX() > 0 || right) {
-//				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), Game.player.getX() + 10,
-//						Game.player.getY() + 10, 32, 32, null);
-//				left = false;
-//				right = true;
-//			}
-//			if (Game.player.getVelX() < 0 || left) {
-//				g.drawImage(scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), Game.player.getX() + 10,
-//						Game.player.getY() + 10, -32, 32, null);
-//				right = false;
-//				left = true;
-//			}
-//		}
 
-		if (Mouse.mouseRotation < 0)
-			Mouse.mouseRotation = 9;
-		if (Mouse.mouseRotation > 9)
-			Mouse.mouseRotation = 0;
+		if (Mouse.mouseRotation < 0)Mouse.mouseRotation = 9;
+		if (Mouse.mouseRotation > 9)Mouse.mouseRotation = 0;
 
 	}
 
@@ -68,25 +73,37 @@ public class MiningHandler {
 		
 		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==10&&Mouse.degradedTile.getBounds().intersects(Game.player.getArea())){
 			tick=0;
+			if(!scrollbarTiles.get(Mouse.mouseRotation).getType().equals("block")){
 				if(scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(Mouse.degradedTile.getId().toString())){
-					Mouse.degradedTile.addDamage(10);
-				}else{
-					Mouse.degradedTile.addDamage(1);
-
+					Mouse.degradedTile.addDamage(50);
+				}
+			}
+		}
+		
+		if(Mouse.mousedown){
+			for (Tile ti : Game.handler.tile2) {
+				if (Game.m.Collision().intersects(ti.getBounds())){
+					Mouse.degradedTile = ti;
+					Mouse.pressed = true;
 				}
 		}
+		}
+		
 		if(Mouse.degradedTile!=null){
 			if(Mouse.degradedTile.getDamage()<=0){
 				for(Tile ti:Game.handler.tile){
 					if(ti==Mouse.degradedTile){
-						System.out.println("2 mal");
 						new Packet10RemoveTile(ti.getX(), ti.getY()).send(Game.client);
+						for (int i = 0; i < scrollbarTiles.size(); i++) {
+							if(scrollbarTiles.get(i).equals(ti.getId())){
+								scrollbarTiles.get(i).setAmount(1);
+							}
+						}
 						ti.setAsRemoved();
 					}
 				}
 			}
 		}
-		
 		if(tick<10){
 			tick++;
 		}

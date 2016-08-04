@@ -20,18 +20,20 @@ public class Handler {
 		for (Tile ti : tile2) {
 			ti.render(g);
 		}
-
-		for (Entity en : entity) {
+		entity2 = (LinkedList<Entity>) entity.clone();
+		for (Entity en : entity2) {
 			en.render(g);
 		}
+
 	}
 
 	public void tick() {
+		tile2 = (LinkedList<Tile>) tile.clone();
 		for (Tile ti : tile2) {
 			ti.tick();
 		}
 		entity2 = (LinkedList<Entity>) entity.clone();
-		for (Entity en : entity) {
+		for (Entity en : entity2) {
 			en.tick();
 		}
 		for (int i = 0; i < entity.size(); i++) {
@@ -46,6 +48,14 @@ public class Handler {
 		for (int i = 0; i < tile.size(); i++) {
 			if (tile.get(i).shouldRemove()) {
 				tile.remove(i);
+			}
+		}
+	}
+	
+	public void setToBeRemoved(Tile tile) {
+		for(Tile ti: this.tile){
+			if(ti.getX()==tile.getX()&&ti.getY()==tile.getY()){
+				ti.setAsRemoved();
 			}
 		}
 	}

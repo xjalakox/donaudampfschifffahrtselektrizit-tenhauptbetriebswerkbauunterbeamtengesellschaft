@@ -5,8 +5,11 @@ import java.net.InetAddress;
 import javax.swing.JFrame;
 
 import network.mysql.*;
+import Entity.Entity;
 import Entity.NetPlayer;
 import Entity.Player;
+
+
 import Terracraft.Game;
 import Terracraft.Id;
 import Tile.source.Tile;
@@ -20,6 +23,7 @@ import network.packets.Packet05Spawn;
 import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
 import network.packets.Packet10RemoveTile;
+import network.packets.Packet11Mine;
 
 public class Client extends NetClient {
 
@@ -56,7 +60,8 @@ public class Client extends NetClient {
 			break;
 		case MOVE:
 			Packet02Move packet02 = new Packet02Move(data);
-			Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY(),packet02.getTool());
+			Game.handler.setPlayerPosition(packet02.getUsername(), packet02.getX(), packet02.getY(),
+					packet02.getTool());
 			break;
 		case SPAWN:
 			Packet05Spawn packet05 = new Packet05Spawn(data);
@@ -95,11 +100,31 @@ public class Client extends NetClient {
 			break;
 		case REMOVETILE:
 			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
-			
-			for(Tile tile : terracraft.handler.tile){
-				if(tile.getX()==packet10.getX()&&tile.getY()==packet10.getY()){
-					tile.setAsRemoved();
+
+			for (Tile tile : terracraft.handler.tile2) {
+				if (tile.getX() == packet10.getX() && tile.getY() == packet10.getY()) {
+					terracraft.handler.setToBeRemoved(tile);
 					break;
+				}
+			}
+			break;
+		case MINE:
+			Packet11Mine packet11 = new Packet11Mine(data);
+			for (Entity en : terracraft.handler.entity) {
+				if (en.getId() == Id.NetPlayer) {
+					if (((NetPlayer) en).getUsername().equalsIgnoreCase(packet11.getUsername())) {
+						if (packet11.getClick() == 0) {
+							en.setClick(false);
+						} else {
+							en.setClick(true);
+						}
+						if (packet11.getClicked() == 0) {
+							en.setClicked(false);
+						} else {
+							en.setClicked(true);
+						}
+					} else {
+					}
 				}
 			}
 			break;

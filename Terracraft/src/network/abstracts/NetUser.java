@@ -7,6 +7,7 @@ public class NetUser {
 	private String username;
 	private InetAddress address;
 	private int port;
+	private long lastPacket;
 
 	public NetUser(String username, InetAddress address, int port) {
 		this.username = username;
@@ -36,5 +37,13 @@ public class NetUser {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+
+	public long getlastPacket() {
+		return lastPacket;
+	}
+
+	public void setLastPacket(long l) {
+		this.lastPacket = l;
 	}
 }
