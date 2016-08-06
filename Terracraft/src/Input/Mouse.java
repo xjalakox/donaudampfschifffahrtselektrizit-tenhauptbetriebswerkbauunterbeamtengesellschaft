@@ -68,9 +68,15 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 							mouseItem=Game.player.Inventory.get(j*10+i);
 							Game.player.Inventory.set(j*10+i, Id.Empty);
 						}else{
+							if(mouseItem.equals(Game.player.Inventory.get(j*10+i))&&mouseItem.getType().equals("block")){
+								Game.player.Inventory.get(j*10+i).setAmount(mouseItem.getAmount());
+								mouseItem=Id.Empty;
+							}else{
+								
 							Id temporary=Game.player.Inventory.get(j*10+i);
 							Game.player.Inventory.set(j*10+i, mouseItem);
 							mouseItem=temporary;
+							}
 								
 							
 						}
@@ -88,10 +94,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 						mouseItem=MiningHandler.scrollbarTiles.get(i);
 						MiningHandler.scrollbarTiles.set(i,Id.Empty);
 					}else{
+						if(mouseItem.equals(MiningHandler.scrollbarTiles.get(i))&&mouseItem.getType().equals("block")){
+							MiningHandler.scrollbarTiles.get(i).setAmount(mouseItem.getAmount());
+							mouseItem=Id.Empty;
+						}else{
 						Id temporary=MiningHandler.scrollbarTiles.get(i);
 						MiningHandler.scrollbarTiles.set(i,mouseItem);
 						mouseItem=temporary;
-							
+						}
 						
 					}
 					

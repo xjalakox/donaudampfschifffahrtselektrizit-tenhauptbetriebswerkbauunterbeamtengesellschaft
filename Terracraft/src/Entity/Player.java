@@ -51,6 +51,7 @@ public class Player extends Entity {
 		}
 		
 		Inventory.set(15, Id.Grass);
+		Inventory.get(15).setAmount(15);
 	}	
 
 	public Player(String username, int x, int y, int breite, int höhe, Id id) {

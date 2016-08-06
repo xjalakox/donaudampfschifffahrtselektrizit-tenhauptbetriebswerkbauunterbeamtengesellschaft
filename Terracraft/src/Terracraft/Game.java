@@ -90,9 +90,8 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
-
-		handler.render(g);
 		mininghandler.render(g);
+		handler.render(g);
 		doConsoleStuff(g);
 
 		g.dispose();

@@ -75,7 +75,7 @@ public class Login implements ActionListener {
 		String testpassword = password.getText();
 		if (!testusername.equalsIgnoreCase("")) {
 			if (!testpassword.equalsIgnoreCase("")) {
-				client.setConnection(username.getText(), "192.168.2.107:1337");
+				client.setConnection(username.getText(), "localhost:1337");
 				new Packet03MySQL_Login(username.getText(), password.getText()).send(client);
 			} else {
 				setStatus("Wie willst du Idiot dich ohne Passwort anmelden?!");
