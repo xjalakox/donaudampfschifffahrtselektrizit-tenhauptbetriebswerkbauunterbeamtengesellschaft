@@ -12,6 +12,7 @@ import network.packets.Packet10RemoveTile;
 public class MiningHandler {
 
 	public static ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
+	public static int [] scrollbar_amount=new int[10];
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet, 3, 1, 1, 1);
 	private int tick;
@@ -27,7 +28,7 @@ public class MiningHandler {
 		scrollbarTiles.add(Id.Empty);
 		scrollbarTiles.add(Id.Empty);
 		scrollbarTiles.add(Id.Empty);
-		
+		scrollbar_amount[2]=10;
 		for (int i = 0; i < 10; i++) {
 			scrollsprite[i] = new Sprite(Game.sheet, 1, 1, 1, 1);
 		}
@@ -37,7 +38,6 @@ public class MiningHandler {
 		for (int i = 0; i < 10; i++) {
 				g.drawImage(scrollsprite[i].getBufferedImage(), i * 74 + 20 + Game.player.getX()- 650, 20 + Game.player.getY()-450, 64, 64, null);
 		}
-		
 		if(Mouse.mouseRotation<10&&Mouse.mouseRotation>-1){
 			g.drawImage(scrollspriteaimed.getBufferedImage(), Mouse.mouseRotation * 74 + 17+ Game.player.getX() - 650, 17 + Game.player.getY() -450, 70, 70, null);
 		}
@@ -47,19 +47,19 @@ public class MiningHandler {
 				if(scrollbarTiles.get(i).getType().equals("block")){
 					g.setColor(Color.white);
 					g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-					g.drawString(Utils.toString(scrollbarTiles.get(i).getAmount()),(i * 74) + 34 + Game.player.getX()- 650-10, 33 + Game.player.getY() - 400);
+					g.drawString(Utils.toString(scrollbar_amount[i]),(i * 74) + 34 + Game.player.getX()- 650-10, 33 + Game.player.getY() - 400);
 				}
 				if(!scrollbarTiles.get(i).equals(Id.Empty)){
 				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34 + Game.player.getX()- 650, 33 + Game.player.getY() - 450, 35, 35, null);}
 				equippedTool = scrollbarTiles.get(i);
 			} else {
+				if(!scrollbarTiles.get(i).equals(Id.Empty)){
+				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34+ Game.player.getX()- 650, 36+ Game.player.getY() - 450, 32, 32, null);
+				}
 				if(scrollbarTiles.get(i).getType().equals("block")){
 					g.setColor(Color.white);
 					g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-					g.drawString(Utils.toString(scrollbarTiles.get(i).getAmount()),(i * 74) + 34 + Game.player.getX()- 650-10, 33 + Game.player.getY() - 400);
-				}
-				if(!scrollbarTiles.get(i).equals(Id.Empty)){
-				g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(), (i * 74) + 34+ Game.player.getX()- 650, 36+ Game.player.getY() - 450, 32, 32, null);
+					g.drawString(Utils.toString(scrollbar_amount[i]),(i * 74)+ Game.player.getX()- 626,Game.player.getY() - 377);
 				}
 			}
 		}
@@ -96,7 +96,7 @@ public class MiningHandler {
 						new Packet10RemoveTile(ti.getX(), ti.getY()).send(Game.client);
 						for (int i = 0; i < scrollbarTiles.size(); i++) {
 							if(scrollbarTiles.get(i).equals(ti.getId())){
-								scrollbarTiles.get(i).setAmount(1);
+								scrollbar_amount[i]+=1;
 							}
 						}
 						ti.setAsRemoved();
