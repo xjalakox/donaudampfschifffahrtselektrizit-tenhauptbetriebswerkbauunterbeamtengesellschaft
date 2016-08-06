@@ -30,7 +30,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public Id mouseItem;
 
 	public void mouseClicked(MouseEvent m) {
-
+		int x = m.getX();
+		int y = m.getY();
+		System.out.println("x: "+x+" y:"+y);
 	}
 
 	public void mouseEntered(MouseEvent m) {

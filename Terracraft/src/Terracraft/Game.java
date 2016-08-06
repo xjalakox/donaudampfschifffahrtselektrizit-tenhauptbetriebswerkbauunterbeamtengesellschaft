@@ -63,7 +63,7 @@ public class Game extends Canvas implements Runnable {
 		cam = new Camera();
 		key = new Key();
 		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
-		dragon=new Dragon(x+1000,300,64,64,handler,Id.Drache);
+		dragon=new Dragon(x-1000,300,64,64,handler,Id.Drache);
 		handler.addEntity(player);
 		handler.addEntity(dragon);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
