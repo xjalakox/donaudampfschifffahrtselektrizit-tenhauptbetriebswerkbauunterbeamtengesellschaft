@@ -71,7 +71,7 @@ public class MiningHandler {
 
 	public void tick(){
 		
-		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==10&&Mouse.degradedTile.getBounds().intersects(Game.player.getArea())){
+		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==30&&Mouse.degradedTile.getBounds().intersects(Game.player.getArea())){
 			tick=0;
 			if(!scrollbarTiles.get(Mouse.mouseRotation).getType().equals("block")){
 				if(scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(Mouse.degradedTile.getId().toString())){
@@ -104,7 +104,7 @@ public class MiningHandler {
 				}
 			}
 		}
-		if(tick<10){
+		if(tick<30){
 			tick++;
 		}
 	}
