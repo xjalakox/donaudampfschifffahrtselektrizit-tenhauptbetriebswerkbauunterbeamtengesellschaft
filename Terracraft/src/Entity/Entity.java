@@ -204,7 +204,7 @@ public abstract class Entity {
 
 	public Rectangle getBottom() {
 
-		return new Rectangle(getX() + 6, getY() + höhe - 16, 52, 16);
+		return new Rectangle(getX() + 6, getY() + höhe - 16, breite-10, 16);
 
 	}
 
@@ -222,7 +222,7 @@ public abstract class Entity {
 
 	public Rectangle getTop() {
 
-		return new Rectangle(getX() + 5, getY(), 54, 16);
+		return new Rectangle(getX() + 5, getY(), breite-10, 16);
 
 	}
 

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
@@ -59,11 +60,13 @@ public class Game extends Canvas implements Runnable {
 	public void init() {
 		mininghandler.init();
 		Login.frame.dispose();
-		handler = new Handler();
+		handler = new Handler("Client");
 		cam = new Camera();
 		key = new Key();
 		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
+
 		dragon=new Dragon(x-1000,300,64,64,handler,Id.Drache);
+
 		handler.addEntity(player);
 		handler.addEntity(dragon);
 		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
@@ -76,8 +79,8 @@ public class Game extends Canvas implements Runnable {
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
-		//sm.playSound(0);
-		m.mouseItem=Id.Empty;
+		// sm.playSound(0);
+		m.mouseItem = Id.Empty;
 	}
 
 	public void render() {
@@ -104,8 +107,8 @@ public class Game extends Canvas implements Runnable {
 				cam.tick(e);
 			}
 		}
-		handler.tick();
 		mininghandler.tick();
+		handler.tick();
 		if (networktick == 2) {
 			networktick = 0;
 			for (Entity e : Handler.entity) {
@@ -221,8 +224,7 @@ public class Game extends Canvas implements Runnable {
 		int x2 = m.getX() - cam.getX();
 		int y2 = m.getY() - cam.getY();
 		/**
-		 * Der Code sieht nach Cancer aus
-		 * Und er ist Hodenkrebs im Endstadium...
+		 * Der Code sieht nach Cancer aus Und er ist Hodenkrebs im Endstadium...
 		 */
 		if (x2 > 0) {
 			while (x2 >= 32) {
@@ -234,25 +236,26 @@ public class Game extends Canvas implements Runnable {
 				x -= 32;
 				x2 += 32;
 			}
-			x+=32;
+			x += 32;
 		}
 		if (y2 > 0) {
 			while (y2 >= 32) {
 				y += 32;
 				y2 -= 32;
 			}
-			
+
 		} else if (y2 < 0) {
 			while (y2 <= 32) {
 				y -= 32;
 				y2 += 32;
 			}
-			y+=32;
+			y += 32;
 		}
 		m.lookingAtX = x;
 		m.lookingAtY = y;
 		g.setColor(Color.RED);
 		g.drawRect(x, y, 32, 32);
+		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameBreite() , 700);
 	}
 
 	private void renderConsole(Graphics g) {
@@ -285,7 +288,7 @@ public class Game extends Canvas implements Runnable {
 			System.out.println("placed block at " + player.x + "   " + player.y);
 			new Packet07AddTile(player.x, player.y, "Grass").send(Game.client);
 		}
-		if(args[0].equalsIgnoreCase("fly")){
+		if (args[0].equalsIgnoreCase("fly")) {
 			player.fly = true;
 		}
 		if (args[0].equalsIgnoreCase("give")) {
@@ -299,6 +302,12 @@ public class Game extends Canvas implements Runnable {
 			// 3 Arg Anzahl
 
 		}
+
+	}
+
+	public static Rectangle getVisisbleArea() {
+
+		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite() , 700);
 
 	}
 }
