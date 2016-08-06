@@ -104,8 +104,8 @@ public class Game extends Canvas implements Runnable {
 				cam.tick(e);
 			}
 		}
-		handler.tick();
 		mininghandler.tick();
+		handler.tick();
 		if (networktick == 2) {
 			networktick = 0;
 			for (Entity e : Handler.entity) {

@@ -28,6 +28,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public int lookingAtY;
 	public static boolean mousedown;
 	public Id mouseItem;
+	public int mouse_amount;
 
 	public void mouseClicked(MouseEvent m) {
 
@@ -54,9 +55,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		
 			if (m.getButton() == m.BUTTON3 &&!Game.consoleOpen&&!lookIfOccupied()) {
 				System.out.println(MiningHandler.equippedTool.toString());
-				if(MiningHandler.equippedTool.equals(Id.Grass)&&MiningHandler.equippedTool.getAmount()>=-10){
+				if(MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)&&MiningHandler.scrollbar_amount[mouseRotation]>=-10){
 					new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);
-					MiningHandler.equippedTool.setAmount(-1);
+					MiningHandler.scrollbar_amount[mouseRotation]-=1;
 				}
 			}
 		}else{
@@ -67,15 +68,19 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 						if(mouseItem.equals(Id.Empty)){
 							mouseItem=Game.player.Inventory.get(j*10+i);
 							Game.player.Inventory.set(j*10+i, Id.Empty);
+							mouse_amount=Game.player.Inventory_amount[j*10+i];
 						}else{
 							if(mouseItem.equals(Game.player.Inventory.get(j*10+i))&&mouseItem.getType().equals("block")){
-								Game.player.Inventory.get(j*10+i).setAmount(mouseItem.getAmount());
+								Game.player.Inventory_amount[j*10+i]+=mouse_amount;
 								mouseItem=Id.Empty;
+								mouse_amount=0;
 							}else{
-								
+							int temporary_amount=Game.player.Inventory_amount[j*10+i];
 							Id temporary=Game.player.Inventory.get(j*10+i);
+							Game.player.Inventory_amount[j*10+i]=mouse_amount;
 							Game.player.Inventory.set(j*10+i, mouseItem);
 							mouseItem=temporary;
+							mouse_amount=temporary_amount;
 							}
 								
 							
@@ -93,14 +98,18 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					if(mouseItem.equals(Id.Empty)){
 						mouseItem=MiningHandler.scrollbarTiles.get(i);
 						MiningHandler.scrollbarTiles.set(i,Id.Empty);
+						mouse_amount=MiningHandler.scrollbar_amount[i];
 					}else{
 						if(mouseItem.equals(MiningHandler.scrollbarTiles.get(i))&&mouseItem.getType().equals("block")){
-							MiningHandler.scrollbarTiles.get(i).setAmount(mouseItem.getAmount());
+							MiningHandler.scrollbar_amount[i]+=mouse_amount;
 							mouseItem=Id.Empty;
 						}else{
+						int temporary_amount=MiningHandler.scrollbar_amount[i];
 						Id temporary=MiningHandler.scrollbarTiles.get(i);
 						MiningHandler.scrollbarTiles.set(i,mouseItem);
+						MiningHandler.scrollbar_amount[i]=mouse_amount;
 						mouseItem=temporary;
+						mouse_amount=temporary_amount;
 						}
 						
 					}

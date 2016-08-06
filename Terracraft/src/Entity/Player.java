@@ -32,6 +32,7 @@ public class Player extends Entity {
 	public int spritex, spritey;
 	public boolean fly;
 	public ArrayList<Id> Inventory = new ArrayList<Id>();
+	public int []Inventory_amount=new int[30];
 	public boolean inventoryOpen;
 	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key) {
 		super(x, y, breite, höhe, Game.handler, id);
@@ -47,11 +48,12 @@ public class Player extends Entity {
 		for(int i=0;i<10;i++){
 			for(int j=0;j<3;j++){
 				Inventory.add(Id.Empty);
+				Inventory_amount[10*j+i]=0;
 			}
 		}
 		
-		Inventory.set(15, Id.Grass);
-		Inventory.get(15).setAmount(15);
+		Inventory.set(15,Id.Grass);
+		Inventory_amount[15]=15;
 	}	
 
 	public Player(String username, int x, int y, int breite, int höhe, Id id) {
@@ -320,23 +322,22 @@ public class Player extends Entity {
 	public void Inventory(Graphics g){
 		for(int i=0;i<10;i++){
 			for(int j=0;j<3;j++){
-				if(!Game.m.mouseItem.equals(Id.Empty)){
-					g.drawImage(Game.m.mouseItem.getImage().getBufferedImage(), Game.m.lookingAtX, Game.m.lookingAtY,32,32, null);
-				}
 					g.drawImage(inventory_background.getBufferedImage(), i * 74 + 20 + getX()- 650, 20 + getY()-450+74*j+74, 64, 64, null);
 					if(!Inventory.get(j*10+i).equals(Id.Empty)){
-						if(Inventory.get(j*10+i).getType().equals("block")){
-							
-							g.setColor(Color.white);
-							g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-							g.drawString(Utils.toString(Inventory.get(j*10+i).getAmount()), i * 74 + 20+16 + getX()- 650-10, 20 + getY()+16-450+74*j+74+35);
-						}
 						g.drawImage(Inventory.get(j*10+i).getImage().getBufferedImage(), i * 74 + 20+16 + getX()- 650, 20 + getY()+16-450+74*j+74, 32, 32, null);
+							if(Inventory.get(j*10+i).getType().equals("block")){
+								g.setColor(Color.white);
+								g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+								g.drawString(Utils.toString(Inventory_amount[j*10+i]), i * 74+ getX()- 626, getY()+74*j-300);
+							}
 					}
 				
 				
 				
 			}
+		}
+		if(!Game.m.mouseItem.equals(Id.Empty)){
+			g.drawImage(Game.m.mouseItem.getImage().getBufferedImage(), Game.m.lookingAtX, Game.m.lookingAtY,32,32, null);
 		}
 	}
 	public boolean isInventoryOpen() {
