@@ -71,6 +71,14 @@ public class Player extends Entity {
 	public void render(Graphics g) {
 		g.setColor(Color.red);
 		g.drawRect(x, y, breite, höhe);
+		g.setColor(Color.blue);
+		g.drawRect(getX() + 6, getY() + höhe - 16,  breite-10, 16);
+		g.setColor(Color.green);
+		g.drawRect(getX() + breite - 5, getY() + 5, 5, höhe - 10);
+		g.setColor(Color.black);
+		g.drawRect(getX(), getY() + 5, 5, höhe - 10);
+		g.setColor(Color.cyan);
+		g.drawRect(getX() + 5, getY(),  breite-10, 16);
 		Zeichnung(g);
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
