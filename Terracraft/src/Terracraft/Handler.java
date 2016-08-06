@@ -9,39 +9,73 @@ import Tile.source.Tile;
 
 public class Handler {
 
+	public String type;
+
+	public Handler(String type) {
+		this.type = type;
+	}
+
 	public static LinkedList<Entity> entity = new LinkedList<Entity>();
 	public static LinkedList<Entity> entity2 = new LinkedList<Entity>();
 	public LinkedList<Tile> tile = new LinkedList<Tile>();
 	public LinkedList<Tile> tile2 = new LinkedList<Tile>();
 
 	public void render(Graphics g) {
-
-		tile2 = (LinkedList<Tile>) tile.clone();
-		for (Tile ti : tile2) {
-			ti.render(g);
+		if (type == "Client") {
+			for (Tile ti : tile2) {
+				if (shouldRender(ti)) {
+					ti.render(g);
+				}
+			}
+			entity2 = (LinkedList<Entity>) entity.clone();
+			for (Entity en : entity2) {
+				if (shouldRender(en)) {
+					en.render(g);
+				}
+			}
 		}
-		entity2 = (LinkedList<Entity>) entity.clone();
-		for (Entity en : entity2) {
-			en.render(g);
-		}
-
 	}
 
 	public void tick() {
 		tile2 = (LinkedList<Tile>) tile.clone();
 		for (Tile ti : tile2) {
-			ti.tick();
+			if (type == "Client") {
+				if (shouldRender(ti)) {
+					ti.tick();
+				}
+			} else {
+				ti.tick();
+			}
 		}
 		entity2 = (LinkedList<Entity>) entity.clone();
 		for (Entity en : entity2) {
-			en.tick();
+			if (type == "Client") {
+				if (shouldRender(en)) {
+					en.tick();
+				}
+			} else {
+				en.tick();
+			}
 		}
 		for (int i = 0; i < entity.size(); i++) {
 			if (entity.get(i).isRemoved())
 				entity.remove(i);
 		}
-
 		remove();
+	}
+
+	private boolean shouldRender(Tile ti) {
+		if (Game.getVisisbleArea() != null && ti.getBounds().intersects(Game.getVisisbleArea())) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean shouldRender(Entity en) {
+		if (Game.getVisisbleArea() != null && en.getBounds().intersects(Game.getVisisbleArea())) {
+			return true;
+		}
+		return false;
 	}
 
 	public void remove() {
@@ -51,10 +85,10 @@ public class Handler {
 			}
 		}
 	}
-	
+
 	public void setToBeRemoved(Tile tile) {
-		for(Tile ti: this.tile){
-			if(ti.getX()==tile.getX()&&ti.getY()==tile.getY()){
+		for (Tile ti : this.tile) {
+			if (ti.getX() == tile.getX() && ti.getY() == tile.getY()) {
 				ti.setAsRemoved();
 			}
 		}

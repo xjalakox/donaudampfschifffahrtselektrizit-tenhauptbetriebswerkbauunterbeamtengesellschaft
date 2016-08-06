@@ -38,7 +38,7 @@ public class Server extends NetServer {
 	public static MySQL mysql;
 	private static int id;
 	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
-	public static Handler handler = new Handler();
+	public static Handler handler = new Handler("Server");
 	public static int queryanzahl = 0, tileanzahl = 0;
 	public static JFrame frame;
 	public static JLabel playeranzahl, querylabel, tilelabel;
@@ -94,7 +94,8 @@ public class Server extends NetServer {
 			frame.setVisible(true);
 		
 		Generator gen = new Generator(10, 20);
-		//gen.generateWorld();
+		
+		gen.generateWorld();
 		
 		for(Tile ti : gen.tile){
 			handler.addTile(ti);
