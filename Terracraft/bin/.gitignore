@@ -1,12 +1,7 @@
-/Entity/
-<<<<<<< HEAD
-/Tile/
-/audio/
-/Background_70.png
-/Thumbs.db
-/stressed.wav
-=======
-/Input/
 /Terracraft/
+/Tile/
+/Worldgen/
+/audio/
+/gfx/
 /network/
->>>>>>> origin/master
+/Entity/
