@@ -19,7 +19,8 @@ public class Dragon extends Entity {
 	private int delay = 0;
 	private boolean fight,retreat;
 	private Entity enemy;
-	private int direction,toReachX,toReachY,xCal,yCal;
+	private int direction,toReachX,toReachY;
+	private double xCal,yCal;
 	private boolean distanceCheck,goBack;
 	
 	public Dragon(int x, int y, int breite, int höhe, Handler handler, Id id) {
@@ -33,6 +34,8 @@ public class Dragon extends Entity {
 		g.setColor(Color.red);
 		g.drawRect(x, y, breite, höhe);
 		g.drawImage(sprite[frame].getBufferedImage(), x, y,breite,höhe, null);
+		
+		g.drawRect(toReachX, toReachY, 10, 10);
 	}
 	
 	public void tick() {
@@ -68,25 +71,19 @@ public class Dragon extends Entity {
 	private void calculateAttack() {
 		
 		if(x==enemy.getX()){
-			goBack=true;
+//			goBack=true;
 		}
-		
 		if(!goBack){
-			xCal = (x-enemy.getX()+(enemy.getBreite()/2))/20;
-			yCal = (y-enemy.getY())/20;
-			setVelX(-xCal);
-			setVelY(-yCal);
+			xCal = (x-(enemy.getX()+30))/30;
+			yCal = (y-enemy.getY())/30;
+			setVelX((int)-xCal);
+			setVelY((int)-yCal);
 		}else{
 			xCal = (x-toReachX)/20;
 			yCal = (y-toReachY)/20;
-			setVelX(-xCal);
-			setVelY(-yCal);
-			if(x>toReachX&&y<toReachY){
-				setVelX(0);
-				setVelY(0);
-			}
+			setVelX((int)-xCal);
+			setVelY((int)-yCal);
 		}
-		System.out.println(velY+" "+velX);
 	}
 	
 	public Rectangle getArea(){
@@ -104,11 +101,11 @@ public class Dragon extends Entity {
 			}
 		}
 		if(!distanceCheck&&enemy!=null){
-			if(enemy.getX()<x){
-				toReachX =enemy.getX()- (x-enemy.getX());
-			}else if(enemy.getX()>x){
-				toReachX =(enemy.getX()-x)+enemy.getX();
-			}
+//			if(enemy.getX()<x){
+//				toReachX =Game.player.getX()-300;
+//			}else if(enemy.getX()>x){
+//				toReachX =Game.player.getX()+300;
+//			}
 			toReachY = y;
 			distanceCheck=true;
 			System.out.println("toReachX: "+toReachX+" toReachY: "+toReachY);
