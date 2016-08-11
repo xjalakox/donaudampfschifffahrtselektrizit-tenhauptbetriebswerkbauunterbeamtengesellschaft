@@ -24,6 +24,7 @@ import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
 import network.packets.Packet10RemoveTile;
 import network.packets.Packet11Mine;
+import network.packets.Packet12InventoryData;
 
 public class Client extends NetClient {
 
@@ -128,6 +129,9 @@ public class Client extends NetClient {
 				}
 			}
 			break;
+		case INVENTORY:
+			Packet12InventoryData packet12 = new Packet12InventoryData(data);
+			
 		}
 
 	}

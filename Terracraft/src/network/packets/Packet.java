@@ -19,7 +19,6 @@ public abstract class Packet {
 		REMOVETILE		(10),
 		MINE			(11),
 		INVENTORY		(12);
-		
 
 		private int packetId;
 

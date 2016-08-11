@@ -1,5 +1,7 @@
 package network.packets;
 
+import Terracraft.Id;
+import Terracraft.Utils;
 import network.Client;
 import network.Server;
 

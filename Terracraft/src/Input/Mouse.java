@@ -56,10 +56,10 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			}
 		
 			if (m.getButton() == m.BUTTON3 &&!Game.consoleOpen&&!lookIfOccupied()) {
-				System.out.println(MiningHandler.equippedTool.toString());
-				if(MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)&&MiningHandler.scrollbar_amount[mouseRotation]>=-10){
+				System.out.println(Game.player.mininghandler.equippedTool.toString());
+				if(Game.player.mininghandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)&&Game.player.mininghandler.scrollbar_amount[mouseRotation]>=-10){
 					new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);
-					MiningHandler.scrollbar_amount[mouseRotation]-=1;
+					Game.player.mininghandler.scrollbar_amount[mouseRotation]-=1;
 				}
 			}
 		}else{
@@ -68,19 +68,19 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					
 					if(Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX()- 650, 20 + Game.player.getY()-450+74*j+74, 64, 64))){
 						if(mouseItem.equals(Id.Empty)){
-							mouseItem=Game.player.Inventory.get(j*10+i);
-							Game.player.Inventory.set(j*10+i, Id.Empty);
-							mouse_amount=Game.player.Inventory_amount[j*10+i];
+							mouseItem=Game.player.mininghandler.scrollbarTiles.get(j*10+i);
+							Game.player.mininghandler.scrollbarTiles.set(j*10+i, Id.Empty);
+							mouse_amount=Game.player.mininghandler.Item_amount[j*10+i];
 						}else{
-							if(mouseItem.equals(Game.player.Inventory.get(j*10+i))&&mouseItem.getType().equals("block")){
-								Game.player.Inventory_amount[j*10+i]+=mouse_amount;
+							if(mouseItem.equals(Game.player.mininghandler.scrollbarTiles.get(j*10+i))&&mouseItem.getType().equals("block")){
+								Game.player.mininghandler.Item_amount[j*10+i]+=mouse_amount;
 								mouseItem=Id.Empty;
 								mouse_amount=0;
 							}else{
-							int temporary_amount=Game.player.Inventory_amount[j*10+i];
-							Id temporary=Game.player.Inventory.get(j*10+i);
-							Game.player.Inventory_amount[j*10+i]=mouse_amount;
-							Game.player.Inventory.set(j*10+i, mouseItem);
+							int temporary_amount=Game.player.mininghandler.Item_amount[j*10+i];
+							Id temporary=Game.player.mininghandler.scrollbarTiles.get(j*10+i);
+							Game.player.mininghandler.Item_amount[j*10+i]=mouse_amount;
+							Game.player.mininghandler.scrollbarTiles.set(j*10+i, mouseItem);
 							mouseItem=temporary;
 							mouse_amount=temporary_amount;
 							}
@@ -98,18 +98,18 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				
 				if(Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX()- 650, 20 + Game.player.getY()-450, 64, 64))){
 					if(mouseItem.equals(Id.Empty)){
-						mouseItem=MiningHandler.scrollbarTiles.get(i);
-						MiningHandler.scrollbarTiles.set(i,Id.Empty);
-						mouse_amount=MiningHandler.scrollbar_amount[i];
+						mouseItem=Game.player.mininghandler.scrollbarTiles.get(i);
+						Game.player.mininghandler.scrollbarTiles.set(i,Id.Empty);
+						mouse_amount=Game.player.mininghandler.scrollbar_amount[i];
 					}else{
-						if(mouseItem.equals(MiningHandler.scrollbarTiles.get(i))&&mouseItem.getType().equals("block")){
-							MiningHandler.scrollbar_amount[i]+=mouse_amount;
+						if(mouseItem.equals(Game.player.mininghandler.scrollbarTiles.get(i))&&mouseItem.getType().equals("block")){
+							Game.player.mininghandler.scrollbar_amount[i]+=mouse_amount;
 							mouseItem=Id.Empty;
 						}else{
-						int temporary_amount=MiningHandler.scrollbar_amount[i];
-						Id temporary=MiningHandler.scrollbarTiles.get(i);
-						MiningHandler.scrollbarTiles.set(i,mouseItem);
-						MiningHandler.scrollbar_amount[i]=mouse_amount;
+						int temporary_amount=Game.player.mininghandler.scrollbar_amount[i];
+						Id temporary=Game.player.mininghandler.scrollbarTiles.get(i);
+						Game.player.mininghandler.scrollbarTiles.set(i,mouseItem);
+						Game.player.mininghandler.scrollbar_amount[i]=mouse_amount;
 						mouseItem=temporary;
 						mouse_amount=temporary_amount;
 						}
