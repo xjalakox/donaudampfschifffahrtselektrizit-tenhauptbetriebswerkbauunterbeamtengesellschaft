@@ -63,9 +63,9 @@ public class Game extends Canvas implements Runnable {
 		handler = new Handler("Client");
 		cam = new Camera();
 		key = new Key();
-		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key, mininghandler);
+		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
 
-		dragon = new Dragon(x - 1000, 300, 64, 64, handler, Id.Dragon);
+		dragon=new Dragon(x-1000,300,64,64,handler,Id.Dragon);
 
 		handler.addEntity(player);
 		handler.addEntity(dragon);
@@ -74,14 +74,13 @@ public class Game extends Canvas implements Runnable {
 		addMouseMotionListener(m);
 		addKeyListener(new Key());
 		addMouseWheelListener(m);
+		requestFocus();
 
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
 		// sm.playSound(0);
 		m.mouseItem = Id.Empty;
-
-		requestFocus(); // Bitte immer ganz unten lassen. Danke
 	}
 
 	public void render() {
@@ -115,7 +114,7 @@ public class Game extends Canvas implements Runnable {
 			for (Entity e : Handler.entity) {
 				if (e.getId() == Id.Player) {
 					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
-							player.mininghandler.equippedTool).send(client);
+							MiningHandler.equippedTool).send(client);
 				}
 			}
 		} else {
@@ -256,7 +255,7 @@ public class Game extends Canvas implements Runnable {
 		m.lookingAtY = y;
 		g.setColor(Color.RED);
 		g.drawRect(x, y, 32, 32);
-		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
+		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameBreite() , 700);
 	}
 
 	private void renderConsole(Graphics g) {
@@ -308,7 +307,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static Rectangle getVisisbleArea() {
 
-		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
+		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite() , 700);
 
 	}
 }

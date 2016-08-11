@@ -40,7 +40,7 @@ public class Key implements KeyListener {
 				s = true;
 				break;
 			case KeyEvent.VK_T:
-				if(!Game.player.mininghandler.isInventoryOpen())Game.consoleOpen = true;
+				if(!Game.player.isInventoryOpen())Game.consoleOpen = true;
 				break;
 			case KeyEvent.VK_1:
 				Mouse.mouseRotation = 0;
@@ -73,12 +73,15 @@ public class Key implements KeyListener {
 				Mouse.mouseRotation = 9;
 				break;
 			case KeyEvent.VK_E:
-				if(!Game.player.mininghandler.isInventoryOpen()){
-					Game.player.mininghandler.setInventoryOpen(true);
+				if(!Game.player.isInventoryOpen()){
+					Game.player.setInventoryOpen(true);
 				}else{
-					Game.player.mininghandler.setInventoryOpen(false);
+					Game.player.setInventoryOpen(false);
 				}
 				break;
+				
+				
+
 			}
 		} else {
 			String text = KeyEvent.getKeyText(k.getKeyCode());
