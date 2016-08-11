@@ -5,12 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
-
-import javax.swing.JOptionPane;
 
 import Terracraft.Id;
-import Tile.TestTile;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import network.Server;
 
@@ -126,8 +123,9 @@ public class MySQL {
 
 	public void registerAccount(String username, String password) {
 		try {
-			query.executeUpdate(
-					"INSERT INTO terra " + "VALUES (" + getId() + ", '" + username + "', '" + password + "', 0, 0, 0) ");
+			query.executeUpdate("INSERT INTO terra " + "VALUES (" + getId() + ", '" + username + "', '" + password
+					+ "', 0, 0, 0) ");
+			createInventory(getId());
 			updateQueryAmount();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -136,7 +134,6 @@ public class MySQL {
 
 	public int getId() {
 		int id = 1;
-		
 
 		try {
 			ResultSet myRs = query.executeQuery("select id from terra");
@@ -190,16 +187,14 @@ public class MySQL {
 			int x = ti.getX();
 			int y = ti.getY();
 
-				query.executeUpdate("INSERT INTO blocks " + "VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
-						+ ti.getId().toString() + "')");
-			
+			query.executeUpdate("INSERT INTO blocks VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
+					+ ti.getId().toString() + "')");
 
 			updateQueryAmount();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public boolean isAdmin(String username) {
@@ -231,13 +226,63 @@ public class MySQL {
 	public void removeTile(int x, int y) {
 		try {
 
-			// DELETE FROM `blocks` WHERE `x` = 640 AND `y` = 512
 			query.executeUpdate("DELETE FROM `blocks` WHERE `x` = " + x + " AND `y` = " + y);
 			updateQueryAmount();
 
-			updateQueryAmount();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public void createInventory(int id) {
+		try {
+
+			id -= 1;
+			query.executeUpdate("INSERT INTO inventorys VALUES (" + 0 + ", " + id + ", " + 0 + ", " + 0 + ", " + 0
+					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
+					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
+					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
+					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
+					+ ", " + 0 + ")");
+			updateQueryAmount();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String[] loadInventory(String username) {
+		try {
+			ResultSet myRs = query
+					.executeQuery("select * from inventorys WHERE user_id = '" + getUserIdByName(username) + "'");
+			updateQueryAmount();
+			int itemid = 1;
+			String items[] = new String[40];
+			while (myRs.next()) {
+				for (int i = 0; i < 40; i++) {
+					items[itemid - 1] = myRs.getString("slot" + Utils.toString(itemid));
+					itemid++;
+				}
+			}
+
+			return items;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public int getUserIdByName(String username) {
+		try {
+			ResultSet myRs = query.executeQuery("select id from terra WHERE username = " + "'" + username + "'");
+			updateQueryAmount();
+			while (myRs.next()) {
+				return myRs.getInt("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

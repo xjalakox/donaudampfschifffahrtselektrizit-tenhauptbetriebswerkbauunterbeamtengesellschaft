@@ -69,7 +69,13 @@ public class Generator {
 				usedBlocks++;
 				tile.add(new Grass(j * 32 + x, y + i * 32, 32, 32, Id.Grass));
 			}
-		}
+		} 
+		for (int i = 0; i < layers.length; i++) {
+			for (int j = 0; j < layers[i]; j++) {
+				usedBlocks++;
+				tile.add(new Grass(j - (j*2) * 32 + x, y + i * 32, 32, 32, Id.Grass));
+			}
+		}  
 		dirttiles -= usedBlocks;
 	}
 

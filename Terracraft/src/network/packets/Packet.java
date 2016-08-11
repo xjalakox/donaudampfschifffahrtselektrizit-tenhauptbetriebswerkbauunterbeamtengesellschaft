@@ -18,7 +18,8 @@ public abstract class Packet {
 		ADDTILE			(07),
 		REMOVETILE		(10),
 		MINE			(11),
-		ADDITEM			(12);
+		INVENTORY		(12);
+		
 
 		private int packetId;
 

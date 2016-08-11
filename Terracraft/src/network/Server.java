@@ -10,10 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import Entity.NetPlayer;
-import Entity.Player;
 import Terracraft.Handler;
 import Terracraft.Id;
-import Terracraft.Utils;
 import Tile.source.Tile;
 import Worldgen.Generator;
 import network.abstracts.NetServer;
@@ -31,12 +29,13 @@ import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
 import network.packets.Packet10RemoveTile;
 import network.packets.Packet11Mine;
+import network.packets.Packet12InventoryData;
 
 public class Server extends NetServer {
 
 	private Map<NetUser, NetPlayer> players;
 	public static MySQL mysql;
-	private static int id;
+	public static int id;
 	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 	public static Handler handler = new Handler("Server");
 	public static int queryanzahl = 0, tileanzahl = 0;
@@ -148,6 +147,11 @@ public class Server extends NetServer {
 					super.send(new Packet00Login(players.get(u).getUsername(), players.get(u).getX(),
 							players.get(u).getY()).getData(), user);
 				}
+			}
+			String UserInventory[] = mysql.loadInventory(packet00.getUsername());
+			for(int i=0;i<UserInventory.length;i++){
+				System.out.println(UserInventory[i]);
+				super.send(new Packet12InventoryData(UserInventory[i]).getData(), user);
 			}
 			if (!noframe)
 				playeranzahl.setText("Spieleranzahl : " + users.size());
