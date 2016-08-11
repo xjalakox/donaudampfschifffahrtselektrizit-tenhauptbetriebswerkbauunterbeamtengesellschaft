@@ -31,6 +31,7 @@ import network.packets.Packet06Message;
 import network.packets.Packet07AddTile;
 import network.packets.Packet10RemoveTile;
 import network.packets.Packet11Mine;
+import network.packets.Packet12InventoryData;
 
 public class Server extends NetServer {
 
@@ -148,6 +149,11 @@ public class Server extends NetServer {
 					super.send(new Packet00Login(players.get(u).getUsername(), players.get(u).getX(),
 							players.get(u).getY()).getData(), user);
 				}
+			}
+			String UserInventory[] = mysql.loadInventory(packet00.getUsername());
+			for(int i=0;i<UserInventory.length;i++){
+				System.out.println(UserInventory[i]);
+				super.send(new Packet12InventoryData(UserInventory[i]).getData(), user);
 			}
 			if (!noframe)
 				playeranzahl.setText("Spieleranzahl : " + users.size());

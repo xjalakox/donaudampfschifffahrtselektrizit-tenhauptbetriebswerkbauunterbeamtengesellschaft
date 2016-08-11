@@ -7,16 +7,21 @@ import java.util.ArrayList;
 import Input.Mouse;
 import Tile.source.Tile;
 import gfx.Sprite;
+import gfx.Sprite2;
 import network.packets.Packet10RemoveTile;
 
 public class MiningHandler {
 
-	public static ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
-	public static int [] scrollbar_amount=new int[10];
+	public int [] scrollbar_amount=new int[10];
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet, 3, 1, 1, 1);
 	private int tick;
-	public static Id equippedTool;
+	public Id equippedTool;
+	public ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
+	public int[] Item_amount = new int[40];
+	public boolean inventoryOpen;
+	
+	
 	public void init() {
 		scrollbarTiles.add(Id.Pickaxe);
 		scrollbarTiles.add(Id.Hammer);
@@ -28,10 +33,20 @@ public class MiningHandler {
 		scrollbarTiles.add(Id.Empty);
 		scrollbarTiles.add(Id.Empty);
 		scrollbarTiles.add(Id.Empty);
-		scrollbar_amount[2]=10;
+		scrollbar_amount[2]=15;
+		scrollbar_amount[1]=5;
 		for (int i = 0; i < 10; i++) {
 			scrollsprite[i] = new Sprite(Game.sheet, 1, 1, 1, 1);
 		}
+		
+		
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 3; j++) {
+				scrollbarTiles.add(Id.Empty);
+				Item_amount[10 * j + i] = 0;
+			}
+		}
+		Item_amount[15] = 15;
 	}
 
 	public void render(Graphics g) {
@@ -42,7 +57,7 @@ public class MiningHandler {
 			g.drawImage(scrollspriteaimed.getBufferedImage(), Mouse.mouseRotation * 74 + 17+ Game.player.getX() - 650, 17 + Game.player.getY() -450, 70, 70, null);
 		}
 			
-		for (int i = 0; i < scrollbarTiles.size(); i++) {
+		for (int i = 0; i < 10; i++) {
 			if (Mouse.mouseRotation==i) {
 				if(scrollbarTiles.get(i).getType().equals("block")){
 					g.setColor(Color.white);
@@ -71,7 +86,7 @@ public class MiningHandler {
 
 	public void tick(){
 		
-		if(Mouse.pressed&&Mouse.mouseRotation<scrollbarTiles.size()&&Mouse.mouseRotation>-1&&tick==30&&Mouse.degradedTile.getBounds().intersects(Game.player.getArea())){
+		if(Mouse.pressed&&Mouse.mouseRotation< 10&&Mouse.mouseRotation>-1&&tick==30&&Mouse.degradedTile.getBounds().intersects(Game.player.getArea())){
 			tick=0;
 			if(!scrollbarTiles.get(Mouse.mouseRotation).getType().equals("block")){
 				if(scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(Mouse.degradedTile.getId().toString())){
@@ -94,7 +109,7 @@ public class MiningHandler {
 				for(Tile ti:Game.handler.tile){
 					if(ti==Mouse.degradedTile){
 						new Packet10RemoveTile(ti.getX(), ti.getY()).send(Game.client);
-						for (int i = 0; i < scrollbarTiles.size(); i++) {
+						for (int i = 0; i <  10; i++) {
 							if(scrollbarTiles.get(i).equals(ti.getId())){
 								scrollbar_amount[i]+=1;
 							}
@@ -108,4 +123,14 @@ public class MiningHandler {
 			tick++;
 		}
 	}
+	
+
+	public boolean isInventoryOpen() {
+		return inventoryOpen;
+	}
+
+	public void setInventoryOpen(boolean inventoryOpen) {
+		this.inventoryOpen = inventoryOpen;
+	}
+
 }

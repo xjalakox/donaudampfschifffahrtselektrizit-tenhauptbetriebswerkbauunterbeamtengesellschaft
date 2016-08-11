@@ -8,7 +8,7 @@ import gfx.Sprite;
 public enum Id {
 
 	//Block
-	Player,NetPlayer, Stone, Dirt(new Sprite(Game.sheet,6,1,1,1),"block"), Grass(new Sprite(Game.sheet,13,1,1,1),"block"),Drache,
+	Player,NetPlayer, Stone, Dirt(new Sprite(Game.sheet,6,1,1,1),"block"), Grass(new Sprite(Game.sheet,13,1,1,1),"block"),Dragon,
 	Empty(new Sprite(Game.sheet,14,1,1,1),"empty"),
 	
 	//Tool

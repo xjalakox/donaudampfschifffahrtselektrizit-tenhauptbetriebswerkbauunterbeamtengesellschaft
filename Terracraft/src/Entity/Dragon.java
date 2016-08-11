@@ -95,7 +95,7 @@ public class Dragon extends Entity {
 	
 	public void lookIfFight(){
 		for(Entity en:Game.handler.entity2){
-			if(getArea().intersects(en.getBounds())&&!en.id.equals(Id.Drache)){
+			if(getArea().intersects(en.getBounds())&&!en.id.equals(Id.Dragon)){
 				fight=true;
 				enemy = en;
 				break;

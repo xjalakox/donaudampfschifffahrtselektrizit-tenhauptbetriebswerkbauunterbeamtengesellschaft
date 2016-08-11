@@ -5,6 +5,7 @@ import static java.lang.Math.toIntExact;
 import java.util.Random;
 
 public final class Utils {
+	
 	public static int toInt(Object toConvert) {
 		if (toConvert instanceof Integer) {
 			int toReturn = (int) toConvert;
