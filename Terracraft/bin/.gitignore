@@ -1,2 +1,8 @@
-/network/
 /Worldgen/
+/audio/
+/gfx/
+/network/
+/Entity/
+/Input/
+/Terracraft/
+/stressed.wav
