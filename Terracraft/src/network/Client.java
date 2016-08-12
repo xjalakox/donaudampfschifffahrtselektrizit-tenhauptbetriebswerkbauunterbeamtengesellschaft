@@ -9,9 +9,10 @@ import Entity.Entity;
 import Entity.NetPlayer;
 import Entity.Player;
 
-
 import Terracraft.Game;
+import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import network.abstracts.NetClient;
 import network.packets.Packet;
@@ -97,21 +98,21 @@ public class Client extends NetClient {
 			Packet07AddTile packet07 = new Packet07AddTile(data);
 
 			Tile ti = Id.getTile(packet07.getType(), packet07.getX(), packet07.getY());
-			terracraft.handler.addTile(ti);
+			Game.handler.addTile(ti);
 			break;
 		case REMOVETILE:
 			Packet10RemoveTile packet10 = new Packet10RemoveTile(data);
 
-			for (Tile tile : terracraft.handler.tile2) {
+			for (Tile tile : Game.handler.tile2) {
 				if (tile.getX() == packet10.getX() && tile.getY() == packet10.getY()) {
-					terracraft.handler.setToBeRemoved(tile);
+					Game.handler.setToBeRemoved(tile);
 					break;
 				}
 			}
 			break;
 		case MINE:
 			Packet11Mine packet11 = new Packet11Mine(data);
-			for (Entity en : terracraft.handler.entity) {
+			for (Entity en : Game.handler.entity) {
 				if (en.getId() == Id.NetPlayer) {
 					if (((NetPlayer) en).getUsername().equalsIgnoreCase(packet11.getUsername())) {
 						if (packet11.getClick() == 0) {
@@ -131,7 +132,14 @@ public class Client extends NetClient {
 			break;
 		case INVENTORY:
 			Packet12InventoryData packet12 = new Packet12InventoryData(data);
-			
+			String[] SplitInventoryData = packet12.getItemId().split(",");
+			if (SplitInventoryData.length == 2) {
+				System.out.println(SplitInventoryData[0]);
+				System.out.println(SplitInventoryData[1]);
+				System.out.println(Id.toId(SplitInventoryData[0]));
+				Game.player.Inventory.set(5, Id.toId(SplitInventoryData[0]));
+				Game.player.Inventory_amount[5] = Utils.toInt(SplitInventoryData[1]);
+			}
 		}
 
 	}

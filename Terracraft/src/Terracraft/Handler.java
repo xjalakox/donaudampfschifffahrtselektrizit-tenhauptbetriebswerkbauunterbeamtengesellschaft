@@ -15,12 +15,14 @@ public class Handler {
 		this.type = type;
 	}
 
-	public static LinkedList<Entity> entity = new LinkedList<Entity>();
-	public static LinkedList<Entity> entity2 = new LinkedList<Entity>();
+	public LinkedList<Entity> entity = new LinkedList<Entity>();
+	public LinkedList<Entity> entity2 = new LinkedList<Entity>();
 	public LinkedList<Tile> tile = new LinkedList<Tile>();
 	public LinkedList<Tile> tile2 = new LinkedList<Tile>();
 
 	public void render(Graphics g) {
+		long startTime = System.currentTimeMillis();
+
 		if (type == "Client") {
 			for (Tile ti : tile2) {
 				if (shouldRender(ti)) {
@@ -34,6 +36,9 @@ public class Handler {
 				}
 			}
 		}
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println("Took "+(endTime - startTime) + " ms"); 
 	}
 
 	public void tick() {

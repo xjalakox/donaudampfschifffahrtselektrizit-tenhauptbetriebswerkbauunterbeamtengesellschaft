@@ -12,6 +12,7 @@ public class Grass extends Tile{
 
 	private Sprite sprite = new Sprite(Game.sheet,7,1,1,1);
 	private Sprite sprite2 = new Sprite(Game.sheet,6,1,1,1);
+	private int tick = 0;
 	
 	public Grass(int x, int y, int width, int height, Id id) {
 		super(x, y, width, height, id);
@@ -19,22 +20,34 @@ public class Grass extends Tile{
 	}
 
 	public void render(Graphics g) {
-		for(Tile ti:Game.handler.tile2){
-			if(getTileTop().intersects(ti.getBounds())&&ti.getId().equals(Id.Grass)){
-				underground=true;
-			}
-		}
+		
 		if(underground){
 			g.drawImage(sprite2.getBufferedImage(),x,y,width,height,null);
 		}else{
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
 		}
-		underground=false;
+
+
 		
 
 	}
 
 	public void tick() {
+		if(tick>=60){
+			tick = 0;
+			checkForBlockonTop();
+		}
+		tick++;
 	}
-
+	
+	public void checkForBlockonTop(){
+		underground=false;
+		for(Tile ti:Game.handler.tile2){
+			if(getTileTop().intersects(ti.getBounds())&&ti.getId().equals(Id.Grass)){
+				underground=true;
+			}
+		}
+	}
+	
+	
 }

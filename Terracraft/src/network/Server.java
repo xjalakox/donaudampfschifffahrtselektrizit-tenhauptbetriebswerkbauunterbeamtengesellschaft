@@ -93,8 +93,7 @@ public class Server extends NetServer {
 			frame.setVisible(true);
 		
 		Generator gen = new Generator(10, 20);
-		
-		gen.generateWorld();
+		//gen.generateWorld();
 		
 		for(Tile ti : gen.tile){
 			handler.addTile(ti);
@@ -150,7 +149,6 @@ public class Server extends NetServer {
 			}
 			String UserInventory[] = mysql.loadInventory(packet00.getUsername());
 			for(int i=0;i<UserInventory.length;i++){
-				System.out.println(UserInventory[i]);
 				super.send(new Packet12InventoryData(UserInventory[i]).getData(), user);
 			}
 			if (!noframe)
@@ -237,6 +235,9 @@ public class Server extends NetServer {
 						u);
 			}
 			break;
+		case INVENTORY:
+			Packet12InventoryData packet12 = new Packet12InventoryData(data);
+			
 		}
 	}
 

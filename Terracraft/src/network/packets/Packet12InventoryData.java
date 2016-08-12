@@ -10,8 +10,7 @@ public class Packet12InventoryData extends Packet {
 
 	public Packet12InventoryData(byte[] data) {
 		super(PacketTypes.INVENTORY.getId());
-		String[] message = readData(data).split(",");
-		itemid = message.toString();
+		itemid = readData(data);
 
 	}
 

@@ -5,68 +5,85 @@ import java.awt.Rectangle;
 import Tile.Grass;
 import Tile.source.Tile;
 import gfx.Sprite;
+
 public enum Id {
 
-	//Block
-	Player,NetPlayer, Stone, Dirt(new Sprite(Game.sheet,6,1,1,1),"block"), Grass(new Sprite(Game.sheet,13,1,1,1),"block"),Dragon,
-	Empty(new Sprite(Game.sheet,14,1,1,1),"empty"),
-	
-	//Tool
-	Pickaxe(new Sprite(Game.sheet,2,1,1,1),"grass",4,"tool"), Hammer(new Sprite(Game.sheet,4,1,1,1),"iron",10,"tool");
-	
-	public String tool,block,type;
-	private int efficiency,amount;
+	// Block
+	Player, NetPlayer, Stone, Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"), Grass(
+			new Sprite(Game.sheet, 13, 1, 1, 1), "block"), Dragon, Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty"),
+
+	// Tool
+			Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"), Hammer(new Sprite(Game.sheet, 4, 1, 1, 1),
+					"iron", 10, "tool");
+
+	public String tool, block, type;
+	private int efficiency, amount;
 	private Sprite image;
-	
-	
-	
+
 	public int getAmount() {
 		return amount;
 	}
+
 	public void setAmount(int amount) {
 		this.amount += amount;
 	}
-	Id(){
-		
+
+	Id() {
+
 	}
-	Id(Sprite image,String type){
-		this.type=type;
-		this.image=image;
+
+	Id(Sprite image, String type) {
+		this.type = type;
+		this.image = image;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
-	Id(Sprite image, String block, int efficiency,String type){
+
+	Id(Sprite image, String block, int efficiency, String type) {
 		this.image = image;
 		this.block = block;
 		this.efficiency = efficiency;
-		this.type=type;
+		this.type = type;
 	}
-	
-	public String getTool(){
+
+	public String getTool() {
 		return tool;
 	}
-	
-	public String getBlock(){
+
+	public String getBlock() {
 		return block;
 	}
-	
-	public int getEfficiency(){
+
+	public int getEfficiency() {
 		return efficiency;
 	}
-	
-	public Sprite getImage(){
+
+	public Sprite getImage() {
 		return image;
 	}
-	
-	public Rectangle getToolBounds(int x,int y){
-		return new Rectangle(x,y,32,32);
+
+	public Rectangle getToolBounds(int x, int y) {
+		return new Rectangle(x, y, 32, 32);
 	}
-	
+
+	public static Id toId(String string) {
+		switch (string) {
+		case "Grass":
+			return Grass;
+		case "Pickaxe":
+			return Pickaxe;
+		case "Hammer":
+			return Hammer;
+		}
+		return null;
+	}
+
 	public String toString() {
 		switch (this) {
 		case Player:
@@ -81,6 +98,8 @@ public enum Id {
 			return "Dirt";
 		case Empty:
 			return "Empty";
+		default:
+			break;
 		}
 		return null;
 	}
@@ -94,6 +113,5 @@ public enum Id {
 		}
 		return null;
 	}
-	
 
 }

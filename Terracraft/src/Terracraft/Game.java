@@ -18,6 +18,7 @@ import Entity.Entity;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
+import Tile.Grass;
 import audio.SoundManager;
 import gfx.Sprite;
 import gfx.Spritesheet;
@@ -65,7 +66,7 @@ public class Game extends Canvas implements Runnable {
 		key = new Key();
 		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
 
-		dragon=new Dragon(x-1000,300,64,64,handler,Id.Dragon);
+		dragon = new Dragon(x - 1000, 300, 64, 64, handler, Id.Dragon);
 
 		handler.addEntity(player);
 		handler.addEntity(dragon);
@@ -81,6 +82,11 @@ public class Game extends Canvas implements Runnable {
 				"custom cursor"));
 		// sm.playSound(0);
 		m.mouseItem = Id.Empty;
+		for (int i = 0; i < 50; i++) {
+			for (int j = 0; j < 50; j++) {
+				handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass));
+			}
+		}
 	}
 
 	public void render() {
@@ -111,7 +117,7 @@ public class Game extends Canvas implements Runnable {
 		handler.tick();
 		if (networktick == 2) {
 			networktick = 0;
-			for (Entity e : Handler.entity) {
+			for (Entity e : handler.entity) {
 				if (e.getId() == Id.Player) {
 					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
 							MiningHandler.equippedTool).send(client);
@@ -255,7 +261,7 @@ public class Game extends Canvas implements Runnable {
 		m.lookingAtY = y;
 		g.setColor(Color.RED);
 		g.drawRect(x, y, 32, 32);
-		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameBreite() , 700);
+		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
 	}
 
 	private void renderConsole(Graphics g) {
@@ -307,7 +313,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static Rectangle getVisisbleArea() {
 
-		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite() , 700);
+		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
 
 	}
 }
