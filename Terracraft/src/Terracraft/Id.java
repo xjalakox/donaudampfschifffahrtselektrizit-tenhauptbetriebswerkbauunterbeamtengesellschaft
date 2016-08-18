@@ -80,6 +80,8 @@ public enum Id {
 			return Pickaxe;
 		case "Hammer":
 			return Hammer;
+		case "Empty":
+			return Empty;
 		}
 		return null;
 	}

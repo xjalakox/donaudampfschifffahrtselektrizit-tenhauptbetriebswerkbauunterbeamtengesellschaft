@@ -30,6 +30,7 @@ import network.packets.Packet12InventoryData;
 public class Client extends NetClient {
 
 	private Game terracraft = null;
+	private int InventoryPlace;
 
 	public Client(Terracraft.Game game, int packetSize) {
 		super(game, packetSize);
@@ -134,12 +135,15 @@ public class Client extends NetClient {
 			Packet12InventoryData packet12 = new Packet12InventoryData(data);
 			String[] SplitInventoryData = packet12.getItemId().split(",");
 			if (SplitInventoryData.length == 2) {
-				System.out.println(SplitInventoryData[0]);
-				System.out.println(SplitInventoryData[1]);
-				System.out.println(Id.toId(SplitInventoryData[0]));
-				Game.player.Inventory.set(5, Id.toId(SplitInventoryData[0]));
-				Game.player.Inventory_amount[5] = Utils.toInt(SplitInventoryData[1]);
+				if (SplitInventoryData[0].equalsIgnoreCase(("null"))) {
+					System.out.println(
+							"Irgendwas ist schief gelaufen beim Inventar in der DB^^ Mir bitte Bescheid geben!(Jannik) PS: Wusstet ihr, dass desto öfter ihr das hier seht, desto einfacher der Fixx in der DB ist(Wenn er nicht automatisch geschehen ist(Ja mir ist langweilig))");
+				} else {
+					Game.player.Inventory.set(InventoryPlace, Id.toId(SplitInventoryData[0]));
+					Game.player.Inventory_amount[InventoryPlace] = Utils.toInt(SplitInventoryData[1]);
+				}
 			}
+			InventoryPlace++;
 		}
 
 	}

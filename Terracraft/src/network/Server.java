@@ -10,8 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import Entity.NetPlayer;
+import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import Worldgen.Generator;
 import network.abstracts.NetServer;
@@ -37,6 +39,7 @@ public class Server extends NetServer {
 	public static MySQL mysql;
 	public static int id;
 	private ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
+	private int InventoryPlace;
 	public static Handler handler = new Handler("Server");
 	public static int queryanzahl = 0, tileanzahl = 0;
 	public static JFrame frame;
@@ -76,7 +79,7 @@ public class Server extends NetServer {
 			frame.add(tilelabel);
 		}
 
-		mysql.deleteTiles();
+		// mysql.deleteTiles();
 
 		players = new HashMap<NetUser, NetPlayer>();
 		LoadingTilesIntoList = mysql.LoadMap();
@@ -91,11 +94,11 @@ public class Server extends NetServer {
 		System.out.println("[SERVER] Time needed to start : " + (System.currentTimeMillis() - time) + " ms");
 		if (!noframe)
 			frame.setVisible(true);
-		
+
 		Generator gen = new Generator(10, 20);
-		//gen.generateWorld();
-		
-		for(Tile ti : gen.tile){
+		// gen.generateWorld();
+
+		for (Tile ti : gen.tile) {
 			handler.addTile(ti);
 		}
 
@@ -148,7 +151,7 @@ public class Server extends NetServer {
 				}
 			}
 			String UserInventory[] = mysql.loadInventory(packet00.getUsername());
-			for(int i=0;i<UserInventory.length;i++){
+			for (int i = 0; i < UserInventory.length; i++) {
 				super.send(new Packet12InventoryData(UserInventory[i]).getData(), user);
 			}
 			if (!noframe)
@@ -237,7 +240,19 @@ public class Server extends NetServer {
 			break;
 		case INVENTORY:
 			Packet12InventoryData packet12 = new Packet12InventoryData(data);
-			
+			String[] SplitInventoryData = packet12.getItemId().split(",");
+			InventoryPlace++;
+			if (SplitInventoryData.length == 2) {
+				for (NetUser u : users) {
+					if (u.getAddress().equals(address) && u.getPort() == port) {
+						mysql.saveInventory(packet12.getItemId(), u.getUsername(), InventoryPlace);
+					}
+				}
+			}
+			if (InventoryPlace >= 40) {
+				InventoryPlace = 0;
+			}
+
 		}
 	}
 

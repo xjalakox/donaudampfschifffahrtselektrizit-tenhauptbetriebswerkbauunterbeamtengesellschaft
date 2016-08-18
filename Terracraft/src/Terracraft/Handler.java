@@ -21,8 +21,6 @@ public class Handler {
 	public LinkedList<Tile> tile2 = new LinkedList<Tile>();
 
 	public void render(Graphics g) {
-		long startTime = System.currentTimeMillis();
-
 		if (type == "Client") {
 			for (Tile ti : tile2) {
 				if (shouldRender(ti)) {
@@ -38,7 +36,6 @@ public class Handler {
 		}
 		
 		long endTime = System.currentTimeMillis();
-		System.out.println("Took "+(endTime - startTime) + " ms"); 
 	}
 
 	public void tick() {

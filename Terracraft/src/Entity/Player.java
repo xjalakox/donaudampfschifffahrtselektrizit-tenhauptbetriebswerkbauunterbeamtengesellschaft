@@ -53,9 +53,7 @@ public class Player extends Entity {
 				Inventory_amount[10 * j + i] = 0;
 			}
 		}
-		Inventory.set(0, Id.Pickaxe);
-		Inventory.set(15, Id.Grass);
-		Inventory_amount[15] = 15;
+		//Inventory.set(3, Id.Pickaxe);
 	}
 
 	public Player(String username, int x, int y, int breite, int höhe, Id id) {

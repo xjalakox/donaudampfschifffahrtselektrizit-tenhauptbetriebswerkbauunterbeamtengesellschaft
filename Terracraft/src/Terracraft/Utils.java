@@ -6,6 +6,9 @@ import java.util.Random;
 
 public final class Utils {
 	
+	private static long millistimer;
+	private static long nanostimer;
+	 
 	public static int toInt(Object toConvert) {
 		if (toConvert instanceof Integer) {
 			int toReturn = (int) toConvert;
@@ -95,6 +98,26 @@ public final class Utils {
 		Random random = new Random(); 
 		int integer = random.nextInt(max)+min;
 		return integer;
+	}
+	
+	public static void startTimerMillis(){
+		millistimer = System.currentTimeMillis();
+	}
+	
+	public static String getTimerMillis(){
+		long actualtime = System.currentTimeMillis();
+		long difference = actualtime - millistimer;
+		return "Gebrauchte Zeit " + difference + " Millisekunden";
+	}
+	
+	public static void startTimerNanos(){
+		nanostimer = System.nanoTime();
+	}
+	
+	public static String getTimerNanos(){
+		long actualtime = System.currentTimeMillis();
+		long difference = actualtime - nanostimer;
+		return "Gebrauchte Zeit " + difference + " Nanosekunden";
 	}
 
 }

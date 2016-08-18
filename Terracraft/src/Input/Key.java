@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import Terracraft.*;
 import network.packets.Packet01Disconnect;
+import network.packets.Packet12InventoryData;
 
 public class Key implements KeyListener {
 
@@ -14,6 +15,11 @@ public class Key implements KeyListener {
 	public void keyPressed(KeyEvent k) {
 		key = k.getKeyCode();
 		if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			for (int i = 0; i < Game.player.Inventory.size(); i++) {
+				new Packet12InventoryData(Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i])
+						.send(Game.client);
+			}
+
 			new Packet01Disconnect(Game.player.getUsername(), Game.player.getX(), Game.player.getY()).send(Game.client);
 			System.exit(0);
 		}
@@ -40,7 +46,8 @@ public class Key implements KeyListener {
 				s = true;
 				break;
 			case KeyEvent.VK_T:
-				if(!Game.player.isInventoryOpen())Game.consoleOpen = true;
+				if (!Game.player.isInventoryOpen())
+					Game.consoleOpen = true;
 				break;
 			case KeyEvent.VK_1:
 				Mouse.mouseRotation = 0;
@@ -73,14 +80,12 @@ public class Key implements KeyListener {
 				Mouse.mouseRotation = 9;
 				break;
 			case KeyEvent.VK_E:
-				if(!Game.player.isInventoryOpen()){
+				if (!Game.player.isInventoryOpen()) {
 					Game.player.setInventoryOpen(true);
-				}else{
+				} else {
 					Game.player.setInventoryOpen(false);
 				}
 				break;
-				
-				
 
 			}
 		} else {
