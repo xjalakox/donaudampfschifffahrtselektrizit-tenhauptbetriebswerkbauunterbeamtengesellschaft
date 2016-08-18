@@ -85,7 +85,6 @@ public class Game extends Canvas implements Runnable {
 		 * for (int i = 0; i < 50; i++) { for (int j = 0; j < 50; j++) {
 		 * handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass)); } }
 		 */
-
 	}
 
 	public void render() {
@@ -116,7 +115,6 @@ public class Game extends Canvas implements Runnable {
 		}
 		mininghandler.tick();
 		handler.tick();
-
 		for (Entity e : handler.entity) {
 			if (e.getId() == Id.Player) {
 				new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),

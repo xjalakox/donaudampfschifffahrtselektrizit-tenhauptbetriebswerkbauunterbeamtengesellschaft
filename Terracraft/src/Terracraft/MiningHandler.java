@@ -10,7 +10,7 @@ import gfx.Sprite;
 import network.packets.Packet10RemoveTile;
 
 public class MiningHandler {
-
+	public boolean itemvorhanden,itemabgelegt;
 	public static ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
 	public static int[] scrollbar_amount = new int[10];
 	private Sprite[] scrollsprite = new Sprite[10];
@@ -89,8 +89,7 @@ public class MiningHandler {
 				&& Mouse.degradedTile.getBounds().intersects(Game.player.getArea())) {
 			tick = 0;
 			if (!scrollbarTiles.get(Mouse.mouseRotation).getType().equals("block")) {
-				if (scrollbarTiles.get(Mouse.mouseRotation).getBlock()
-						.equalsIgnoreCase(Mouse.degradedTile.getId().toString())) {
+				if (scrollbarTiles.get(Mouse.mouseRotation).getBlock().equalsIgnoreCase(Mouse.degradedTile.getId().toString())) {
 					Mouse.degradedTile.addDamage(50);
 				}
 			}
@@ -110,14 +109,39 @@ public class MiningHandler {
 				for (Tile ti : Game.handler.tile) {
 					if (ti == Mouse.degradedTile) {
 						new Packet10RemoveTile(ti.getX(), ti.getY()).send(Game.client);
+						
 						for (int i = 0; i < 40; i++) {
 							if (Game.player.Inventory.get(i).equals(ti.getId())) {
 								Game.player.Inventory_amount[i] += 1;
+								itemvorhanden=true;
 							}
 						}
+
+						if(!itemvorhanden){
+							
+							for (int i = 0; i < 40; i++) {
+								if(!itemabgelegt){
+								if (Game.player.Inventory.get(i).equals(Id.Empty)) {
+									Game.player.Inventory.set(i, ti.getId());
+									Game.player.Inventory_amount[i] = 1;
+									itemabgelegt=true;
+									
+								}
+							}
+							
+						}}
+						
+					
 						ti.setAsRemoved();
+						itemabgelegt=false;
+						itemvorhanden=false;
 					}
 				}
+			}
+		}
+		for(int i=0;i<40;i++){
+			if(Game.player.Inventory.get(i).getType().equals("block")&&Game.player.Inventory_amount[i]==0){
+				Game.player.Inventory.set(i, Id.Empty);
 			}
 		}
 		if (tick < 30) {
