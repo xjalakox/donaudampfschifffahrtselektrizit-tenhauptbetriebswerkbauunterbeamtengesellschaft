@@ -2,8 +2,8 @@ package network.packets;
 
 import Terracraft.Utils;
 import network.Client;
+import network.NetUser;
 import network.Server;
-import network.abstracts.NetUser;
 
 public class Packet00Login extends Packet {
 

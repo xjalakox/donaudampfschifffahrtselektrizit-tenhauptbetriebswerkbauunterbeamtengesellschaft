@@ -275,13 +275,13 @@ public class MySQL {
 
 	public void saveInventory(String inventorydata, String username, int ArraySlot) {
 		try {
-			if(ArraySlot<=1){
+			if (ArraySlot <= 1) {
 				Utils.startTimerMillis();
 			}
 			updateQueryAmount();
 			query.executeUpdate("UPDATE inventorys SET `slot" + ArraySlot + "` = " + "'" + inventorydata + "'"
 					+ " WHERE `user_id` = '" + getUserIdByName(username) + "'");
-			if(ArraySlot>=40){
+			if (ArraySlot >= 40) {
 				System.out.println(Utils.getTimerMillis() + " zum speichern des Inventars von " + username);
 			}
 		} catch (SQLException e) {

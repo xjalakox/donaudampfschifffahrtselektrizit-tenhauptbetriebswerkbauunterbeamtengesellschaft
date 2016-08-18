@@ -17,7 +17,6 @@ import Terracraft.Utils;
 import Tile.source.Tile;
 import Worldgen.Generator;
 import network.abstracts.NetServer;
-import network.abstracts.NetUser;
 import network.mysql.MySQL;
 import network.packets.Packet;
 import network.packets.Packet.PacketTypes;

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import Entity.Player;
+import network.NetUser;
 
 public abstract class NetServer implements Runnable {
 
@@ -66,6 +67,7 @@ public abstract class NetServer implements Runnable {
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			while (delta > 1) {
+				System.out.println("Nein?");
 				tick();
 				ticks++;
 				delta--;

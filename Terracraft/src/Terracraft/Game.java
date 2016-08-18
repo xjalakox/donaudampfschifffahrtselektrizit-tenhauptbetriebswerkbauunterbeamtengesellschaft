@@ -50,7 +50,6 @@ public class Game extends Canvas implements Runnable {
 	public Dragon dragon;
 	public static SoundManager sm = new SoundManager();
 	public static MiningHandler mininghandler = new MiningHandler();
-
 	public static Spritesheet2 sheet_armor = new Spritesheet2("/Armor.png");
 	public static Spritesheet2 sheet_legs = new Spritesheet2("/Legs.png");
 	public static Spritesheet2 sheet_head = new Spritesheet2("/Head.png");
@@ -82,11 +81,11 @@ public class Game extends Canvas implements Runnable {
 				"custom cursor"));
 		// sm.playSound(0);
 		m.mouseItem = Id.Empty;
-		for (int i = 0; i < 50; i++) {
-			for (int j = 0; j < 50; j++) {
-				handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass));
-			}
-		}
+		/*
+		 * for (int i = 0; i < 50; i++) { for (int j = 0; j < 50; j++) {
+		 * handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass)); } }
+		 */
+
 	}
 
 	public void render() {
@@ -95,7 +94,9 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(2);
 			return;
 		}
+
 		Graphics g = bs.getDrawGraphics();
+
 		g.setColor(Color.white);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
@@ -115,16 +116,12 @@ public class Game extends Canvas implements Runnable {
 		}
 		mininghandler.tick();
 		handler.tick();
-		if (networktick == 2) {
-			networktick = 0;
-			for (Entity e : handler.entity) {
-				if (e.getId() == Id.Player) {
-					new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
-							MiningHandler.equippedTool).send(client);
-				}
+
+		for (Entity e : handler.entity) {
+			if (e.getId() == Id.Player) {
+				new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
+						MiningHandler.equippedTool).send(client);
 			}
-		} else {
-			networktick++;
 		}
 	}
 
@@ -204,26 +201,6 @@ public class Game extends Canvas implements Runnable {
 		return höhe * scale;
 	}
 
-	private void doConsoleStuff(Graphics g) {
-		if (consoleOpen) {
-			renderConsole(g);
-			if (TextToDrawInConsole != null) {
-				String without = Utils.removeFirstChar(TextToDrawInConsole);
-				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
-					renderKeyInput(g, TextToDrawInConsole);
-
-				} else {
-					renderKeyInput(g, "Console : " + TextToDrawInConsole);
-				}
-			}
-			if (rendertick < 30) {
-				g.drawLine(985, 650, 985, 680);
-			}
-		} else {
-			renderLookingBlock(g);
-		}
-	}
-
 	private void renderLookingBlock(Graphics g) {
 		int x = 0;
 		int y = 0;
@@ -264,19 +241,39 @@ public class Game extends Canvas implements Runnable {
 		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
 	}
 
+	private void doConsoleStuff(Graphics g) {
+		if (consoleOpen) {
+			renderConsole(g);
+			if (TextToDrawInConsole != null) {
+				String without = Utils.removeFirstChar(TextToDrawInConsole);
+				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
+					renderKeyInput(g, TextToDrawInConsole);
+
+				} else {
+					renderKeyInput(g, "Console : " + TextToDrawInConsole);
+				}
+			}
+			if (rendertick < 30 && TextToDrawInConsole.length() == 0) {
+				g.drawLine(320 + player.getX(), 210 + player.getY(), 320 + player.getX(), 771);
+			}
+		} else {
+			renderLookingBlock(g);
+		}
+	}
+
 	private void renderConsole(Graphics g) {
 		Color ConsoleColor = new Color(200, 0, 200, 50);
 		g.setColor(ConsoleColor);
-		g.fillRect(980 + player.getX(), 450 + player.getY(), 300, 200);
+		g.fillRect(315 + player.getX(), 10 + player.getY(), 300, 200);
 		Color WritingText = new Color(0, 0, 0, 100);
 		g.setColor(WritingText);
-		g.drawRect(980 + player.getX(), 650 + player.getY(), 300, 30);
+		g.drawRect(315 + player.getX(), 210 + player.getY(), 300, 30);
 	}
 
 	private void renderKeyInput(Graphics g, String keyToDraw) {
 		g.setColor(Color.BLUE);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		g.drawString(keyToDraw, 983, 671);
+		g.drawString(keyToDraw, player.getX() + 320, player.getY() + 230);
 
 	}
 
@@ -312,8 +309,6 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static Rectangle getVisisbleArea() {
-
 		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
-
 	}
 }
