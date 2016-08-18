@@ -10,7 +10,7 @@ public enum Id {
 
 	// Block
 	Player, NetPlayer, Stone, Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"), Grass(
-			new Sprite(Game.sheet, 13, 1, 1, 1), "block"), Dragon, Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty"),
+			new Sprite(Game.sheet, 13, 1, 1, 1), "block"), Dragon, Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty",0,"empty"),
 
 	// Tool
 			Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"), Hammer(new Sprite(Game.sheet, 4, 1, 1, 1),

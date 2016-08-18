@@ -82,11 +82,11 @@ public class Game extends Canvas implements Runnable {
 				"custom cursor"));
 		// sm.playSound(0);
 		m.mouseItem = Id.Empty;
-		for (int i = 0; i < 50; i++) {
-			for (int j = 0; j < 50; j++) {
-				handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass));
-			}
-		}
+//		for (int i = 0; i < 50; i++) {
+//			for (int j = 0; j < 50; j++) {
+//				handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass));
+//			}
+//		}
 	}
 
 	public void render() {
@@ -115,7 +115,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		mininghandler.tick();
 		handler.tick();
-		if (networktick == 2) {
+		if (networktick == 0) {
 			networktick = 0;
 			for (Entity e : handler.entity) {
 				if (e.getId() == Id.Player) {
