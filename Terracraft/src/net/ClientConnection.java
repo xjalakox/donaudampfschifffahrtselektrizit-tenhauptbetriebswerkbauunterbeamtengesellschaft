@@ -8,18 +8,12 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import Entity.Entity;
 import Entity.NetPlayer;
 import Terracraft.Game;
 import Terracraft.Id;
 import Tile.source.Tile;
-import net.Network.AddTile;
-import net.Network.LoginRequest;
-import net.Network.LoginResponse;
-import net.Network.NetUserSpawnResponse;
-import net.Network.RemovePlayer;
-import net.Network.RemoveTile;
-import net.Network.SendCoordinates;
-import net.Network.SpawnResponse;
+import net.Network.*;
 import net.registerlogin.Login;
 
 public class ClientConnection {
@@ -77,6 +71,15 @@ public class ClientConnection {
 				if(object instanceof RemoveTile){
 					RemoveTile response = (RemoveTile) object;
 					terracraft.handler.setToBeRemoved(response.x, response.y);
+				}
+				if(object instanceof HittingBlock){
+					HittingBlock response = (HittingBlock) object;
+					for(Entity e : terracraft.handler.entity){
+						if(e.getId() == Id.NetPlayer){
+							e.click = response.click;
+							e.clicked = response.clicked;
+						}
+					}
 				}
 			}
 

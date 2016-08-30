@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.HierarchyEvent;
 import java.util.ArrayList;
 
 import Input.Key;
@@ -17,7 +16,7 @@ import Terracraft.Utils;
 import Tile.source.Tile;
 import gfx.Sprite;
 import gfx.Sprite2;
-import net.Network.HittingBlock;
+import network.packets.Packet11Mine;
 
 public class Player extends Entity {
 	private String username;
@@ -36,9 +35,9 @@ public class Player extends Entity {
 	public int[] Inventory_amount = new int[40];
 	public boolean inventoryOpen;
 
-	public Player(String username, int x, int y, int breite, int höhe, Id id, Key key) {
-
-		super(x, y, breite, höhe, Game.handler, id);
+	public Player(String username, int x, int y, int breite, int hÃ¶he, Id id, Key key) {
+		
+		super(x, y, breite, hÃ¶he, Game.handler, id);
 		this.key = key;
 		this.username = username;
 		for (int i = 1; i < armor.length; i++) {
@@ -54,11 +53,11 @@ public class Player extends Entity {
 				Inventory_amount[10 * j + i] = 0;
 			}
 		}
-		// Inventory.set(3, Id.Pickaxe);
+		//Inventory.set(3, Id.Pickaxe);
 	}
 
-	public Player(String username, int x, int y, int breite, int höhe, Id id) {
-		super(x, y, breite, höhe, Game.handler, id);
+	public Player(String username, int x, int y, int breite, int hÃ¶he, Id id) {
+		super(x, y, breite, hÃ¶he, Game.handler, id);
 		this.username = username;
 		for (int i = 1; i < armor.length; i++) {
 			armor[i] = new Sprite2(Game.sheet_armor, 1, i, 1, 1);
@@ -71,13 +70,13 @@ public class Player extends Entity {
 
 	public void render(Graphics g) {
 		g.setColor(Color.red);
-		g.drawRect(x, y, breite, höhe);
+		g.drawRect(x, y, breite, hÃ¶he);
 		g.setColor(Color.blue);
-		g.drawRect(getX() + 6, getY() + höhe - 16, breite - 10, 16);
+		g.drawRect(getX() + 6, getY() + hÃ¶he - 16, breite - 10, 16);
 		g.setColor(Color.green);
-		g.drawRect(getX() + breite - 5, getY() + 5, 5, höhe - 10);
+		g.drawRect(getX() + breite - 5, getY() + 5, 5, hÃ¶he - 10);
 		g.setColor(Color.black);
-		g.drawRect(getX(), getY() + 5, 5, höhe - 10);
+		g.drawRect(getX(), getY() + 5, 5, hÃ¶he - 10);
 		g.setColor(Color.cyan);
 		g.drawRect(getX() + 5, getY(), breite - 10, 16);
 		Zeichnung(g);
@@ -164,15 +163,10 @@ public class Player extends Entity {
 			if (frame2 >= 4) {
 				frame2 = 0;
 				click = false;
-				HittingBlock request = new HittingBlock();
-				request.click = false;
-				request.username = getUsername();
 				if (clicked == false) {
-					request.clicked = false;
-					Game.client.sendUDP(request);
+					new Packet11Mine(0, 0, getUsername()).send(Game.client);
 				} else {
-					request.clicked = true;
-					Game.client.sendUDP(request);
+					new Packet11Mine(0, 1, getUsername()).send(Game.client);
 				}
 			}
 			framedelay2 = 0;

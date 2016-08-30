@@ -36,8 +36,8 @@ public class ServerConnection {
 		Network.register(server);
 		handler = new Handler("Server");
 		mysql = new MySQL();
-		//tick = new ServerTick(handler);
-		//tick.start();
+		// tick = new ServerTick(handler);
+		// tick.start();
 		players = new HashMap<NetUser, NetPlayer>();
 		users = new ArrayList<NetUser>();
 		connections = new ArrayList<Connection>();
@@ -124,10 +124,10 @@ public class ServerConnection {
 						}
 					}
 				}
-				if(object instanceof AddTile){
+				if (object instanceof AddTile) {
 					AddTile response = (AddTile) object;
-					for(NetUser u : users){
-						if(u.isConnected()){
+					for (NetUser u : users) {
+						if (u.isConnected()) {
 							u.getConnection().sendTCP(response);
 						}
 					}
@@ -143,11 +143,19 @@ public class ServerConnection {
 						}
 					}
 				}
-				if(object instanceof RemoveTile){
+				if (object instanceof RemoveTile) {
 					RemoveTile response = (RemoveTile) object;
-					
-					for(NetUser u : users){
-						if(u.isConnected()){
+
+					for (NetUser u : users) {
+						if (u.isConnected()) {
+							u.getConnection().sendTCP(response);
+						}
+					}
+				}
+				if (object instanceof HittingBlock) {
+					HittingBlock response = (HittingBlock) object;
+					for (NetUser u : users) {
+						if (u.isConnected() && !response.username.equalsIgnoreCase(u.getUsername())) {
 							u.getConnection().sendTCP(response);
 						}
 					}
@@ -173,7 +181,7 @@ public class ServerConnection {
 				}
 			}
 		});
-		
+
 		System.out.println(Utils.getTimerMillis() + " um den Server zu starten");
 	}
 }
