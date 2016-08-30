@@ -1,5 +1,6 @@
-package network.mysql;
+package net;
 
+import Terracraft.Register;
 import Terracraft.Utils;
 
 public class SQL_TESTER {

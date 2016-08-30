@@ -1,9 +1,10 @@
-package network.mysql;
+package Terracraft;
 
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,11 +13,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Terracraft.Game;
-import network.Client;
-import network.packets.Packet00Login;
-import network.packets.Packet03MySQL_Login;
-import network.packets.Packet04MySQL_Register;
+import net.ClientConnection;
+import net.Network;
+import net.Network.LoginRequest;
+import net.Network.LoginResponse;
+import net.Network.LoginRequest;
+import net.Network.LoginResponse;
+
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
 
 public class Login implements ActionListener {
 
@@ -26,11 +32,11 @@ public class Login implements ActionListener {
 	private JButton login;
 	private static JLabel statuslabel;
 	private boolean started_client = false;
-	public static Client client;
+	public static Client client = new Client();
+	private ClientConnection clientConnection = new ClientConnection(client);
 
 	public Login() {
-		Game game = new Game();
-		client = new Client(game, 128);
+		// Game game = new Game();
 
 		frame = new JFrame();
 		frame.setTitle("Login");
@@ -62,27 +68,14 @@ public class Login implements ActionListener {
 		panel.add(statuslabel);
 
 		panel.revalidate();
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent a) {
-		if (!started_client) {
-			client = new Client(64);
-			client.start();
-			started_client = true;
-		}
-		String testusername = username.getText();
-		String testpassword = password.getText();
-		if (!testusername.equalsIgnoreCase("")) {
-			if (!testpassword.equalsIgnoreCase("")) {
-				client.setConnection(username.getText(), "jalako.tk:1337");
-				new Packet03MySQL_Login(username.getText(), password.getText()).send(client);
-			} else {
-				setStatus("Wie willst du Idiot dich ohne Passwort anmelden?!");
-			}
-		} else {
-			setStatus("Wie willst du Idiot dich ohne Username anmelden?!");
-		}
+		LoginRequest request = new LoginRequest();
+		request.text = username.getText() + "," + password.getText();
+		client.sendTCP(request);
 	}
 
 	public static void setStatus(String text) {

@@ -19,3 +19,4 @@ public class Spritesheet {
 		return sheet.getSubimage(x*32-32, y*32-32, 32*a, 32*b);
 	}
 }
+

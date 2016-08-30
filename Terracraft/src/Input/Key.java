@@ -4,8 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import Terracraft.*;
-import network.packets.Packet01Disconnect;
-import network.packets.Packet12InventoryData;
 
 public class Key implements KeyListener {
 
@@ -16,11 +14,11 @@ public class Key implements KeyListener {
 		key = k.getKeyCode();
 		if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			for (int i = 0; i < Game.player.Inventory.size(); i++) {
-				new Packet12InventoryData(Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i])
-						.send(Game.client);
+				/**new Packet12InventoryData(Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i])
+						.send(Game.client);**/
 			}
 
-			new Packet01Disconnect(Game.player.getUsername(), Game.player.getX(), Game.player.getY()).send(Game.client);
+			/**new Packet01Disconnect(Game.player.getUsername(), Game.player.getX(), Game.player.getY()).send(Game.client);**/
 			System.exit(0);
 		}
 		if (!Game.consoleOpen) {

@@ -13,8 +13,11 @@ import java.awt.image.BufferStrategy;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import com.esotericsoftware.kryonet.Client;
+
 import Entity.Dragon;
 import Entity.Entity;
+import Entity.NetPlayer;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
@@ -23,15 +26,13 @@ import audio.SoundManager;
 import gfx.Sprite;
 import gfx.Spritesheet;
 import gfx.Spritesheet2;
-import network.Client;
-import network.mysql.Login;
-import network.packets.Packet00Login;
-import network.packets.Packet02Move;
-import network.packets.Packet07AddTile;
+import net.ClientConnection;
+import net.NetUser;
+import net.Network.*;
 
 public class Game extends Canvas implements Runnable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1337L;
 
 	public static int breite = 320, höhe = 180, scale = 4;
 	public static boolean running = false;
@@ -40,7 +41,6 @@ public class Game extends Canvas implements Runnable {
 	public static Player player;
 	public static Camera cam;
 	private int rendertick = 0;
-	public static Client client;
 	private int x, y, networktick;
 	private Key key;
 	public static Mouse m = new Mouse();
@@ -56,25 +56,29 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_body = new Spritesheet2("/Body.png");
 	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Armor_Head.png");
 	private JFrame frame;
+	private String username;
+	public static Map map = new Map();
+
+	public static Client client;
 
 	public void init() {
+		Utils.startTimerMillis();
 		mininghandler.init();
 		Login.frame.dispose();
 		handler = new Handler("Client");
 		cam = new Camera();
 		key = new Key();
-		player = new Player(client.getUsername(), x, y, 46, 96, Id.Player, key);
-
+		player = new Player(username, x, y, 46, 96, Id.Player, key);
 		dragon = new Dragon(x - 1000, 300, 64, 64, handler, Id.Dragon);
 
 		handler.addEntity(player);
 		handler.addEntity(dragon);
-		new Packet00Login(player.getUsername(), player.getX(), player.getY()).send(client);
+
 		addMouseListener(m);
 		addMouseMotionListener(m);
 		addKeyListener(new Key());
 		addMouseWheelListener(m);
-		requestFocus();
+		// handler.addTile(new Grass(250,250,32,32,Id.Grass));
 
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
@@ -85,6 +89,16 @@ public class Game extends Canvas implements Runnable {
 		 * for (int i = 0; i < 50; i++) { for (int j = 0; j < 50; j++) {
 		 * handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass)); } }
 		 */
+		NetUserSpawnResponse spawn = new NetUserSpawnResponse();
+		spawn.username = username;
+		spawn.x = x;
+		spawn.y = y;
+		client.sendTCP(spawn);
+
+		FinishedLoading finished = new FinishedLoading();
+		finished.username = username;
+		client.sendTCP(finished);
+		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
 	}
 
 	public void render() {
@@ -101,6 +115,7 @@ public class Game extends Canvas implements Runnable {
 		g.translate(cam.getX(), cam.getY());
 		mininghandler.render(g);
 		handler.render(g);
+		map.render(g);
 		doConsoleStuff(g);
 
 		g.dispose();
@@ -115,12 +130,12 @@ public class Game extends Canvas implements Runnable {
 		}
 		mininghandler.tick();
 		handler.tick();
-		for (Entity e : handler.entity) {
-			if (e.getId() == Id.Player) {
-				new Packet02Move(((Player) e).getUsername(), ((Player) e).getX(), ((Player) e).getY(),
-						MiningHandler.equippedTool).send(client);
-			}
-		}
+		SendCoordinates position = new SendCoordinates();
+		position.x = player.x;
+		position.y = player.y;
+		position.username = username;
+		position.tool = mininghandler.equippedTool;
+		client.sendUDP(position);
 	}
 
 	public synchronized void start() {
@@ -173,18 +188,12 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
-	public Game() {
-		Dimension size = new Dimension(breite * scale, höhe * scale);
-		setPreferredSize(size);
-		setMinimumSize(size);
-		setMaximumSize(size);
-	}
-
-	public Game(int x, int y, Client client, JFrame frame) {
+	public Game(int x, int y, String username, JFrame frame, Client client) {
 		this.x = x;
 		this.y = y;
-		this.client = client;
+		this.username = username;
 		this.frame = frame;
+		this.client = client;
 		Dimension size = new Dimension(breite * scale, höhe * scale);
 		setPreferredSize(size);
 		setMinimumSize(size);
@@ -287,15 +296,31 @@ public class Game extends Canvas implements Runnable {
 	public static void executeCommand(String[] args) {
 		if (args[0].equalsIgnoreCase("placeblock")) {
 			System.out.println("placed block at " + player.x + "   " + player.y);
-			new Packet07AddTile(player.x, player.y, "Grass").send(Game.client);
+			/**
+			 * new Packet07AddTile(player.x, player.y,
+			 * "Grass").send(Game.client);
+			 **/
 		}
 		if (args[0].equalsIgnoreCase("fly")) {
 			player.fly = true;
 		}
 		if (args[0].equalsIgnoreCase("give")) {
+			boolean breakout = false;
 			for (int i = 0; i < args.length; i++) {
 				if (Utils.isNotNull(args)) {
-					System.out.println(args[i]);
+					// mininghandler.scrollbarTiles
+					for (int j = 0; j < 39; j++) {
+						if (player.Inventory_amount[j] == 0) {
+							player.Inventory.add(j, Id.toId(args[1]));
+							player.Inventory_amount[j] = Utils.toInt(args[2]);
+							breakout = true;
+						}
+						if(breakout) break;
+					}
+					// player.Inventory.set(mininghandler.equippedTool,
+					// Id.toId(SplitInventoryData[0]));
+					// player.Inventory_amount[InventoryPlace] =
+					// Utils.toInt(SplitInventoryData[1]);
 				}
 			}
 

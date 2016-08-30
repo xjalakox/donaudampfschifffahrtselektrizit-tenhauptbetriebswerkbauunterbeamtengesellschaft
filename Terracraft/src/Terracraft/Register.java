@@ -1,4 +1,4 @@
-package network.mysql;
+package Terracraft;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -12,10 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Terracraft.Game;
-import network.Client;
-import network.packets.Packet04MySQL_Register;
-
 public class Register implements ActionListener {
 
 	private JTextField username, password;
@@ -24,11 +20,8 @@ public class Register implements ActionListener {
 	private JButton login;
 	private static JLabel statuslabel;
 	private boolean started_client = false;
-	public static Client client;
 
 	public Register() {
-		Game game = new Game();
-		client = new Client(game, 128);
 
 		frame = new JFrame();
 		frame.setTitle("Register");
@@ -63,23 +56,7 @@ public class Register implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent a) {
-		if (!started_client) {
-			client = new Client(128);
-			client.start();
-			started_client = true;
-		}
-		String checkLengthofUsername = username.getText();
-		String checkLengthofPassword = password.getText();
-		if (checkLengthofUsername.length() <= 12) {
-			if (checkLengthofPassword.length() >= 4) {
-				client.setConnection(username.getText(), "localhost:1337");
-				new Packet04MySQL_Register(username.getText(), password.getText()).send(client);
-			}else{
-				setStatus("Passwort zu kurz");
-			}
-		}else{
-			setStatus("Username zu lang!");
-		}
+
 	}
 
 	public static void setStatus(String text) {

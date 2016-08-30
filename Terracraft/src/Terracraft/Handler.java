@@ -22,6 +22,7 @@ public class Handler {
 
 	public void render(Graphics g) {
 		if (type == "Client") {
+			tile2 = (LinkedList<Tile>) tile.clone();
 			for (Tile ti : tile2) {
 				if (shouldRender(ti)) {
 					ti.render(g);
@@ -34,8 +35,6 @@ public class Handler {
 				}
 			}
 		}
-		
-		long endTime = System.currentTimeMillis();
 	}
 
 	public void tick() {

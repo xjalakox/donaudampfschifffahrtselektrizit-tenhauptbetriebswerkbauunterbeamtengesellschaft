@@ -12,7 +12,6 @@ import Terracraft.MiningHandler;
 import Terracraft.Utils;
 import Tile.source.Tile;
 import gfx.Sprite2;
-import network.packets.Packet11Mine;
 
 public class NetPlayer extends Entity {
 
@@ -27,7 +26,7 @@ public class NetPlayer extends Entity {
 	private int ToolX, ToolY;
 	private Id tool;
 	private int xnetwork, ynetwork;
-	private boolean goRight, goLeft, goUp,goDown,still;
+	private boolean goRight, goLeft, goUp, goDown, still;
 
 	public NetPlayer(String username, int x, int y, int breite, int höhe, Id id) {
 		super(x, y, breite, höhe, Game.handler, id);
@@ -47,12 +46,12 @@ public class NetPlayer extends Entity {
 		g.drawRect(x, y, breite, höhe);
 		Zeichnung(g);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		g.drawString(getUsername(), getX(), getY()-10);
+		g.drawString(getUsername(), getX(), getY() - 10);
 
 	}
 
 	public void tick() {
-		//System.out.println("Clicked: "+clicked+" Click: "+click);
+		// System.out.println("Clicked: "+clicked+" Click: "+click);
 		if (goLeft) {
 			x -= 4;
 			moving = 2;
@@ -82,14 +81,13 @@ public class NetPlayer extends Entity {
 			framedelay2 = 0;
 		}
 
-
 		framedelay2++;
 		if (framedelay2 >= 7) {
 			frame2++;
 			if (frame2 >= 4) {
 				frame2 = 0;
 				click = false;
-				
+
 			}
 			framedelay2 = 0;
 		}
@@ -108,41 +106,35 @@ public class NetPlayer extends Entity {
 			framedelay = 0;
 		}
 
-		for (Tile ti : handler.tile2) {
+//		for (Tile ti : handler.tile2) {
+//
+//			if (getTop().intersects(ti.getBottom())) {
+//				setVelY(0);
+//				y = ti.getY() + 33;
+//				jumping = false;
+//				falling = true;
+//				gravity = 0;
+//			}
+//			if (getBottom().intersects(ti.getTop())) {
+//				setVelY(0);
+//				y = ti.getY() - 90;
+//			} else if (!jumping) {
+//				falling = true;
+//			}
+//
+//			if (getLeft().intersects(ti.getRight())) {
+//				setVelX(0);
+//				x = ti.getX() + 33;
+//			}
+//			if (getRight().intersects(ti.getLeft())) {
+//				setVelX(0);
+//				x = ti.getX() - 46;
+//			}
+//		}
 
-			if (getTop().intersects(ti.getBottom())) {
-				setVelY(0);
-				y = ti.getY() + 33;
-				jumping = false;
-				falling = true;
-				gravity = 0;
-
-			}
-			if (getBottom().intersects(ti.getTop())) {
-				setVelY(0);
-				y = ti.getY() - 90;
-
-			} else if (!jumping) {
-				falling = true;
-
-			}
-
-			if (getLeft().intersects(ti.getRight())) {
-				setVelX(0);
-				x = ti.getX() + 33;
-
-			}
-			if (getRight().intersects(ti.getLeft())) {
-				setVelX(0);
-				x = ti.getX() - 46;
-
-			}
-
-		}
-
-		if (falling) {
-			falling();
-		}
+//		if (falling) {
+//			falling();
+//		}
 
 	}
 
@@ -167,7 +159,7 @@ public class NetPlayer extends Entity {
 			goDown = false;
 			goUp = true;
 			still = false;
-		} else if(y > ynetwork) {
+		} else if (y > ynetwork) {
 			goUp = false;
 			goDown = true;
 			still = false;
@@ -282,8 +274,7 @@ public class NetPlayer extends Entity {
 				g2d = (Graphics2D) g.create();
 				g2d.rotate(Math.toRadians(rotateAnglesLeft[frame2]), x + 32, y + 54);
 				if (tool != null) {
-					g2d.drawImage(tool.getImage().getBufferedImage(), x + 44, y + 8, 32, 32,
-							null);
+					g2d.drawImage(tool.getImage().getBufferedImage(), x + 44, y + 8, 32, 32, null);
 				}
 				g2d.dispose();
 				g.drawImage(body[2 + frame2].getBufferedImage(), x + 56, y + 2, -70, 96, null);
@@ -295,17 +286,13 @@ public class NetPlayer extends Entity {
 				g2d.rotate(Math.toRadians(rotateAnglesRight[frame2]), x + 32, y + 54);
 				if (tool != null) {
 					if (frame2 == 0) {
-						g2d.drawImage(tool.getImage().getBufferedImage(), x + 30, y - 5, 32, 32,
-								null);
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 30, y - 5, 32, 32, null);
 					} else if (frame2 == 1) {
-						g2d.drawImage(tool.getImage().getBufferedImage(), x + 30, y + 10, 32, 32,
-								null);
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 30, y + 10, 32, 32, null);
 					} else if (frame2 == 2) {
-						g2d.drawImage(tool.getImage().getBufferedImage(), x + 40, y + 25, 32, 32,
-								null);
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 40, y + 25, 32, 32, null);
 					} else if (frame2 == 3) {
-						g2d.drawImage(tool.getImage().getBufferedImage(), x + 40, y + 30, 32, 32,
-								null);
+						g2d.drawImage(tool.getImage().getBufferedImage(), x + 40, y + 30, 32, 32, null);
 					}
 				}
 				g2d.dispose();

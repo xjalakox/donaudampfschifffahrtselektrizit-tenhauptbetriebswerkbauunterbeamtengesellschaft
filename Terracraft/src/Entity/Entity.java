@@ -12,8 +12,8 @@ public abstract class Entity {
 
 	public int x, y, breite, höhe, velX, velY;
 	public boolean removed, clicked, click;
-	Handler handler;
-	Id id;
+	public Handler handler;
+	public Id id;
 	public int rotateAnglesLeft[] = { -45, -90, -150, -170 };
 	public int rotateAnglesRight[] = { -45, 0, 60, 80 };
 	public int frame, framedelay, frame2, framedelay2;

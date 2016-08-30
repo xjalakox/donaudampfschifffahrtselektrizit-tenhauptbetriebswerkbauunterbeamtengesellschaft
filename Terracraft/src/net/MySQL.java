@@ -1,4 +1,4 @@
-package network.mysql;
+package net;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,9 +8,7 @@ import java.util.ArrayList;
 
 import Terracraft.Id;
 import Terracraft.Utils;
-import Tile.TestTile;
 import Tile.source.Tile;
-import network.Server;
 
 public class MySQL {
 	private java.sql.Connection myConn;
@@ -22,11 +20,11 @@ public class MySQL {
 
 	public void connect() {
 		String host = "jdbc:mysql://80.82.219.161:3306/terra";
-		String user = "terra";
-		String pw = "qwZm5VAWbLPFs3Tc";
+		String users = "terra";
+		String pw = "GRhibrC0VOVhr8qS";
 		try {
 			System.out.println("[MySQL] Trying to connect to the MySQL Server");
-			myConn = DriverManager.getConnection(host, user, pw);
+			myConn = DriverManager.getConnection(host, users, pw);
 			query = myConn.createStatement();
 			System.out.println("[MySQL] Connected to the MySQL Server");
 		} catch (SQLException e) {
@@ -43,17 +41,10 @@ public class MySQL {
 		}
 	}
 
-	private void updateQueryAmount() {
-		if (!network.Server.noframe) {
-			Server.queryanzahl++;
-			Server.querylabel.setText("Querys : " + Server.queryanzahl);
-		}
-	}
-
 	public boolean checkIfUserRegistered(String username, String password) {
 		try {
-			ResultSet myRs = query.executeQuery("select * from terra");
-			updateQueryAmount();
+			ResultSet myRs = query.executeQuery("select * from users");
+			;
 			while (myRs.next()) {
 				if (myRs.getString("username").equalsIgnoreCase(username)) {
 					if (myRs.getString("password").equalsIgnoreCase(password)) {
@@ -69,8 +60,8 @@ public class MySQL {
 
 	public int getX(String username) {
 		try {
-			updateQueryAmount();
-			ResultSet myRs = query.executeQuery("select * from terra");
+			;
+			ResultSet myRs = query.executeQuery("select * from users");
 			while (myRs.next()) {
 				if (myRs.getString("username").equalsIgnoreCase(username)) {
 					return myRs.getInt("x");
@@ -84,8 +75,8 @@ public class MySQL {
 
 	public int getY(String username) {
 		try {
-			updateQueryAmount();
-			ResultSet myRs = query.executeQuery("select * from terra");
+			;
+			ResultSet myRs = query.executeQuery("select * from users");
 			while (myRs.next()) {
 				if (myRs.getString("username").equalsIgnoreCase(username)) {
 					return myRs.getInt("y");
@@ -99,9 +90,9 @@ public class MySQL {
 
 	public void setCoordinates(String username, int x, int y) {
 		try {
-			updateQueryAmount();
+			;
 			query.executeUpdate(
-					"UPDATE terra SET x = " + x + ", y = " + y + " WHERE username = " + "'" + username + "'");
+					"UPDATE users SET x = " + x + ", y = " + y + " WHERE username = " + "'" + username + "'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -109,8 +100,8 @@ public class MySQL {
 
 	public boolean checkIfUsernameTaken(String username) {
 		try {
-			ResultSet myRs = query.executeQuery("select * from terra");
-			updateQueryAmount();
+			ResultSet myRs = query.executeQuery("select * from users");
+			;
 			while (myRs.next()) {
 				if (myRs.getString("username").equalsIgnoreCase(username)) {
 					return false;
@@ -124,10 +115,10 @@ public class MySQL {
 
 	public void registerAccount(String username, String password) {
 		try {
-			query.executeUpdate("INSERT INTO terra " + "VALUES (" + getId() + ", '" + username + "', '" + password
+			query.executeUpdate("INSERT INTO users " + "VALUES (" + getId() + ", '" + username + "', '" + password
 					+ "', 0, 0, 0) ");
 			createInventory(getId());
-			updateQueryAmount();
+			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -137,7 +128,7 @@ public class MySQL {
 		int id = 1;
 
 		try {
-			ResultSet myRs = query.executeQuery("select id from terra");
+			ResultSet myRs = query.executeQuery("select id from users");
 			while (myRs.next()) {
 				id++;
 			}
@@ -152,7 +143,7 @@ public class MySQL {
 		try {
 			ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 			ResultSet myRs = query.executeQuery("select * from blocks");
-			updateQueryAmount();
+			;
 			while (myRs.next()) {
 				Tile t = Id.getTile(myRs.getString("TileID"), myRs.getInt("x"), myRs.getInt("y"));
 				LoadingTilesIntoList.add(t);
@@ -164,35 +155,14 @@ public class MySQL {
 		return null;
 	}
 
-	/**
-	 * 
-	 * saveMap OUTDATED
-	 * 
-	 * 
-	 */
-
-	/*
-	 * public void saveMap(LinkedList<Tile> list){ try { int id = 0;
-	 * query.executeUpdate("DELETE FROM blocks"); for(Tile ti : list){ int x =
-	 * ti.getX(); int y = ti.getY(); if(ti.getId()==Id.test){
-	 * System.out.println("INSERT INTO blocks " + "VALUES (" + id +", " + x +
-	 * ", " + y + ", " + "'TestTile')");
-	 * query.executeUpdate("INSERT INTO blocks " + "VALUES (" + id +", " + x +
-	 * ", " + y + ", " + "'TestTile')"); } } updateQueryAmount(); } catch
-	 * (SQLException e) { e.printStackTrace(); } }
-	 */
-
 	public void addTile(Tile ti) {
 		try {
-
 			int x = ti.getX();
 			int y = ti.getY();
 
 			query.executeUpdate("INSERT INTO blocks VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
 					+ ti.getId().toString() + "')");
-
-			updateQueryAmount();
-
+			x += 64;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -200,8 +170,8 @@ public class MySQL {
 
 	public boolean isAdmin(String username) {
 		try {
-			ResultSet myRs = query.executeQuery("select 'isAdmin' from terra WHERE 'username' = " + username);
-			updateQueryAmount();
+			ResultSet myRs = query.executeQuery("select 'isAdmin' from users WHERE 'username' = " + username);
+			;
 			while (myRs.next()) {
 				if (myRs.getInt("isAdmin") == 1) {
 					return true;
@@ -218,7 +188,7 @@ public class MySQL {
 	public void deleteTiles() {
 		try {
 			query.executeUpdate("DELETE FROM `blocks`");
-			updateQueryAmount();
+			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -228,7 +198,7 @@ public class MySQL {
 		try {
 
 			query.executeUpdate("DELETE FROM `blocks` WHERE `x` = " + x + " AND `y` = " + y);
-			updateQueryAmount();
+			;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -245,7 +215,7 @@ public class MySQL {
 					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
 					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
 					+ ", " + 0 + ")");
-			updateQueryAmount();
+			;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -255,8 +225,8 @@ public class MySQL {
 	public String[] loadInventory(String username) {
 		try {
 			ResultSet myRs = query
-					.executeQuery("select * from inventorys WHERE user_id = '" + getUserIdByName(username) + "'");
-			updateQueryAmount();
+					.executeQuery("select * from inventorys WHERE users_id = '" + getusersIdByName(username) + "'");
+			;
 			int itemid = 1;
 			String items[] = new String[40];
 			while (myRs.next()) {
@@ -278,9 +248,9 @@ public class MySQL {
 			if (ArraySlot <= 1) {
 				Utils.startTimerMillis();
 			}
-			updateQueryAmount();
+			;
 			query.executeUpdate("UPDATE inventorys SET `slot" + ArraySlot + "` = " + "'" + inventorydata + "'"
-					+ " WHERE `user_id` = '" + getUserIdByName(username) + "'");
+					+ " WHERE `users_id` = '" + getusersIdByName(username) + "'");
 			if (ArraySlot >= 40) {
 				System.out.println(Utils.getTimerMillis() + " zum speichern des Inventars von " + username);
 			}
@@ -289,10 +259,10 @@ public class MySQL {
 		}
 	}
 
-	public int getUserIdByName(String username) {
+	public int getusersIdByName(String username) {
 		try {
-			ResultSet myRs = query.executeQuery("select id from terra WHERE username = " + "'" + username + "'");
-			updateQueryAmount();
+			ResultSet myRs = query.executeQuery("select id from users WHERE username = " + "'" + username + "'");
+			;
 			while (myRs.next()) {
 				return myRs.getInt("id");
 			}

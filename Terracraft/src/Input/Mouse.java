@@ -14,8 +14,6 @@ import Terracraft.Game;
 import Terracraft.Id;
 import Terracraft.MiningHandler;
 import Tile.source.Tile;
-import network.packets.Packet07AddTile;
-import network.packets.Packet11Mine;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -48,7 +46,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			if (m.getButton() == m.BUTTON1) {
 				Game.player.setClicked(true);
 				Game.player.setClick(true);
-				new Packet11Mine(1, 1, Game.player.getUsername()).send(Game.client);
+				/**new Packet11Mine(1, 1, Game.player.getUsername()).send(Game.client);**/
 			}
 			if (m.getButton() == m.BUTTON1) {
 				mousedown = true;
@@ -58,7 +56,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				System.out.println(MiningHandler.equippedTool.toString());
 				if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
-					new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);
+				/**	new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);**/
 					Game.player.Inventory_amount[mouseRotation] -= 1;
 				}
 
@@ -133,9 +131,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		pressed = false;
 
 		if (Game.player.click == false) {
-			new Packet11Mine(0, 0, Game.player.getUsername()).send(Game.client);
+		//	new Packet11Mine(0, 0, Game.player.getUsername()).send(Game.client);
 		} else {
-			new Packet11Mine(1, 0, Game.player.getUsername()).send(Game.client);
+		//	new Packet11Mine(1, 0, Game.player.getUsername()).send(Game.client);
 		}
 		Game.player.setClicked(false);
 	}
