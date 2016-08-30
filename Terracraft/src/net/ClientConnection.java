@@ -77,7 +77,7 @@ public class ClientConnection {
 				if(object instanceof HittingBlock){
 					HittingBlock response = (HittingBlock) object;
 					for(Entity e : terracraft.handler.entity){
-						if(e.getId() == Id.NetPlayer){
+						if(e.getId() == Id.NetPlayer&&(((NetPlayer) e).getUsername()).equalsIgnoreCase(response.username)){
 							e.click = response.click;
 							e.clicked = response.clicked;
 						}

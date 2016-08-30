@@ -28,7 +28,7 @@ public class ServerConnection {
 	private static ServerTick tick;
 
 	public static void main(String[] args) throws IOException {
-		Server server = new Server();
+		Server server = new Server(131072, 16384);
 		server.start();
 		server.bind(54555, 54777);
 		Utils.startTimerMillis();
