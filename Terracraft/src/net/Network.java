@@ -22,6 +22,8 @@ public class Network {
 		kryo.register(FinishedLoading.class);
 		kryo.register(RemovePlayer.class);
 		kryo.register(AddTile.class);
+		kryo.register(HittingBlock.class);
+		kryo.register(RemoveTile.class);
 
 	}
 

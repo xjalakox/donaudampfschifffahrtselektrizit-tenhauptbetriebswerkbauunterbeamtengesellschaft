@@ -124,6 +124,14 @@ public class ServerConnection {
 						}
 					}
 				}
+				if(object instanceof AddTile){
+					AddTile response = (AddTile) object;
+					for(NetUser u : users){
+						if(u.isConnected()){
+							u.getConnection().sendTCP(response);
+						}
+					}
+				}
 				// Allen Usern werden alle Koordinaten gesendet, könnte ab ner
 				// bestimmten Zahl hart laggen.
 				if (object instanceof SendCoordinates) {

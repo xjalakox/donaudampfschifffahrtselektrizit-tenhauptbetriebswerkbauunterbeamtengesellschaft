@@ -14,6 +14,7 @@ import Terracraft.Game;
 import Terracraft.Id;
 import Terracraft.MiningHandler;
 import Tile.source.Tile;
+import net.Network.AddTile;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -56,9 +57,22 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				System.out.println(MiningHandler.equippedTool.toString());
 				if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
-				/**	new Packet07AddTile(lookingAtX, lookingAtY, "Grass").send(Game.client);**/
+					AddTile request = new AddTile();
+					request.x = lookingAtX;
+					request.y=lookingAtY;
+					request.type="Grass";
+					Game.client.sendTCP(request);
+					Game.player.Inventory_amount[mouseRotation] -= 1;
+				}else if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Workbench)
+						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
+					AddTile request = new AddTile();
+					request.x = lookingAtX;
+					request.y=lookingAtY;
+					request.type="Workbench";
+					Game.client.sendTCP(request);
 					Game.player.Inventory_amount[mouseRotation] -= 1;
 				}
+				
 
 			}
 		} else {
