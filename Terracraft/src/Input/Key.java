@@ -75,7 +75,10 @@ public class Key implements KeyListener {
 				Mouse.mouseRotation = 8;
 				break;
 			case KeyEvent.VK_0:
-				Mouse.mouseRotation = 9;
+//				Mouse.mouseRotation = 9;
+				Game.player.Inventory.set(4, Id.Workbench);
+				Game.player.Inventory_amount[4]=15;
+				Game.player.Inventory.set(5, Id.Pickaxe);
 				break;
 			case KeyEvent.VK_E:
 				if (!Game.player.isInventoryOpen()) {
