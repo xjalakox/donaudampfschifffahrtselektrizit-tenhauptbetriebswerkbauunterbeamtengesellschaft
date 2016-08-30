@@ -19,9 +19,9 @@ public class MySQL {
 	}
 
 	public void connect() {
-		String host = "jdbc:mysql://db4free.net:3306/jalako";
-		String users = "jalako";
-		String pw = "4r4r4r4r";
+		String host = "jdbc:mysql://80.82.219.161:3306/terra";
+		String users = "terra";
+		String pw = "GRhibrC0VOVhr8qS";
 		try {
 			System.out.println("[MySQL] Trying to connect to the MySQL Server");
 			myConn = DriverManager.getConnection(host, users, pw);
@@ -226,7 +226,7 @@ public class MySQL {
 	public String[] loadInventory(String username) {
 		try {
 			ResultSet myRs = query
-					.executeQuery("select * from inventorys WHERE user_id = '" + (getUserIdByName(username) - 1) + "'");
+					.executeQuery("select * from inventorys WHERE user_id = '" + getUserIdByName(username) + "'");
 			int itemid = 1;
 			String items[] = new String[40];
 			while (myRs.next()) {

@@ -26,12 +26,14 @@ public class ServerConnection {
 	private static List<Connection> connections;
 	private static Handler handler;
 	private static ServerTick tick;
-
+	private static int InventoryPlace;
+	
 	public static void main(String[] args) throws IOException {
 		Server server = new Server(131072, 16384);
 		server.start();
+
 		server.bind(54555, 54777);
-		
+
 		Utils.startTimerMillis();
 
 		Network.register(server);
@@ -111,13 +113,12 @@ public class ServerConnection {
 					for (NetUser u : users) {
 						if (u.getConnection().equals(connection)) {
 							u.setConnected(true);
-							
+
 						}
 					}
-					
+
 					String UserInventory[] = mysql.loadInventory(response.username);
 					for (int i = 0; i < UserInventory.length; i++) {
-						System.out.println(UserInventory[i]);
 						Inventory invresponse = new Inventory();
 						invresponse.itemid = UserInventory[i];
 						connection.sendTCP(invresponse);
@@ -168,6 +169,22 @@ public class ServerConnection {
 						if (u.isConnected() && !response.username.equalsIgnoreCase(u.getUsername())) {
 							u.getConnection().sendTCP(response);
 						}
+					}
+				}
+				if (object instanceof Inventory) {
+					Inventory response = (Inventory) object;
+					String[] SplitInventoryData = response.itemid.split(",");
+					InventoryPlace++;
+					if (SplitInventoryData.length == 2) {
+						for (NetUser u : users) {
+							if (u.getAddress().equals(connection.getRemoteAddressTCP().getAddress()) && u.getPort() == connection.getRemoteAddressTCP().getPort()) {
+								mysql.saveInventory(response.itemid, u.getUsername(), InventoryPlace);
+							}
+						}
+					}
+					if (InventoryPlace >= 40) {
+						InventoryPlace = 0;
+
 					}
 				}
 

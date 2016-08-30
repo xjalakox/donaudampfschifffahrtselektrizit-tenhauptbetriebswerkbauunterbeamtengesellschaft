@@ -91,6 +91,7 @@ public class ClientConnection {
 							System.out.println(
 									"Irgendwas ist schief gelaufen beim Inventar in der DB^^ Mir bitte Bescheid geben!(Jannik) PS: Wusstet ihr, dass desto öfter ihr das hier seht, desto einfacher der Fixx in der DB ist(Wenn er nicht automatisch geschehen ist(Ja mir ist langweilig))");
 						} else {
+							System.out.println(SplitInventoryData[0]);
 							Game.player.Inventory.set(InventoryPlace, Id.toId(SplitInventoryData[0]));
 							Game.player.Inventory_amount[InventoryPlace] = Utils.toInt(SplitInventoryData[1]);
 						}
