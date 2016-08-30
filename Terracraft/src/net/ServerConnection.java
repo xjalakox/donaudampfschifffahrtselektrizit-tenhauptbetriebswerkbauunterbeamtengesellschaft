@@ -13,6 +13,7 @@ import com.esotericsoftware.kryonet.Server;
 import Entity.NetPlayer;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 import Tile.Grass;
 import Tile.source.Tile;
 import net.Network.*;
@@ -24,14 +25,19 @@ public class ServerConnection {
 	private static List<NetUser> users;
 	private static List<Connection> connections;
 	private static Handler handler;
+	private static ServerTick tick;
+	private static Thread thread;
 
 	public static void main(String[] args) throws IOException {
 		Server server = new Server();
 		server.start();
 		server.bind(54555, 54777);
+		Utils.startTimerMillis();
 
 		Network.register(server);
 		handler = new Handler("Server");
+		tick = new ServerTick(handler, thread);
+		tick.start();
 		players = new HashMap<NetUser, NetPlayer>();
 		users = new ArrayList<NetUser>();
 		mysql = new MySQL();
@@ -151,5 +157,7 @@ public class ServerConnection {
 				}
 			}
 		});
+		
+		System.out.println(Utils.getTimerMillis() + " um den Server zu starten");
 	}
 }

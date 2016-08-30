@@ -1,6 +1,5 @@
-package net;
+package net.registerlogin;
 
-import Terracraft.Register;
 import Terracraft.Utils;
 
 public class SQL_TESTER {

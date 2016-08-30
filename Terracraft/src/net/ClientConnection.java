@@ -11,7 +11,6 @@ import com.esotericsoftware.kryonet.Listener;
 import Entity.NetPlayer;
 import Terracraft.Game;
 import Terracraft.Id;
-import Terracraft.Login;
 import Tile.source.Tile;
 import net.Network.AddTile;
 import net.Network.LoginRequest;
@@ -20,6 +19,7 @@ import net.Network.NetUserSpawnResponse;
 import net.Network.RemovePlayer;
 import net.Network.SendCoordinates;
 import net.Network.SpawnResponse;
+import net.registerlogin.Login;
 
 public class ClientConnection {
 	private static Game terracraft = null;

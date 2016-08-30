@@ -29,6 +29,7 @@ import gfx.Spritesheet2;
 import net.ClientConnection;
 import net.NetUser;
 import net.Network.*;
+import net.registerlogin.Login;
 
 public class Game extends Canvas implements Runnable {
 
