@@ -31,6 +31,7 @@ public class ServerConnection {
 		Server server = new Server(131072, 16384);
 		server.start();
 		server.bind(54555, 54777);
+		
 		Utils.startTimerMillis();
 
 		Network.register(server);
