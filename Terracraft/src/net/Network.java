@@ -24,6 +24,7 @@ public class Network {
 		kryo.register(AddTile.class);
 		kryo.register(HittingBlock.class);
 		kryo.register(RemoveTile.class);
+		kryo.register(Inventory.class);
 
 	}
 
@@ -74,6 +75,10 @@ public class Network {
 	static public class HittingBlock {
 		public boolean click, clicked;
 		public String username;
+	}
+	
+	static public class Inventory {
+		public String itemid;
 	}
 
 }

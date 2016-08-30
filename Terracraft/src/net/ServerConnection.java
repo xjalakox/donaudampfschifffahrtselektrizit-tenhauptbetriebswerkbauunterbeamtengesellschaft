@@ -36,8 +36,8 @@ public class ServerConnection {
 		Network.register(server);
 		handler = new Handler("Server");
 		mysql = new MySQL();
-		// tick = new ServerTick(handler);
-		// tick.start();
+		tick = new ServerTick(handler);
+		tick.start();
 		players = new HashMap<NetUser, NetPlayer>();
 		users = new ArrayList<NetUser>();
 		connections = new ArrayList<Connection>();
@@ -87,13 +87,6 @@ public class ServerConnection {
 				if (object instanceof FinishedLoading) {
 					FinishedLoading response = (FinishedLoading) object;
 
-					// User ist jetzt "komplett" connected
-					for (NetUser u : users) {
-						if (u.getConnection().equals(connection)) {
-							u.setConnected(true);
-						}
-					}
-
 					// Sende alle User
 					for (NetUser u : users) {
 						if (players.get(u) != null && !response.username.equalsIgnoreCase(u.getUsername())) {
@@ -111,6 +104,22 @@ public class ServerConnection {
 						tile.y = ti.getY();
 						tile.type = ti.getId().toString();
 						connection.sendTCP(tile);
+					}
+
+					// User ist jetzt "komplett" connected
+					for (NetUser u : users) {
+						if (u.getConnection().equals(connection)) {
+							u.setConnected(true);
+							
+						}
+					}
+					
+					String UserInventory[] = mysql.loadInventory(response.username);
+					for (int i = 0; i < UserInventory.length; i++) {
+						System.out.println(UserInventory[i]);
+						Inventory invresponse = new Inventory();
+						invresponse.itemid = UserInventory[i];
+						connection.sendTCP(invresponse);
 					}
 				}
 				// Allen Usern wird der neue Spieler gesendet

@@ -64,7 +64,6 @@ public class ServerTick implements Runnable{
 				delta--;
 			}
 			if (System.currentTimeMillis() - timer > 1000) {
-				System.out.println("tick");
 				timer += 1000;
 				ticks = 0;
 			}

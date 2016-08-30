@@ -87,16 +87,8 @@ public class Handler {
 		}
 	}
 
-	public void setToBeRemoved(Tile tile) {
-		for (Tile ti : this.tile) {
-			if (ti.getX() == tile.getX() && ti.getY() == tile.getY()) {
-				ti.setAsRemoved();
-			}
-		}
-	}
-	
 	public void setToBeRemoved(int x, int y) {
-		for (Tile ti : this.tile) {
+		for (Tile ti : this.tile2) {
 			if (ti.getX() == x && ti.getY() == y) {
 				ti.setAsRemoved();
 			}

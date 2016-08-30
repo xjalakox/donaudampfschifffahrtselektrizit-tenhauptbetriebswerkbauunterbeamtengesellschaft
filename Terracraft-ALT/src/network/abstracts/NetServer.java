@@ -73,7 +73,6 @@ public abstract class NetServer implements Runnable {
 			}
 
 			if (System.currentTimeMillis() - timer > 1000) {
-				System.out.println("Nein?");
 				timer += 1000;
 				ups = ticks;
 				ticks = 0;

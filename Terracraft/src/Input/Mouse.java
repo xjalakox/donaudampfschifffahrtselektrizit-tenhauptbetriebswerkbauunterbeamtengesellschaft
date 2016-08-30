@@ -15,6 +15,7 @@ import Terracraft.Id;
 import Terracraft.MiningHandler;
 import Tile.source.Tile;
 import net.Network.AddTile;
+import net.Network.HittingBlock;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -47,7 +48,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			if (m.getButton() == m.BUTTON1) {
 				Game.player.setClicked(true);
 				Game.player.setClick(true);
-				/**new Packet11Mine(1, 1, Game.player.getUsername()).send(Game.client);**/
+				HittingBlock request = new HittingBlock();
+				request.click = true;
+				request.clicked = true;
+				request.username = Game.player.getUsername();
+				Game.client.sendUDP(request);
 			}
 			if (m.getButton() == m.BUTTON1) {
 				mousedown = true;
@@ -143,12 +148,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mouseReleased(MouseEvent m) {
 		mousedown = false;
 		pressed = false;
+		
+		HittingBlock request = new HittingBlock();
+		request.click = Game.player.click;
+		request.clicked = false;
+		request.username = Game.player.getUsername();
+		Game.client.sendUDP(request);
 
-		if (Game.player.click == false) {
-		//	new Packet11Mine(0, 0, Game.player.getUsername()).send(Game.client);
-		} else {
-		//	new Packet11Mine(1, 0, Game.player.getUsername()).send(Game.client);
-		}
 		Game.player.setClicked(false);
 	}
 

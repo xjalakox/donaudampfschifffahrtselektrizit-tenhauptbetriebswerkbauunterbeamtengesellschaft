@@ -19,14 +19,15 @@ public class MySQL {
 	}
 
 	public void connect() {
-		String host = "jdbc:mysql://localhost:3306/terra";
-		String users = "root";
-		String pw = "test";
+		String host = "jdbc:mysql://db4free.net:3306/jalako";
+		String users = "jalako";
+		String pw = "4r4r4r4r";
 		try {
 			System.out.println("[MySQL] Trying to connect to the MySQL Server");
 			myConn = DriverManager.getConnection(host, users, pw);
-			query = myConn.createStatement();
 			System.out.println("[MySQL] Connected to the MySQL Server");
+			query = myConn.createStatement();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -225,12 +226,12 @@ public class MySQL {
 	public String[] loadInventory(String username) {
 		try {
 			ResultSet myRs = query
-					.executeQuery("select * from inventorys WHERE user_id = '" + getusersIdByName(username) + "'");
-			;
+					.executeQuery("select * from inventorys WHERE user_id = '" + (getUserIdByName(username) - 1) + "'");
 			int itemid = 1;
 			String items[] = new String[40];
 			while (myRs.next()) {
 				for (int i = 0; i < 40; i++) {
+					System.out.println(items[i]);
 					items[itemid - 1] = myRs.getString("slot" + Utils.toString(itemid));
 					itemid++;
 				}
@@ -250,7 +251,7 @@ public class MySQL {
 			}
 			;
 			query.executeUpdate("UPDATE inventorys SET `slot" + ArraySlot + "` = " + "'" + inventorydata + "'"
-					+ " WHERE `user_id` = '" + getusersIdByName(username) + "'");
+					+ " WHERE `user_id` = '" + getUserIdByName(username) + "'");
 			if (ArraySlot >= 40) {
 				System.out.println(Utils.getTimerMillis() + " zum speichern des Inventars von " + username);
 			}
@@ -259,7 +260,7 @@ public class MySQL {
 		}
 	}
 
-	public int getusersIdByName(String username) {
+	public int getUserIdByName(String username) {
 		try {
 			ResultSet myRs = query.executeQuery("select id from users WHERE username = " + "'" + username + "'");
 			;
