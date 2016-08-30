@@ -26,7 +26,6 @@ public class ServerConnection {
 	private static List<Connection> connections;
 	private static Handler handler;
 	private static ServerTick tick;
-	private static Thread thread;
 
 	public static void main(String[] args) throws IOException {
 		Server server = new Server();
@@ -36,11 +35,11 @@ public class ServerConnection {
 
 		Network.register(server);
 		handler = new Handler("Server");
-		tick = new ServerTick(handler, thread);
-		tick.start();
+		mysql = new MySQL();
+		//tick = new ServerTick(handler);
+		//tick.start();
 		players = new HashMap<NetUser, NetPlayer>();
 		users = new ArrayList<NetUser>();
-		mysql = new MySQL();
 		connections = new ArrayList<Connection>();
 		for (int i = 0; i < 50; i++) {
 			for (int j = 0; j < 50; j++) {
@@ -133,6 +132,15 @@ public class ServerConnection {
 					for (NetUser u : users) {
 						if (!response.username.equalsIgnoreCase(u.getUsername()) && u.isConnected()) {
 							u.getConnection().sendUDP(response);
+						}
+					}
+				}
+				if(object instanceof RemoveTile){
+					RemoveTile response = (RemoveTile) object;
+					
+					for(NetUser u : users){
+						if(u.isConnected()){
+							u.getConnection().sendTCP(response);
 						}
 					}
 				}

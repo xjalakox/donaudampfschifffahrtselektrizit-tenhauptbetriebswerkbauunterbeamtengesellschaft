@@ -22,7 +22,7 @@ public class Network {
 		kryo.register(FinishedLoading.class);
 		kryo.register(RemovePlayer.class);
 		kryo.register(AddTile.class);
-		
+
 	}
 
 	static public class LoginRequest {
@@ -51,18 +51,27 @@ public class Network {
 		public String username;
 		public Id tool;
 	}
-	
+
 	static public class FinishedLoading {
 		public String username;
 	}
-	
+
 	static public class RemovePlayer {
 		public String username;
 	}
-	
+
 	static public class AddTile {
-		public int x,y;
+		public int x, y;
 		public String type;
+	}
+
+	static public class RemoveTile {
+		public int x, y;
+	}
+
+	static public class HittingBlock {
+		public boolean click, clicked;
+		public String username;
 	}
 
 }

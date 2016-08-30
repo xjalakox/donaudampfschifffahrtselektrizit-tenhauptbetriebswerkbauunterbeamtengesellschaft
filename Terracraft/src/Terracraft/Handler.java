@@ -94,6 +94,14 @@ public class Handler {
 			}
 		}
 	}
+	
+	public void setToBeRemoved(int x, int y) {
+		for (Tile ti : this.tile) {
+			if (ti.getX() == x && ti.getY() == y) {
+				ti.setAsRemoved();
+			}
+		}
+	}
 
 	public void addEntity(Entity en) {
 		entity.add(en);

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Input.Mouse;
 import Tile.source.Tile;
 import gfx.Sprite;
+import net.Network.RemoveTile;
 
 public class MiningHandler {
 	public boolean itemexists, itemdeployed;
@@ -110,6 +111,10 @@ public class MiningHandler {
 					if (ti == Mouse.degradedTile) {
 						// new Packet10RemoveTile(ti.getX(),
 						// ti.getY()).send(Game.client);
+						RemoveTile request = new RemoveTile();
+						request.x = ti.getX();
+						request.y = ti.getY();
+						Game.client.sendTCP(request);
 
 						for (int i = 0; i < 40; i++) {
 							if (Game.player.Inventory.get(i).equals(ti.getId())) {

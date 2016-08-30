@@ -17,6 +17,7 @@ import net.Network.LoginRequest;
 import net.Network.LoginResponse;
 import net.Network.NetUserSpawnResponse;
 import net.Network.RemovePlayer;
+import net.Network.RemoveTile;
 import net.Network.SendCoordinates;
 import net.Network.SpawnResponse;
 import net.registerlogin.Login;
@@ -72,6 +73,10 @@ public class ClientConnection {
 				if (object instanceof SendCoordinates) {
 					SendCoordinates response = (SendCoordinates) object;
 					terracraft.handler.setPlayerPosition(response.username, response.x, response.y, response.tool);
+				}
+				if(object instanceof RemoveTile){
+					RemoveTile response = (RemoveTile) object;
+					terracraft.handler.setToBeRemoved(response.x, response.y);
 				}
 			}
 

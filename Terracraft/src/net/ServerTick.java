@@ -15,9 +15,8 @@ public class ServerTick implements Runnable{
 	private static boolean running = false;
 	private Handler handler;
 	
-	ServerTick(Handler handler, Thread thread){
+	ServerTick(Handler handler){
 		this.handler = handler;
-		ServerTick.thread = thread;
 	}
 	
 	
@@ -25,6 +24,7 @@ public class ServerTick implements Runnable{
 		
 	}
 
+	
 	public void tick() {
 		
 	}
@@ -49,13 +49,13 @@ public class ServerTick implements Runnable{
 
 	public void run() {
 		init();
-		long lastTime = System.nanoTime();
+		long lastTime = System.currentTimeMillis();
 		long timer = System.currentTimeMillis();
 		double delta = 0.0;
-		double nanoseconds = 1000000000.0 / 60.0;
+		double nanoseconds = 1000.0 / 60.0;
 		int ticks = 0;
 		while (running) {
-			long now = System.nanoTime();
+			long now = System.currentTimeMillis();
 			delta += (now - lastTime) / nanoseconds;
 			lastTime = now;
 			while (delta >= 1) {
@@ -71,5 +71,4 @@ public class ServerTick implements Runnable{
 		}
 		stop();
 	}
-
 }
