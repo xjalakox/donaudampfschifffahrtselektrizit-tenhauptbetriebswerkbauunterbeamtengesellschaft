@@ -27,7 +27,8 @@ public class ServerConnection {
 	private static Handler handler;
 	private static ServerTick tick;
 	private static int InventoryPlace;
-	
+	private static ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
+
 	public static void main(String[] args) throws IOException {
 		Server server = new Server(131072, 16384);
 		server.start();
@@ -44,10 +45,9 @@ public class ServerConnection {
 		players = new HashMap<NetUser, NetPlayer>();
 		users = new ArrayList<NetUser>();
 		connections = new ArrayList<Connection>();
-		for (int i = 0; i < 50; i++) {
-			for (int j = 0; j < 50; j++) {
-				handler.addTile(new Grass(i * 32, j * 32 - 640, 32, 32, Id.Grass));
-			}
+		LoadingTilesIntoList = mysql.LoadMap();
+		for (Tile ti : LoadingTilesIntoList) {
+			handler.addTile(ti);
 		}
 
 		server.addListener(new Listener() {
@@ -137,6 +137,9 @@ public class ServerConnection {
 				}
 				if (object instanceof AddTile) {
 					AddTile response = (AddTile) object;
+					Tile tile = Id.getTile(response.type, response.x, response.y);
+					handler.addTile(tile);
+					mysql.addTile(tile);
 					for (NetUser u : users) {
 						if (u.isConnected()) {
 							u.getConnection().sendTCP(response);
@@ -171,13 +174,23 @@ public class ServerConnection {
 						}
 					}
 				}
+				if (object instanceof AddTile) {
+					AddTile response = (AddTile) object;
+					
+					for (NetUser u : users) {
+						if (u.isConnected()) {
+							u.getConnection().sendTCP(response);
+						}
+					}
+				}
 				if (object instanceof Inventory) {
 					Inventory response = (Inventory) object;
 					String[] SplitInventoryData = response.itemid.split(",");
 					InventoryPlace++;
 					if (SplitInventoryData.length == 2) {
 						for (NetUser u : users) {
-							if (u.getAddress().equals(connection.getRemoteAddressTCP().getAddress()) && u.getPort() == connection.getRemoteAddressTCP().getPort()) {
+							if (u.getAddress().equals(connection.getRemoteAddressTCP().getAddress())
+									&& u.getPort() == connection.getRemoteAddressTCP().getPort()) {
 								mysql.saveInventory(response.itemid, u.getUsername(), InventoryPlace);
 							}
 						}
