@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import Tile.Grass;
 import Tile.Workbench;
 import Tile.source.Tile;
+import crafting.Recipe;
 import gfx.Sprite;
 
 public enum Id {
@@ -14,7 +15,7 @@ public enum Id {
 			Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"),
 			Grass(new Sprite(Game.sheet, 13, 1, 1, 1), "block"),  
 			Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty",0,"empty"),
-			Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block"),
+			Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block", Recipe.Workbench),
 	
 	// Tool
 			Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"),
@@ -23,36 +24,49 @@ public enum Id {
 	public String tool, block, type;
 	private int efficiency, amount;
 	private Sprite image;
+	private Recipe recipe;
 
-	public int getAmount() {
-		return amount;
-	}
-
-	public void setAmount(int amount) {
-		this.amount += amount;
-	}
 
 	Id() {
 
+	}
+	
+	Id(Recipe recipe){
+		this.recipe = recipe;
 	}
 
 	Id(Sprite image, String type) {
 		this.type = type;
 		this.image = image;
 	}
+	
+	Id(Sprite image, String type, Recipe recipe) {
+		this.type = type;
+		this.image = image;
+		this.recipe = recipe;
+	}
+
+	Id(Sprite image, String block, int efficiency, String type, Recipe recipe) {
+		this.image = image;
+		this.block = block;
+		this.efficiency = efficiency;
+		this.type = type;
+		this.recipe = recipe;
+	}
+	
+	Id(Sprite image, String block, int efficiency, String type) {
+		this.image = image;
+		this.block = block;
+		this.efficiency = efficiency;
+		this.type = type;
+	}
+
 
 	public String getType() {
 		return type;
 	}
 
 	public void setType(String type) {
-		this.type = type;
-	}
-
-	Id(Sprite image, String block, int efficiency, String type) {
-		this.image = image;
-		this.block = block;
-		this.efficiency = efficiency;
 		this.type = type;
 	}
 
@@ -74,6 +88,25 @@ public enum Id {
 
 	public Rectangle getToolBounds(int x, int y) {
 		return new Rectangle(x, y, 32, 32);
+	}
+	
+
+	public int getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(int amount) {
+		this.amount += amount;
+	}
+	
+
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
 	}
 
 	public static Id toId(String string) {

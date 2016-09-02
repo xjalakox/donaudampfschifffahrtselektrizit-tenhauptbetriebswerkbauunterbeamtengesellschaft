@@ -11,21 +11,29 @@ public class Network {
 	// This registers objects that are going to be sent over the network.
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
-		kryo.register(LoginRequest.class);
-		kryo.register(LoginResponse.class);
+		
 		kryo.register(String.class);
 		kryo.register(int.class);
+		kryo.register(Id.class);
+		
+		kryo.register(LoginRequest.class);
+		kryo.register(LoginResponse.class);
 		kryo.register(SpawnResponse.class);
 		kryo.register(NetUserSpawnResponse.class);
 		kryo.register(SendCoordinates.class);
-		kryo.register(Id.class);
 		kryo.register(FinishedLoading.class);
 		kryo.register(RemovePlayer.class);
 		kryo.register(AddTile.class);
 		kryo.register(HittingBlock.class);
 		kryo.register(RemoveTile.class);
 		kryo.register(Inventory.class);
+<<<<<<< HEAD
+		kryo.register(Double.class);
+=======
+		kryo.register(KillClient.class);
+>>>>>>> origin/master
 
+		kryo.register(Double.class);
 	}
 
 	static public class LoginRequest {
@@ -79,6 +87,10 @@ public class Network {
 	
 	static public class Inventory {
 		public String itemid;
+	}
+	
+	static public class KillClient {
+		
 	}
 
 }

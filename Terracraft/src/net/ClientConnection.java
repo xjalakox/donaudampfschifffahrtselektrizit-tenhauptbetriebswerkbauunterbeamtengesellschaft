@@ -97,6 +97,9 @@ public class ClientConnection {
 					}
 					InventoryPlace++;
 				}
+				if (object instanceof KillClient) {
+					System.exit(0);
+				}
 			}
 
 			public void disconnected(Connection connection) {

@@ -40,9 +40,12 @@ public class Map {
 		if (online == true) {
 			g.drawString("Andere Positionen:", Game.player.getX() + 450, Game.player.getY() + 114 - 400 - 74);
 		}
+
 		g.drawImage(this.getBufferedImage(map),  Game.player.getX() + 200,Game.player.getY() - 430,360,216,null);
 		g.setColor(Color.green);
 		g.fillRect(Game.player.getX() + 200+175,Game.player.getY() - 430+103,10,10);
+
+
 		online = false;
 		playerCounter = 0;
 		

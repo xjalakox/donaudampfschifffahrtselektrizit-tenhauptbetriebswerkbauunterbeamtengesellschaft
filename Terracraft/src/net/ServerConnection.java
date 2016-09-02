@@ -26,7 +26,6 @@ public class ServerConnection {
 	private static List<Connection> connections;
 	private static Handler handler;
 	private static ServerTick tick;
-	private static int InventoryPlace;
 	private static ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 
 	public static void main(String[] args) throws IOException {
@@ -176,7 +175,7 @@ public class ServerConnection {
 				}
 				if (object instanceof AddTile) {
 					AddTile response = (AddTile) object;
-					
+
 					for (NetUser u : users) {
 						if (u.isConnected()) {
 							u.getConnection().sendTCP(response);
@@ -186,19 +185,20 @@ public class ServerConnection {
 				if (object instanceof Inventory) {
 					Inventory response = (Inventory) object;
 					String[] SplitInventoryData = response.itemid.split(",");
-					InventoryPlace++;
 					if (SplitInventoryData.length == 2) {
 						for (NetUser u : users) {
 							if (u.getAddress().equals(connection.getRemoteAddressTCP().getAddress())
 									&& u.getPort() == connection.getRemoteAddressTCP().getPort()) {
-								mysql.saveInventory(response.itemid, u.getUsername(), InventoryPlace);
+								u.setInventoryPlace(u.getInventoryPlace() + 1);
+								mysql.saveInventory(response.itemid, u.getUsername(), u.getInventoryPlace());
+								if (u.getInventoryPlace() >= 40) {
+									KillClient request = new KillClient();
+									u.getConnection().sendTCP(request);
+								}
 							}
 						}
 					}
-					if (InventoryPlace >= 40) {
-						InventoryPlace = 0;
 
-					}
 				}
 
 			}
