@@ -14,7 +14,7 @@ public class Workbench extends Tile{
 	
 	public Workbench(int x, int y, int width, int height, Id id) {
 		super(x, y, width, height, id);
-		setDamage(100);
+		setHealth(100);
 	}
 
 	public void render(Graphics g) {

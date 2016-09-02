@@ -123,7 +123,7 @@ public class Tile {
 		return damage;
 	}
 	
-	public void setDamage(int damage){
+	public void setHealth(int damage){
 		this.damage = damage;
 	}
 	
