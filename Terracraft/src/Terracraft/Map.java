@@ -42,7 +42,6 @@ public class Map {
 		}
 		g.drawImage(this.getBufferedImage(map),  Game.player.getX() + 200,Game.player.getY() - 430,360,220,null);
 		
-		System.out.println(Game.getFrameHöhe());
 		online = false;
 		playerCounter = 0;
 		
