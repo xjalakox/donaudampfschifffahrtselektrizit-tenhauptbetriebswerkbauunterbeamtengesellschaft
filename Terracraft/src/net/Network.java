@@ -29,7 +29,7 @@ public class Network {
 		kryo.register(Inventory.class);
 		kryo.register(Double.class);
 		kryo.register(KillClient.class);
-
+		
 		kryo.register(Double.class);
 	}
 

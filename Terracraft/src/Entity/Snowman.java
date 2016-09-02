@@ -16,8 +16,8 @@ public class Snowman extends Entity {
 	private int tick,pause,delay = 0,direction;
 	private boolean standing;
 	
-	public Snowman(int x, int y, int breite, int h�he, Handler handler, Id id) {
-		super(x, y, breite, h�he, handler, id);
+	public Snowman(int x, int y, int breite, int höhe, Handler handler, Id id) {
+		super(x, y, breite, höhe, handler, id);
 		for(int i=0;i<sprite.length;i++){
 			sprite[i]=new Sprite(Game.sheet,3+i , 2, 1, 2);
 		}
@@ -25,8 +25,8 @@ public class Snowman extends Entity {
 
 	public void render(Graphics g) {
 		g.setColor(Color.red);
-		g.drawRect(x, y, breite, h�he);
-		g.drawImage(sprite[frame].getBufferedImage(), x, y,breite,h�he, null);
+		g.drawRect(x, y, breite, höhe);
+		g.drawImage(sprite[frame].getBufferedImage(), x, y,breite,höhe, null);
 	}
 	
 	public void tick() {
@@ -46,7 +46,7 @@ public class Snowman extends Entity {
 	}
 	
 	private void collision(){
-		if(y<Game.getFrameH�he()){
+		if(y<Game.getFrameHöhe()){
 			setVelY(0);
 		}
 		for (Tile ti : handler.tile2) {
@@ -68,13 +68,19 @@ public class Snowman extends Entity {
 
 			if (getLeft().intersects(ti.getRight())) {
 				setVelX(0);
+				jumping=true;
+				falling = false;
+				gravity=17f;
+				setVelX(2);
 				x = ti.getX() + 53;
 				standing=true;
 			}
 			if (getRight().intersects(ti.getLeft())) {
 				setVelX(0);
 				jumping=true;
-				direction=1;
+				falling = false;
+				gravity=17f;
+				setVelX(2);
 				x = ti.getX() - 86;
 				standing=true;
 			}
@@ -82,7 +88,7 @@ public class Snowman extends Entity {
 		}
 		
 		if (jumping) {
-			System.out.println("junma");
+			System.out.println("हैलो पीड़ितों");
 			jumping(0.5f);
 		}
 		
@@ -123,11 +129,11 @@ public class Snowman extends Entity {
 	}
 	
 	public Rectangle getRight() {
-		return new Rectangle(getX() + breite - 5, getY() + 5, 5+20, h�he - 10);
+		return new Rectangle(getX() + breite - 5, getY() + 5, 5+20, höhe - 10);
 	}
 
 	public Rectangle getLeft() {
-		return new Rectangle(getX()-20, getY() + 5, 5, h�he - 10);
+		return new Rectangle(getX()-20, getY() + 5, 5, höhe - 10);
 	}
 
 	

@@ -152,6 +152,7 @@ public class Player extends Entity {
 				jumping(0.5f);
 			}
 		}
+		
 		if (falling) {
 			if (!fly) {
 				falling();
