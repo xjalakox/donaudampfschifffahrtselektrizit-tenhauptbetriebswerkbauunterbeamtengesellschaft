@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import gfx.Sprite;
 
@@ -20,15 +21,14 @@ public class Grass extends Tile{
 	}
 
 	public void render(Graphics g) {
-		
+		double tmp;
 		if(underground){
 			g.drawImage(sprite2.getBufferedImage(),x,y,width,height,null);
 		}else{
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
 		}
-
-
-		
+		renderMap(g);
+		g.drawImage(sprite.getBufferedImage(),mapX,mapY,9,9,null);
 
 	}
 

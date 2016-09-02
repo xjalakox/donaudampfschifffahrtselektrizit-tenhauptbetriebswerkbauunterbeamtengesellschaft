@@ -7,10 +7,11 @@ import java.awt.Rectangle;
 import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 
 public class Tile {
 
-	public int x, y, width, height, velX, velY;
+	public int x, y, width, height, velX, velY,mapX,mapY;
 	Handler handler;
 	Id id;
 	public int damage;
@@ -22,6 +23,42 @@ public class Tile {
 		this.width = Width;
 		this.height = height;
 		this.id = id;
+	}
+	public void renderMap(Graphics g){
+		double tmp;
+		if((Game.player.getX()+Game.player.getBreite()/2)<x){
+			tmp=(x-Game.player.getX())/3.55;
+			mapX=(Game.player.getX() + 200+175)+Utils.toInt(tmp);
+		}else{
+			tmp=(Game.player.getX()-x)/3.55;
+			mapX=(Game.player.getX() + 200+175)-Utils.toInt(tmp);;
+		}
+		if((Game.player.getY()+Game.player.getHöhe()/2)<y){
+			tmp=(y-Game.player.getY())/3.55;
+			mapY=(Game.player.getY() - 430+103)+Utils.toInt(tmp);
+		}else{
+			tmp=(Game.player.getY()-y)/3.55;
+			mapY=(Game.player.getY() - 430+103)-Utils.toInt(tmp);
+		}
+
+	
+
+		
+	}
+	public int getMapX() {
+		return mapX;
+	}
+
+	public void setMapX(int mapX) {
+		this.mapX = mapX;
+	}
+
+	public int getMapY() {
+		return mapY;
+	}
+
+	public void setMapY(int mapY) {
+		this.mapY = mapY;
 	}
 
 	public  void render(Graphics g){

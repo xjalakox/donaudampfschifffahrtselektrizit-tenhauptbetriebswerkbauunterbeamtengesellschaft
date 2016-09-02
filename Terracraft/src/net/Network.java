@@ -27,10 +27,12 @@ public class Network {
 		kryo.register(HittingBlock.class);
 		kryo.register(RemoveTile.class);
 		kryo.register(Inventory.class);
-		kryo.register(Double.class);
 		kryo.register(KillClient.class);
+<<<<<<< HEAD
 		
 		kryo.register(Double.class);
+=======
+>>>>>>> origin/master
 	}
 
 	static public class LoginRequest {
