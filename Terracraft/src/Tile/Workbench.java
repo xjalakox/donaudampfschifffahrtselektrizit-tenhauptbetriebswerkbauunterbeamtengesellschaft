@@ -19,7 +19,8 @@ public class Workbench extends Tile{
 
 	public void render(Graphics g) {
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
-
+			g.setColor(Color.red);
+			g.fillRect(x + 200,y - 430,9,10);
 
 		
 

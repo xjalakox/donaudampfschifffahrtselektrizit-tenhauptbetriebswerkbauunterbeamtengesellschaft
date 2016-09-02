@@ -1,5 +1,6 @@
 package Terracraft;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import Entity.Entity;
@@ -42,6 +43,8 @@ public class Handler {
 		for (Tile ti : tile2) {
 			if (type == "Client") {
 				if (shouldRender(ti)) {
+					
+
 					ti.tick();
 				}
 			} else {

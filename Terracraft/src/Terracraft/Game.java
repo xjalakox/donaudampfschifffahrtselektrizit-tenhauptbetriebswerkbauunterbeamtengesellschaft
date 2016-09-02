@@ -131,6 +131,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		mininghandler.tick();
 		handler.tick();
+		//map.tick();
 		SendCoordinates position = new SendCoordinates();
 		position.x = player.x;
 		position.y = player.y;

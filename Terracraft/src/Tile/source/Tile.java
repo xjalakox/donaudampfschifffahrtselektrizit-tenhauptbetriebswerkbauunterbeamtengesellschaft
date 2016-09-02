@@ -99,7 +99,9 @@ public class Tile {
 	public Rectangle getBounds(){
 		return new Rectangle(x,y,width,height);
 	}
-	
+	public Rectangle getBoundsTop(){
+		return new Rectangle(x + 200,y - 430,9,10);
+	}
 	public Rectangle getRight(){
 		return new Rectangle(x+width-5,y+5,5,height-10);
 	}
