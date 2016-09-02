@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import Terracraft.*;
+import crafting.Recipe;
 import net.Network.Inventory;
 
 public class Key implements KeyListener {
@@ -19,7 +20,9 @@ public class Key implements KeyListener {
 				request.itemid = Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i];
 				Game.client.sendTCP(request);
 			}
-			System.exit(0);
+		}
+		if(k.getKeyCode() == KeyEvent.VK_Z){
+			Recipe.craftItem(Recipe.Workbench.getBlock(), Recipe.Workbench.getAmount());
 		}
 		if (!Game.consoleOpen) {
 			switch (key) {

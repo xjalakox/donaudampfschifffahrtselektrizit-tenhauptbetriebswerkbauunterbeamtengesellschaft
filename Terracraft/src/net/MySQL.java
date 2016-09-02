@@ -27,7 +27,7 @@ public class MySQL {
 			myConn = DriverManager.getConnection(host, users, pw);
 			System.out.println("[MySQL] Connected to the MySQL Server");
 			query = myConn.createStatement();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -136,7 +136,6 @@ public class MySQL {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(id);
 		return id;
 	}
 
@@ -231,8 +230,9 @@ public class MySQL {
 			String items[] = new String[40];
 			while (myRs.next()) {
 				for (int i = 0; i < 40; i++) {
-					System.out.println(items[i]);
+
 					items[itemid - 1] = myRs.getString("slot" + Utils.toString(itemid));
+					//System.out.println("loading " + items[i]);
 					itemid++;
 				}
 			}
