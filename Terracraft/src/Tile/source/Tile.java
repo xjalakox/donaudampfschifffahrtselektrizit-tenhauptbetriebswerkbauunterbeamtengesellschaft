@@ -10,7 +10,7 @@ import Terracraft.Id;
 
 public class Tile {
 
-	public int x, y, width, height, velX, velY;
+	public int x, y, width, height, velX, velY,mapX,mapY;
 	Handler handler;
 	Id id;
 	public int damage;
@@ -22,6 +22,22 @@ public class Tile {
 		this.width = Width;
 		this.height = height;
 		this.id = id;
+	}
+
+	public int getMapX() {
+		return mapX;
+	}
+
+	public void setMapX(int mapX) {
+		this.mapX = mapX;
+	}
+
+	public int getMapY() {
+		return mapY;
+	}
+
+	public void setMapY(int mapY) {
+		this.mapY = mapY;
 	}
 
 	public  void render(Graphics g){
