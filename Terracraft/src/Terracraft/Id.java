@@ -26,13 +26,6 @@ public enum Id {
 	private Sprite image;
 	private Recipe recipe;
 
-	public int getAmount() {
-		return amount;
-	}
-
-	public void setAmount(int amount) {
-		this.amount += amount;
-	}
 
 	Id() {
 
@@ -95,6 +88,25 @@ public enum Id {
 
 	public Rectangle getToolBounds(int x, int y) {
 		return new Rectangle(x, y, 32, 32);
+	}
+	
+
+	public int getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(int amount) {
+		this.amount += amount;
+	}
+	
+
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
 	}
 
 	public static Id toId(String string) {

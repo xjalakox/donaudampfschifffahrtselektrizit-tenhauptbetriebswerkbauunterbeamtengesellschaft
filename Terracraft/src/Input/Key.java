@@ -10,11 +10,13 @@ import net.Network.Inventory;
 public class Key implements KeyListener {
 
 	private int key;
+	private boolean exiting;
 	public static boolean run = false, d = false, w = false, shift = false, a = false, s = false;
 
 	public void keyPressed(KeyEvent k) {
 		key = k.getKeyCode();
-		if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
+		if (k.getKeyCode() == KeyEvent.VK_ESCAPE&&!exiting) {
+			exiting = true;
 			for (int i = 0; i < Game.player.Inventory.size(); i++) {
 				Inventory request = new Inventory();
 				request.itemid = Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i];
@@ -22,7 +24,7 @@ public class Key implements KeyListener {
 			}
 		}
 		if(k.getKeyCode() == KeyEvent.VK_Z){
-			Recipe.craftItem(Recipe.Workbench.getBlock(), Recipe.Workbench.getAmount());
+			Recipe.craftItem(Recipe.Workbench);
 		}
 		if (!Game.consoleOpen) {
 			switch (key) {

@@ -24,24 +24,34 @@ public enum Recipe {
 		this.amount = amount;
 	}
 
-	public static void craftItem(Id block, int amount) {
+	public static void craftItem(Recipe recipe) {
+		boolean enough = false;
+		int stack = 0;
 		for (int i = 0; i < Game.player.Inventory.size(); i++) {
-			if (Game.player.Inventory.get(i).equals(block) && Game.player.Inventory_amount[i] >= amount) {
-				Game.player.Inventory_amount[i] -= amount;
-				for (int j = 0; j < Game.player.Inventory_amount.length; j++) {
-					if (Game.player.Inventory.get(j).equals(Id.Empty)) {
-						System.out.println(Game.player.Inventory.get(j));
-						Game.player.Inventory.add(block);
-						Game.player.Inventory_amount[j] = amount;
-					} else {
-						System.out.println(Game.player.Inventory.get(j));
-					}
-				}
-				break;
+			if (stack >= recipe.amount) {
+
+			} else if (Game.player.Inventory.get(i).equals(recipe.block)
+					&& Game.player.Inventory_amount[i] >= recipe.amount) {
+				Game.player.Inventory_amount[i] -= recipe.amount;
+				enough = true;
+			} else if (Game.player.Inventory.get(i).equals(recipe.block)) {
+				stack+=recipe.amount;
 			}
 		}
-		
-		
+		if (enough) {
+			for (int i = 0; i < Game.player.Inventory_amount.length; i++) {
+				if (Game.player.Inventory.get(i) == Id.Empty) {
+					Game.player.Inventory.set(i, Id.toId(recipe.name));
+					Game.player.Inventory_amount[i] = 1;
+					break;
+				} else if (Game.player.Inventory.get(i) == Id.toId(recipe.name)) {
+					Game.player.Inventory.set(i, Id.toId(recipe.name));
+					Game.player.Inventory_amount[i] += 1;
+					break;
+				}
+			}
+		}
+
 	}
 
 	public void craftItem(Id[] blocks, int[] amounts) {
