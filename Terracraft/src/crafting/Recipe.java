@@ -29,13 +29,15 @@ public enum Recipe {
 		int stack = 0;
 		for (int i = 0; i < Game.player.Inventory.size(); i++) {
 			if (stack >= recipe.amount) {
-
+				// Hier müsste dann von den einzelnen Slots was entfernt werden,
+				// ist aber zu komplex atm
 			} else if (Game.player.Inventory.get(i).equals(recipe.block)
 					&& Game.player.Inventory_amount[i] >= recipe.amount) {
 				Game.player.Inventory_amount[i] -= recipe.amount;
 				enough = true;
+				break;
 			} else if (Game.player.Inventory.get(i).equals(recipe.block)) {
-				stack+=recipe.amount;
+				stack += recipe.amount;
 			}
 		}
 		if (enough) {

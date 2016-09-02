@@ -27,13 +27,7 @@ public class Network {
 		kryo.register(HittingBlock.class);
 		kryo.register(RemoveTile.class);
 		kryo.register(Inventory.class);
-<<<<<<< HEAD
-		kryo.register(Double.class);
-=======
 		kryo.register(KillClient.class);
->>>>>>> origin/master
-
-		kryo.register(Double.class);
 	}
 
 	static public class LoginRequest {
