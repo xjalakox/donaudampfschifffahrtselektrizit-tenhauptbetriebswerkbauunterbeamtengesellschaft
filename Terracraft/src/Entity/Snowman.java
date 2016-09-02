@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-
 import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
@@ -32,13 +30,19 @@ public class Snowman extends Entity {
 	}
 	
 	public void tick() {
-		if(!standing()){
+		if(standing){
+			pause++;
+			if(pause==10){
+				pause=0;
+				standing=false;
+			}
+		}else{
 			x+=velX;
 			y+=velY;
+			move();
+			frameticks();
+			collision();
 		}
-		frameticks();
-		collision();
-		move();
 	}
 	
 	private void collision(){
@@ -66,14 +70,20 @@ public class Snowman extends Entity {
 				setVelX(0);
 				x = ti.getX() + 53;
 				standing=true;
-				System.out.println("d");
 			}
 			if (getRight().intersects(ti.getLeft())) {
 				setVelX(0);
-				x = ti.getX() - 46;
-
+				jumping=true;
+				direction=1;
+				x = ti.getX() - 86;
+				standing=true;
 			}
 
+		}
+		
+		if (jumping) {
+			System.out.println("junma");
+			jumping(0.5f);
 		}
 		
 		if(falling){
@@ -95,19 +105,7 @@ public class Snowman extends Entity {
 			framedelay = 0;
 		}
 	}
-	
-	private boolean standing(){
-		if(standing){
-			pause++;
-			if(pause==10){
-				standing=false;
-			}
-			return true;
-		}else{
-			pause=0;
-		}
-		return false;
-	}
+
 
 	private void move() {
 		if(tick==delay){

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import gfx.Sprite;
 
@@ -19,11 +20,9 @@ public class Workbench extends Tile{
 
 	public void render(Graphics g) {
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
-			g.setColor(Color.red);
-			g.fillRect(x + 200,y - 430,9,10);
+			renderMap(g);
 
-		
-
+			g.drawImage(sprite.getBufferedImage(),mapX,mapY,9,9,null);
 	}
 
 	public void tick() {

@@ -44,7 +44,7 @@ public class Handler {
 			if (type == "Client") {
 				if (shouldRender(ti)) {
 					
-
+					
 					ti.tick();
 				}
 			} else {
