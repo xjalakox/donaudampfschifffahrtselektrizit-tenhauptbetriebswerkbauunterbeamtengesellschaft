@@ -8,6 +8,7 @@ import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
 import Terracraft.Utils;
+import gfx.Sprite;
 
 public class Tile {
 
@@ -24,7 +25,7 @@ public class Tile {
 		this.height = height;
 		this.id = id;
 	}
-	public void renderMap(Graphics g){
+	public void renderMap(Graphics g,Sprite sprite){
 		double tmp;
 		if((Game.player.getX()+Game.player.getBreite()/2)<x){
 			tmp=(x-Game.player.getX())/3.55;
@@ -35,10 +36,13 @@ public class Tile {
 		}
 		if((Game.player.getY()+Game.player.getHöhe()/2)<y){
 			tmp=(y-Game.player.getY())/3.55;
-			mapY=(Game.player.getY() - 430+103)+Utils.toInt(tmp);
+			mapY=(Game.player.getY() - 430+103+30)+Utils.toInt(tmp);
 		}else{
 			tmp=(Game.player.getY()-y)/3.55;
-			mapY=(Game.player.getY() - 430+103)-Utils.toInt(tmp);
+			mapY=(Game.player.getY() - 430+103+30)-Utils.toInt(tmp);
+		}
+		if(Game.map.getBounds().intersects(new Rectangle(mapX,mapY,9,9))){
+			g.drawImage(sprite.getBufferedImage(),mapX,mapY,9,9,null);
 		}
 
 	

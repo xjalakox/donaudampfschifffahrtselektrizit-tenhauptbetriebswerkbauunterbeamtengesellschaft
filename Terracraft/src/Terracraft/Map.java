@@ -41,8 +41,7 @@ public class Map {
 			g.drawString("Andere Positionen:", Game.player.getX() + 450, Game.player.getY() + 114 - 400 - 74);
 		}
 		g.drawImage(this.getBufferedImage(map),  Game.player.getX() + 200,Game.player.getY() - 430,360,220,null);
-		g.setColor(Color.green);
-		g.fillRect(Game.player.getX() + 200+175,Game.player.getY() - 430+103,10,10);
+
 
 
 
@@ -58,7 +57,7 @@ public class Map {
 		return image;
 	}
 	public Rectangle getBounds(){
-		return new Rectangle(  Game.player.getX() + 200,Game.player.getY() - 430,360,216);
+		return new Rectangle(  Game.player.getX() + 200+20,Game.player.getY() - 430+15,360-40,216-30);
 	}
 	
 	

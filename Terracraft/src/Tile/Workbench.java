@@ -20,9 +20,9 @@ public class Workbench extends Tile{
 
 	public void render(Graphics g) {
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
-			renderMap(g);
+			renderMap(g,sprite);
 
-			g.drawImage(sprite.getBufferedImage(),mapX,mapY,9,9,null);
+			
 	}
 
 	public void tick() {

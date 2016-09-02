@@ -22,13 +22,15 @@ public class Grass extends Tile{
 
 	public void render(Graphics g) {
 		double tmp;
+		
 		if(underground){
 			g.drawImage(sprite2.getBufferedImage(),x,y,width,height,null);
+			renderMap(g,sprite2);
 		}else{
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
+			renderMap(g,sprite);
 		}
-		renderMap(g);
-		g.drawImage(sprite.getBufferedImage(),mapX,mapY,9,9,null);
+		
 
 	}
 
