@@ -41,10 +41,6 @@ public class Map {
 			g.drawString("Andere Positionen:", Game.player.getX() + 450, Game.player.getY() + 114 - 400 - 74);
 		}
 		g.drawImage(this.getBufferedImage(map),  Game.player.getX() + 200,Game.player.getY() - 430,360,220,null);
-<<<<<<< HEAD
-=======
-		
->>>>>>> origin/master
 		online = false;
 		playerCounter = 0;
 		
