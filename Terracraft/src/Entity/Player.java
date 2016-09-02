@@ -94,7 +94,7 @@ public class Player extends Entity {
 		y += velY;
 
 		for (Tile ti : handler.tile2) {
-
+			if(!ti.getId().equals(Id.Workbench)){
 			if (getTop().intersects(ti.getBottom())) {
 				setVelY(0);
 				y = ti.getY() + 33;
@@ -122,7 +122,7 @@ public class Player extends Entity {
 				x = ti.getX() - 46;
 
 			}
-
+			}
 		}
 
 		// Movement

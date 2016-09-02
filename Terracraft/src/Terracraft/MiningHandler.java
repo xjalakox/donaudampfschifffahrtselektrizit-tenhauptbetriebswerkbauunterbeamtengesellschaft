@@ -144,7 +144,7 @@ public class MiningHandler {
 			}
 		}
 		for (int i = 0; i < 40; i++) {
-			if (Game.player.Inventory.get(i).getType().equals("block") && Game.player.Inventory_amount[i] == 0) {
+			if (Game.player.Inventory.get(i).getType().equals("block") && Game.player.Inventory_amount[i] <= 0) {
 				Game.player.Inventory.set(i, Id.Empty);
 			}
 		}
