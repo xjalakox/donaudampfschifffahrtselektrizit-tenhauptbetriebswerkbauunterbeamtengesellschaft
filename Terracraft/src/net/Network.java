@@ -25,7 +25,9 @@ public class Network {
 		kryo.register(HittingBlock.class);
 		kryo.register(RemoveTile.class);
 		kryo.register(Inventory.class);
+		kryo.register(Double.class);
 
+		kryo.register(Double.class);
 	}
 
 	static public class LoginRequest {

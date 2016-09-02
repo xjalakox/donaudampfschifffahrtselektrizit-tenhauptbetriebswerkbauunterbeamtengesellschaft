@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 import com.esotericsoftware.kryonet.Client;
 
-import Entity.Dragon;
+import Entity.Snowman;
 import Entity.Entity;
 import Entity.NetPlayer;
 import Entity.Player;
@@ -48,7 +48,7 @@ public class Game extends Canvas implements Runnable {
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
-	public Dragon dragon;
+	public Snowman dragon;
 	public static SoundManager sm = new SoundManager();
 	public static MiningHandler mininghandler = new MiningHandler();
 	public static Spritesheet2 sheet_armor = new Spritesheet2("/Armor.png");
@@ -70,7 +70,7 @@ public class Game extends Canvas implements Runnable {
 		cam = new Camera();
 		key = new Key();
 		player = new Player(username, x, y, 46, 96, Id.Player, key);
-		dragon = new Dragon(x - 1000, 300, 64, 64, handler, Id.Dragon);
+		dragon = new Snowman(x - 1000, 300, 64, 64, handler, Id.Dragon);
 
 		handler.addEntity(player);
 		handler.addEntity(dragon);
