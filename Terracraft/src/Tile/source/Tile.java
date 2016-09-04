@@ -34,7 +34,7 @@ public class Tile {
 			tmp=(Game.player.getX()-x)/3.55;
 			mapX=(Game.player.getX() + 200+175)-Utils.toInt(tmp);;
 		}
-		if((Game.player.getY()+Game.player.getHöhe()/2)<y){
+		if((Game.player.getY()+Game.player.getHeight()/2)<y){
 			tmp=(y-Game.player.getY())/3.55;
 			mapY=(Game.player.getY() - 430+103+30)+Utils.toInt(tmp);
 		}else{
@@ -105,7 +105,7 @@ public class Tile {
 		this.width = Width;
 	}
 
-	public int getheight() {
+	public int getHeight() {
 		return height;
 	}
 

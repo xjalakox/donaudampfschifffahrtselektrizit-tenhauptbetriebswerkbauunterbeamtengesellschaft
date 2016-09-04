@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1337L;
 
-	public static int breite = 320, höhe = 180, scale = 4;
+	public static int breite = 320, height = 180, scale = 4;
 	public static boolean running = false;
 	private static Thread thread = new Thread();
 	public static Handler handler;
@@ -131,13 +131,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		mininghandler.tick();
 		handler.tick();
-		//map.tick();
-		SendCoordinates position = new SendCoordinates();
-		position.x = player.x;
-		position.y = player.y;
-		position.username = username;
-		position.tool = mininghandler.equippedTool;
-		client.sendUDP(position);
+		player.sendPosition();
 	}
 
 	public synchronized void start() {
@@ -196,7 +190,7 @@ public class Game extends Canvas implements Runnable {
 		this.username = username;
 		this.frame = frame;
 		this.client = client;
-		Dimension size = new Dimension(breite * scale, höhe * scale);
+		Dimension size = new Dimension(breite * scale, height * scale);
 		setPreferredSize(size);
 		setMinimumSize(size);
 		setMaximumSize(size);
@@ -206,8 +200,8 @@ public class Game extends Canvas implements Runnable {
 		return breite * scale;
 	}
 
-	public static int getFrameHöhe() {
-		return höhe * scale;
+	public static int getFrameheight() {
+		return height * scale;
 	}
 
 	private void renderLookingBlock(Graphics g) {
@@ -329,4 +323,5 @@ public class Game extends Canvas implements Runnable {
 	public static Rectangle getVisisbleArea() {
 		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
 	}
+
 }

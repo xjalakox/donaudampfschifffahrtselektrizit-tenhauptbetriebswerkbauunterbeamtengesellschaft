@@ -28,8 +28,8 @@ public class NetPlayer extends Entity {
 	private int xnetwork, ynetwork;
 	private boolean goRight, goLeft, goUp, goDown, still;
 
-	public NetPlayer(String username, int x, int y, int breite, int höhe, Id id) {
-		super(x, y, breite, höhe, Game.handler, id);
+	public NetPlayer(String username, int x, int y, int breite, int height, Id id) {
+		super(x, y, breite, height, Game.handler, id);
 		this.username = username;
 		for (int i = 1; i < armor.length; i++) {
 			armor[i] = new Sprite2(Game.sheet_armor, 1, i, 1, 1);
@@ -43,7 +43,7 @@ public class NetPlayer extends Entity {
 	public void render(Graphics g) {
 
 		g.setColor(Color.blue);
-		g.drawRect(x, y, breite, höhe);
+		g.drawRect(x, y, breite, height);
 		Zeichnung(g);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g.drawString(getUsername(), getX(), getY() - 10);

@@ -11,42 +11,42 @@ import Tile.source.Tile;
 import gfx.Sprite;
 
 public class Snowman extends Entity {
-	
-	private Sprite [] sprite=new Sprite[3];
-	private int tick,pause,delay = 0,direction;
+
+	private Sprite[] sprite = new Sprite[3];
+	private int tick, pause, delay = 0, direction;
 	private boolean standing;
-	
-	public Snowman(int x, int y, int breite, int höhe, Handler handler, Id id) {
-		super(x, y, breite, höhe, handler, id);
-		for(int i=0;i<sprite.length;i++){
-			sprite[i]=new Sprite(Game.sheet,3+i , 2, 1, 2);
+
+	public Snowman(int x, int y, int breite, int height, Handler handler, Id id) {
+		super(x, y, breite, height, handler, id);
+		for (int i = 0; i < sprite.length; i++) {
+			sprite[i] = new Sprite(Game.sheet, 3 + i, 2, 1, 2);
 		}
 	}
 
 	public void render(Graphics g) {
 		g.setColor(Color.red);
-		g.drawRect(x, y, breite, höhe);
-		g.drawImage(sprite[frame].getBufferedImage(), x, y,breite,höhe, null);
+		g.drawRect(x, y, breite, height);
+		g.drawImage(sprite[frame].getBufferedImage(), x, y, breite, height, null);
 	}
-	
+
 	public void tick() {
-		if(standing){
+		if (standing) {
 			pause++;
-			if(pause==10){
-				pause=0;
-				standing=false;
+			if (pause == 10) {
+				pause = 0;
+				standing = false;
 			}
-		}else{
-			x+=velX;
-			y+=velY;
+		} else {
+			x += velX;
+			y += velY;
 			move();
 			frameticks();
 			collision();
 		}
 	}
-	
+
 	private void collision(){
-		if(y<Game.getFrameHöhe()){
+		if(y<Game.getFrameheight()){
 			setVelY(0);
 		}
 		for (Tile ti : handler.tile2) {
@@ -100,7 +100,7 @@ public class Snowman extends Entity {
 			}
 		}
 	}
-	
+
 	private void frameticks() {
 		framedelay++;
 		if (framedelay >= 13) {
@@ -112,30 +112,27 @@ public class Snowman extends Entity {
 		}
 	}
 
-
 	private void move() {
-		if(tick==delay){
-			delay = Terracraft.Utils.RandomInt(200,600);
+		if (tick == delay) {
+			delay = Terracraft.Utils.RandomInt(200, 600);
 			direction = Terracraft.Utils.RandomInt(2);
-				if(direction==0){
-					setVelX(1);
-				}else{
-					setVelX(-1);
-				}
-				tick=0;
-		}else{
+			if (direction == 0) {
+				setVelX(1);
+			} else {
+				setVelX(-1);
+			}
+			tick = 0;
+		} else {
 			tick++;
 		}
 	}
-	
+
 	public Rectangle getRight() {
-		return new Rectangle(getX() + breite - 5, getY() + 5, 5+20, höhe - 10);
+		return new Rectangle(getX() + breite - 5, getY() + 5, 5+20, height - 10);
 	}
 
 	public Rectangle getLeft() {
-		return new Rectangle(getX()-20, getY() + 5, 5, höhe - 10);
+		return new Rectangle(getX()-20, getY() + 5, 5, height - 10);
 	}
-
-	
 
 }

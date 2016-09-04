@@ -10,7 +10,7 @@ import Tile.source.Tile;
 
 public abstract class Entity {
 
-	public int x, y, breite, höhe, velX, velY;
+	public int x, y, breite, height, velX, velY;
 	public boolean removed, clicked, click;
 	public Handler handler;
 	public Id id;
@@ -47,18 +47,18 @@ public abstract class Entity {
 
 	public float gravity = 0f;
 
-	public Entity(int x, int y, int breite, int höhe, Handler handler, Id id) {
+	public Entity(int x, int y, int breite, int height, Handler handler, Id id) {
 		this.x = x;
 		this.y = y;
 		this.breite = breite;
-		this.höhe = höhe;
+		this.height = height;
 		this.handler = handler;
 		this.id = id;
 
 	}
 	
 	public Rectangle getArea() {
-		return new Rectangle(x - 128, y - 128, 96 * 3 + breite, 96 * 3 + höhe);
+		return new Rectangle(x - 128, y - 128, 96 * 3 + breite, 96 * 3 + height);
 	}
 
 	public abstract void render(Graphics g);
@@ -113,12 +113,12 @@ public abstract class Entity {
 		this.breite = breite;
 	}
 
-	public int getHöhe() {
-		return höhe;
+	public int getHeight() {
+		return height;
 	}
 
-	public void setHöhe(int höhe) {
-		this.höhe = höhe;
+	public void setheight(int height) {
+		this.height = height;
 	}
 
 	public int getVelX() {
@@ -173,7 +173,7 @@ public abstract class Entity {
 	public void falling() {
 		if (falling) {
 			gravity += 0.5f;
-			if (y > Game.getFrameHöhe() - 200) {
+			if (y > Game.getFrameheight() - 200) {
 
 				gravity = 0f;
 				jumping = false;
@@ -198,25 +198,25 @@ public abstract class Entity {
 
 	public Rectangle getBounds() {
 
-		return new Rectangle(getX(), getY(), breite, höhe);
+		return new Rectangle(getX(), getY(), breite, height);
 
 	}
 
 	public Rectangle getBottom() {
 
-		return new Rectangle(getX() + 6, getY() + höhe - 16, breite-10, 16);
+		return new Rectangle(getX() + 6, getY() + height - 16, breite-10, 16);
 
 	}
 
 	public Rectangle getRight() {
 
-		return new Rectangle(getX() + breite - 5, getY() + 5, 5, höhe - 10);
+		return new Rectangle(getX() + breite - 5, getY() + 5, 5, height - 10);
 
 	}
 
 	public Rectangle getLeft() {
 
-		return new Rectangle(getX(), getY() + 5, 5, höhe - 10);
+		return new Rectangle(getX(), getY() + 5, 5, height - 10);
 
 	}
 
