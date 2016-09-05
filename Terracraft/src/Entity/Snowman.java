@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import Terracraft.Game;
 import Terracraft.Handler;
 import Terracraft.Id;
+import Terracraft.Utils;
 import Tile.source.Tile;
 import gfx.Sprite;
 
@@ -114,8 +115,8 @@ public class Snowman extends Entity {
 
 	private void move() {
 		if (tick == delay) {
-			delay = Terracraft.Utils.RandomInt(200, 600);
-			direction = Terracraft.Utils.RandomInt(2);
+			delay = Utils.RandomInt(200, 600);
+			direction = Utils.RandomInt(2);
 			if (direction == 0) {
 				setVelX(1);
 			} else {

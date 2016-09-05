@@ -19,7 +19,6 @@ import net.registerlogin.Login;
 
 public class ClientConnection {
 	private static Game terracraft = null;
-	private int InventoryPlace;
 
 	public ClientConnection(Client client) {
 		client.start();
@@ -85,17 +84,15 @@ public class ClientConnection {
 				}
 				if(object instanceof Inventory){
 					Inventory response = (Inventory) object;
-					String[] SplitInventoryData = response.itemid.split(",");
-					if (SplitInventoryData.length == 2) {
-						if (SplitInventoryData[0].equalsIgnoreCase("null")) {
-							System.out.println(
-									"Irgendwas ist schief gelaufen beim Inventar in der DB^^ Mir bitte Bescheid geben!(Jannik) PS: Wusstet ihr, dass desto öfter ihr das hier seht, desto einfacher der Fixx in der DB ist(Wenn er nicht automatisch geschehen ist(Ja mir ist langweilig))");
-						} else {
-							Game.player.Inventory.set(InventoryPlace, Id.toId(SplitInventoryData[0]));
-							Game.player.Inventory_amount[InventoryPlace] = Utils.toInt(SplitInventoryData[1]);
+					
+					for(int i=0;i<response.itemids.length;i++){
+						if(Utils.isNotNull(response.itemids[i])){
+							System.out.println(response.itemids[i]);
+							String[] SplitInventoryData = response.itemids[i].split(",");
+							Game.player.Inventory.set(i, Id.toId(SplitInventoryData[0]));
+							Game.player.Inventory_amount[i] = Utils.toInt(SplitInventoryData[1]);
 						}
 					}
-					InventoryPlace++;
 				}
 				if (object instanceof KillClient) {
 					System.exit(0);

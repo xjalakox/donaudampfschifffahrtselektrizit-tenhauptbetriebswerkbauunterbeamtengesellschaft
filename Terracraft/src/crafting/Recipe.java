@@ -1,16 +1,23 @@
 package crafting;
 
+import java.util.Arrays;
+import java.util.List;
+
 import Terracraft.Game;
 import Terracraft.Id;
 
 public enum Recipe {
 
-	Workbench("Workbench", Id.Grass, 4);
+	Workbench("Workbench", Id.Grass, 4),
+	Test("Test",Id.Workbench,2);
 	private String name;
 	private Id block;
 	private Id[] blocks;
 	private int amount;
 	private int[] amounts;
+	static List<Recipe> recipeamount = Arrays.asList(Recipe.values());
+	
+
 
 	Recipe(String name, Id[] blocks, int[] amounts) {
 		this.name = name;
@@ -22,6 +29,17 @@ public enum Recipe {
 		this.name = name;
 		this.block = block;
 		this.amount = amount;
+	}
+	
+	public static Recipe[] getRecipes(){
+		Recipe[] recipes = new Recipe[recipeamount.size()];
+		int i = 0;
+		for(Recipe e : recipeamount){
+			recipes[i] = e;
+			i++;
+		}
+		return recipes;
+		
 	}
 
 	public static void craftItem(Recipe recipe) {

@@ -112,16 +112,13 @@ public class ServerConnection {
 					for (NetUser u : users) {
 						if (u.getConnection().equals(connection)) {
 							u.setConnected(true);
-
 						}
 					}
 
-					String UserInventory[] = mysql.loadInventory(response.username);
-					for (int i = 0; i < UserInventory.length; i++) {
-						Inventory invresponse = new Inventory();
-						invresponse.itemid = UserInventory[i];
-						connection.sendTCP(invresponse);
-					}
+					Inventory invresponse = new Inventory();
+					invresponse.itemids = mysql.loadInventory(response.username);
+					System.out.println(invresponse.itemids.length);
+					connection.sendTCP(invresponse);
 				}
 				// Allen Usern wird der neue Spieler gesendet
 				if (object instanceof NetUserSpawnResponse) {
@@ -184,18 +181,13 @@ public class ServerConnection {
 				}
 				if (object instanceof Inventory) {
 					Inventory response = (Inventory) object;
-					String[] SplitInventoryData = response.itemid.split(",");
-					if (SplitInventoryData.length == 2) {
-						for (NetUser u : users) {
-							if (u.getAddress().equals(connection.getRemoteAddressTCP().getAddress())
-									&& u.getPort() == connection.getRemoteAddressTCP().getPort()) {
-								u.setInventoryPlace(u.getInventoryPlace() + 1);
-								mysql.saveInventory(response.itemid, u.getUsername(), u.getInventoryPlace());
-								if (u.getInventoryPlace() >= 40) {
-									KillClient request = new KillClient();
-									u.getConnection().sendTCP(request);
-								}
-							}
+
+					for (NetUser u : users) {
+						if (u.getAddress().equals(connection.getRemoteAddressTCP().getAddress())
+								&& u.getPort() == connection.getRemoteAddressTCP().getPort()) {
+							mysql.saveInventory(response.itemids, u.getUsername());
+							KillClient request = new KillClient();
+							u.getConnection().sendTCP(request);
 						}
 					}
 

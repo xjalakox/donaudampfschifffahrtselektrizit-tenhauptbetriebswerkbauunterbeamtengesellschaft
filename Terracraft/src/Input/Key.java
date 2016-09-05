@@ -17,14 +17,20 @@ public class Key implements KeyListener {
 		key = k.getKeyCode();
 		if (k.getKeyCode() == KeyEvent.VK_ESCAPE&&!exiting) {
 			exiting = true;
+			String itemids[] = new String[40];
 			for (int i = 0; i < Game.player.Inventory.size(); i++) {
-				Inventory request = new Inventory();
-				request.itemid = Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i];
-				Game.client.sendTCP(request);
+				itemids[i] = Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i];
 			}
+			
+			Inventory request = new Inventory();
+			request.itemids = itemids;
+			Game.client.sendTCP(request);
 		}
 		if(k.getKeyCode() == KeyEvent.VK_Z){
-			Recipe.craftItem(Recipe.Workbench);
+			Recipe[] j = Recipe.getRecipes();
+			for(int i=0;i<j.length;i++){
+				System.out.println(j[i]);
+			}
 		}
 		if (!Game.consoleOpen) {
 			switch (key) {

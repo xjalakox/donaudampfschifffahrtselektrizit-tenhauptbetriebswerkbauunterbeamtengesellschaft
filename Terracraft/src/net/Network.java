@@ -15,6 +15,7 @@ public class Network {
 		kryo.register(String.class);
 		kryo.register(int.class);
 		kryo.register(Id.class);
+		kryo.register(String[].class);
 		
 		kryo.register(LoginRequest.class);
 		kryo.register(LoginResponse.class);
@@ -80,7 +81,7 @@ public class Network {
 	}
 	
 	static public class Inventory {
-		public String itemid;
+		public String[] itemids;
 	}
 	
 	static public class KillClient {

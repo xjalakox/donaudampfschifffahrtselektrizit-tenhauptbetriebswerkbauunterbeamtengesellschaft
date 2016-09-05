@@ -232,7 +232,7 @@ public class MySQL {
 				for (int i = 0; i < 40; i++) {
 
 					items[itemid - 1] = myRs.getString("slot" + Utils.toString(itemid));
-					//System.out.println("loading " + items[i]);
+					// System.out.println("loading " + items[i]);
 					itemid++;
 				}
 			}
@@ -244,17 +244,15 @@ public class MySQL {
 		return null;
 	}
 
-	public void saveInventory(String inventorydata, String username, int ArraySlot) {
+	public void saveInventory(String[] data, String username) {
 		try {
-			if (ArraySlot <= 1) {
-				Utils.startTimerMillis();
+			String querytext = "UPDATE inventorys SET `slot1` = '" + data[0] + "'";
+			for (int i = 1; i < data.length; i++) {
+				querytext = querytext + " , `slot" + (i + 1) + "` = '" + data[i] + "'";
 			}
-			;
-			query.executeUpdate("UPDATE inventorys SET `slot" + ArraySlot + "` = " + "'" + inventorydata + "'"
-					+ " WHERE `user_id` = '" + getUserIdByName(username) + "'");
-			if (ArraySlot >= 40) {
-				System.out.println(Utils.getTimerMillis() + " zum speichern des Inventars von " + username);
-			}
+			querytext = querytext + " WHERE `user_id` = '" + getUserIdByName(username) + "'";
+
+			query.executeUpdate(querytext);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
