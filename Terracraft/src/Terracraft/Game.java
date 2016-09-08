@@ -23,6 +23,7 @@ import Input.Key;
 import Input.Mouse;
 import Tile.Grass;
 import audio.SoundManager;
+import crafting.Recipe;
 import gfx.Sprite;
 import gfx.Spritesheet;
 import gfx.Spritesheet2;

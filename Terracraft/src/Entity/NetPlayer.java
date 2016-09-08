@@ -44,7 +44,7 @@ public class NetPlayer extends Entity {
 
 		g.setColor(Color.blue);
 		g.drawRect(x, y, breite, height);
-		Zeichnung(g);
+		drawPlayer(g);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g.drawString(getUsername(), getX(), getY() - 10);
 
@@ -185,7 +185,7 @@ public class NetPlayer extends Entity {
 		this.username = username;
 	}
 
-	public void Zeichnung(Graphics g) {
+	public void drawPlayer(Graphics g) {
 
 		if (moving == -1 && !jumping && !falling) {
 			g.drawImage(legs[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);

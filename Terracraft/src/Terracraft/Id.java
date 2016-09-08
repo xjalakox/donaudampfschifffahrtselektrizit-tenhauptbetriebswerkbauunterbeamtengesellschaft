@@ -13,7 +13,7 @@ public enum Id {
 	// Block
 			Player, NetPlayer, Stone, Dragon,
 			Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"),
-			Grass(new Sprite(Game.sheet, 13, 1, 1, 1), "block"),  
+			Grass(new Sprite(Game.sheet, 13, 1, 1, 1), "block", Recipe.Test),  
 			Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty",0,"empty"),
 			Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block", Recipe.Workbench),
 	
@@ -46,6 +46,13 @@ public enum Id {
 		this.recipe = recipe;
 	}
 
+	Id(Sprite image, String block, int efficiency, String type) {
+		this.image = image;
+		this.block = block;
+		this.efficiency = efficiency;
+		this.type = type;
+	}
+
 	Id(Sprite image, String block, int efficiency, String type, Recipe recipe) {
 		this.image = image;
 		this.block = block;
@@ -54,13 +61,6 @@ public enum Id {
 		this.recipe = recipe;
 	}
 	
-	Id(Sprite image, String block, int efficiency, String type) {
-		this.image = image;
-		this.block = block;
-		this.efficiency = efficiency;
-		this.type = type;
-	}
-
 
 	public String getType() {
 		return type;
@@ -154,7 +154,7 @@ public enum Id {
 		case "Grass":
 			return new Grass(x, y, 32, 32, Id.Grass);
 		case "Workbench":
-			return new Workbench(x, y, 64, 32, Id.Workbench);
+			return new Workbench(x, y, 32, 32, Id.Workbench);
 		}
 		return null;
 	}

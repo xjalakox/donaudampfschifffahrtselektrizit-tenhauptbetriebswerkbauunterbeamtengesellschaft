@@ -59,25 +59,23 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			}
 
 			if (m.getButton() == m.BUTTON3 && !Game.consoleOpen && !lookIfOccupied()) {
-				System.out.println(MiningHandler.equippedTool.toString());
 				if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
 					AddTile request = new AddTile();
 					request.x = lookingAtX;
-					request.y=lookingAtY;
-					request.type="Grass";
+					request.y = lookingAtY;
+					request.type = "Grass";
 					Game.client.sendTCP(request);
 					Game.player.Inventory_amount[mouseRotation] -= 1;
-				}else if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Workbench)
+				} else if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Workbench)
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
 					AddTile request = new AddTile();
 					request.x = lookingAtX;
-					request.y=lookingAtY;
-					request.type="Workbench";
+					request.y = lookingAtY;
+					request.type = "Workbench";
 					Game.client.sendTCP(request);
 					Game.player.Inventory_amount[mouseRotation] -= 1;
 				}
-				
 
 			}
 		} else {
@@ -110,45 +108,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					}
 				}
 			}
-
-			// for(int i=0;i<10;i++){
-			//
-			//
-			// if(Collision().intersects(new Rectangle(i * 74 + 20 +
-			// Game.player.getX()- 650, 20 + Game.player.getY()-450, 64, 64))){
-			// if(mouseItem.equals(Id.Empty)){
-			// mouseItem=MiningHandler.scrollbarTiles.get(i);
-			// MiningHandler.scrollbarTiles.set(i,Id.Empty);
-			// mouse_amount=MiningHandler.scrollbar_amount[i];
-			// }else{
-			// if(mouseItem.equals(MiningHandler.scrollbarTiles.get(i))&&mouseItem.getType().equals("block")){
-			// MiningHandler.scrollbar_amount[i]+=mouse_amount;
-			// mouseItem=Id.Empty;
-			// }else{
-			// int temporary_amount=MiningHandler.scrollbar_amount[i];
-			// Id temporary=MiningHandler.scrollbarTiles.get(i);
-			// MiningHandler.scrollbarTiles.set(i,mouseItem);
-			// MiningHandler.scrollbar_amount[i]=mouse_amount;
-			// mouseItem=temporary;
-			// mouse_amount=temporary_amount;
-			// }
-			//
-			// }
-			//
-			// }
-			//
-			//
-			//
-			//
-			// }
-
 		}
 	}
 
 	public void mouseReleased(MouseEvent m) {
 		mousedown = false;
 		pressed = false;
-		
+
 		HittingBlock request = new HittingBlock();
 		request.click = Game.player.click;
 		request.clicked = false;

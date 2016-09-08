@@ -87,7 +87,6 @@ public class ClientConnection {
 					
 					for(int i=0;i<response.itemids.length;i++){
 						if(Utils.isNotNull(response.itemids[i])){
-							System.out.println(response.itemids[i]);
 							String[] SplitInventoryData = response.itemids[i].split(",");
 							Game.player.Inventory.set(i, Id.toId(SplitInventoryData[0]));
 							Game.player.Inventory_amount[i] = Utils.toInt(SplitInventoryData[1]);

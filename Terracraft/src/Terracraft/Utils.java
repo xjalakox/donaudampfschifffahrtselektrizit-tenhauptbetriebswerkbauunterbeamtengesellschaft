@@ -4,11 +4,13 @@ import static java.lang.Math.toIntExact;
 
 import java.util.Random;
 
+import crafting.Recipe;
+
 public final class Utils {
-	
+
 	private static long millistimer;
 	private static long nanostimer;
-	 
+
 	public static int toInt(Object toConvert) {
 		if (toConvert instanceof Integer) {
 			int toReturn = (int) toConvert;
@@ -50,7 +52,12 @@ public final class Utils {
 		} else if (toConvert instanceof Boolean) {
 			Boolean toReturn = (Boolean) toConvert;
 			return toReturn + "";
-
+		} else if (toConvert instanceof Id) {
+			Id toReturn = (Id) toConvert;
+			return toReturn.toString();
+		} else if (toConvert instanceof Recipe) {
+			Recipe toReturn = (Recipe) toConvert;
+			return toReturn.toString();
 		} else {
 			System.out.println("Konnte Datentyp " + toConvert.getClass() + " nicht konvertieren!");
 		}
@@ -87,34 +94,34 @@ public final class Utils {
 			return "";
 		}
 	}
-	
-	public static int RandomInt(int max){
-		Random random = new Random(); 
+
+	public static int RandomInt(int max) {
+		Random random = new Random();
 		int integer = random.nextInt(max);
 		return integer;
 	}
-	
-	public static int RandomInt(int min,int max){
-		Random random = new Random(); 
-		int integer = random.nextInt(max)+min;
+
+	public static int RandomInt(int min, int max) {
+		Random random = new Random();
+		int integer = random.nextInt(max) + min;
 		return integer;
 	}
-	
-	public static void startTimerMillis(){
+
+	public static void startTimerMillis() {
 		millistimer = System.currentTimeMillis();
 	}
-	
-	public static String getTimerMillis(){
+
+	public static String getTimerMillis() {
 		long actualtime = System.currentTimeMillis();
 		long difference = actualtime - millistimer;
 		return "Gebrauchte Zeit " + difference + " Millisekunden";
 	}
-	
-	public static void startTimerNanos(){
+
+	public static void startTimerNanos() {
 		nanostimer = System.nanoTime();
 	}
-	
-	public static String getTimerNanos(){
+
+	public static String getTimerNanos() {
 		long actualtime = System.currentTimeMillis();
 		long difference = actualtime - nanostimer;
 		return "Gebrauchte Zeit " + difference + " Nanosekunden";

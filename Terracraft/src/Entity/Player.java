@@ -15,6 +15,7 @@ import Terracraft.Id;
 import Terracraft.MiningHandler;
 import Terracraft.Utils;
 import Tile.source.Tile;
+import crafting.Recipe;
 import gfx.Sprite;
 import gfx.Sprite2;
 import net.Network.HittingBlock;
@@ -36,6 +37,8 @@ public class Player extends Entity {
 	public ArrayList<Id> Inventory = new ArrayList<Id>();
 	public int[] Inventory_amount = new int[40];
 	public boolean inventoryOpen;
+	private boolean gotRecipes = false;
+	private Recipe[] recipes = null;
 
 	public Player(String username, int x, int y, int breite, int height, Id id, Key key) {
 
@@ -81,12 +84,14 @@ public class Player extends Entity {
 		g.drawRect(getX(), getY() + 5, 5, height - 10);
 		g.setColor(Color.cyan);
 		g.drawRect(getX() + 5, getY(), breite - 10, 16);
-		Zeichnung(g);
+		drawPlayer(g);
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g.drawString(getUsername(), getX(), getY() - 10);
 		if (isInventoryOpen()) {
 			Inventory(g);
+		} else {
+			gotRecipes = false;
 		}
 	}
 
@@ -210,7 +215,7 @@ public class Player extends Entity {
 		this.username = username;
 	}
 
-	public void Zeichnung(Graphics g) {
+	public void drawPlayer(Graphics g) {
 
 		if (moving == -1 && !jumping && !falling) {
 			g.drawImage(legs[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);
@@ -337,8 +342,9 @@ public class Player extends Entity {
 	public void Inventory(Graphics g) {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 4; j++) {
+
 				g.drawImage(inventory_background.getBufferedImage(), i * 74 + 20 + getX() - 650,
-						20 + getY() - 450 + 74 * j + 74 - 74, 64, 64, null);
+						20 + getY() - 450 + 74 * j, 64, 64, null);
 				if (!Inventory.get(j * 10 + i).equals(Id.Empty)) {
 					g.drawImage(Inventory.get(j * 10 + i).getImage().getBufferedImage(),
 							i * 74 + 20 + 16 + getX() - 650, 20 + getY() + 16 - 74 - 450 + 74 * j + 74, 32, 32, null);
@@ -355,6 +361,18 @@ public class Player extends Entity {
 		if (!Game.m.mouseItem.equals(Id.Empty)) {
 			g.drawImage(Game.m.mouseItem.getImage().getBufferedImage(), Game.m.lookingAtX, Game.m.lookingAtY, 32, 32,
 					null);
+		}
+		
+		// Craftable Items
+		if (!gotRecipes) {
+			recipes = Recipe.getCraftableRecipes();
+			gotRecipes = true;
+		}
+		for (int i = 0; i < recipes.length; i++) {
+			if (recipes[i] != null) {
+				g.drawImage(Id.toId(recipes[i].getName()).getImage().getBufferedImage(), getX() - 615, getY() - 140 + i*48, 32, 32,
+						null);
+			}
 		}
 	}
 

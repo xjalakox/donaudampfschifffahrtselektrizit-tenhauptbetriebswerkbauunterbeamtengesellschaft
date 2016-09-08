@@ -26,7 +26,7 @@ public class NetUser {
 	}
 
 	public void setConnection(Connection Connection) {
-		Connection = Connection;
+		this.Connection = Connection;
 	}
 
 	public String getUsername() {

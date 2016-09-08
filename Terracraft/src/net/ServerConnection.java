@@ -117,7 +117,6 @@ public class ServerConnection {
 
 					Inventory invresponse = new Inventory();
 					invresponse.itemids = mysql.loadInventory(response.username);
-					System.out.println(invresponse.itemids.length);
 					connection.sendTCP(invresponse);
 				}
 				// Allen Usern wird der neue Spieler gesendet
