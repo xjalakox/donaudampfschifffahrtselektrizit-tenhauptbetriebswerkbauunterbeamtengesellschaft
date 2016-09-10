@@ -57,7 +57,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				mousedown = true;
 			}
 
-			if (m.getButton() == m.BUTTON3 && !Game.consoleOpen && !lookIfOccupied()) {
+			if (m.getButton() == m.BUTTON3 && !Game.consoleOpen && !lookIfOccupied()&&!Game.player.getBounds().intersects(new Rectangle(lookingAtX,lookingAtY,32,32))) {
 				if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
 					AddTile request = new AddTile();

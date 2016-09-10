@@ -28,6 +28,10 @@ public class Handler {
 				if (shouldRender(ti)) {
 					ti.render(g);
 				}
+				if (shouldRenderMap(ti)) {
+
+					ti.mapRender(g);
+				}
 			}
 			entity2 = (LinkedList<Entity>) entity.clone();
 			for (Entity en : entity2) {
@@ -46,6 +50,7 @@ public class Handler {
 
 					ti.tick();
 				}
+				
 			} else {
 				ti.tick();
 			}
@@ -79,6 +84,13 @@ public class Handler {
 			return true;
 		}
 		return false;
+	}
+	private boolean shouldRenderMap(Tile ti) {
+		if (Game.getVisisbleAreaMap() != null && ti.getBounds().intersects(Game.getVisisbleAreaMap())) {
+			return true;
+		}else{
+		return false;
+		}
 	}
 
 	public void remove() {

@@ -162,7 +162,9 @@ public abstract class Entity {
 	}
 
 	public void jumping(float grav) {
+		if(gravity<=17.0f){
 		gravity -= grav;
+		}
 		setVelY((int) -gravity);
 		if (gravity <= 0.0f) {
 			falling = true;
@@ -173,7 +175,7 @@ public abstract class Entity {
 	public void falling() {
 		if (falling) {
 			gravity += 0.5f;
-			if (y > Game.getFrameheight() - 200) {
+			if (y > Game.getFrameWidth() - 200) {
 
 				gravity = 0f;
 				jumping = false;

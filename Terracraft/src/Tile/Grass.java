@@ -25,21 +25,21 @@ public class Grass extends Tile{
 		
 		if(underground){
 			g.drawImage(sprite2.getBufferedImage(),x,y,width,height,null);
-			renderMap(g,sprite2);
+			
 		}else{
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
-			renderMap(g,sprite);
+			
 		}
 		
 
 	}
 
 	public void tick() {
+		tick++;
 		if(tick>=60){
 			tick = 0;
 			checkForBlockonTop();
 		}
-		tick++;
 	}
 	
 	public void checkForBlockonTop(){
@@ -51,5 +51,12 @@ public class Grass extends Tile{
 		}
 	}
 	
+public void mapRender(Graphics g) {
 	
+		if(underground){
+	renderMap(g,sprite2);
+		}else{
+			renderMap(g,sprite);
+		}
+	}
 }
