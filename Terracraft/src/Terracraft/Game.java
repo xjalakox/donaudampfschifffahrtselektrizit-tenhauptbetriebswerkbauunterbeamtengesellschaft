@@ -112,7 +112,7 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		g.setColor(new Color(135,206,250));
+		g.setColor(new Color(135, 206, 250));
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
 		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8,
@@ -245,7 +245,10 @@ public class Game extends Canvas implements Runnable {
 		m.lookingAtX = x;
 		m.lookingAtY = y;
 		g.setColor(Color.RED);
-		g.drawRect(x, y, 32, 32);
+		if (Mouse.mouseRotation >= 0 && mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")) {
+			g.drawImage(mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y, mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
+					mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getHeight(), null);
+		}
 		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameWidth(), 700);
 	}
 
