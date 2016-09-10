@@ -27,10 +27,7 @@ public class Handler {
 				if (shouldRender(ti)) {
 					ti.render(g);
 				}
-				if (shouldRenderMap(ti)) {
-
-					ti.mapRender(g);
-				}
+				
 			}
 			for (Entity en : entity2) {
 				if (shouldRender(en)) {
@@ -90,7 +87,7 @@ public class Handler {
 		}
 		return false;
 	}
-	private boolean shouldRenderMap(Tile ti) {
+	boolean shouldRenderMap(Tile ti) {
 		if (Game.getVisisbleAreaMap() != null && ti.getBounds().intersects(Game.getVisisbleAreaMap())) {
 			return true;
 		}else{

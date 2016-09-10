@@ -116,10 +116,9 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
 		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8, player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
-		map.render(g);
 		handler.render(g);
 		mininghandler.render(g);
-		map.render2(g);
+		map.render(g);
 		doConsoleStuff(g);
 
 		g.dispose();

@@ -15,12 +15,14 @@ import gfx.Sprite2;
 public class Map {
 	private boolean online;
 	private int playerCounter = 0;
-	BufferedImage map;
+	private int tick;
+	BufferedImage map,mapframe;
 	private Sprite2 player_head=new Sprite2(Game.sheet_head,1,1,1,1);
 	private Sprite2 player_armor_head=new Sprite2(Game.sheet_armor_head,1,1,1,1);
 	public Map(){
 		try {
 			map = ImageIO.read(getClass().getResource("/Map.png"));
+			mapframe = ImageIO.read(getClass().getResource("/MapFrame.png"));
 		} catch (IOException e) {}
 	}
 	public void render(Graphics g) {
@@ -54,19 +56,29 @@ public class Map {
 		
 		
 		
-	}
-	public void render2(Graphics g){
+		
+		for(Tile ti:Game.handler.tile2){
+			if (Game.handler.shouldRenderMap(ti)) {
+
+				ti.mapRender(g);
+			}
+		}
 		g.drawImage(player_head.getBufferedImage(), Game.player.getX() + 200+175-16,Game.player.getY() - 430+103+30-8,32,32,null);
 		g.drawImage(player_armor_head.getBufferedImage(), Game.player.getX() + 200+175-16,Game.player.getY() - 430+103+30-8,32,32,null);
-		
+		g.drawImage(this.getBufferedImage(mapframe),  Game.player.getX() + 200,Game.player.getY() - 430,360,220,null);
 	}
-	
+	public void tick(){
+		tick++;
+		if(tick>=60){
+			tick=0;
+		}
+	}
 	
 	public BufferedImage getBufferedImage(BufferedImage image){
 		return image;
 	}
 	public Rectangle getBounds(){
-		return new Rectangle(  Game.player.getX() + 200+20,Game.player.getY() - 430+15,360-40,216-30);
+		return new Rectangle(  Game.player.getX() + 200,Game.player.getY() - 430,360,220);
 	}
 	
 	
