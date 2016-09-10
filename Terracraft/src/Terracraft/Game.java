@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable {
 	public static Player player;
 	public static Camera cam;
 	private int rendertick = 0;
-	private int x, y, networktick;
+	private int x, y;
 	private Key key;
 	public static Mouse m = new Mouse();
 	public static boolean consoleOpen;
@@ -80,17 +80,14 @@ public class Game extends Canvas implements Runnable {
 		addMouseMotionListener(m);
 		addKeyListener(new Key());
 		addMouseWheelListener(m);
-		// handler.addTile(new Grass(250,250,32,32,Id.Grass));
 
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
-		// sm.playSound(0);
 		m.mouseItem = Id.Empty;
-		/*
-		 * for (int i = 0; i < 50; i++) { for (int j = 0; j < 50; j++) {
-		 * handler.addTile(new Grass(i*32,j*32,32,32,Id.Grass)); } }
-		 */
+		
+		Recipe.initRecipes();
+
 		NetUserSpawnResponse spawn = new NetUserSpawnResponse();
 		spawn.username = username;
 		spawn.x = x;
@@ -100,7 +97,9 @@ public class Game extends Canvas implements Runnable {
 		FinishedLoading finished = new FinishedLoading();
 		finished.username = username;
 		client.sendTCP(finished);
+
 		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
+
 	}
 
 	public void render() {
@@ -117,7 +116,7 @@ public class Game extends Canvas implements Runnable {
 		map.render(g);
 		mininghandler.render(g);
 		handler.render(g);
-		
+
 		doConsoleStuff(g);
 
 		g.dispose();
@@ -305,7 +304,8 @@ public class Game extends Canvas implements Runnable {
 							player.Inventory_amount[j] = Utils.toInt(args[2]);
 							breakout = true;
 						}
-						if(breakout) break;
+						if (breakout)
+							break;
 					}
 					// player.Inventory.set(mininghandler.equippedTool,
 					// Id.toId(SplitInventoryData[0]));

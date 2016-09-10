@@ -19,6 +19,7 @@ import net.registerlogin.Login;
 
 public class ClientConnection {
 	private static Game terracraft = null;
+	private boolean logged = false;
 
 	public ClientConnection(Client client) {
 		client.start();
@@ -49,44 +50,46 @@ public class ClientConnection {
 					frame.setVisible(true);
 					frame.setAlwaysOnTop(true);
 					terracraft.start();
+					logged = true;
 				}
-				if (object instanceof NetUserSpawnResponse) {
+				if (object instanceof NetUserSpawnResponse && logged) {
 					NetUserSpawnResponse response = (NetUserSpawnResponse) object;
 					NetPlayer netplayer = new NetPlayer(response.username, response.x, response.y, 46, 96,
 							Id.NetPlayer);
 					terracraft.handler.addEntity(netplayer);
 				}
-				if (object instanceof AddTile) {
+				if (object instanceof AddTile && logged) {
 					AddTile tile = (AddTile) object;
 					Tile ti = Id.getTile(tile.type, tile.x, tile.y);
 					terracraft.handler.addTile(ti);
 				}
-				if (object instanceof RemovePlayer) {
+				if (object instanceof RemovePlayer && logged) {
 					RemovePlayer response = (RemovePlayer) object;
 					terracraft.handler.removePlayer(response.username);
 				}
-				if (object instanceof SendCoordinates) {
+				if (object instanceof SendCoordinates && logged) {
 					SendCoordinates response = (SendCoordinates) object;
 					terracraft.handler.setPlayerPosition(response.username, response.x, response.y, response.tool);
 				}
-				if(object instanceof RemoveTile){
+				if (object instanceof RemoveTile && logged) {
 					RemoveTile response = (RemoveTile) object;
 					terracraft.handler.setToBeRemoved(response.x, response.y);
 				}
-				if(object instanceof HittingBlock){
+				if (object instanceof HittingBlock && logged) {
 					HittingBlock response = (HittingBlock) object;
-					for(Entity e : terracraft.handler.entity){
-						if(e.getId() == Id.NetPlayer&&(((NetPlayer) e).getUsername()).equalsIgnoreCase(response.username)){
+					for (Entity e : terracraft.handler.entity) {
+						if (e.getId() == Id.NetPlayer
+								&& (((NetPlayer) e).getUsername()).equalsIgnoreCase(response.username)) {
 							e.click = response.click;
 							e.clicked = response.clicked;
 						}
 					}
 				}
-				if(object instanceof Inventory){
+				if (object instanceof Inventory) {
 					Inventory response = (Inventory) object;
-					
-					for(int i=0;i<response.itemids.length;i++){
-						if(Utils.isNotNull(response.itemids[i])){
+
+					for (int i = 0; i < response.itemids.length; i++) {
+						if (Utils.isNotNull(response.itemids[i])) {
 							String[] SplitInventoryData = response.itemids[i].split(",");
 							Game.player.Inventory.set(i, Id.toId(SplitInventoryData[0]));
 							Game.player.Inventory_amount[i] = Utils.toInt(SplitInventoryData[1]);

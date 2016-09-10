@@ -7,7 +7,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import Entity.Entity;
 import Terracraft.Game;

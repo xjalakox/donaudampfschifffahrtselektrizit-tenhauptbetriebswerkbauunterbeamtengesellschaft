@@ -162,7 +162,7 @@ public class MySQL {
 
 			query.executeUpdate("INSERT INTO blocks VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
 					+ ti.getId().toString() + "')");
-			x += 64;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -9,6 +9,7 @@ import java.util.Map;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 
 import Entity.NetPlayer;
 import Terracraft.Handler;
@@ -31,7 +32,6 @@ public class ServerConnection {
 	public static void main(String[] args) throws IOException {
 		Server server = new Server(131072, 16384);
 		server.start();
-
 		server.bind(54555, 54777);
 
 		Utils.startTimerMillis();
@@ -58,6 +58,13 @@ public class ServerConnection {
 					LoginResponse response = new LoginResponse();
 					if (requesttext.length == 2) {
 						if (mysql.checkIfUserRegistered(requesttext[0], requesttext[1])) {
+							for(NetUser u : users){
+								if(u.getUsername().equalsIgnoreCase(requesttext[0])){
+									response.text = "Spieler ist bereits eingeloggt!";
+									connection.sendTCP(response);
+									return;
+								}
+							}
 							response.text = "Erfolgreich eingeloggt";
 							connection.sendTCP(response);
 							NetUser user = new NetUser(requesttext[0], connection.getRemoteAddressTCP().getAddress(),
@@ -117,6 +124,7 @@ public class ServerConnection {
 
 					Inventory invresponse = new Inventory();
 					invresponse.itemids = mysql.loadInventory(response.username);
+
 					connection.sendTCP(invresponse);
 				}
 				// Allen Usern wird der neue Spieler gesendet

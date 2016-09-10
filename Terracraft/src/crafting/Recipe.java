@@ -9,8 +9,21 @@ import Terracraft.Utils;
 import sun.security.x509.IssuerAlternativeNameExtension;
 
 public enum Recipe {
+	/**
+	 * Recipes die nur einen Block benötigen erstellt ihr wie bei Workbench, mir
+	 * ist nach dem programmieren aufgefallen, dass es unnötig ist einmal nen
+	 * Konstruktor zu haben für nur einen Block und einal für mehrere aber jetzt
+	 * lass ich es so... -.- Wenn es euch zu kompliziert ist wie bei dem Recipe
+	 * "Test" das so mit den Arrays zu machen könnt ihr das ganze auch in der
+	 * initRecipes() machen. Habe dort ausgeklammert wie ihr es machen müsstet.
+	 * Ist vielleicht einfacher aber man sieht dann nicht auf den ersten Blick
+	 * was man für das Recipe braucht. Die craft Funktion habe ich noch nicht
+	 * gemacht für Multiblöcke aber da ich darauf warte, dass der dicke Timo mir
+	 * das macht wie bei Terraria mit dem craften hat das ganze noch etwas Zeit.
+	 */
 
-	Workbench("Workbench", "Grass", 4), Test("Grass", "Workbench", 2);
+	Workbench("Workbench", "Grass", 4), Test("Grass", new String[] { "Grass", "Workbench" }, new int[] { 4, 2 });
+
 	private String name;
 	private String block;
 	private String[] blocks;
@@ -18,6 +31,10 @@ public enum Recipe {
 	private int[] amounts;
 	private String type;
 	static List<Recipe> recipeamount = Arrays.asList(Recipe.values());
+
+	Recipe(String name) {
+		this.name = name;
+	}
 
 	Recipe(String name, String[] blocks, int[] amounts) {
 		this.name = name;
@@ -31,6 +48,21 @@ public enum Recipe {
 		this.block = block;
 		this.amount = amount;
 		this.type = "single";
+	}
+
+	public static void initRecipes() {
+		// Test Block
+
+		// Test.setType("multi");
+		// int[] TestAmounts = new int[2];
+		// TestAmounts[0] = 4;
+		// TestAmounts[1] = 2;
+		// Test.setAmounts(TestAmounts);
+		// String[] TestBlocks = new String[2];
+		// TestBlocks[0] = "Grass";
+		// TestBlocks[1] = "Workbench";
+		// Test.setBlocks(TestBlocks);
+
 	}
 
 	public static Recipe[] getRecipes() {
@@ -47,12 +79,13 @@ public enum Recipe {
 		Recipe[] recipes = new Recipe[recipeamount.size()];
 		boolean addItem = true;
 		int i = 0;
+		boolean[] parts;
+		boolean allBlocksAvailabe = true;
 
 		/**
-		 * Um es kurz zu fassen: Das dieser scheiß Code hier funktioniert grenz
+		 * Um es kurz zu fassen: Das dieser scheiß Code hier funktioniert grenzt
 		 * an ein Wunder. Wenn ihr nen Fehler habt beim Inventar öffnen wird es
-		 * zu 99,9% hierdran liegen Viel Spaß beim Fehler beheben
-		 * 
+		 * zu 99,9% hierdran liegen Viel Spaß beim Fehler beheben MfG Jannik
 		 */
 
 		for (Recipe e : recipeamount) {
@@ -60,7 +93,6 @@ public enum Recipe {
 				for (int j = 0; j < Game.player.Inventory.size(); j++) {
 					if (Game.player.Inventory.get(j) == Id.toId(e.getBlock())
 							&& Game.player.Inventory_amount[j] >= e.getAmount()) {
-
 						// Wenn das Item noch nicht in der Liste ist von den
 						// anzuzeigenden Items wird es zur Liste geaddet
 						for (int k = 0; k < recipes.length; k++) {
@@ -75,10 +107,36 @@ public enum Recipe {
 					}
 				}
 			} else {
-				System.out.println("Diese multi scheiße wird erst in der Version 1.33.7 unterstützt");
+				parts = new boolean[e.blocks.length];
+				for (int j = 0; j < Game.player.Inventory.size(); j++) {
+					for (int l = 0; l < e.blocks.length; l++) {
+						if (Game.player.Inventory.get(j) == Id.toId(e.getBlocks(l))
+								&& Game.player.Inventory_amount[j] >= e.getAmounts(l)) {
+							parts[l] = true;
+						}
+					}
+				}
+				// Wenn alle Blöcke die benötigt werden fürs Rezept im Inventar
+				// sind und das Rezept noch nicht "aktiviert" ist dann wird es
+				// nach den beiden for Schleifen geaddet
+				for (int k = 0; k < recipes.length; k++) {
+					if (recipes[k] == e)
+						addItem = false;
+				}
+				for (int m = 0; m < parts.length; m++) {
+					if (parts[m] == false) {
+						allBlocksAvailabe = false;
+					}
+				}
+				if (addItem && allBlocksAvailabe) {
+					recipes[i] = e;
+					i++;
+				}
+
 			}
 		}
 		return recipes;
+
 	}
 
 	public static void craftItem(Recipe recipe) {
@@ -129,8 +187,8 @@ public enum Recipe {
 		this.block = block;
 	}
 
-	public String[] getBlocks() {
-		return blocks;
+	public String getBlocks(int place) {
+		return blocks[place];
 	}
 
 	public void setBlocks(String[] blocks) {
@@ -145,8 +203,8 @@ public enum Recipe {
 		this.amount = amount;
 	}
 
-	public int[] getAmounts() {
-		return amounts;
+	public int getAmounts(int place) {
+		return amounts[place];
 	}
 
 	public void setAmounts(int[] amounts) {
@@ -157,4 +215,7 @@ public enum Recipe {
 		return this.type;
 	}
 
+	public void setType(String type) {
+		this.type = type;
+	}
 }

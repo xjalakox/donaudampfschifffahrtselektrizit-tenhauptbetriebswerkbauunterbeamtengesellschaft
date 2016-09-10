@@ -362,7 +362,7 @@ public class Player extends Entity {
 			g.drawImage(Game.m.mouseItem.getImage().getBufferedImage(), Game.m.lookingAtX, Game.m.lookingAtY, 32, 32,
 					null);
 		}
-		
+
 		// Craftable Items
 		if (!gotRecipes) {
 			recipes = Recipe.getCraftableRecipes();
@@ -370,8 +370,9 @@ public class Player extends Entity {
 		}
 		for (int i = 0; i < recipes.length; i++) {
 			if (recipes[i] != null) {
-				g.drawImage(Id.toId(recipes[i].getName()).getImage().getBufferedImage(), getX() - 615, getY() - 140 + i*48, 32, 32,
-						null);
+				g.drawImage(Id.toId(recipes[i].getName()).getImage().getBufferedImage(), getX() - 615,
+						getY() - 140 + i * 48, 32, 32, null);
+
 			}
 		}
 	}
