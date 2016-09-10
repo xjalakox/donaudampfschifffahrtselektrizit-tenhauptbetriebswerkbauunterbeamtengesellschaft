@@ -9,11 +9,15 @@ import javax.imageio.ImageIO;
 import Entity.Entity;
 import Entity.NetPlayer;
 import Tile.source.Tile;
+import gfx.Sprite;
+import gfx.Sprite2;
 
 public class Map {
 	private boolean online;
 	private int playerCounter = 0;
 	BufferedImage map;
+	private Sprite2 player_head=new Sprite2(Game.sheet_head,1,1,1,1);
+	private Sprite2 player_armor_head=new Sprite2(Game.sheet_armor_head,1,1,1,1);
 	public Map(){
 		try {
 			map = ImageIO.read(getClass().getResource("/Map.png"));
@@ -41,16 +45,21 @@ public class Map {
 			g.drawString("Andere Positionen:", Game.player.getX() + 450, Game.player.getY() + 114 - 400 - 74);
 		}
 		g.drawImage(this.getBufferedImage(map),  Game.player.getX() + 200,Game.player.getY() - 430,360,220,null);
-
-
+//		g.setColor(Color.green);
+//		g.fillRect(Game.player.getX() - 650-Game.getFrameBreite()/2,Game.player.getY() - 440-350, Game.getFrameBreite()*2, 700*2);
 
 
 		online = false;
 		playerCounter = 0;
 		
 		
+		
 	}
-	
+	public void render2(Graphics g){
+		g.drawImage(player_head.getBufferedImage(), Game.player.getX() + 200+175-16,Game.player.getY() - 430+103+30-8,32,32,null);
+		g.drawImage(player_armor_head.getBufferedImage(), Game.player.getX() + 200+175-16,Game.player.getY() - 430+103+30-8,32,32,null);
+		
+	}
 	
 	
 	public BufferedImage getBufferedImage(BufferedImage image){

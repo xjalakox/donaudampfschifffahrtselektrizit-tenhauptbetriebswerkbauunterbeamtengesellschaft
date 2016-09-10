@@ -117,9 +117,9 @@ public class Game extends Canvas implements Runnable {
 		g.translate(cam.getX(), cam.getY());
 		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8, player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
 		map.render(g);
-		mininghandler.render(g);
 		handler.render(g);
-
+		mininghandler.render(g);
+		map.render2(g);
 		doConsoleStuff(g);
 
 		g.dispose();
@@ -199,11 +199,11 @@ public class Game extends Canvas implements Runnable {
 		setMaximumSize(size);
 	}
 
-	public static int getFrameBreite() {
+	public static int getFrameWidth() {
 		return breite * scale;
 	}
 
-	public static int getFrameheight() {
+	public static int getFrameHeight() {
 		return height * scale;
 	}
 
@@ -244,7 +244,7 @@ public class Game extends Canvas implements Runnable {
 		m.lookingAtY = y;
 		g.setColor(Color.RED);
 		g.drawRect(x, y, 32, 32);
-		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
+		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameWidth(), 700);
 	}
 
 	private void doConsoleStuff(Graphics g) {
@@ -325,7 +325,11 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static Rectangle getVisisbleArea() {
-		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameBreite(), 700);
+		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameWidth(), 700);
+	}
+
+	public static Rectangle getVisisbleAreaMap() {
+		return new Rectangle(player.getX() - 650-1920, player.getY() - 440-1050, getFrameWidth()*4, 700*4);
 	}
 
 }

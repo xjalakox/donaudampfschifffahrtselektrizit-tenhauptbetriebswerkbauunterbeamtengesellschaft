@@ -47,7 +47,7 @@ public class Snowman extends Entity {
 	}
 
 	private void collision(){
-		if(y<Game.getFrameheight()){
+		if(y<Game.getFrameWidth()){
 			setVelY(0);
 		}
 		for (Tile ti : handler.tile2) {

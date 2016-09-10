@@ -27,6 +27,10 @@ public class Handler {
 				if (shouldRender(ti)) {
 					ti.render(g);
 				}
+				if (shouldRenderMap(ti)) {
+
+					ti.mapRender(g);
+				}
 			}
 			for (Entity en : entity2) {
 				if (shouldRender(en)) {
@@ -49,7 +53,9 @@ public class Handler {
 			for (Tile ti : tile2) {
 				if (ti.getId() != Id.Grass)
 					ti.tick();
-			}
+
+				
+			} 
 		}
 		entity2 = (LinkedList<Entity>) entity.clone();
 		if (type == "Client") {
@@ -83,6 +89,13 @@ public class Handler {
 			return true;
 		}
 		return false;
+	}
+	private boolean shouldRenderMap(Tile ti) {
+		if (Game.getVisisbleAreaMap() != null && ti.getBounds().intersects(Game.getVisisbleAreaMap())) {
+			return true;
+		}else{
+		return false;
+		}
 	}
 
 	public void remove() {

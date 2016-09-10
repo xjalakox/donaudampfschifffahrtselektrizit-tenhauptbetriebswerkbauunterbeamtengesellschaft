@@ -28,21 +28,21 @@ public class Tile {
 	public void renderMap(Graphics g,Sprite sprite){
 		double tmp;
 		if((Game.player.getX()+Game.player.getBreite()/2)<x){
-			tmp=(x-Game.player.getX())/3.55;
+			tmp=(x-Game.player.getX())/16;
 			mapX=(Game.player.getX() + 200+175)+Utils.toInt(tmp);
 		}else{
-			tmp=(Game.player.getX()-x)/3.55;
+			tmp=(Game.player.getX()-x)/16;
 			mapX=(Game.player.getX() + 200+175)-Utils.toInt(tmp);;
 		}
 		if((Game.player.getY()+Game.player.getHeight()/2)<y){
-			tmp=(y-Game.player.getY())/3.55;
+			tmp=(y-Game.player.getY())/16;
 			mapY=(Game.player.getY() - 430+103+30)+Utils.toInt(tmp);
 		}else{
-			tmp=(Game.player.getY()-y)/3.55;
+			tmp=(Game.player.getY()-y)/16;
 			mapY=(Game.player.getY() - 430+103+30)-Utils.toInt(tmp);
 		}
-		if(Game.map.getBounds().intersects(new Rectangle(mapX,mapY,9,9))){
-			g.drawImage(sprite.getBufferedImage(),mapX,mapY,9,9,null);
+		if(Game.map.getBounds().intersects(new Rectangle(mapX,mapY,2,2))){
+			g.drawImage(sprite.getBufferedImage(),mapX,mapY,2,2,null);
 		}
 
 	
@@ -170,6 +170,10 @@ public class Tile {
 	
 	public void addDamage(int damage){
 		this.damage -= damage;
+	}
+	public void mapRender(Graphics g) {
+		
+		
 	}
 	
 }

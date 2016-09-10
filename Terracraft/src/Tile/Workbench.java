@@ -20,7 +20,6 @@ public class Workbench extends Tile{
 
 	public void render(Graphics g) {
 			g.drawImage(sprite.getBufferedImage(),x,y,width,height,null);
-			renderMap(g,sprite);
 
 			
 	}
@@ -29,7 +28,12 @@ public class Workbench extends Tile{
 		
 	}
 	
+	public void mapRender(Graphics g) {
+
+			renderMap(g,sprite);
+		
 	
+}
 	
 	
 }
