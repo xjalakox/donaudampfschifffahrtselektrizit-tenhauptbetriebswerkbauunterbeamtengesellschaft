@@ -17,6 +17,7 @@ public class Tile {
 	Id id;
 	public int damage;
 	public boolean shouldRemove,underground;
+	private int tick;
 
 	public Tile(int x, int y, int Width, int height,Id id) {
 		this.x = x;
@@ -26,6 +27,10 @@ public class Tile {
 		this.id = id;
 	}
 	public void renderMap(Graphics g,Sprite sprite){
+//		tick++;
+//		if(tick>=60){
+//			tick=0;
+//		
 		double tmp;
 		if((Game.player.getX()+Game.player.getBreite()/2)<x){
 			tmp=(x-Game.player.getX())/16;
@@ -46,7 +51,7 @@ public class Tile {
 		}
 
 	
-
+		
 		
 	}
 	public int getMapX() {
