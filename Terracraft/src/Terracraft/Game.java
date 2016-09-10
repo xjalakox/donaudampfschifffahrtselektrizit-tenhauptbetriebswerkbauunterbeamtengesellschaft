@@ -112,10 +112,11 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		g.setColor(Color.white);
+		g.setColor(new Color(135,206,250));
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
-		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8, player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
+		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8,
+				player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
 		map.render(g);
 		handler.render(g);
 		mininghandler.render(g);
@@ -329,7 +330,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static Rectangle getVisisbleAreaMap() {
-		return new Rectangle(player.getX() - 650-1920, player.getY() - 440-1050, getFrameWidth()*4, 700*4);
+		return new Rectangle(player.getX() - 650 - 1920, player.getY() - 440 - 1050, getFrameWidth() * 4, 700 * 4);
 	}
 
 }

@@ -28,7 +28,6 @@ public class Handler {
 					ti.render(g);
 				}
 				if (shouldRenderMap(ti)) {
-
 					ti.mapRender(g);
 				}
 			}
