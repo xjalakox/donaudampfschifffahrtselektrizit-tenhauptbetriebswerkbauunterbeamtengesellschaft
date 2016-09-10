@@ -113,6 +113,7 @@ public class MiningHandler {
 						request.x = ti.getX();
 						request.y = ti.getY();
 						Game.client.sendTCP(request);
+						Game.handler.setToBeRemoved(ti.getX(),ti.getY());
 
 						for (int i = 0; i < 40; i++) {
 							if (Game.player.Inventory.get(i).equals(ti.getId())) {

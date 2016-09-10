@@ -58,8 +58,8 @@ public class ServerConnection {
 					LoginResponse response = new LoginResponse();
 					if (requesttext.length == 2) {
 						if (mysql.checkIfUserRegistered(requesttext[0], requesttext[1])) {
-							for(NetUser u : users){
-								if(u.getUsername().equalsIgnoreCase(requesttext[0])){
+							for (NetUser u : users) {
+								if (u.getUsername().equalsIgnoreCase(requesttext[0])) {
 									response.text = "Spieler ist bereits eingeloggt!";
 									connection.sendTCP(response);
 									return;
@@ -144,7 +144,7 @@ public class ServerConnection {
 					handler.addTile(tile);
 					mysql.addTile(tile);
 					for (NetUser u : users) {
-						if (u.isConnected()) {
+						if (u.isConnected() && connection.getID() != u.getConnection().getID()) {
 							u.getConnection().sendTCP(response);
 						}
 					}
@@ -162,9 +162,11 @@ public class ServerConnection {
 				}
 				if (object instanceof RemoveTile) {
 					RemoveTile response = (RemoveTile) object;
+					mysql.removeTile(response.x, response.y);
+					handler.setToBeRemoved(response.x, response.y);
 
 					for (NetUser u : users) {
-						if (u.isConnected()) {
+						if (u.isConnected() && connection.getID() != u.getConnection().getID()) {
 							u.getConnection().sendTCP(response);
 						}
 					}
@@ -173,15 +175,6 @@ public class ServerConnection {
 					HittingBlock response = (HittingBlock) object;
 					for (NetUser u : users) {
 						if (u.isConnected() && !response.username.equalsIgnoreCase(u.getUsername())) {
-							u.getConnection().sendTCP(response);
-						}
-					}
-				}
-				if (object instanceof AddTile) {
-					AddTile response = (AddTile) object;
-
-					for (NetUser u : users) {
-						if (u.isConnected()) {
 							u.getConnection().sendTCP(response);
 						}
 					}

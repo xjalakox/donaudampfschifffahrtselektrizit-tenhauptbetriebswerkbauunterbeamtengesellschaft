@@ -56,24 +56,24 @@ public class ClientConnection {
 					NetUserSpawnResponse response = (NetUserSpawnResponse) object;
 					NetPlayer netplayer = new NetPlayer(response.username, response.x, response.y, 46, 96,
 							Id.NetPlayer);
-					terracraft.handler.addEntity(netplayer);
+					Game.handler.addEntity(netplayer);
 				}
 				if (object instanceof AddTile && logged) {
 					AddTile tile = (AddTile) object;
 					Tile ti = Id.getTile(tile.type, tile.x, tile.y);
-					terracraft.handler.addTile(ti);
+					Game.handler.addTile(ti);
 				}
 				if (object instanceof RemovePlayer && logged) {
 					RemovePlayer response = (RemovePlayer) object;
-					terracraft.handler.removePlayer(response.username);
+					Game.handler.removePlayer(response.username);
 				}
 				if (object instanceof SendCoordinates && logged) {
 					SendCoordinates response = (SendCoordinates) object;
-					terracraft.handler.setPlayerPosition(response.username, response.x, response.y, response.tool);
+					Game.handler.setPlayerPosition(response.username, response.x, response.y, response.tool);
 				}
 				if (object instanceof RemoveTile && logged) {
 					RemoveTile response = (RemoveTile) object;
-					terracraft.handler.setToBeRemoved(response.x, response.y);
+					Game.handler.setToBeRemoved(response.x, response.y);
 				}
 				if (object instanceof HittingBlock && logged) {
 					HittingBlock response = (HittingBlock) object;

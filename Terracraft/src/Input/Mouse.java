@@ -65,6 +65,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					request.y = lookingAtY;
 					request.type = "Grass";
 					Game.client.sendTCP(request);
+					
+					Game.handler.addTile(Id.getTile(request.type, request.x, request.y));
+					
 					Game.player.Inventory_amount[mouseRotation] -= 1;
 				} else if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Workbench)
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {

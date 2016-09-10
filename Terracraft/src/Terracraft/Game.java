@@ -24,6 +24,7 @@ import Input.Mouse;
 import Tile.Grass;
 import audio.SoundManager;
 import crafting.Recipe;
+import gfx.Image;
 import gfx.Sprite;
 import gfx.Spritesheet;
 import gfx.Spritesheet2;
@@ -49,6 +50,7 @@ public class Game extends Canvas implements Runnable {
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
 	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
+	public Image background = new Image("/Background_1.png");
 	public Snowman dragon;
 	public static SoundManager sm = new SoundManager();
 	public static MiningHandler mininghandler = new MiningHandler();
@@ -85,7 +87,7 @@ public class Game extends Canvas implements Runnable {
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
 		m.mouseItem = Id.Empty;
-		
+
 		Recipe.initRecipes();
 
 		NetUserSpawnResponse spawn = new NetUserSpawnResponse();
@@ -113,6 +115,7 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
+		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8, player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
 		map.render(g);
 		mininghandler.render(g);
 		handler.render(g);

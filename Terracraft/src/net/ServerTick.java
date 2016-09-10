@@ -26,7 +26,7 @@ public class ServerTick implements Runnable{
 
 	
 	public void tick() {
-		
+		handler.tick();
 	}
 
 	public synchronized void start() {

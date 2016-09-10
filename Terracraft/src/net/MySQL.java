@@ -196,9 +196,10 @@ public class MySQL {
 
 	public void removeTile(int x, int y) {
 		try {
+			
 
 			query.executeUpdate("DELETE FROM `blocks` WHERE `x` = " + x + " AND `y` = " + y);
-			;
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();

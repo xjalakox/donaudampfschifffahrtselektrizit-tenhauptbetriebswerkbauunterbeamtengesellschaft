@@ -12,6 +12,7 @@ public class NetUser {
 	private Connection Connection;
 	private boolean isConnected;
 	private int inventoryPlace;
+	
 
 
 	public NetUser(String username, InetAddress address, int port, Connection Connection) {

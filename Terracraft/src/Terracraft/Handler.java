@@ -23,13 +23,11 @@ public class Handler {
 
 	public void render(Graphics g) {
 		if (type == "Client") {
-			tile2 = (LinkedList<Tile>) tile.clone();
 			for (Tile ti : tile2) {
 				if (shouldRender(ti)) {
 					ti.render(g);
 				}
 			}
-			entity2 = (LinkedList<Entity>) entity.clone();
 			for (Entity en : entity2) {
 				if (shouldRender(en)) {
 					en.render(g);
@@ -39,27 +37,33 @@ public class Handler {
 	}
 
 	public void tick() {
-		tile2 = (LinkedList<Tile>) tile.clone();
-		for (Tile ti : tile2) {
-			if (type == "Client") {
-				if (shouldRender(ti)) {
 
+		tile2 = (LinkedList<Tile>) tile.clone();
+		if (type == "Client") {
+			for (Tile ti : tile2) {
+				if (shouldRender(ti)) {
 					ti.tick();
 				}
-			} else {
-				ti.tick();
+			}
+		} else {
+			for (Tile ti : tile2) {
+				if (ti.getId() != Id.Grass)
+					ti.tick();
 			}
 		}
 		entity2 = (LinkedList<Entity>) entity.clone();
-		for (Entity en : entity2) {
-			if (type == "Client") {
+		if (type == "Client") {
+			for (Entity en : entity2) {
 				if (shouldRender(en)) {
 					en.tick();
 				}
-			} else {
+			}
+		} else {
+			for (Entity en : entity2) {
 				en.tick();
 			}
 		}
+
 		for (int i = 0; i < entity.size(); i++) {
 			if (entity.get(i).isRemoved())
 				entity.remove(i);
