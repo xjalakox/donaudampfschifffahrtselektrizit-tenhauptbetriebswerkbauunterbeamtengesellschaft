@@ -36,6 +36,7 @@ public class MiningHandler {
 	}
 
 	public void render(Graphics g) {
+		
 		scrollbarTiles = (ArrayList<Id>) Game.player.Inventory.clone();
 		for (int i = 0; i < 10; i++) {
 			scrollbar_amount[i] = Game.player.Inventory_amount[i];

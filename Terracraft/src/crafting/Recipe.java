@@ -144,14 +144,16 @@ public enum Recipe {
 		int stack = 0;
 		for (int i = 0; i < Game.player.Inventory.size(); i++) {
 			if (stack >= recipe.amount) {
+				enough = true;
 				// Hier müsste dann von den einzelnen Slots was entfernt werden,
 				// ist mir aber zu komplex atm
-			} else if (Game.player.Inventory.get(i).equals(recipe.block)
-					&& Game.player.Inventory_amount[i] >= recipe.amount) {
-				Game.player.Inventory_amount[i] -= recipe.amount;
-				enough = true;
-				break;
-			} else if (Game.player.Inventory.get(i).equals(recipe.block)) {
+			} else if (Game.player.Inventory.get(i).toString().equalsIgnoreCase(recipe.getBlock())) {
+				if (Game.player.Inventory_amount[i] >= recipe.amount) {
+					Game.player.Inventory_amount[i] -= recipe.amount;
+					enough = true;
+					break;
+				}
+			} else if (Game.player.Inventory.get(i).toString().equalsIgnoreCase(recipe.block)) {
 				stack += recipe.amount;
 			}
 		}

@@ -62,8 +62,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					clickInventory();
 
 				}
-				mousedown = true;
+				
 			}
+			mousedown = true;
 		}
 
 		if (m.getButton() == m.BUTTON3) {
@@ -133,7 +134,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			mouseRotation++;
 		}
 		if (e.getWheelRotation() > 0) {
-			mouseRotation--;
 		}
 	}
 
