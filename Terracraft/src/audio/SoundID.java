@@ -2,14 +2,15 @@ package audio;
 
 public enum SoundID {
 	// template ( id, name, vol),
-	door_open(0, "Door_Opened", 1);
+	door_open(0, "Door_Opened", 1),
+	door_closed(1, "Door_Closed", 1);
 
 	private int id;
 	private String prefix = "res/Sound/";
 	private String suffix = ".wav";
 	private String name;
 	// musicvol // effectvol // mastervol//
-	private int[] volList = { -20, -20, -20 };
+	private int[] volList = { -20, 6, -20 };
 	private int vol;
 
 	SoundID(int id, String name, int vol) {

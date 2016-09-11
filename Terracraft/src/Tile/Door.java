@@ -40,8 +40,10 @@ public class Door extends Tile {
 
 	public void changeState() {
 		if (open) {
+			Game.sm.playSound(1);
 			open = false;
 		} else {
+			Game.sm.playSound(0);
 			open = true;
 		}
 	}
