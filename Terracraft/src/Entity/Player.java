@@ -38,7 +38,7 @@ public class Player extends Entity {
 	public int[] Inventory_amount = new int[40];
 	public boolean inventoryOpen;
 	private boolean gotRecipes = false;
-	private Recipe[] recipes = null;
+	public Recipe[] recipes = null;
 
 	public Player(String username, int x, int y, int breite, int height, Id id, Key key) {
 
@@ -370,9 +370,11 @@ public class Player extends Entity {
 		}
 		for (int i = 0; i < recipes.length; i++) {
 			if (recipes[i] != null) {
+				g.drawImage(inventory_background.getBufferedImage(),  getX() - 615-7,
+						getY() - 140 + i * 48, 48, 48,null);
 				g.drawImage(Id.toId(recipes[i].getName()).getImage().getBufferedImage(), getX() - 615,
-						getY() - 140 + i * 48, 32, 32, null);
-
+						getY() - 140 + i * 48+8, 32, 32, null);
+				
 			}
 		}
 	}
@@ -397,5 +399,16 @@ public class Player extends Entity {
 		position.tool = Game.mininghandler.equippedTool;
 		Game.client.sendUDP(position);
 	}
+
+	public Rectangle closedInventoryBounds() {
+		return new Rectangle(20 + getX() - 650 - 5, 20 + getY() - 450 - 5, 74 * 10, 74 );
+	}
+	
+	
+	public Rectangle recipeBounds() {
+		return new Rectangle(  getX() - 615-7,
+				getY() - 140 + recipes.length * 48, 48, 48);
+	}
+
 
 }

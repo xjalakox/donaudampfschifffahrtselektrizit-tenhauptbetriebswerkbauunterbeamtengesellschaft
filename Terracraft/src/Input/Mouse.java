@@ -7,7 +7,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import Entity.Entity;
 import Terracraft.Game;
 import Terracraft.Id;
 import Terracraft.MiningHandler;
@@ -42,81 +41,47 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void mousePressed(MouseEvent m) {
-		if (!Game.player.InventoryBounds().intersects(Collision())) {
-			if (m.getButton() == m.BUTTON1) {
-				Game.player.setClicked(true);
-				Game.player.setClick(true);
-				HittingBlock request = new HittingBlock();
-				request.click = true;
-				request.clicked = true;
-				request.username = Game.player.getUsername();
-				Game.client.sendUDP(request);
-			}
-			if (m.getButton() == m.BUTTON1) {
+
+		if (m.getButton() == m.BUTTON1) {
+			if (!Game.player.isInventoryOpen()) {
+				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
+					mouseClick();
+				} else {
+					clickInventoryClosed();
+				}
+			} else {
+				if (!Collision().intersects(Game.player.InventoryBounds())) {
+					mouseClick();
+				} else {
+					clickInventory();
+				}
 				mousedown = true;
 			}
-
-			if (m.getButton() == m.BUTTON3 && !Game.consoleOpen && !lookIfOccupied()
-					&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))
-					&&Game.player.getArea().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
-
-				if (MiningHandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
-						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
-					AddTile request = new AddTile();
-					request.x = lookingAtX;
-					request.y = lookingAtY;
-					request.type = MiningHandler.scrollbarTiles.get(mouseRotation).toString();
-					System.out.println(MiningHandler.scrollbarTiles.get(mouseRotation).toString());
-					Game.client.sendTCP(request);
-
-					Game.handler.addTile(Id.getTile(request.type, request.x, request.y));
-
-					Game.player.Inventory_amount[mouseRotation] -= 1;
-				}
-			}
-		} else {
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 4; j++) {
-
-					if (Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX() - 650,
-							20 + Game.player.getY() - 450 + 74 * j, 64, 64))) {
-						if (mouseItem.equals(Id.Empty)) {
-							mouseItem = Game.player.Inventory.get(j * 10 + i);
-							Game.player.Inventory.set(j * 10 + i, Id.Empty);
-							mouse_amount = Game.player.Inventory_amount[j * 10 + i];
-						} else {
-							if (mouseItem.equals(Game.player.Inventory.get(j * 10 + i))
-									&& mouseItem.getType().equals("block")) {
-								Game.player.Inventory_amount[j * 10 + i] += mouse_amount;
-								mouseItem = Id.Empty;
-								mouse_amount = 0;
-							} else {
-								int temporary_amount = Game.player.Inventory_amount[j * 10 + i];
-								Id temporary = Game.player.Inventory.get(j * 10 + i);
-								Game.player.Inventory_amount[j * 10 + i] = mouse_amount;
-								Game.player.Inventory.set(j * 10 + i, mouseItem);
-								mouseItem = temporary;
-								mouse_amount = temporary_amount;
-							}
-
-						}
-
-					}
-				}
-			}
 		}
+
+		if (m.getButton() == m.BUTTON3) {
+			if (!Game.player.isInventoryOpen()) {
+				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
+					placeBlock();
+				}
+			} else {
+				if (!Collision().intersects(Game.player.InventoryBounds())) {
+					placeBlock();
+				}
+			}
+
+		}
+
 	}
 
 	public void mouseReleased(MouseEvent m) {
 		mousedown = false;
 		pressed = false;
-
 		HittingBlock request = new HittingBlock();
 		request.click = Game.player.click;
 		request.clicked = false;
 		request.username = Game.player.getUsername();
 		Game.client.sendUDP(request);
-
 		Game.player.setClicked(false);
 	}
 
@@ -135,14 +100,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
 	public boolean lookIfOccupied() {
 		for (Tile ti : Game.handler.tile2) {
-			if(Game.player.Inventory.get(mouseRotation).equals(Id.Door)){
-				if (ti.getBounds().intersects(new Rectangle(lookingAtX,lookingAtY,32,96))) {
+			if (Game.player.Inventory.get(mouseRotation).equals(Id.Door)) {
+				if (ti.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 96))) {
 					return true;
 				}
-			}else{
-			if (ti.getBounds().intersects(Game.m.Collision())) {
-				return true;
-			}
+			} else {
+				if (ti.getBounds().intersects(Game.m.Collision())) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -166,4 +131,94 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		}
 	}
 
+	public void mouseClick() {
+		Game.player.setClicked(true);
+		Game.player.setClick(true);
+		HittingBlock request = new HittingBlock();
+		request.click = true;
+		request.clicked = true;
+		request.username = Game.player.getUsername();
+		Game.client.sendUDP(request);
+	}
+
+	public void clickInventory() {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 4; j++) {
+
+				if (Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX() - 650,
+						20 + Game.player.getY() - 450 + 74 * j, 64, 64))) {
+					if (mouseItem.equals(Id.Empty)) {
+						mouseItem = Game.player.Inventory.get(j * 10 + i);
+						Game.player.Inventory.set(j * 10 + i, Id.Empty);
+						mouse_amount = Game.player.Inventory_amount[j * 10 + i];
+					} else {
+						if (mouseItem.equals(Game.player.Inventory.get(j * 10 + i))
+								&& mouseItem.getType().equals("block")) {
+							Game.player.Inventory_amount[j * 10 + i] += mouse_amount;
+							mouseItem = Id.Empty;
+							mouse_amount = 0;
+						} else {
+							int temporary_amount = Game.player.Inventory_amount[j * 10 + i];
+							Id temporary = Game.player.Inventory.get(j * 10 + i);
+							Game.player.Inventory_amount[j * 10 + i] = mouse_amount;
+							Game.player.Inventory.set(j * 10 + i, mouseItem);
+							mouseItem = temporary;
+							mouse_amount = temporary_amount;
+						}
+
+					}
+
+				}
+			}
+
+		}
+
+	}
+
+	public void clickInventoryClosed() {
+		for (int i = 0; i < 10; i++) {
+			if (Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX() - 650,
+					20 + Game.player.getY() - 450 + 74 * 0, 64, 64))) {
+				if (mouseItem.equals(Id.Empty)) {
+					mouseItem = Game.player.Inventory.get(0 * 10 + i);
+					Game.player.Inventory.set(0 * 10 + i, Id.Empty);
+					mouse_amount = Game.player.Inventory_amount[0 * 10 + i];
+				} else {
+					if (mouseItem.equals(Game.player.Inventory.get(0 * 10 + i))
+							&& mouseItem.getType().equals("block")) {
+						Game.player.Inventory_amount[0 * 10 + i] += mouse_amount;
+						mouseItem = Id.Empty;
+						mouse_amount = 0;
+					} else {
+						int temporary_amount = Game.player.Inventory_amount[0 * 10 + i];
+						Id temporary = Game.player.Inventory.get(0 * 10 + i);
+						Game.player.Inventory_amount[0 * 10 + i] = mouse_amount;
+						Game.player.Inventory.set(0 * 10 + i, mouseItem);
+						mouseItem = temporary;
+						mouse_amount = temporary_amount;
+					}
+
+				}
+
+			}
+		}
+
+	}
+
+	private void placeBlock() {
+		if (!Game.consoleOpen && !lookIfOccupied()
+				&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))
+				&& Game.player.getArea().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
+			if (MiningHandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
+					&& Game.player.Inventory_amount[mouseRotation] >= 1) {
+				AddTile request = new AddTile();
+				request.x = lookingAtX;
+				request.y = lookingAtY;
+				request.type = MiningHandler.scrollbarTiles.get(mouseRotation).toString();
+				Game.client.sendTCP(request);
+				Game.handler.addTile(Id.getTile(request.type, request.x, request.y));
+				Game.player.Inventory_amount[mouseRotation] -= 1;
+			}
+		}
+	}
 }
