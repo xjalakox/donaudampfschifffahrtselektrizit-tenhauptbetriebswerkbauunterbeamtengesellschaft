@@ -135,8 +135,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
 	public boolean lookIfOccupied() {
 		for (Tile ti : Game.handler.tile2) {
-			if (ti.getX() == lookingAtX && ti.getY() == lookingAtY) {
+			if(Game.player.Inventory.get(mouseRotation).equals(Id.Door)){
+				if (ti.getBounds().intersects(new Rectangle(lookingAtX,lookingAtY,32,96))) {
+					return true;
+				}
+			}else{
+			if (ti.getBounds().intersects(Game.m.Collision())) {
 				return true;
+			}
 			}
 		}
 		return false;
