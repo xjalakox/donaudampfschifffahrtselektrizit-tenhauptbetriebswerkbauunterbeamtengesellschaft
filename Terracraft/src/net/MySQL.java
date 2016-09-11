@@ -29,6 +29,8 @@ public class MySQL {
 			query = myConn.createStatement();
 
 		} catch (SQLException e) {
+			ServerConnection.killServer = true;
+			System.out.println("Connection to the Database failed. Killing Server");
 			e.printStackTrace();
 		}
 	}

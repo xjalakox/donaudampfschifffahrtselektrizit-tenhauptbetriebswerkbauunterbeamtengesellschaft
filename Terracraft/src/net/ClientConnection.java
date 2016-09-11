@@ -27,7 +27,9 @@ public class ClientConnection {
 		try {
 			client.connect(5000, "localhost", 54555, 54777);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Keine Verbindung zum Server möglich. Snipe Client vom Hochhaus");
+			Login.killClient = true;
+			System.exit(0);
 			e.printStackTrace();
 		}
 

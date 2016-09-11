@@ -33,11 +33,14 @@ public class Login implements ActionListener {
 	private static JLabel statuslabel;
 	private boolean started_client = false;
 	public static Client client = new Client();
+	public static boolean killClient;
 	private ClientConnection clientConnection = new ClientConnection(client);
 
 	public Login() {
 		// Game game = new Game();
-
+		if (killClient) {
+			System.exit(0);
+		}
 		frame = new JFrame();
 		frame.setTitle("Login");
 		frame.setSize(1000, 100);

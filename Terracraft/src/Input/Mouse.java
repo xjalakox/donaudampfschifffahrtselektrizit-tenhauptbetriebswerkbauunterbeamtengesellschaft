@@ -7,7 +7,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-
 import Entity.Entity;
 import Terracraft.Game;
 import Terracraft.Id;
@@ -57,28 +56,22 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				mousedown = true;
 			}
 
-			if (m.getButton() == m.BUTTON3 && !Game.consoleOpen && !lookIfOccupied()&&!Game.player.getBounds().intersects(new Rectangle(lookingAtX,lookingAtY,32,32))) {
-				if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Grass)
+			if (m.getButton() == m.BUTTON3 && !Game.consoleOpen && !lookIfOccupied()
+					&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
+
+				if (MiningHandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
 					AddTile request = new AddTile();
 					request.x = lookingAtX;
 					request.y = lookingAtY;
-					request.type = "Grass";
+					request.type = MiningHandler.scrollbarTiles.get(mouseRotation).toString();
+					System.out.println(MiningHandler.scrollbarTiles.get(mouseRotation).toString());
 					Game.client.sendTCP(request);
-					
+
 					Game.handler.addTile(Id.getTile(request.type, request.x, request.y));
-					
-					Game.player.Inventory_amount[mouseRotation] -= 1;
-				} else if (MiningHandler.scrollbarTiles.get(mouseRotation).equals(Id.Workbench)
-						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
-					AddTile request = new AddTile();
-					request.x = lookingAtX;
-					request.y = lookingAtY;
-					request.type = "Workbench";
-					Game.client.sendTCP(request);
+
 					Game.player.Inventory_amount[mouseRotation] -= 1;
 				}
-
 			}
 		} else {
 			for (int i = 0; i < 10; i++) {

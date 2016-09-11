@@ -2,8 +2,7 @@ package Terracraft;
 
 import java.awt.Rectangle;
 
-import Tile.Grass;
-import Tile.Workbench;
+import Tile.*;
 import Tile.source.Tile;
 import crafting.Recipe;
 import gfx.Sprite;
@@ -16,6 +15,7 @@ public enum Id {
 			Grass(new Sprite(Game.sheet, 13, 1, 1, 1), "block", Recipe.Test),  
 			Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty",0,"empty"),
 			Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block", Recipe.Workbench),
+			Door(new Sprite(Game.sheet, 6,2,1,3), "block"),
 	
 	// Tool
 			Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"),
@@ -121,6 +121,8 @@ public enum Id {
 			return Empty;
 		case "Workbench":
 			return Workbench;
+		case "Door":
+			return Door;
 		}
 		return null;
 	}
@@ -141,6 +143,8 @@ public enum Id {
 			return "Empty";
 		case Workbench:
 			return "Workbench";
+		case Door:
+			return "Door";
 		default:
 			break;
 		}
@@ -155,6 +159,8 @@ public enum Id {
 			return new Grass(x, y, 32, 32, Id.Grass);
 		case "Workbench":
 			return new Workbench(x, y, 32, 32, Id.Workbench);
+		case "Door":
+			return new Door(x,y,32,96,Id.Door);
 		}
 		return null;
 	}

@@ -28,17 +28,36 @@ public class ServerConnection {
 	private static Handler handler;
 	private static ServerTick tick;
 	private static ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
+	public static boolean killServer;
 
 	public static void main(String[] args) throws IOException {
 		Server server = new Server(131072, 16384);
 		server.start();
-		server.bind(54555, 54777);
+		try{
+			server.bind(54555, 54777);
+		} catch(Exception e){
+			killServer = true;
+		}
+		
+		if (killServer) {
+			server.stop();
+			System.exit(0);
+		}
+		
+		mysql = new MySQL();
+		
+		
+		if (killServer) {
+			server.stop();
+			System.exit(0);
+		}
+		
+		
 
 		Utils.startTimerMillis();
 
 		Network.register(server);
 		handler = new Handler("Server");
-		mysql = new MySQL();
 		tick = new ServerTick(handler);
 		tick.start();
 		players = new HashMap<NetUser, NetPlayer>();
@@ -149,7 +168,8 @@ public class ServerConnection {
 						}
 					}
 				}
-				// Allen Usern werden alle Koordinaten gesendet, könnte ab ner
+				// Allen Usern werden alle Koordinaten gesendet, könnte ab
+				// ner
 				// bestimmten Zahl hart laggen.
 				if (object instanceof SendCoordinates) {
 					SendCoordinates response = (SendCoordinates) object;
