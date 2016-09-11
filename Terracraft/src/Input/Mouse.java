@@ -11,6 +11,7 @@ import Terracraft.Game;
 import Terracraft.Id;
 import Terracraft.MiningHandler;
 import Tile.source.Tile;
+import crafting.Recipe;
 import net.Network.AddTile;
 import net.Network.HittingBlock;
 
@@ -46,12 +47,17 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			if (!Game.player.isInventoryOpen()) {
 				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
 					mouseClick();
+					
 				} else {
 					clickInventoryClosed();
 				}
 			} else {
 				if (!Collision().intersects(Game.player.InventoryBounds())) {
-					mouseClick();
+					if(!Collision().intersects(Game.player.recipeBounds())){
+						mouseClick();
+					}else{
+						recipeClick();
+					}
 				} else {
 					clickInventory();
 
@@ -66,7 +72,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					placeBlock();
 				}
 			} else {
-				if (!Collision().intersects(Game.player.InventoryBounds())) {
+				if (!Collision().intersects(Game.player.InventoryBounds())&&!Collision().intersects(Game.player.recipeBounds())) {
 					placeBlock();
 				}
 			}
@@ -224,6 +230,19 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
 				Game.player.Inventory_amount[mouseRotation] -= 1;
 			}
+		}
+	}
+	
+	
+	
+	public void recipeClick(){
+		for (int i = 0; i < Game.player.recipes.length; i++) {
+			if (Collision().intersects(new Rectangle(  Game.player.getX() - 615-7,
+					Game.player.getY() - 140 + i * 48, 48, 48))) {
+				Recipe.craftItem(Game.player.recipes[i]);
+				
+			}
+			
 		}
 	}
 }

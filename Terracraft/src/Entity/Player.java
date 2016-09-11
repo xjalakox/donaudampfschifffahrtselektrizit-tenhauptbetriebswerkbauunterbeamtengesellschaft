@@ -38,7 +38,7 @@ public class Player extends Entity {
 	public int[] Inventory_amount = new int[40];
 	public boolean inventoryOpen;
 	private boolean gotRecipes = false;
-	public Recipe[] recipes = null;
+	public Recipe[] recipes = new Recipe[0];
 
 	public Player(String username, int x, int y, int breite, int height, Id id, Key key) {
 
@@ -406,8 +406,14 @@ public class Player extends Entity {
 	
 	
 	public Rectangle recipeBounds() {
-		return new Rectangle(  getX() - 615-7,
-				getY() - 140 + recipes.length * 48, 48, 48);
+		if(recipes.length>=1){
+			return new Rectangle(  getX() - 615-7,
+					getY() - 140, 48,recipes.length* 48);
+		}else{
+			return new Rectangle(  getX() - 615-7,
+					getY() - 140 + 0 * 48, 0,0);
+		}
+		
 	}
 
 
