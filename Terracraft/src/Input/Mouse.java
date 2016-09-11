@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelListener;
 import Terracraft.Game;
 import Terracraft.Id;
 import Terracraft.MiningHandler;
+import Tile.Door;
 import Tile.source.Tile;
 import crafting.Recipe;
 import net.Network.AddTile;
@@ -47,22 +48,22 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			if (!Game.player.isInventoryOpen()) {
 				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
 					mouseClick();
-					
+
 				} else {
 					clickInventoryClosed();
 				}
 			} else {
 				if (!Collision().intersects(Game.player.InventoryBounds())) {
-					if(!Collision().intersects(Game.player.recipeBounds())){
+					if (!Collision().intersects(Game.player.recipeBounds())) {
 						mouseClick();
-					}else{
+					} else {
 						recipeClick();
 					}
 				} else {
 					clickInventory();
 
 				}
-				
+
 			}
 			mousedown = true;
 		}
@@ -73,7 +74,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					placeBlock();
 				}
 			} else {
-				if (!Collision().intersects(Game.player.InventoryBounds())&&!Collision().intersects(Game.player.recipeBounds())) {
+				if (!Collision().intersects(Game.player.InventoryBounds())
+						&& !Collision().intersects(Game.player.recipeBounds())) {
 					placeBlock();
 				}
 			}
@@ -109,14 +111,18 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public boolean lookIfOccupied() {
 		Tile dummyTile = Id.getTile(Game.player.Inventory.get(mouseRotation).toString());
 		for (Tile ti : Game.handler.tile2) {
-
-			if (ti.getBounds()
-					.intersects(new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
-				return true;
-
+			if (ti.getBounds().intersects(Collision())) {
+				if (ti.getId() == Id.Door) {
+					((Door) ti).changeState();
+				}
 			}
+			if (MiningHandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")) {
+				if (ti.getBounds().intersects(
+						new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
+					return true;
+				}
+			}	
 		}
-
 		return false;
 	}
 
@@ -233,17 +239,15 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			}
 		}
 	}
-	
-	
-	
-	public void recipeClick(){
+
+	public void recipeClick() {
 		for (int i = 0; i < Game.player.recipes.length; i++) {
-			if (Collision().intersects(new Rectangle(  Game.player.getX() - 615-7,
-					Game.player.getY() - 140 + i * 48, 48, 48))) {
+			if (Collision().intersects(
+					new Rectangle(Game.player.getX() - 615 - 7, Game.player.getY() - 140 + i * 48, 48, 48))) {
 				Recipe.craftItem(Game.player.recipes[i]);
-				
+
 			}
-			
+
 		}
 	}
 }

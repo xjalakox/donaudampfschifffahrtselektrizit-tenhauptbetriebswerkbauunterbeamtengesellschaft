@@ -158,7 +158,7 @@ public enum Id {
 		case "Grass":
 			return new Grass(0,0, 32, 32, Id.Grass);
 		case "Workbench":
-			return new Workbench(0,0, 32, 32, Id.Workbench);
+			return new Workbench(0,0, 64, 32, Id.Workbench);
 		case "Door":
 			return new Door(0,0,32,96,Id.Door);
 		}
