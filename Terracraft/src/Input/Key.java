@@ -29,7 +29,6 @@ public class Key implements KeyListener {
 		if(k.getKeyCode() == KeyEvent.VK_Z){
 			Recipe[] j = Recipe.getCraftableRecipes();
 			for(int i=0;i<j.length;i++){
-				System.out.println(j[i]);
 			}
 		}
 		if (!Game.consoleOpen) {
