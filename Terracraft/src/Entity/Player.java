@@ -75,7 +75,7 @@ public class Player extends Entity {
 
 	public void render(Graphics g) {
 		g.setColor(Color.red);
-		g.drawRect(x, y, breite, height);
+		g.drawRect(x - 128, y - 128, 96 * 3 + breite, 96 * 3 + height);
 		g.setColor(Color.blue);
 		g.drawRect(getX() + 6, getY() + height - 16, breite - 10, 16);
 		g.setColor(Color.green);

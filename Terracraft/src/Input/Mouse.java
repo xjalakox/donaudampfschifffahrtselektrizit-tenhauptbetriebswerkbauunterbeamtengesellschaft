@@ -57,7 +57,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			}
 
 			if (m.getButton() == m.BUTTON3 && !Game.consoleOpen && !lookIfOccupied()
-					&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
+					&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))
+					&&Game.player.getArea().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
 
 				if (MiningHandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
 						&& Game.player.Inventory_amount[mouseRotation] >= 1) {
