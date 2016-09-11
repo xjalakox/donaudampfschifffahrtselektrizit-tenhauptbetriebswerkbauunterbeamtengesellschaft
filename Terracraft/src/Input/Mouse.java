@@ -121,7 +121,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 						new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
 					return true;
 				}
-			}	
+			}
 		}
 		return false;
 	}
@@ -244,9 +244,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			if (Collision().intersects(
 					new Rectangle(Game.player.getX() - 615 - 7, Game.player.getY() - 140 + i * 48, 48, 48))) {
 				Recipe.craftItem(Game.player.recipes[i]);
-
 			}
-
 		}
 	}
 }

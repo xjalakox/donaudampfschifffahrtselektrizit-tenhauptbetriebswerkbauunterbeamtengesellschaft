@@ -102,8 +102,6 @@ public class Game extends Canvas implements Runnable {
 
 		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
 
-		sm.playSound(0);
-
 	}
 
 	public void render() {
