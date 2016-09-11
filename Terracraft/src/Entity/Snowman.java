@@ -89,7 +89,6 @@ public class Snowman extends Entity {
 		}
 		
 		if (jumping) {
-			System.out.println("हैलो पीड़ितों");
 			jumping(0.5f);
 		}
 		

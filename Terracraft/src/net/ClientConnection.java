@@ -25,7 +25,7 @@ public class ClientConnection {
 		client.start();
 
 		try {
-			client.connect(5000, "jalako.tk", 54555, 54777);
+			client.connect(5000, "localhost", 54555, 54777);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
