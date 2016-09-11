@@ -62,7 +62,9 @@ public class ClientConnection {
 				}
 				if (object instanceof AddTile && logged) {
 					AddTile tile = (AddTile) object;
-					Tile ti = Id.getTile(tile.type, tile.x, tile.y);
+					Tile ti = Id.getTile(tile.type);
+					ti.setX(tile.x);
+					ti.setY(tile.y);
 					Game.handler.addTile(ti);
 				}
 				if (object instanceof RemovePlayer && logged) {

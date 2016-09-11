@@ -150,19 +150,20 @@ public enum Id {
 		}
 		return null;
 	}
-
-	public static Tile getTile(String tileId, int x, int y) {
+	
+	public static Tile getTile(String tileId){
 		switch (tileId) {
 		case "Player":
 			return null;
 		case "Grass":
-			return new Grass(x, y, 32, 32, Id.Grass);
+			return new Grass(0,0, 32, 32, Id.Grass);
 		case "Workbench":
-			return new Workbench(x, y, 32, 32, Id.Workbench);
+			return new Workbench(0,0, 32, 32, Id.Workbench);
 		case "Door":
-			return new Door(x,y,32,96,Id.Door);
+			return new Door(0,0,32,96,Id.Door);
 		}
 		return null;
 	}
+
 
 }

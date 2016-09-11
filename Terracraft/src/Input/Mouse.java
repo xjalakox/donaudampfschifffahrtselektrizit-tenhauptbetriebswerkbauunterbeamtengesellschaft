@@ -66,10 +66,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					request.x = lookingAtX;
 					request.y = lookingAtY;
 					request.type = MiningHandler.scrollbarTiles.get(mouseRotation).toString();
-					System.out.println(MiningHandler.scrollbarTiles.get(mouseRotation).toString());
 					Game.client.sendTCP(request);
 
-					Game.handler.addTile(Id.getTile(request.type, request.x, request.y));
+					Tile ti = Id.getTile(request.type);
+					ti.setX(request.x);
+					ti.setY(request.y);
+
+					Game.handler.addTile(ti);
 
 					Game.player.Inventory_amount[mouseRotation] -= 1;
 				}
@@ -134,17 +137,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public boolean lookIfOccupied() {
+		Tile dummyTile = Id.getTile(Game.player.Inventory.get(mouseRotation).toString());
 		for (Tile ti : Game.handler.tile2) {
-			if(Game.player.Inventory.get(mouseRotation).equals(Id.Door)){
-				if (ti.getBounds().intersects(new Rectangle(lookingAtX,lookingAtY,32,96))) {
-					return true;
-				}
-			}else{
-			if (ti.getBounds().intersects(Game.m.Collision())) {
+			if (ti.getBounds()
+					.intersects(new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
 				return true;
 			}
-			}
 		}
+
 		return false;
 	}
 

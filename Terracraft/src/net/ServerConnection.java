@@ -156,7 +156,9 @@ public class ServerConnection {
 				}
 				if (object instanceof AddTile) {
 					AddTile response = (AddTile) object;
-					Tile tile = Id.getTile(response.type, response.x, response.y);
+					Tile tile = Id.getTile(response.type);
+					tile.setX(response.x);
+					tile.setY(response.y);
 					handler.addTile(tile);
 					mysql.addTile(tile);
 					for (NetUser u : users) {

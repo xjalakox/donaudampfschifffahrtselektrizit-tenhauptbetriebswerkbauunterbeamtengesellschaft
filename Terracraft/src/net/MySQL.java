@@ -147,7 +147,9 @@ public class MySQL {
 			ResultSet myRs = query.executeQuery("select * from blocks");
 			;
 			while (myRs.next()) {
-				Tile t = Id.getTile(myRs.getString("TileID"), myRs.getInt("x"), myRs.getInt("y"));
+				Tile t = Id.getTile(myRs.getString("TileID"));
+				t.setX(myRs.getInt("x"));
+				t.setY(myRs.getInt("y"));
 				LoadingTilesIntoList.add(t);
 			}
 			return LoadingTilesIntoList;
