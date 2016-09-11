@@ -15,7 +15,7 @@ public enum Id {
 			Grass(new Sprite(Game.sheet, 13, 1, 1, 1), "block", Recipe.Test),  
 			Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty",0,"empty"),
 			Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block", Recipe.Workbench),
-			Door(new Sprite(Game.sheet, 6,2,1,3), "block"),
+			Door(new Sprite(Game.sheet, 9,2,1,1), "block"),
 	
 	// Tool
 			Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"),

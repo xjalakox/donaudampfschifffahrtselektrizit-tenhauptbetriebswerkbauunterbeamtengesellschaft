@@ -134,6 +134,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			mouseRotation++;
 		}
 		if (e.getWheelRotation() > 0) {
+			mouseRotation--;
 		}
 	}
 
