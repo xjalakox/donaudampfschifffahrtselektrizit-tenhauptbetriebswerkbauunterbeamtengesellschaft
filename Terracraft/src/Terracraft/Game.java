@@ -77,12 +77,12 @@ public class Game extends Canvas implements Runnable {
 
 		handler.addEntity(player);
 		handler.addEntity(dragon);
-		
+
 		addMouseListener(m);
 		addMouseMotionListener(m);
 		addKeyListener(new Key());
 		addMouseWheelListener(m);
-		
+
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
@@ -101,7 +101,7 @@ public class Game extends Canvas implements Runnable {
 		client.sendTCP(finished);
 
 		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
-		
+
 		sm.playSound(0);
 
 	}
@@ -114,13 +114,13 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		g.setColor(new Color(135,206,250));
+		g.setColor(new Color(135, 206, 250));
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
 		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8,
 				player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
 		map.render(g);
-		
+
 		handler.render(g);
 		mininghandler.render(g);
 		map.render(g);
@@ -247,7 +247,13 @@ public class Game extends Canvas implements Runnable {
 		m.lookingAtX = x;
 		m.lookingAtY = y;
 		g.setColor(Color.RED);
-		g.drawRect(x, y, 32, 32);
+		if (Mouse.mouseRotation >= 0
+				&& mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")) {
+			g.drawImage(mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y,
+					mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
+					mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getHeight(),
+					null);
+		}
 		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameWidth(), 700);
 	}
 

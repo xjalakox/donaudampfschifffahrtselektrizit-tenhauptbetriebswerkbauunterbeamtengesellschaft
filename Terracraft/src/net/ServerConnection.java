@@ -33,26 +33,23 @@ public class ServerConnection {
 	public static void main(String[] args) throws IOException {
 		Server server = new Server(131072, 16384);
 		server.start();
-		try{
+		try {
 			server.bind(54555, 54777);
-		} catch(Exception e){
+		} catch (Exception e) {
 			killServer = true;
 		}
-		
+
 		if (killServer) {
 			server.stop();
 			System.exit(0);
 		}
-		
+
 		mysql = new MySQL();
-		
-		
+
 		if (killServer) {
 			server.stop();
 			System.exit(0);
 		}
-		
-		
 
 		Utils.startTimerMillis();
 
@@ -159,7 +156,9 @@ public class ServerConnection {
 				}
 				if (object instanceof AddTile) {
 					AddTile response = (AddTile) object;
-					Tile tile = Id.getTile(response.type, response.x, response.y);
+					Tile tile = Id.getTile(response.type);
+					tile.setX(response.x);
+					tile.setY(response.y);
 					handler.addTile(tile);
 					mysql.addTile(tile);
 					for (NetUser u : users) {
