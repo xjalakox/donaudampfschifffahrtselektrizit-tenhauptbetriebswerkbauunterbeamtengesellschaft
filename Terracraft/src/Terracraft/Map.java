@@ -21,8 +21,8 @@ public class Map {
 	private Sprite2 player_armor_head=new Sprite2(Game.sheet_armor_head,1,1,1,1);
 	public Map(){
 		try {
-			map = ImageIO.read(getClass().getResource("/Map.png"));
-			mapframe = ImageIO.read(getClass().getResource("/MapFrame.png"));
+			map = ImageIO.read(getClass().getResource("/Misc/Map.png"));
+			mapframe = ImageIO.read(getClass().getResource("/Misc/MapFrame.png"));
 		} catch (IOException e) {}
 	}
 	public void render(Graphics g) {

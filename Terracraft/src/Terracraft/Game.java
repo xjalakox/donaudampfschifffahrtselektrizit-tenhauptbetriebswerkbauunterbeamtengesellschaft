@@ -49,16 +49,16 @@ public class Game extends Canvas implements Runnable {
 	public static Mouse m = new Mouse();
 	public static boolean consoleOpen;
 	public static String TextToDrawInConsole = "";
-	public static Spritesheet sheet = new Spritesheet("/Spritesheet.png");
-	public Image background = new Image("/Background_1.png");
+	public static Spritesheet sheet = new Spritesheet("/Sprites/Spritesheet.png");
+	public Image background = new Image("/Backgrounds/Background_1.png");
 	public Snowman dragon;
 	public static SoundManager sm = new SoundManager();
 	public static MiningHandler mininghandler = new MiningHandler();
-	public static Spritesheet2 sheet_armor = new Spritesheet2("/Armor.png");
-	public static Spritesheet2 sheet_legs = new Spritesheet2("/Legs.png");
-	public static Spritesheet2 sheet_head = new Spritesheet2("/Head.png");
-	public static Spritesheet2 sheet_body = new Spritesheet2("/Body.png");
-	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Armor_Head.png");
+	public static Spritesheet2 sheet_armor = new Spritesheet2("/Sprites/Armor.png");
+	public static Spritesheet2 sheet_legs = new Spritesheet2("/Sprites/Legs.png");
+	public static Spritesheet2 sheet_head = new Spritesheet2("/Sprites/Head.png");
+	public static Spritesheet2 sheet_body = new Spritesheet2("/Sprites/Body.png");
+	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Sprites/Armor_Head.png");
 	private JFrame frame;
 	private String username;
 	public static Map map = new Map();
@@ -101,6 +101,8 @@ public class Game extends Canvas implements Runnable {
 		client.sendTCP(finished);
 
 		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
+		
+		sm.playSound(0);
 
 	}
 
