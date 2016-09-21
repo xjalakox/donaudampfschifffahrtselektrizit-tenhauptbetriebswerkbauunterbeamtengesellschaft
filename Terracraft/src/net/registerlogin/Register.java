@@ -1,6 +1,5 @@
 package net.registerlogin;
 
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.esotericsoftware.kryonet.Client;
+
+import net.ClientConnection;
+import net.Network.RegisterRequest;
+
 public class Register implements ActionListener {
 
 	private JTextField username, password;
@@ -19,10 +23,14 @@ public class Register implements ActionListener {
 	private JPanel panel;
 	private JButton login;
 	private static JLabel statuslabel;
-	private boolean started_client = false;
+	public static Client client = new Client();
+	public static boolean killClient;
 
 	public Register() {
-
+		new ClientConnection(client);
+		if (killClient) {
+			System.exit(0);
+		}
 		frame = new JFrame();
 		frame.setTitle("Register");
 		frame.setSize(1000, 100);
@@ -45,7 +53,7 @@ public class Register implements ActionListener {
 		login = new JButton("Registrieren");
 		login.addActionListener(this);
 
-		statuslabel = new JLabel("test");
+		statuslabel = new JLabel("");
 
 		panel.add(username);
 		panel.add(password);
@@ -56,7 +64,21 @@ public class Register implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent a) {
-
+		
+		
+		String checkLengthofUsername = username.getText();
+		String checkLengthofPassword = password.getText();
+		if (checkLengthofUsername.length() <= 12) {
+			if (checkLengthofPassword.length() >= 4) {
+				RegisterRequest request = new RegisterRequest();
+				request.text = username.getText() + "," + password.getText();
+				client.sendTCP(request);
+			}else{
+				setStatus("Passwort zu kurz");
+			}
+		}else{
+			setStatus("Username zu lang!");
+		}
 	}
 
 	public static void setStatus(String text) {

@@ -5,11 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.HierarchyEvent;
 import java.util.ArrayList;
 
 import Input.Key;
-import Input.Mouse;
 import Terracraft.Game;
 import Terracraft.Id;
 import Terracraft.MiningHandler;
@@ -23,7 +21,6 @@ import net.Network.SendCoordinates;
 
 public class Player extends Entity {
 	private String username;
-	private Key key;
 	public Id tool;
 	public int ToolX, ToolY;
 	private Sprite2[] armor = new Sprite2[20];
@@ -40,10 +37,9 @@ public class Player extends Entity {
 	private boolean gotRecipes = false;
 	public Recipe[] recipes = new Recipe[0];
 
-	public Player(String username, int x, int y, int breite, int height, Id id, Key key) {
+	public Player(String username, int x, int y, int breite, int height, Id id) {
 
 		super(x, y, breite, height, Game.handler, id);
-		this.key = key;
 		this.username = username;
 		for (int i = 1; i < armor.length; i++) {
 			armor[i] = new Sprite2(Game.sheet_armor, 1, i, 1, 1);
@@ -61,7 +57,7 @@ public class Player extends Entity {
 		// Inventory.set(3, Id.Pickaxe);
 	}
 
-	public Player(String username, int x, int y, int breite, int height, Id id) {
+	/*public Player(String username, int x, int y, int breite, int height, Id id) {
 		super(x, y, breite, height, Game.handler, id);
 		this.username = username;
 		for (int i = 1; i < armor.length; i++) {
@@ -71,7 +67,7 @@ public class Player extends Entity {
 			body[i] = new Sprite2(Game.sheet_body, 1, i, 1, 1);
 			armor_head[i] = new Sprite2(Game.sheet_armor_head, 1, i, 1, 1);
 		}
-	}
+	}*/
 
 	public void render(Graphics g) {
 		g.setColor(Color.blue);
@@ -130,22 +126,22 @@ public class Player extends Entity {
 		}
 
 		// Movement
-		if (key.d) {
+		if (Key.d) {
 			moving = 1;
 			setVelX(4);
 		}
 
-		if (key.a) {
+		if (Key.a) {
 			moving = 2;
 			setVelX(-4);
 		}
 
-		if (key.w) {
+		if (Key.w) {
 			if (fly) {
 				setVelY(-4);
 			}
 		}
-		if (key.s) {
+		if (Key.s) {
 			if (fly) {
 				setVelY(4);
 			}
@@ -394,7 +390,7 @@ public class Player extends Entity {
 		position.x = x;
 		position.y = y;
 		position.username = username;
-		position.tool = Game.mininghandler.equippedTool;
+		position.tool = MiningHandler.equippedTool;
 		Game.client.sendUDP(position);
 	}
 

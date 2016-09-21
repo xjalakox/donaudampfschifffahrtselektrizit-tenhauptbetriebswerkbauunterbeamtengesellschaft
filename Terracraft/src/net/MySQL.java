@@ -200,10 +200,8 @@ public class MySQL {
 
 	public void removeTile(int x, int y) {
 		try {
-			
 
 			query.executeUpdate("DELETE FROM `blocks` WHERE `x` = " + x + " AND `y` = " + y);
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -220,7 +218,6 @@ public class MySQL {
 					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
 					+ ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0 + ", " + 0
 					+ ", " + 0 + ")");
-			;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -235,9 +232,11 @@ public class MySQL {
 			String items[] = new String[40];
 			while (myRs.next()) {
 				for (int i = 0; i < 40; i++) {
-
-					items[itemid - 1] = myRs.getString("slot" + Utils.toString(itemid));
-					// System.out.println("loading " + items[i]);
+					if (myRs.getString("slot" + Utils.toString(itemid)).equalsIgnoreCase("0")) {
+						items[itemid - 1] = "Empty,0";
+					} else {
+						items[itemid - 1] = myRs.getString("slot" + Utils.toString(itemid));
+					}
 					itemid++;
 				}
 			}

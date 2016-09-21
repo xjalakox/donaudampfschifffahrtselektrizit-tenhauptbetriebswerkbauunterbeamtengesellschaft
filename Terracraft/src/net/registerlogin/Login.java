@@ -4,25 +4,17 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.ClientConnection;
-import net.Network;
 import net.Network.LoginRequest;
-import net.Network.LoginResponse;
-import net.Network.LoginRequest;
-import net.Network.LoginResponse;
 
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
 
 public class Login implements ActionListener {
 
@@ -31,13 +23,11 @@ public class Login implements ActionListener {
 	private JPanel panel;
 	private JButton login;
 	private static JLabel statuslabel;
-	private boolean started_client = false;
 	public static Client client = new Client();
 	public static boolean killClient;
-	private ClientConnection clientConnection = new ClientConnection(client);
 
 	public Login() {
-		// Game game = new Game();
+		new ClientConnection(client);
 		if (killClient) {
 			System.exit(0);
 		}
@@ -83,10 +73,6 @@ public class Login implements ActionListener {
 
 	public static void setStatus(String text) {
 		statuslabel.setText(text);
-	}
-
-	private String getStatus() {
-		return statuslabel.getText();
 	}
 
 }

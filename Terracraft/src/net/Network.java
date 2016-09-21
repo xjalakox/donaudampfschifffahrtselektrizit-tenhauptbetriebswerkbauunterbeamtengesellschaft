@@ -19,6 +19,8 @@ public class Network {
 		
 		kryo.register(LoginRequest.class);
 		kryo.register(LoginResponse.class);
+		kryo.register(RegisterRequest.class);
+		kryo.register(RegisterResponse.class);
 		kryo.register(SpawnResponse.class);
 		kryo.register(NetUserSpawnResponse.class);
 		kryo.register(SendCoordinates.class);
@@ -36,6 +38,14 @@ public class Network {
 	}
 
 	static public class LoginResponse {
+		public String text;
+	}
+	
+	static public class RegisterRequest {
+		public String text;
+	}
+	
+	static public class RegisterResponse {
 		public String text;
 	}
 

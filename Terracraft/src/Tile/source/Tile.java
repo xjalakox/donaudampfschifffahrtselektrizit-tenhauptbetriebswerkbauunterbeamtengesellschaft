@@ -1,6 +1,5 @@
 package Tile.source;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -17,7 +16,6 @@ public class Tile {
 	Id id;
 	public int damage;
 	public boolean shouldRemove,underground;
-	private int tick;
 
 	public Tile(int x, int y, int Width, int height,Id id) {
 		this.x = x;

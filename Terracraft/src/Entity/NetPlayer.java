@@ -5,12 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import Input.Key;
 import Terracraft.Game;
 import Terracraft.Id;
-import Terracraft.MiningHandler;
-import Terracraft.Utils;
-import Tile.source.Tile;
 import gfx.Sprite2;
 
 public class NetPlayer extends Entity {
@@ -23,7 +19,6 @@ public class NetPlayer extends Entity {
 	private Sprite2[] body = new Sprite2[21];
 	private Sprite2[] armor_head = new Sprite2[21];
 	public int spritex, spritey;
-	private int ToolX, ToolY;
 	private Id tool;
 	private int xnetwork, ynetwork;
 	private boolean goRight, goLeft, goUp, goDown, still;
@@ -171,10 +166,8 @@ public class NetPlayer extends Entity {
 		ynetwork = y;
 	}
 
-	public void setTool(Id tool, int x, int y) {
+	public void setTool(Id tool) {
 		this.tool = tool;
-		this.ToolX = x;
-		this.ToolY = y;
 	}
 
 	public String getUsername() {

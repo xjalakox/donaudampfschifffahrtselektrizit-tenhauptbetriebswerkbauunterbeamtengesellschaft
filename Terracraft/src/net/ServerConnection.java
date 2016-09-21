@@ -9,13 +9,11 @@ import java.util.Map;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 
 import Entity.NetPlayer;
 import Terracraft.Handler;
 import Terracraft.Id;
 import Terracraft.Utils;
-import Tile.Grass;
 import Tile.source.Tile;
 import net.Network.*;
 
@@ -68,6 +66,8 @@ public class ServerConnection {
 		server.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
 				// Was hier passiert brauch euch im Prinzip nicht jucken
+
+				
 				if (object instanceof LoginRequest) {
 					LoginRequest request = (LoginRequest) object;
 					String requesttext[] = request.text.split(",");
@@ -210,6 +210,20 @@ public class ServerConnection {
 						}
 					}
 
+				}
+				
+				if (object instanceof RegisterRequest) {
+					RegisterRequest request = (RegisterRequest) object;
+					String requesttext[] = request.text.split(",");
+					RegisterResponse response = new RegisterResponse();
+					if (mysql.checkIfUsernameTaken(requesttext[0])) {
+						System.out.println(requesttext[0] + "   " + requesttext[1]);
+						mysql.registerAccount(requesttext[0], requesttext[1]);
+						response.text = "Erfolgreich eingeloggt";
+					} else {
+						response.text = "Der Username ist bereits vergeben. Wähle einen anderen!";
+					}
+					connection.sendTCP(response);
 				}
 
 			}

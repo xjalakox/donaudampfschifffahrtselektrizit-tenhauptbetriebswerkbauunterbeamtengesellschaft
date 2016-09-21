@@ -9,7 +9,6 @@ import java.awt.event.MouseWheelListener;
 
 import Terracraft.Game;
 import Terracraft.Id;
-import Terracraft.MiningHandler;
 import Tile.Door;
 import Tile.source.Tile;
 import crafting.Recipe;
@@ -30,8 +29,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public int mouse_amount;
 
 	public void mouseClicked(MouseEvent m) {
-		int x = m.getX();
-		int y = m.getY();
+		x = m.getX();
+		y = m.getY();
 	}
 
 	public void mouseEntered(MouseEvent m) {
@@ -44,7 +43,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
 	public void mousePressed(MouseEvent m) {
 
-		if (m.getButton() == m.BUTTON1) {
+		if (m.getButton() == MouseEvent.BUTTON1) {
 			if (!Game.player.isInventoryOpen()) {
 				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
 					mouseClick();
@@ -68,7 +67,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			mousedown = true;
 		}
 
-		if (m.getButton() == m.BUTTON3) {
+		if (m.getButton() == MouseEvent.BUTTON3) {
 			if (!Game.player.isInventoryOpen()) {
 				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
 					placeBlock();
@@ -116,7 +115,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 					((Door) ti).changeState();
 				}
 			}
-			if (MiningHandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")) {
+			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")) {
 				if (ti.getBounds().intersects(
 						new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
 					return true;
@@ -222,12 +221,12 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		if (!Game.consoleOpen && !lookIfOccupied()
 				&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))
 				&& Game.player.getArea().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
-			if (MiningHandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
+			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
 					&& Game.player.Inventory_amount[mouseRotation] >= 1) {
 				AddTile request = new AddTile();
 				request.x = lookingAtX;
 				request.y = lookingAtY;
-				request.type = MiningHandler.scrollbarTiles.get(mouseRotation).toString();
+				request.type = Game.mininghandler.scrollbarTiles.get(mouseRotation).toString();
 				Game.client.sendTCP(request);
 				Tile ti = Id.getTile(request.type);
 				ti.setX(request.x);

@@ -1,11 +1,8 @@
 package Tile;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import Terracraft.Game;
-import Terracraft.Handler;
 import Terracraft.Id;
-import Terracraft.Utils;
 import Tile.source.Tile;
 import gfx.Sprite;
 

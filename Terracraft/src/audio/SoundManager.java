@@ -42,6 +42,7 @@ public class SoundManager {
 				if(id == s.getID()) {
 					this.path = s.getPath();
 					this.vol = s.getVolume();
+					
 				}
 			}
 		}
@@ -51,6 +52,7 @@ public class SoundManager {
 		public int getVolume() {
 			return this.vol;
 		}
+		@SuppressWarnings("unused")
 		public void setVolume(int vol) {
 			this.vol = vol;
 		}

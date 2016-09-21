@@ -11,7 +11,7 @@ import net.Network.RemoveTile;
 
 public class MiningHandler {
 	public boolean itemexists, itemdeployed;
-	public static ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
+	public ArrayList<Id> scrollbarTiles = new ArrayList<Id>();
 	public static int[] scrollbar_amount = new int[10];
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet, 3, 1, 1, 1);
@@ -35,6 +35,7 @@ public class MiningHandler {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void render(Graphics g) {
 		
 		scrollbarTiles = (ArrayList<Id>) Game.player.Inventory.clone();

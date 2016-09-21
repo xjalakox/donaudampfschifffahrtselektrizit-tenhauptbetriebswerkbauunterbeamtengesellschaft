@@ -1,6 +1,5 @@
 package Worldgen;
 
-import Terracraft.Utils;
 
 public class DirtHill {
 

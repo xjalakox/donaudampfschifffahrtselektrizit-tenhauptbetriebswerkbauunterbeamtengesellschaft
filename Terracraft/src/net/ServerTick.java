@@ -1,13 +1,6 @@
 package net;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-
-import Entity.Entity;
 import Terracraft.Handler;
-import Terracraft.Id;
-import net.Network.SendCoordinates;
 
 public class ServerTick implements Runnable{
 	
@@ -53,6 +46,7 @@ public class ServerTick implements Runnable{
 		long timer = System.currentTimeMillis();
 		double delta = 0.0;
 		double nanoseconds = 1000.0 / 60.0;
+		@SuppressWarnings("unused")
 		int ticks = 0;
 		while (running) {
 			long now = System.currentTimeMillis();

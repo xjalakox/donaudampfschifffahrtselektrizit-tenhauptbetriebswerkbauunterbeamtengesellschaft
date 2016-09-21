@@ -6,7 +6,6 @@ import Terracraft.Game;
 import Terracraft.Id;
 import Tile.source.Tile;
 import gfx.Sprite;
-import gfx.Sprite2;
 
 public class Door extends Tile {
 	private Sprite sprite = new Sprite(Game.sheet, 6, 2, 1, 3);

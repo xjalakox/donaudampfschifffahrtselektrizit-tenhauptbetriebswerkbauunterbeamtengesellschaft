@@ -1,6 +1,5 @@
 package Terracraft;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import Entity.Entity;
@@ -37,6 +36,7 @@ public class Handler {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void tick() {
 
 		tile2 = (LinkedList<Tile>) tile.clone();
@@ -154,7 +154,7 @@ public class Handler {
 		if (!username.equals(Game.player.getUsername()) && getPlayer(username) != null) {
 			if (getPlayer(username).getId() == Id.NetPlayer) {
 				((NetPlayer) getPlayer(username)).setDirectionGoing(x, y);
-				((NetPlayer) getPlayer(username)).setTool(tool, x, y);
+				((NetPlayer) getPlayer(username)).setTool(tool);
 			}
 		}
 	}

@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 import Entity.Entity;
 import Entity.NetPlayer;
 import Tile.source.Tile;
-import gfx.Sprite;
 import gfx.Sprite2;
 
 public class Map {

@@ -17,78 +17,88 @@ import com.esotericsoftware.kryonet.Client;
 
 import Entity.Snowman;
 import Entity.Entity;
-import Entity.NetPlayer;
 import Entity.Player;
 import Input.Key;
 import Input.Mouse;
-import Tile.Grass;
 import audio.SoundManager;
-import crafting.Recipe;
 import gfx.Image;
 import gfx.Sprite;
 import gfx.Spritesheet;
 import gfx.Spritesheet2;
-import net.ClientConnection;
-import net.NetUser;
 import net.Network.*;
 import net.registerlogin.Login;
 
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1337L;
+	private static final int breite = 320, height = 180, scale = 4;
+	private static boolean running = false;
 
-	public static int breite = 320, height = 180, scale = 4;
-	public static boolean running = false;
-	private static Thread thread = new Thread();
+	private static Thread thread;
 	public static Handler handler;
 	public static Player player;
 	public static Camera cam;
-	private int rendertick = 0;
-	private int x, y;
-	private Key key;
-	public static Mouse m = new Mouse();
-	public static boolean consoleOpen;
-	public static String TextToDrawInConsole = "";
+	public static Map map;
+	public static Mouse m;
+	public static MiningHandler mininghandler;
+	public static SoundManager sm;
+	public static Client client;
+
 	public static Spritesheet sheet = new Spritesheet("/Sprites/Spritesheet.png");
-	public Image background = new Image("/Backgrounds/Background_1.png");
-	public Snowman dragon;
-	public static SoundManager sm = new SoundManager();
-	public static MiningHandler mininghandler = new MiningHandler();
 	public static Spritesheet2 sheet_armor = new Spritesheet2("/Sprites/Armor.png");
 	public static Spritesheet2 sheet_legs = new Spritesheet2("/Sprites/Legs.png");
 	public static Spritesheet2 sheet_head = new Spritesheet2("/Sprites/Head.png");
 	public static Spritesheet2 sheet_body = new Spritesheet2("/Sprites/Body.png");
 	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Sprites/Armor_Head.png");
+
+	private Snowman snowman;
+	private Image background;
 	private JFrame frame;
 	private String username;
-	public static Map map = new Map();
+	private int x, y;
 
-	public static Client client;
+	public static boolean consoleOpen;
+	public static String TextToDrawInConsole;
 
 	public void init() {
+
 		Utils.startTimerMillis();
-		mininghandler.init();
 		Login.frame.dispose();
+
+		/** INIT **/
+
+		thread = new Thread();
 		handler = new Handler("Client");
 		cam = new Camera();
-		key = new Key();
-		player = new Player(username, x, y, 46, 96, Id.Player, key);
-		dragon = new Snowman(x - 1000, 300, 64, 64, handler, Id.Dragon);
-
+		map = new Map();
+		m = new Mouse();
+		sm = new SoundManager();
+		mininghandler = new MiningHandler();
+		player = new Player(username, x, y, 46, 96, Id.Player);
+		snowman = new Snowman(x - 1000, 300, 64, 64, handler, Id.Dragon);
+		
 		handler.addEntity(player);
-		handler.addEntity(dragon);
+		handler.addEntity(snowman);
+		mininghandler.init();
 
 		addMouseListener(m);
 		addMouseMotionListener(m);
-		addKeyListener(new Key());
 		addMouseWheelListener(m);
+		m.mouseItem = Id.Empty;
 
+		addKeyListener(new Key());
+
+		
+
+		background = new Image("/Backgrounds/Background_1.png");
+		TextToDrawInConsole = "";
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
-		m.mouseItem = Id.Empty;
 
-		Recipe.initRecipes();
+		/** INIT ENDE **/
+
+		/** INIT NETWORK **/
 
 		NetUserSpawnResponse spawn = new NetUserSpawnResponse();
 		spawn.username = username;
@@ -99,6 +109,8 @@ public class Game extends Canvas implements Runnable {
 		FinishedLoading finished = new FinishedLoading();
 		finished.username = username;
 		client.sendTCP(finished);
+
+		/** INIT NETWORK ENDE **/
 
 		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
 
@@ -165,14 +177,12 @@ public class Game extends Canvas implements Runnable {
 		double nanoseconds = 1000000000.0 / 60.0;
 		int frames = 0;
 		int ticks = 0;
-		rendertick = 0;
 		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nanoseconds;
 			lastTime = now;
 			while (delta >= 1) {
 				tick();
-				rendertick++;
 				ticks++;
 				delta--;
 			}
@@ -183,7 +193,6 @@ public class Game extends Canvas implements Runnable {
 				frame.setTitle("Terracraft FPS: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
-				rendertick = 0;
 			}
 		}
 		stop();
@@ -194,7 +203,7 @@ public class Game extends Canvas implements Runnable {
 		this.y = y;
 		this.username = username;
 		this.frame = frame;
-		this.client = client;
+		Game.client = client;
 		Dimension size = new Dimension(breite * scale, height * scale);
 		setPreferredSize(size);
 		setMinimumSize(size);
@@ -245,7 +254,7 @@ public class Game extends Canvas implements Runnable {
 		m.lookingAtX = x;
 		m.lookingAtY = y;
 		g.setColor(Color.RED);
-		if (Mouse.mouseRotation >= 0
+		if (mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null && Mouse.mouseRotation >= 0
 				&& mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")) {
 			g.drawImage(mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y,
 					mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
@@ -256,6 +265,8 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void doConsoleStuff(Graphics g) {
+		// TODO Ein Int den man gut nutzen kann um nur bei bestimmten Ticks
+		// etwas zu zeichnen etc.
 		if (consoleOpen) {
 			renderConsole(g);
 			if (TextToDrawInConsole != null) {
@@ -267,7 +278,7 @@ public class Game extends Canvas implements Runnable {
 					renderKeyInput(g, "Console : " + TextToDrawInConsole);
 				}
 			}
-			if (rendertick < 30 && TextToDrawInConsole.length() == 0) {
+			if (TextToDrawInConsole.length() == 0) {
 				g.drawLine(320 + player.getX(), 210 + player.getY(), 320 + player.getX(), 771);
 			}
 		} else {
