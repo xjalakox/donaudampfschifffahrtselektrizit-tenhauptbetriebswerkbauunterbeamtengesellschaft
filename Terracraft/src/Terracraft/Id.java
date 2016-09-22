@@ -1,37 +1,34 @@
-package Terracraft;
+package terracraft;
 
 import java.awt.Rectangle;
 
-import Tile.*;
-import Tile.source.Tile;
 import crafting.Recipe;
 import gfx.Sprite;
+import tile.*;
+import tile.source.Tile;
 
 public enum Id {
 
 	// Block
-			Player, NetPlayer, Stone, Dragon,
-			Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"),
-			Grass(new Sprite(Game.sheet, 13, 1, 1, 1), "block", Recipe.Test),  
-			Empty(new Sprite(Game.sheet, 14, 1, 1, 1), "empty",0,"empty"),
-			Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block", Recipe.Workbench),
-			Door(new Sprite(Game.sheet, 9,2,1,1), "block"),
-	
+	Player, NetPlayer, Stone, Dragon, Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"), Grass(
+			new Sprite(Game.sheet, 13, 1, 1, 1), "block", Recipe.Test), Empty(new Sprite(Game.sheet, 14, 1, 1, 1),
+					"empty", 0, "empty"), Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block",
+							Recipe.Workbench), Door(new Sprite(Game.sheet, 9, 2, 1, 1), "block"),
+
 	// Tool
-			Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"),
-			Hammer(new Sprite(Game.sheet, 4, 1, 1, 1),"iron", 10, "tool");
+	Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"), Hammer(new Sprite(Game.sheet, 4, 1, 1, 1), "iron",
+			10, "tool");
 
 	public String tool, block, type;
 	private int efficiency, amount;
 	private Sprite image;
 	private Recipe recipe;
 
-
 	Id() {
 
 	}
-	
-	Id(Recipe recipe){
+
+	Id(Recipe recipe) {
 		this.recipe = recipe;
 	}
 
@@ -39,7 +36,7 @@ public enum Id {
 		this.type = type;
 		this.image = image;
 	}
-	
+
 	Id(Sprite image, String type, Recipe recipe) {
 		this.type = type;
 		this.image = image;
@@ -60,7 +57,6 @@ public enum Id {
 		this.type = type;
 		this.recipe = recipe;
 	}
-	
 
 	public String getType() {
 		return type;
@@ -89,17 +85,14 @@ public enum Id {
 	public Rectangle getToolBounds(int x, int y) {
 		return new Rectangle(x, y, 32, 32);
 	}
-	
 
 	public int getAmount() {
 		return amount;
 	}
 
-
 	public void setAmount(int amount) {
 		this.amount += amount;
 	}
-	
 
 	public Recipe getRecipe() {
 		return recipe;
@@ -150,20 +143,19 @@ public enum Id {
 		}
 		return null;
 	}
-	
-	public static Tile getTile(String tileId){
+
+	public static Tile getTile(String tileId) {
 		switch (tileId) {
 		case "Player":
 			return null;
 		case "Grass":
-			return new Grass(0,0, 32, 32, Id.Grass);
+			return new Grass(0, 0, 32, 32, Id.Grass);
 		case "Workbench":
-			return new Workbench(0,0, 64, 32, Id.Workbench);
+			return new Workbench(0, 0, 64, 32, Id.Workbench);
 		case "Door":
-			return new Door(0,0,32,96,Id.Door);
+			return new Door(0, 0, 32, 96, Id.Door);
 		}
 		return null;
 	}
-
 
 }

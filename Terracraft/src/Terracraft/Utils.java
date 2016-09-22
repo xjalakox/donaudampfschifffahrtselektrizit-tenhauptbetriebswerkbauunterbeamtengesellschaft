@@ -1,4 +1,4 @@
-package Terracraft;
+package terracraft;
 
 import static java.lang.Math.toIntExact;
 

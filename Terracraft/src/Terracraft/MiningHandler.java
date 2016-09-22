@@ -1,13 +1,14 @@
-package Terracraft;
+package terracraft;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import Input.Mouse;
-import Tile.source.Tile;
+
 import gfx.Sprite;
+import input.Mouse;
 import net.Network.RemoveTile;
+import tile.source.Tile;
 
 public class MiningHandler {
 	public boolean itemexists, itemdeployed;
@@ -37,7 +38,7 @@ public class MiningHandler {
 
 	@SuppressWarnings("unchecked")
 	public void render(Graphics g) {
-		
+
 		scrollbarTiles = (ArrayList<Id>) Game.player.Inventory.clone();
 		for (int i = 0; i < 10; i++) {
 			scrollbar_amount[i] = Game.player.Inventory_amount[i];
@@ -91,7 +92,8 @@ public class MiningHandler {
 				&& Mouse.degradedTile.getBounds().intersects(Game.player.getArea())) {
 			tick = 0;
 			if (!scrollbarTiles.get(Mouse.mouseRotation).getType().equals("block")) {
-				if (scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("tool")&&Mouse.degradedTile.getId().getType().equalsIgnoreCase("block")) {
+				if (scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("tool")
+						&& Mouse.degradedTile.getId().getType().equalsIgnoreCase("block")) {
 					Mouse.degradedTile.addDamage(50);
 				}
 			}
@@ -114,7 +116,7 @@ public class MiningHandler {
 						request.x = ti.getX();
 						request.y = ti.getY();
 						Game.client.sendTCP(request);
-						Game.handler.setToBeRemoved(ti.getX(),ti.getY());
+						Game.handler.setToBeRemoved(ti.getX(), ti.getY());
 
 						for (int i = 0; i < 40; i++) {
 							if (Game.player.Inventory.get(i).equals(ti.getId())) {

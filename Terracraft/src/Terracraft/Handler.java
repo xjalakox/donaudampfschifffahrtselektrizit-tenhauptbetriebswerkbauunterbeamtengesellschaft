@@ -1,11 +1,12 @@
-package Terracraft;
+package terracraft;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
-import Entity.Entity;
-import Entity.NetPlayer;
-import Entity.Player;
-import Tile.source.Tile;
+
+import entity.Entity;
+import entity.NetPlayer;
+import entity.Player;
+import tile.source.Tile;
 
 public class Handler {
 
@@ -87,7 +88,7 @@ public class Handler {
 		return false;
 	}
 
-	boolean shouldRenderMap(Tile ti) {
+	public boolean shouldRenderMap(Tile ti) {
 		if (Game.getVisisbleAreaMap() != null && ti.getBounds().intersects(Game.getVisisbleAreaMap())) {
 			return true;
 		} else {
@@ -120,7 +121,7 @@ public class Handler {
 	}
 
 	public void removePlayer(String username) {
-		if (!username.equals(Terracraft.Game.player.getUsername())) {
+		if (!username.equals(terracraft.Game.player.getUsername())) {
 			for (Entity en : entity) {
 				if (en.getId() == Id.Player) {
 					if (username.equals(((Player) en).getUsername())) {

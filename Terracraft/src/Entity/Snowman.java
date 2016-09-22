@@ -1,15 +1,15 @@
-package Entity;
+package entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import Terracraft.Game;
-import Terracraft.Handler;
-import Terracraft.Id;
-import Terracraft.Utils;
-import Tile.source.Tile;
 import gfx.Sprite;
+import terracraft.Game;
+import terracraft.Handler;
+import terracraft.Id;
+import terracraft.Utils;
+import tile.source.Tile;
 
 public class Snowman extends Entity {
 

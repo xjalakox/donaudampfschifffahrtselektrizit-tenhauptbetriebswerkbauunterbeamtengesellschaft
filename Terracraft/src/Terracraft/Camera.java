@@ -1,6 +1,6 @@
-package Terracraft;
+package terracraft;
 
-import Entity.Entity;
+import entity.Entity;
 
 public class Camera {
 

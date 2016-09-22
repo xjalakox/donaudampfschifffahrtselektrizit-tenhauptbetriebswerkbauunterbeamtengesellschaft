@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Terracraft.Id;
-import Terracraft.Utils;
-import Tile.source.Tile;
+import terracraft.Id;
+import terracraft.Utils;
+import tile.source.Tile;
 
 public class MySQL {
 	private java.sql.Connection myConn;

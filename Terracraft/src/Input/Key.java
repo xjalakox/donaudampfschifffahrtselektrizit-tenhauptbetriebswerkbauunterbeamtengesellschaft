@@ -1,11 +1,13 @@
-package Input;
+package input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import Terracraft.*;
 import crafting.Recipe;
 import net.Network.Inventory;
+import terracraft.Game;
+import terracraft.Id;
+import terracraft.Utils;
 
 public class Key implements KeyListener {
 
@@ -15,23 +17,23 @@ public class Key implements KeyListener {
 
 	public void keyPressed(KeyEvent k) {
 		key = k.getKeyCode();
-		if (k.getKeyCode() == KeyEvent.VK_ESCAPE&&!exiting) {
+		if (k.getKeyCode() == KeyEvent.VK_ESCAPE && !exiting) {
 			exiting = true;
 			String itemids[] = new String[40];
 			for (int i = 0; i < Game.player.Inventory.size(); i++) {
 				itemids[i] = Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i];
 			}
-			
+
 			Inventory request = new Inventory();
 			request.itemids = itemids;
 			Game.client.sendTCP(request);
 		}
-		if(k.getKeyCode() == KeyEvent.VK_Z){
+		if (k.getKeyCode() == KeyEvent.VK_Z) {
 			Recipe[] j = Recipe.getCraftableRecipes();
-			for(int i=0;i<j.length;i++){
+			for (int i = 0; i < j.length; i++) {
 			}
 		}
-		if (!Game.consoleOpen) {
+		if (!Game.console.consoleOpen) {
 			switch (key) {
 			case KeyEvent.VK_W:
 				w = true;
@@ -48,14 +50,13 @@ public class Key implements KeyListener {
 				break;
 			case KeyEvent.VK_A:
 				a = true;
-
 				break;
 			case KeyEvent.VK_S:
 				s = true;
 				break;
 			case KeyEvent.VK_T:
 				if (!Game.player.isInventoryOpen())
-					Game.consoleOpen = true;
+					Game.console.consoleOpen = true;
 				break;
 			case KeyEvent.VK_1:
 				Mouse.mouseRotation = 0;
@@ -85,9 +86,9 @@ public class Key implements KeyListener {
 				Mouse.mouseRotation = 8;
 				break;
 			case KeyEvent.VK_0:
-//				Mouse.mouseRotation = 9;
+				// Mouse.mouseRotation = 9;
 				Game.player.Inventory.set(4, Id.Workbench);
-				Game.player.Inventory_amount[4]=15;
+				Game.player.Inventory_amount[4] = 15;
 				Game.player.Inventory.set(5, Id.Pickaxe);
 				break;
 			case KeyEvent.VK_E:
@@ -103,14 +104,14 @@ public class Key implements KeyListener {
 			String text = KeyEvent.getKeyText(k.getKeyCode());
 			if (k.getKeyCode() == KeyEvent.VK_SPACE) {
 				text = " ";
-				Game.drawKeyInput(text);
+				Game.console.drawKeyInput(text);
 			} else if (k.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-				Game.drawKeyInput("backspace");
+				Game.console.drawKeyInput("backspace");
 			} else {
 				char t = k.getKeyChar();
 				String textToWrite = t + "";
 				if (isWritable(textToWrite))
-					Game.drawKeyInput(textToWrite);
+					Game.console.drawKeyInput(textToWrite);
 			}
 		}
 
@@ -137,12 +138,12 @@ public class Key implements KeyListener {
 			s = false;
 			break;
 		case KeyEvent.VK_ENTER:
-			if (Game.consoleOpen) {
-				String without = Utils.removeFirstChar(Game.TextToDrawInConsole);
+			if (Game.console.consoleOpen) {
+				String without = Utils.removeFirstChar(Game.console.TextToDrawInConsole);
 				String[] commands = without.split("\\s");
-				Game.executeCommand(commands);
-				Game.consoleOpen = false;
-				Game.TextToDrawInConsole = "";
+				Game.console.executeCommand(commands);
+				Game.console.consoleOpen = false;
+				Game.console.TextToDrawInConsole = "";
 
 				// send to all und evtl. command ausführen
 

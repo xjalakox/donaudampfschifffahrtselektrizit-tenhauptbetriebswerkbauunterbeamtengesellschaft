@@ -8,14 +8,14 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import Entity.Entity;
-import Entity.NetPlayer;
-import Terracraft.Game;
-import Terracraft.Id;
-import Terracraft.Utils;
-import Tile.source.Tile;
+import entity.Entity;
+import entity.NetPlayer;
 import net.Network.*;
 import net.registerlogin.Login;
+import terracraft.Game;
+import terracraft.Id;
+import terracraft.Utils;
+import tile.source.Tile;
 
 public class ClientConnection {
 	private static Game terracraft = null;

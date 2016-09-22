@@ -3,7 +3,7 @@ package net;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
-import Terracraft.Id;
+import terracraft.Id;
 
 public class Network {
 	static public final int port = 54555;
@@ -11,12 +11,12 @@ public class Network {
 	// This registers objects that are going to be sent over the network.
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
-		
+
 		kryo.register(String.class);
 		kryo.register(int.class);
 		kryo.register(Id.class);
 		kryo.register(String[].class);
-		
+
 		kryo.register(LoginRequest.class);
 		kryo.register(LoginResponse.class);
 		kryo.register(RegisterRequest.class);
@@ -40,11 +40,11 @@ public class Network {
 	static public class LoginResponse {
 		public String text;
 	}
-	
+
 	static public class RegisterRequest {
 		public String text;
 	}
-	
+
 	static public class RegisterResponse {
 		public String text;
 	}
@@ -89,13 +89,13 @@ public class Network {
 		public boolean click, clicked;
 		public String username;
 	}
-	
+
 	static public class Inventory {
 		public String[] itemids;
 	}
-	
+
 	static public class KillClient {
-		
+
 	}
 
 }

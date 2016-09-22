@@ -1,11 +1,11 @@
-package Tile;
+package tile;
 
 import java.awt.Graphics;
 
-import Terracraft.Game;
-import Terracraft.Id;
-import Tile.source.Tile;
 import gfx.Sprite;
+import terracraft.Game;
+import terracraft.Id;
+import tile.source.Tile;
 
 public class Door extends Tile {
 	private Sprite sprite = new Sprite(Game.sheet, 6, 2, 1, 3);

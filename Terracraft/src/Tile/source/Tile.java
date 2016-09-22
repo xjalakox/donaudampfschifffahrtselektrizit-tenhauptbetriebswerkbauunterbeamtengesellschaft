@@ -1,13 +1,13 @@
-package Tile.source;
+package tile.source;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import Terracraft.Game;
-import Terracraft.Handler;
-import Terracraft.Id;
-import Terracraft.Utils;
 import gfx.Sprite;
+import terracraft.Game;
+import terracraft.Handler;
+import terracraft.Id;
+import terracraft.Utils;
 
 public class Tile {
 

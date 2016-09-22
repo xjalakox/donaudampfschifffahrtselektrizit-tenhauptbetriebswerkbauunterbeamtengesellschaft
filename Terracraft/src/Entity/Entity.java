@@ -1,12 +1,12 @@
-package Entity;
+package entity;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import Terracraft.Game;
-import Terracraft.Handler;
-import Terracraft.Id;
-import Tile.source.Tile;
+import terracraft.Game;
+import terracraft.Handler;
+import terracraft.Id;
+import tile.source.Tile;
 
 public abstract class Entity {
 

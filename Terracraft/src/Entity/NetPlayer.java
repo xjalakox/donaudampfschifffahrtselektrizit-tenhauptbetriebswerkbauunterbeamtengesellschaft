@@ -1,13 +1,13 @@
-package Entity;
+package entity;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import Terracraft.Game;
-import Terracraft.Id;
 import gfx.Sprite2;
+import terracraft.Game;
+import terracraft.Id;
 
 public class NetPlayer extends Entity {
 

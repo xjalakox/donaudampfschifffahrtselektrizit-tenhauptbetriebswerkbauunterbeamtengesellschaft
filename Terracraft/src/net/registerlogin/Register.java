@@ -26,6 +26,11 @@ public class Register implements ActionListener {
 	public static Client client = new Client();
 	public static boolean killClient;
 
+	
+	public static void main(String args[]) {
+		new Register();
+	}
+	
 	public Register() {
 		new ClientConnection(client);
 		if (killClient) {

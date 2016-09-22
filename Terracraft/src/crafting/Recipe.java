@@ -3,8 +3,8 @@ package crafting;
 import java.util.Arrays;
 import java.util.List;
 
-import Terracraft.Game;
-import Terracraft.Id;
+import terracraft.Game;
+import terracraft.Id;
 
 public enum Recipe {
 	/**

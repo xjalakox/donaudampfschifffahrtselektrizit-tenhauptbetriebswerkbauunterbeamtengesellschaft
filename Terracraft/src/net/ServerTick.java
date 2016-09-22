@@ -1,6 +1,6 @@
 package net;
 
-import Terracraft.Handler;
+import terracraft.Handler;
 
 public class ServerTick implements Runnable{
 	

@@ -1,5 +1,5 @@
 
-package Terracraft;
+package terracraft;
 import net.registerlogin.Login;
 
 public class Main {

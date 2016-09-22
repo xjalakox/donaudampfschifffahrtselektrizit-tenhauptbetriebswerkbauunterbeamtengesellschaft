@@ -10,12 +10,12 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
-import Entity.NetPlayer;
-import Terracraft.Handler;
-import Terracraft.Id;
-import Terracraft.Utils;
-import Tile.source.Tile;
+import entity.NetPlayer;
 import net.Network.*;
+import terracraft.Handler;
+import terracraft.Id;
+import terracraft.Utils;
+import tile.source.Tile;
 
 public class ServerConnection {
 
@@ -86,7 +86,7 @@ public class ServerConnection {
 							NetUser user = new NetUser(requesttext[0], connection.getRemoteAddressTCP().getAddress(),
 									connection.getRemoteAddressTCP().getPort(), connection);
 							NetPlayer player = new NetPlayer(requesttext[0], mysql.getX(requesttext[0]),
-									mysql.getY(requesttext[0]), 24, 24, Terracraft.Id.NetPlayer);
+									mysql.getY(requesttext[0]), 24, 24, terracraft.Id.NetPlayer);
 							connections.add(connection);
 							users.add(user);
 							players.put(user, player);

@@ -1,9 +1,8 @@
-package Terracraft;
+package terracraft;
 
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -15,16 +14,17 @@ import javax.swing.JFrame;
 
 import com.esotericsoftware.kryonet.Client;
 
-import Entity.Snowman;
-import Entity.Entity;
-import Entity.Player;
-import Input.Key;
-import Input.Mouse;
 import audio.SoundManager;
+import entity.Entity;
+import entity.Player;
+import entity.Snowman;
+import enviroment.Map;
 import gfx.Image;
 import gfx.Sprite;
 import gfx.Spritesheet;
 import gfx.Spritesheet2;
+import input.Key;
+import input.Mouse;
 import net.Network.*;
 import net.registerlogin.Login;
 
@@ -42,6 +42,7 @@ public class Game extends Canvas implements Runnable {
 	public static Mouse m;
 	public static MiningHandler mininghandler;
 	public static SoundManager sm;
+	public static Console console;
 	public static Client client;
 
 	public static Spritesheet sheet = new Spritesheet("/Sprites/Spritesheet.png");
@@ -56,9 +57,6 @@ public class Game extends Canvas implements Runnable {
 	private JFrame frame;
 	private String username;
 	private int x, y;
-
-	public static boolean consoleOpen;
-	public static String TextToDrawInConsole;
 
 	public void init() {
 
@@ -75,8 +73,9 @@ public class Game extends Canvas implements Runnable {
 		sm = new SoundManager();
 		mininghandler = new MiningHandler();
 		player = new Player(username, x, y, 46, 96, Id.Player);
+		console = new Console(player);
 		snowman = new Snowman(x - 1000, 300, 64, 64, handler, Id.Dragon);
-		
+
 		handler.addEntity(player);
 		handler.addEntity(snowman);
 		mininghandler.init();
@@ -88,29 +87,14 @@ public class Game extends Canvas implements Runnable {
 
 		addKeyListener(new Key());
 
-		
-
 		background = new Image("/Backgrounds/Background_1.png");
-		TextToDrawInConsole = "";
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon(new Sprite(sheet, 5, 1, 1, 1).getBufferedImage()).getImage(), new Point(0, 0),
 				"custom cursor"));
 
+		initNetWork();
+
 		/** INIT ENDE **/
-
-		/** INIT NETWORK **/
-
-		NetUserSpawnResponse spawn = new NetUserSpawnResponse();
-		spawn.username = username;
-		spawn.x = x;
-		spawn.y = y;
-		client.sendTCP(spawn);
-
-		FinishedLoading finished = new FinishedLoading();
-		finished.username = username;
-		client.sendTCP(finished);
-
-		/** INIT NETWORK ENDE **/
 
 		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
 
@@ -124,17 +108,19 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		Graphics g = bs.getDrawGraphics();
+
 		g.setColor(new Color(135, 206, 250));
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.translate(cam.getX(), cam.getY());
 		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8,
 				player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
-		map.render(g);
 
 		handler.render(g);
+
+		// renderTestFlashLight(g2d);
 		mininghandler.render(g);
 		map.render(g);
-		doConsoleStuff(g);
+		console.render(g);
 
 		g.dispose();
 		bs.show();
@@ -198,6 +184,32 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
+
+
+	/*
+	 * private void renderTestFlashLight(Graphics2D g2d) { Point mpoint = new
+	 * Point(); mpoint.x = m.getX(); mpoint.y = m.getY();
+	 * 
+	 * Paint paint = Color.BLACK; if (mpoint != null) { paint = new
+	 * RadialGradientPaint(mpoint, 200, new float[] { 0, 1f }, new Color[] { new
+	 * Color(0, 0, 0, 0), new Color(0, 0, 0, 255) }); } g2d.setPaint(paint); //
+	 * g2d.setColor(Color.BLACK); //
+	 * g2d.fillRect(0,0,getWidth()-1000,getHeight()); // g2d.fillRect(0,0,
+	 * getWidth(),getHeight()-500); }
+	 */
+
+	private void initNetWork() {
+		NetUserSpawnResponse spawn = new NetUserSpawnResponse();
+		spawn.username = username;
+		spawn.x = x;
+		spawn.y = y;
+		client.sendTCP(spawn);
+
+		FinishedLoading finished = new FinishedLoading();
+		finished.username = username;
+		client.sendTCP(finished);
+	}
+	
 	public Game(int x, int y, String username, JFrame frame, Client client) {
 		this.x = x;
 		this.y = y;
@@ -209,6 +221,8 @@ public class Game extends Canvas implements Runnable {
 		setMinimumSize(size);
 		setMaximumSize(size);
 	}
+	
+	
 
 	public static int getFrameWidth() {
 		return breite * scale;
@@ -216,131 +230,6 @@ public class Game extends Canvas implements Runnable {
 
 	public static int getFrameHeight() {
 		return height * scale;
-	}
-
-	private void renderLookingBlock(Graphics g) {
-		int x = 0;
-		int y = 0;
-		int x2 = m.getX() - cam.getX();
-		int y2 = m.getY() - cam.getY();
-		/**
-		 * Der Code sieht nach Cancer aus Und er ist Hodenkrebs im Endstadium...
-		 */
-		if (x2 > 0) {
-			while (x2 >= 32) {
-				x += 32;
-				x2 -= 32;
-			}
-		} else if (x2 < 0) {
-			while (x2 <= 32) {
-				x -= 32;
-				x2 += 32;
-			}
-			x += 32;
-		}
-		if (y2 > 0) {
-			while (y2 >= 32) {
-				y += 32;
-				y2 -= 32;
-			}
-
-		} else if (y2 < 0) {
-			while (y2 <= 32) {
-				y -= 32;
-				y2 += 32;
-			}
-			y += 32;
-		}
-		m.lookingAtX = x;
-		m.lookingAtY = y;
-		g.setColor(Color.RED);
-		if (mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null && Mouse.mouseRotation >= 0
-				&& mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")) {
-			g.drawImage(mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y,
-					mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
-					mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getHeight(),
-					null);
-		}
-		g.drawRect(player.getX() - 650, player.getY() - 440, getFrameWidth(), 700);
-	}
-
-	private void doConsoleStuff(Graphics g) {
-		// TODO Ein Int den man gut nutzen kann um nur bei bestimmten Ticks
-		// etwas zu zeichnen etc.
-		if (consoleOpen) {
-			renderConsole(g);
-			if (TextToDrawInConsole != null) {
-				String without = Utils.removeFirstChar(TextToDrawInConsole);
-				if (!TextToDrawInConsole.contains("/") && !without.contains("/")) {
-					renderKeyInput(g, TextToDrawInConsole);
-
-				} else {
-					renderKeyInput(g, "Console : " + TextToDrawInConsole);
-				}
-			}
-			if (TextToDrawInConsole.length() == 0) {
-				g.drawLine(320 + player.getX(), 210 + player.getY(), 320 + player.getX(), 771);
-			}
-		} else {
-			renderLookingBlock(g);
-		}
-	}
-
-	private void renderConsole(Graphics g) {
-		Color ConsoleColor = new Color(200, 0, 200, 50);
-		g.setColor(ConsoleColor);
-		g.fillRect(315 + player.getX(), 10 + player.getY(), 300, 200);
-		Color WritingText = new Color(0, 0, 0, 100);
-		g.setColor(WritingText);
-		g.drawRect(315 + player.getX(), 210 + player.getY(), 300, 30);
-	}
-
-	private void renderKeyInput(Graphics g, String keyToDraw) {
-		g.setColor(Color.BLUE);
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		g.drawString(keyToDraw, player.getX() + 320, player.getY() + 230);
-
-	}
-
-	public static void drawKeyInput(String keyText) {
-		if (keyText.equalsIgnoreCase("backspace")) {
-			Utils.removeLastChar(TextToDrawInConsole);
-			TextToDrawInConsole = Utils.removeLastChar(TextToDrawInConsole);
-		} else {
-			TextToDrawInConsole = TextToDrawInConsole + keyText;
-		}
-	}
-
-	public static void executeCommand(String[] args) {
-		if (args[0].equalsIgnoreCase("fly")) {
-			player.fly = true;
-		}
-		if (args[0].equalsIgnoreCase("give")) {
-			boolean breakout = false;
-			for (int i = 0; i < args.length; i++) {
-				if (Utils.isNotNull(args)) {
-					// mininghandler.scrollbarTiles
-					for (int j = 0; j < 39; j++) {
-						if (player.Inventory_amount[j] == 0) {
-							player.Inventory.add(j, Id.toId(args[1]));
-							player.Inventory_amount[j] = Utils.toInt(args[2]);
-							breakout = true;
-						}
-						if (breakout)
-							break;
-					}
-					// player.Inventory.set(mininghandler.equippedTool,
-					// Id.toId(SplitInventoryData[0]));
-					// player.Inventory_amount[InventoryPlace] =
-					// Utils.toInt(SplitInventoryData[1]);
-				}
-			}
-
-			// 2 Arg Block
-			// 3 Arg Anzahl
-
-		}
-
 	}
 
 	public static Rectangle getVisisbleArea() {

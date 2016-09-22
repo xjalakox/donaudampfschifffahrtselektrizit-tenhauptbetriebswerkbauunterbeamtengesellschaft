@@ -1,4 +1,4 @@
-package Input;
+package input;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -7,13 +7,13 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import Terracraft.Game;
-import Terracraft.Id;
-import Tile.Door;
-import Tile.source.Tile;
 import crafting.Recipe;
 import net.Network.AddTile;
 import net.Network.HittingBlock;
+import terracraft.Game;
+import terracraft.Id;
+import tile.Door;
+import tile.source.Tile;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -218,7 +218,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	private void placeBlock() {
-		if (!Game.consoleOpen && !lookIfOccupied()
+		if (!Game.console.consoleOpen && !lookIfOccupied()
 				&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))
 				&& Game.player.getArea().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
 			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")

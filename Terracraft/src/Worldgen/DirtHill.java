@@ -1,4 +1,4 @@
-package Worldgen;
+package worldgen;
 
 
 public class DirtHill {

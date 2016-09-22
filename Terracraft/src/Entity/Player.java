@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,17 +7,18 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import Input.Key;
-import Terracraft.Game;
-import Terracraft.Id;
-import Terracraft.MiningHandler;
-import Terracraft.Utils;
-import Tile.source.Tile;
 import crafting.Recipe;
 import gfx.Sprite;
 import gfx.Sprite2;
+import input.Key;
+import input.Mouse;
 import net.Network.HittingBlock;
 import net.Network.SendCoordinates;
+import terracraft.Game;
+import terracraft.Id;
+import terracraft.MiningHandler;
+import terracraft.Utils;
+import tile.source.Tile;
 
 public class Player extends Entity {
 	private String username;
@@ -57,17 +58,16 @@ public class Player extends Entity {
 		// Inventory.set(3, Id.Pickaxe);
 	}
 
-	/*public Player(String username, int x, int y, int breite, int height, Id id) {
-		super(x, y, breite, height, Game.handler, id);
-		this.username = username;
-		for (int i = 1; i < armor.length; i++) {
-			armor[i] = new Sprite2(Game.sheet_armor, 1, i, 1, 1);
-			legs[i] = new Sprite2(Game.sheet_legs, 1, i, 1, 1);
-			head[i] = new Sprite2(Game.sheet_head, 1, i, 1, 1);
-			body[i] = new Sprite2(Game.sheet_body, 1, i, 1, 1);
-			armor_head[i] = new Sprite2(Game.sheet_armor_head, 1, i, 1, 1);
-		}
-	}*/
+	/*
+	 * public Player(String username, int x, int y, int breite, int height, Id
+	 * id) { super(x, y, breite, height, Game.handler, id); this.username =
+	 * username; for (int i = 1; i < armor.length; i++) { armor[i] = new
+	 * Sprite2(Game.sheet_armor, 1, i, 1, 1); legs[i] = new
+	 * Sprite2(Game.sheet_legs, 1, i, 1, 1); head[i] = new
+	 * Sprite2(Game.sheet_head, 1, i, 1, 1); body[i] = new
+	 * Sprite2(Game.sheet_body, 1, i, 1, 1); armor_head[i] = new
+	 * Sprite2(Game.sheet_armor_head, 1, i, 1, 1); } }
+	 */
 
 	public void render(Graphics g) {
 		g.setColor(Color.blue);
@@ -364,11 +364,11 @@ public class Player extends Entity {
 		}
 		for (int i = 0; i < recipes.length; i++) {
 			if (recipes[i] != null) {
-				g.drawImage(inventory_background.getBufferedImage(),  getX() - 615-7,
-						getY() - 140 + i * 48, 48, 48,null);
+				g.drawImage(inventory_background.getBufferedImage(), getX() - 615 - 7, getY() - 140 + i * 48, 48, 48,
+						null);
 				g.drawImage(Id.toId(recipes[i].getName()).getImage().getBufferedImage(), getX() - 615,
-						getY() - 140 + i * 48+8, 32, 32, null);
-				
+						getY() - 140 + i * 48 + 8, 32, 32, null);
+
 			}
 		}
 	}
@@ -395,20 +395,62 @@ public class Player extends Entity {
 	}
 
 	public Rectangle closedInventoryBounds() {
-		return new Rectangle(20 + getX() - 650 - 5, 20 + getY() - 450 - 5, 74 * 10, 74 );
+		return new Rectangle(20 + getX() - 650 - 5, 20 + getY() - 450 - 5, 74 * 10, 74);
 	}
 	
-	
-	public Rectangle recipeBounds() {
-		if(recipes.length>=1){
-			return new Rectangle(  getX() - 615-7,
-					getY() - 140, 48,recipes.length* 48);
-		}else{
-			return new Rectangle(  getX() - 615-7,
-					getY() - 140 + 0 * 48, 0,0);
+	public void renderLookingBlock(Graphics g) {
+		int x = 0;
+		int y = 0;
+		int x2 = Game.m.getX() - Game.cam.getX();
+		int y2 = Game.m.getY() - Game.cam.getY();
+		/**
+		 * Der Code sieht nach Cancer aus Und er ist Hodenkrebs im Endstadium...
+		 */
+		if (x2 > 0) {
+			while (x2 >= 32) {
+				x += 32;
+				x2 -= 32;
+			}
+		} else if (x2 < 0) {
+			while (x2 <= 32) {
+				x -= 32;
+				x2 += 32;
+			}
+			x += 32;
 		}
-		
+		if (y2 > 0) {
+			while (y2 >= 32) {
+				y += 32;
+				y2 -= 32;
+			}
+
+		} else if (y2 < 0) {
+			while (y2 <= 32) {
+				y -= 32;
+				y2 += 32;
+			}
+			y += 32;
+		}
+		Game.m.lookingAtX = x;
+		Game.m.lookingAtY = y;
+		g.setColor(Color.RED);
+		if (Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null && Mouse.mouseRotation >= 0
+				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")) {
+			g.drawImage(Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y,
+					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
+					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getHeight(),
+					null);
+		}
+		g.drawRect(getX() - 650, getY() - 440, Game.getFrameWidth(), 700);
 	}
 
+	public Rectangle recipeBounds() {
+		if (recipes.length >= 1) {
+			return new Rectangle(getX() - 615 - 7, getY() - 140, 48, recipes.length * 48);
+		} else {
+			return new Rectangle(getX() - 615 - 7, getY() - 140 + 0 * 48, 0, 0);
+		}
+
+	}
 
 }

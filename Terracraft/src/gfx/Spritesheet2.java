@@ -9,13 +9,14 @@ public class Spritesheet2 {
 
 	private BufferedImage sheet;
 
-	public Spritesheet2(String path){
+	public Spritesheet2(String path) {
 		try {
 			sheet = ImageIO.read(getClass().getResource(path));
-		} catch (IOException e) {}
+		} catch (IOException e) {
+		}
 	}
-	
-	public BufferedImage getSprite(int x,int y,int a,int b){
-		return sheet.getSubimage(x*40-40, y*56-56, 40*a, 56*b);
+
+	public BufferedImage getSprite(int x, int y, int a, int b) {
+		return sheet.getSubimage(x * 40 - 40, y * 56 - 56, 40 * a, 56 * b);
 	}
 }
