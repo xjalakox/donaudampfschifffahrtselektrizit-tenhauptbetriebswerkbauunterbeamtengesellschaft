@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import terracraft.Game;
 import terracraft.Handler;
 import terracraft.Id;
+import tile.Door;
 import tile.source.Tile;
 
 public abstract class Entity {
@@ -56,7 +57,7 @@ public abstract class Entity {
 		this.id = id;
 
 	}
-	
+
 	public Rectangle getArea() {
 		return new Rectangle(x - 128, y - 128, 96 * 3 + width, 96 * 3 + height);
 	}
@@ -162,8 +163,8 @@ public abstract class Entity {
 	}
 
 	public void jumping(float grav) {
-		if(gravity<=17.0f){
-		gravity -= grav;
+		if (gravity <= 17.0f) {
+			gravity -= grav;
 		}
 		setVelY((int) -gravity);
 		if (gravity <= 0.0f) {
@@ -186,14 +187,23 @@ public abstract class Entity {
 			for (Tile ti : handler.tile2) {
 
 				if (getBottom().intersects(ti.getTop())) {
+					if (ti.getId().equals(Id.Door)) {
+						if (!((Door) ti).isOpen()) {
+							gravity = 0f;
+							jumping = false;
+							falling = false;
+							y = ti.getY() - 90;
+						}
+					} else {
 
-					gravity = 0f;
-					jumping = false;
-					falling = false;
+						gravity = 0f;
+						jumping = false;
+						falling = false;
+						y = ti.getY() - 87;
 
+					}
 				}
 			}
-
 		}
 		setVelY((int) gravity);
 	}
@@ -205,8 +215,8 @@ public abstract class Entity {
 	}
 
 	public Rectangle getBottom() {
-
 		return new Rectangle(getX() + 6, getY() + height - 16, width-10, 16);
+
 
 	}
 

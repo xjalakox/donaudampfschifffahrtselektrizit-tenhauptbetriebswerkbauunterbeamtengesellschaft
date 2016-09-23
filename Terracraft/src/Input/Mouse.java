@@ -116,9 +116,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				}
 			}
 			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")) {
-				if (ti.getBounds().intersects(
-						new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
+				if(dummyTile.getId().equals(Id.Door)){
+					if (ti.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY-64, dummyTile.getWidth(), dummyTile.getHeight()))) {
+						return true;
+					}
+				}else{
+				if (ti.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
 					return true;
+				}
 				}
 			}
 		}
@@ -224,8 +229,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
 					&& Game.player.Inventory_amount[mouseRotation] >= 1) {
 				AddTile request = new AddTile();
+				if(Game.mininghandler.scrollbarTiles.get(mouseRotation).equals(Id.Door)){
+					request.x = lookingAtX;
+					request.y = lookingAtY-64;
+				}else{
 				request.x = lookingAtX;
 				request.y = lookingAtY;
+				}
 				request.type = Game.mininghandler.scrollbarTiles.get(mouseRotation).toString();
 				Game.client.sendTCP(request);
 				Tile ti = Id.getTile(request.type);

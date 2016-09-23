@@ -6,6 +6,7 @@ public enum SoundID {
 	door_closed(1, "Door_Closed", 1),
 	trade(2, "trade", 1);
 
+
 	private int id;
 	private String prefix = "res/Sound/";
 	private String suffix = ".wav";
