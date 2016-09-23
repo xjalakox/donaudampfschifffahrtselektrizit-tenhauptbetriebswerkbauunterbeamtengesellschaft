@@ -10,7 +10,7 @@ import tile.source.Tile;
 
 public abstract class Entity {
 
-	public int x, y, breite, height, velX, velY;
+	public int x, y, width, height, velX, velY;
 	public boolean removed, clicked, click;
 	public Handler handler;
 	public Id id;
@@ -47,10 +47,10 @@ public abstract class Entity {
 
 	public float gravity = 0f;
 
-	public Entity(int x, int y, int breite, int height, Handler handler, Id id) {
+	public Entity(int x, int y, int width, int height, Handler handler, Id id) {
 		this.x = x;
 		this.y = y;
-		this.breite = breite;
+		this.width = width;
 		this.height = height;
 		this.handler = handler;
 		this.id = id;
@@ -58,7 +58,7 @@ public abstract class Entity {
 	}
 	
 	public Rectangle getArea() {
-		return new Rectangle(x - 128, y - 128, 96 * 3 + breite, 96 * 3 + height);
+		return new Rectangle(x - 128, y - 128, 96 * 3 + width, 96 * 3 + height);
 	}
 
 	public abstract void render(Graphics g);
@@ -106,11 +106,11 @@ public abstract class Entity {
 	}
 
 	public int getBreite() {
-		return breite;
+		return width;
 	}
 
-	public void setBreite(int breite) {
-		this.breite = breite;
+	public void setBreite(int width) {
+		this.width = width;
 	}
 
 	public int getHeight() {
@@ -200,19 +200,19 @@ public abstract class Entity {
 
 	public Rectangle getBounds() {
 
-		return new Rectangle(getX(), getY(), breite, height);
+		return new Rectangle(getX(), getY(), width, height);
 
 	}
 
 	public Rectangle getBottom() {
 
-		return new Rectangle(getX() + 6, getY() + height - 16, breite-10, 16);
+		return new Rectangle(getX() + 6, getY() + height - 16, width-10, 16);
 
 	}
 
 	public Rectangle getRight() {
 
-		return new Rectangle(getX() + breite - 5, getY() + 5, 5, height - 10);
+		return new Rectangle(getX() + width - 5, getY() + 5, 5, height - 10);
 
 	}
 
@@ -224,7 +224,7 @@ public abstract class Entity {
 
 	public Rectangle getTop() {
 
-		return new Rectangle(getX() + 5, getY(), breite-10, 16);
+		return new Rectangle(getX() + 5, getY(), width-10, 16);
 
 	}
 

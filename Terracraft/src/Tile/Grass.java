@@ -1,5 +1,6 @@
 package tile;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import gfx.Sprite;
@@ -28,6 +29,15 @@ public class Grass extends Tile {
 			renderMap(g, sprite);
 
 		}
+		
+		g.setColor(Color.WHITE);
+		g.drawRect(getBottom().x,getBottom().y,getBottom().width,getBottom().height);
+		g.setColor(Color.BLUE);
+		g.drawRect(getTop().x,getTop().y,getTop().width,getTop().height);
+		g.setColor(Color.RED);
+		g.drawRect(getLeft().x,getLeft().y,getLeft().width,getLeft().height);
+		g.setColor(Color.YELLOW);
+		g.drawRect(getRight().x,getRight().y,getRight().width,getRight().height);
 
 	}
 

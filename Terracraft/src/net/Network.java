@@ -1,12 +1,12 @@
 package net;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.EndPoint;
 
 import terracraft.Id;
 
 public class Network {
-	static public final int port = 54555;
 
 	// This registers objects that are going to be sent over the network.
 	static public void register(EndPoint endPoint) {
@@ -98,4 +98,18 @@ public class Network {
 
 	}
 
+	public static void sendCoordinates(Client client, int x, int y, String username, Id tool, String type) {
+		SendCoordinates coordinates = new SendCoordinates();
+		coordinates.x = x;
+		coordinates.y = y;
+		coordinates.username = username;
+		coordinates.tool = tool;
+		if (type.equalsIgnoreCase("udp")) {
+			client.sendUDP(coordinates);
+		} else if (type.equalsIgnoreCase("tcp")) {
+			client.sendTCP(coordinates);
+		} else {
+			System.out.println("Packet konnte nicht übertragen werden nur TCP oder UDP zulässig.");
+		}
+	}
 }

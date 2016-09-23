@@ -12,8 +12,8 @@ import gfx.Sprite;
 import gfx.Sprite2;
 import input.Key;
 import input.Mouse;
+import net.Network;
 import net.Network.HittingBlock;
-import net.Network.SendCoordinates;
 import terracraft.Game;
 import terracraft.Id;
 import terracraft.MiningHandler;
@@ -38,9 +38,8 @@ public class Player extends Entity {
 	private boolean gotRecipes = false;
 	public Recipe[] recipes = new Recipe[0];
 
-	public Player(String username, int x, int y, int breite, int height, Id id) {
-
-		super(x, y, breite, height, Game.handler, id);
+	public Player(String username, int x, int y, int width, int height, Id id) {
+		super(x, y, width, height, Game.handler, id);
 		this.username = username;
 		for (int i = 1; i < armor.length; i++) {
 			armor[i] = new Sprite2(Game.sheet_armor, 1, i, 1, 1);
@@ -58,26 +57,16 @@ public class Player extends Entity {
 		// Inventory.set(3, Id.Pickaxe);
 	}
 
-	/*
-	 * public Player(String username, int x, int y, int breite, int height, Id
-	 * id) { super(x, y, breite, height, Game.handler, id); this.username =
-	 * username; for (int i = 1; i < armor.length; i++) { armor[i] = new
-	 * Sprite2(Game.sheet_armor, 1, i, 1, 1); legs[i] = new
-	 * Sprite2(Game.sheet_legs, 1, i, 1, 1); head[i] = new
-	 * Sprite2(Game.sheet_head, 1, i, 1, 1); body[i] = new
-	 * Sprite2(Game.sheet_body, 1, i, 1, 1); armor_head[i] = new
-	 * Sprite2(Game.sheet_armor_head, 1, i, 1, 1); } }
-	 */
 
 	public void render(Graphics g) {
 		g.setColor(Color.blue);
-		g.drawRect(getX() + 6, getY() + height - 16, breite - 10, 16);
+		g.drawRect(getX() + 6, getY() + height - 16, width - 10, 16);
 		g.setColor(Color.green);
-		g.drawRect(getX() + breite - 5, getY() + 5, 5, height - 10);
+		g.drawRect(getX() + width - 5, getY() + 5, 5, height - 10);
 		g.setColor(Color.black);
 		g.drawRect(getX(), getY() + 5, 5, height - 10);
 		g.setColor(Color.cyan);
-		g.drawRect(getX() + 5, getY(), breite - 10, 16);
+		g.drawRect(getX() + 5, getY(), width - 10, 16);
 		drawPlayer(g);
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -386,12 +375,7 @@ public class Player extends Entity {
 	}
 
 	public void sendPosition() {
-		SendCoordinates position = new SendCoordinates();
-		position.x = x;
-		position.y = y;
-		position.username = username;
-		position.tool = MiningHandler.equippedTool;
-		Game.client.sendUDP(position);
+		Network.sendCoordinates(Game.client, x, y, username, MiningHandler.equippedTool, "udp");
 	}
 
 	public Rectangle closedInventoryBounds() {

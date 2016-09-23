@@ -4,7 +4,10 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
+import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
@@ -31,7 +34,7 @@ import net.registerlogin.Login;
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1337L;
-	private static final int breite = 320, height = 180, scale = 4;
+	private static final int width = 320, height = 180, scale = 4;
 	private static boolean running = false;
 
 	private static Thread thread;
@@ -79,6 +82,7 @@ public class Game extends Canvas implements Runnable {
 		handler.addEntity(player);
 		handler.addEntity(snowman);
 		mininghandler.init();
+		sm.playSound(2);
 
 		addMouseListener(m);
 		addMouseMotionListener(m);
@@ -108,6 +112,7 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		Graphics g = bs.getDrawGraphics();
+		Graphics2D g2d = (Graphics2D) g.create();
 
 		g.setColor(new Color(135, 206, 250));
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -117,7 +122,7 @@ public class Game extends Canvas implements Runnable {
 
 		handler.render(g);
 
-		// renderTestFlashLight(g2d);
+		renderTestFlashLight(g2d);
 		mininghandler.render(g);
 		map.render(g);
 		console.render(g);
@@ -184,19 +189,21 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
+	private void renderTestFlashLight(Graphics2D g2d) {
+		Point mpoint = new Point();
+		mpoint.x = m.getX();
+		mpoint.y = m.getY();
 
-
-	/*
-	 * private void renderTestFlashLight(Graphics2D g2d) { Point mpoint = new
-	 * Point(); mpoint.x = m.getX(); mpoint.y = m.getY();
-	 * 
-	 * Paint paint = Color.BLACK; if (mpoint != null) { paint = new
-	 * RadialGradientPaint(mpoint, 200, new float[] { 0, 1f }, new Color[] { new
-	 * Color(0, 0, 0, 0), new Color(0, 0, 0, 255) }); } g2d.setPaint(paint); //
-	 * g2d.setColor(Color.BLACK); //
-	 * g2d.fillRect(0,0,getWidth()-1000,getHeight()); // g2d.fillRect(0,0,
-	 * getWidth(),getHeight()-500); }
-	 */
+		Paint paint = Color.BLACK;
+		if (mpoint != null) {
+			paint = new RadialGradientPaint(mpoint, 200, new float[] { 0, 1f },
+					new Color[] { new Color(0, 0, 0, 0), new Color(0, 0, 0, 255) });
+		}
+		g2d.setPaint(paint); 
+		//g2d.setColor(Color.BLACK); 
+		g2d.fillRect(0, 0, getWidth() - 1000, getHeight());
+		//g2d.fillRect(0, 0, getWidth(), getHeight() - 500);
+	}
 
 	private void initNetWork() {
 		NetUserSpawnResponse spawn = new NetUserSpawnResponse();
@@ -209,23 +216,21 @@ public class Game extends Canvas implements Runnable {
 		finished.username = username;
 		client.sendTCP(finished);
 	}
-	
+
 	public Game(int x, int y, String username, JFrame frame, Client client) {
 		this.x = x;
 		this.y = y;
 		this.username = username;
 		this.frame = frame;
 		Game.client = client;
-		Dimension size = new Dimension(breite * scale, height * scale);
+		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 		setMinimumSize(size);
 		setMaximumSize(size);
 	}
-	
-	
 
 	public static int getFrameWidth() {
-		return breite * scale;
+		return width * scale;
 	}
 
 	public static int getFrameHeight() {

@@ -17,8 +17,8 @@ public class Snowman extends Entity {
 	private int tick, pause, delay = 0, direction;
 	private boolean standing;
 
-	public Snowman(int x, int y, int breite, int height, Handler handler, Id id) {
-		super(x, y, breite, height, handler, id);
+	public Snowman(int x, int y, int width, int height, Handler handler, Id id) {
+		super(x, y, width, height, handler, id);
 		for (int i = 0; i < sprite.length; i++) {
 			sprite[i] = new Sprite(Game.sheet, 3 + i, 2, 1, 2);
 		}
@@ -26,8 +26,15 @@ public class Snowman extends Entity {
 
 	public void render(Graphics g) {
 		g.setColor(Color.red);
-		g.drawRect(x, y, breite, height);
-		g.drawImage(sprite[frame].getBufferedImage(), x, y, breite, height, null);
+		g.drawImage(sprite[frame].getBufferedImage(), x, y, width, height, null);
+		g.setColor(Color.WHITE);
+		g.drawRect(getBottom().x, getBottom().y, getBottom().width, getBottom().height);
+		g.setColor(Color.BLUE);
+		g.drawRect(getTop().x, getTop().y, getTop().width, getTop().height);
+		g.setColor(Color.RED);
+		g.drawRect(getLeft().x, getLeft().y, getLeft().width, getLeft().height);
+		g.setColor(Color.YELLOW);
+		g.drawRect(getRight().x, getRight().y, getRight().width, getRight().height);
 	}
 
 	public void tick() {
@@ -46,22 +53,23 @@ public class Snowman extends Entity {
 		}
 	}
 
-	private void collision(){
-		if(y<Game.getFrameWidth()){
+	private void collision() {
+		if (y < Game.getFrameWidth()) {
 			setVelY(0);
 		}
 		for (Tile ti : handler.tile2) {
 
 			if (getTop().intersects(ti.getBottom())) {
 				setVelY(0);
-				y = ti.getY() + 33;
+				y = ti.getY() + height - 1;
 				jumping = false;
 				falling = true;
 				gravity = 0;
 			}
 			if (getBottom().intersects(ti.getTop())) {
 				setVelY(0);
-				y = ti.getY() - 90;
+				y = ti.getY() - height + 1;
+				gravity = 0;
 
 			} else if (!jumping) {
 				falling = true;
@@ -69,33 +77,33 @@ public class Snowman extends Entity {
 
 			if (getLeft().intersects(ti.getRight())) {
 				setVelX(0);
-				jumping=true;
+				jumping = true;
 				falling = false;
-				gravity=17f;
+				gravity = 17f;
 				setVelX(2);
-				x = ti.getX() + 53;
-				standing=true;
+				x = ti.getX() + width / 2 + 1;
+				standing = true;
 			}
 			if (getRight().intersects(ti.getLeft())) {
 				setVelX(0);
-				jumping=true;
+				jumping = true;
 				falling = false;
-				gravity=17f;
+				gravity = 17f;
 				setVelX(2);
-				x = ti.getX() - 86;
-				standing=true;
+				x = ti.getX() - width - 1;
+				standing = true;
 			}
 
 		}
-		
+
 		if (jumping) {
 			jumping(0.5f);
 		}
-		
-		if(falling){
+
+		if (falling) {
 			falling();
-			if(velY==1){
-				tick=delay;
+			if (velY == 1) {
+				tick = delay;
 				move();
 			}
 		}
@@ -113,7 +121,7 @@ public class Snowman extends Entity {
 	}
 
 	private void move() {
-		if (tick == delay) {
+		if (tick >= delay) {
 			delay = Utils.RandomInt(200, 600);
 			direction = Utils.RandomInt(2);
 			if (direction == 0) {
@@ -127,12 +135,12 @@ public class Snowman extends Entity {
 		}
 	}
 
-	public Rectangle getRight() {
-		return new Rectangle(getX() + breite - 5, getY() + 5, 5+20, height - 10);
+	public Rectangle getLeft() {
+		return new Rectangle(getX() + 3, getY() + 5, 10, getHeight() - 10);
 	}
 
-	public Rectangle getLeft() {
-		return new Rectangle(getX()-20, getY() + 5, 5, height - 10);
+	public Rectangle getRight() {
+		return new Rectangle(getX() + width - 12, getY() + 5, 10, getHeight() - 10);
 	}
 
 }
