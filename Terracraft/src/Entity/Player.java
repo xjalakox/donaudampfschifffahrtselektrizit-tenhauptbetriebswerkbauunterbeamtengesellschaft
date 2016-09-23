@@ -19,6 +19,7 @@ import terracraft.Id;
 import terracraft.MiningHandler;
 import terracraft.Utils;
 import tile.source.Tile;
+import tile.Door;
 
 public class Player extends Entity {
 	private String username;
@@ -94,35 +95,15 @@ public class Player extends Entity {
 		y += velY;
 
 		for (Tile ti : handler.tile2) {
-			if (!ti.getId().equals(Id.Workbench)) {
-				if (getTop().intersects(ti.getBottom())) {
-					setVelY(0);
-					y = ti.getY() + 33;
-					jumping = false;
-					falling = true;
-					gravity = 0;
-
-				}
-				if (getBottom().intersects(ti.getTop())) {
-					setVelY(0);
-
-					y = ti.getY() - 90;
-
-				} else if (!jumping) {
-					falling = true;
-				}
-
-				if (getLeft().intersects(ti.getRight())) {
-					setVelX(0);
-					x = ti.getX() + 33;
-
-				}
-				if (getRight().intersects(ti.getLeft())) {
-					setVelX(0);
-					x = ti.getX() - 46;
-
+			if (ti.getId().equals(Id.Grass)||ti.getId().equals(Id.Dirt)) {
+				testForCollision(ti);
+			}else if(ti.getId().equals(Id.Door)){
+				if(!((Door) ti).isOpen()){
+					testForCollision(ti);
 				}
 			}
+			
+			
 		}
 
 		// Movement
@@ -450,7 +431,37 @@ public class Player extends Entity {
 		} else {
 			return new Rectangle(getX() - 615 - 7, getY() - 140 + 0 * 48, 0, 0);
 		}
-
+		
 	}
 
+	
+	public void testForCollision(Tile ti){
+		if (getTop().intersects(ti.getBottom())) {
+			setVelY(0);
+			y = ti.getY() + 33;
+			jumping = false;
+			falling = true;
+			gravity = 0;
+
+		}
+		if (getBottom().intersects(ti.getTop())) {
+			setVelY(0);
+
+			y = ti.getY() - 87;
+
+		} else if (!jumping) {
+			falling = true;
+		}
+
+		if (getLeft().intersects(ti.getRight())) {
+			setVelX(0);
+			x = ti.getX() + 33;
+
+		}
+		if (getRight().intersects(ti.getLeft())) {
+			setVelX(0);
+			x = ti.getX() - 46;
+
+		}
+	}
 }

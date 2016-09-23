@@ -1,5 +1,6 @@
 package tile;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import gfx.Sprite;
@@ -18,10 +19,14 @@ public class Door extends Tile {
 
 	public void render(Graphics g) {
 		// setHealth(100);
+		g.setColor(Color.red);
+		g.drawRect(x, y, width, height);
 
 		if (!open) {
+			width=32;
 			g.drawImage(sprite.getBufferedImage(), x, y, sprite.getWidth(), sprite.getHeight(), null);
 		} else {
+			width=64;
 			g.drawImage(sprite2.getBufferedImage(), x, y, sprite2.getWidth(), sprite2.getHeight(), null);
 
 		}
@@ -29,6 +34,14 @@ public class Door extends Tile {
 
 	public void tick() {
 
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public void setOpen(boolean open) {
+		this.open = open;
 	}
 
 	public void mapRender(Graphics g) {
