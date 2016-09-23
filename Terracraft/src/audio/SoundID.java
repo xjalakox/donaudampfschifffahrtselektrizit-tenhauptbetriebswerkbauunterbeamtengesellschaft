@@ -2,9 +2,9 @@ package audio;
 
 public enum SoundID {
 	// template ( id, name, vol),
-	door_open(0, "Door_Opened", 1),
-	door_closed(1, "Door_Closed", 1),
-	trade(2, "trade", 1);
+	door_open(0, "Door_Opened", 0),
+	door_closed(1, "Door_Closed", 0),
+	trade(2, "trade", 0);
 
 
 	private int id;
