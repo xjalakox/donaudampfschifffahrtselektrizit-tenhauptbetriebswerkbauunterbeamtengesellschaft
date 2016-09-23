@@ -434,8 +434,8 @@ public class Player extends Entity {
 		Game.m.lookingAtX = x;
 		Game.m.lookingAtY = y;
 		g.setColor(Color.RED);
-		if (Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null && Mouse.mouseRotation >= 0
-				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")) {
+		if (Mouse.mouseRotation >= 0
+				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")&&Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null  ) {
 			g.drawImage(Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y,
 					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
 					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getHeight(),
