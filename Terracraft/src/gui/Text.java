@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 public class Text extends Element {
 
-	private String text;
+	public String text;
 	private Font font;
 	private Color color;
 

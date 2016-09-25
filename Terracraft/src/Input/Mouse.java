@@ -28,7 +28,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public static boolean mousedown;
 	public Id mouseItem;
 	public int mouse_amount;
-	
+
 	private boolean exiting;
 
 	public void mouseClicked(MouseEvent m) {
@@ -46,9 +46,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mousePressed(MouseEvent m) {
 
 		if (m.getButton() == MouseEvent.BUTTON1) {
-			if(Game.menu.isOpen()){
-				if(normalCollision().intersects(Game.menu.quit_button.Bounds())){
-					if(!exiting){
+			if (Game.menu.isOpen()) {
+				if (normalCollision().intersects(Game.menu.quit_button.Bounds())) {
+					if (!exiting) {
 						exiting = true;
 						String itemids[] = new String[40];
 						for (int i = 0; i < Game.player.Inventory.size(); i++) {
@@ -60,8 +60,15 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 						Game.client.sendTCP(request);
 					}
 				}
-				if(normalCollision().intersects(Game.menu.settings_button.Bounds())){
-					Game.menu.renderSettings(true);
+				if (normalCollision().intersects(Game.menu.settings_button.Bounds())) {
+					if (!Game.menu.isRenderingSettings()) {
+						Game.menu.renderSettings(true);
+					} else {
+						Game.menu.renderSettings(false);
+					}
+				}
+				if (normalCollision().intersects(Game.menu.settings.sound_slider.Bounds())) {
+					Game.menu.settings.sound_slider.ex = m.getX();
 				}
 			}
 			if (!Game.player.isInventoryOpen()) {
@@ -115,8 +122,16 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void mouseDragged(MouseEvent m) {
+
 		x = m.getX();
 		y = m.getY();
+
+		if (Game.menu.isOpen()) {
+			if (normalCollision().intersects(Game.menu.settings.sound_slider.Bounds())) {
+				Game.menu.settings.sound_slider.ex = m.getX();
+			}
+		}
+
 	}
 
 	public int getX() {
@@ -136,14 +151,16 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				}
 			}
 			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")) {
-				if(dummyTile.getId().equals(Id.Door)){
-					if (ti.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY-64, dummyTile.getWidth(), dummyTile.getHeight()))) {
+				if (dummyTile.getId().equals(Id.Door)) {
+					if (ti.getBounds().intersects(
+							new Rectangle(lookingAtX, lookingAtY - 64, dummyTile.getWidth(), dummyTile.getHeight()))) {
 						return true;
 					}
-				}else{
-				if (ti.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
-					return true;
-				}
+				} else {
+					if (ti.getBounds().intersects(
+							new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
+						return true;
+					}
 				}
 			}
 		}
@@ -153,9 +170,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public Rectangle Collision() {
 		return new Rectangle(lookingAtX, lookingAtY, 2, 2);
 	}
-	
-	public Rectangle normalCollision(){
-		return new Rectangle(x,y,2,2);
+
+	public Rectangle normalCollision() {
+		return new Rectangle(x, y, 2, 2);
 	}
 
 	public void mouseMoved(MouseEvent m) {
@@ -253,12 +270,12 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
 					&& Game.player.Inventory_amount[mouseRotation] >= 1) {
 				AddTile request = new AddTile();
-				if(Game.mininghandler.scrollbarTiles.get(mouseRotation).equals(Id.Door)){
+				if (Game.mininghandler.scrollbarTiles.get(mouseRotation).equals(Id.Door)) {
 					request.x = lookingAtX;
-					request.y = lookingAtY-64;
-				}else{
-				request.x = lookingAtX;
-				request.y = lookingAtY;
+					request.y = lookingAtY - 64;
+				} else {
+					request.x = lookingAtX;
+					request.y = lookingAtY;
 				}
 				request.type = Game.mininghandler.scrollbarTiles.get(mouseRotation).toString();
 				Game.client.sendTCP(request);

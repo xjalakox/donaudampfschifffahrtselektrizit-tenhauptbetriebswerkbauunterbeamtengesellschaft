@@ -1,18 +1,15 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
 
 public class Menu extends Element {
 
 	private int tick = 0;
-	private boolean MenuIsOpen;
+	private boolean MenuOpen;
 	private boolean renderSettings;
 
-	private Font small, normal, big, large, extralarge;
-	private Color color;
 	private Text quit_button_text;
 	private Text settings_button_text;
 	public Button quit_button;
@@ -22,27 +19,22 @@ public class Menu extends Element {
 	public Menu(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		tick = y;
-		color = new Color(0, 160, 20, 200);
-		small = new Font("serif", Font.BOLD, 12);
-		normal = new Font("serif", Font.BOLD, 24);
-		big = new Font("serif", Font.BOLD, 36);
-		large = new Font("serif", Font.BOLD, 48);
-		extralarge = new Font("serif", Font.BOLD, 60);
-		quit_button = new Button(x, y + 175, 200, 60, color);
-		settings_button = new Button(x, y + 260, 200, 60, color);
-		quit_button_text = new Text(x + 90, quit_button.y, "Quit", new Color(255, 0, 0, 255), big);
-		settings_button_text = new Text(x + 65, settings_button.y, "Settings", new Color(255, 0, 0, 255), big);
+		quit_button = new Button(x, y + 175, 200, 60, green);
+		settings_button = new Button(x, y + 260, 200, 60, green);
+		quit_button_text = new Text(x + 90, quit_button.y, "Quit", orange, big);
+		settings_button_text = new Text(x + 65, settings_button.y, "Settings", orange, big);
 
-		settings = new Settings(x, y, 250, 250);
+		settings = new Settings(x - 275, y + 500, width, height);
 	}
 
 	@Override
 	public void render(Graphics2D g2d) {
 		if (renderSettings) {
 
+			settings.render(g2d);
 		}
-		if (MenuIsOpen) {
-			g2d.setColor(new Color(50, 50, 200, 200));
+		if (MenuOpen) {
+			g2d.setColor(new Color(50, 50, 200, 155));
 			RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(x, y, width, height, 50, 50);
 			g2d.fill(roundedRectangle);
 			g2d.draw(roundedRectangle);
@@ -53,46 +45,53 @@ public class Menu extends Element {
 			quit_button_text.render(g2d);
 			settings_button_text.render(g2d);
 
-			settings.render(g2d);
 		}
 
 	}
 
 	@Override
 	public void tick() {
-		if (!MenuIsOpen) {
-			y = tick;
-			quit_button.y = tick;
-			settings_button.y = tick;
-			quit_button_text.y = tick;
-			settings_button_text.y = tick;
-			settings.y = tick;
-		}
-		if (y < tick + 500 && MenuIsOpen) {
+		if (!MenuOpen) {
+			if (y != tick) {
+				y = tick;
+				quit_button.y = tick;
+				settings_button.y = tick;
+				quit_button_text.y = tick;
+				settings_button_text.y = tick;
+				settings.y = tick;
+				settings.sound_slider.y = tick;
+			}
+		} else if (y < tick + 500 && MenuOpen) {
 			y += 25;
 			quit_button.y = y + 10;
 			settings_button.y = y + 100;
 			quit_button_text.y = y + 50;
 			settings_button_text.y = y + 140;
-			settings.y = y + 10;
-		} else {
+			settings.y = y;
+			settings.sound_slider.y = y + 25;
 		}
 	}
 
 	public void open() {
-		MenuIsOpen = true;
+		MenuOpen = true;
+
+		renderSettings = false;
 	}
 
 	public boolean isOpen() {
-		return MenuIsOpen;
+		return MenuOpen;
 	}
 
 	public void close() {
-		MenuIsOpen = false;
+		MenuOpen = false;
 	}
 
 	public void renderSettings(boolean setting) {
 		renderSettings = setting;
+	}
+
+	public boolean isRenderingSettings() {
+		return renderSettings;
 	}
 
 }
