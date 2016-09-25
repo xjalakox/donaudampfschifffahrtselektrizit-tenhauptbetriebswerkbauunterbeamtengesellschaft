@@ -2,8 +2,8 @@ package audio;
 
 public enum SoundID {
 	// template ( id, name, vol),
-	door_open(0, "Door_Opened", 0),
-	door_closed(1, "Door_Closed", 0),
+	door_open(0, "Door_Opened", 1),
+	door_closed(1, "Door_Closed", 2),
 	trade(2, "trade", 0);
 
 
@@ -14,6 +14,7 @@ public enum SoundID {
 	// musicvol // effectvol // mastervol//
 	private int[] volList = { -20, -30, -20 };
 	private int vol;
+	private int volid;
 
 	SoundID(int id, String name, int vol) {
 		this.id = id;
@@ -24,6 +25,7 @@ public enum SoundID {
 				this.vol = volList[i];
 			}
 		}
+		volid = vol;
 	}
 
 	public int getID() {
@@ -36,5 +38,9 @@ public enum SoundID {
 
 	public int getVolume() {
 		return this.vol;
+	}
+	
+	public int getVolId(){
+		return this.volid;
 	}
 }

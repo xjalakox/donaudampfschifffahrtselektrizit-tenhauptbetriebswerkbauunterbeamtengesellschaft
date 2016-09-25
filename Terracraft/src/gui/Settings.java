@@ -23,7 +23,9 @@ public class Settings extends Element {
 		RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(x, y, width, height, 50, 50);
 		g2d.fill(roundedRectangle);
 		g2d.draw(roundedRectangle);
-		sound_text.text = "Gesamtlautstärke: " + (sound_slider.ex / 2 - 140);
+		sound_text.text = "Gesamtlautstärke: " + ((sound_slider.ex / 2) -280);
+		System.out.println(sound_slider.ex);
+		Game.sm.setVolume(0, ((sound_slider.ex / 2 - 240) /3));
 		sound_slider.render(g2d);
 		sound_text.render(g2d);
 		
