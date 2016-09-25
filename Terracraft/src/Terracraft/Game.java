@@ -31,6 +31,7 @@ import input.Key;
 import input.Mouse;
 import net.Network.*;
 import net.registerlogin.Login;
+import tile.Tree;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable {
@@ -55,14 +56,16 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_head = new Spritesheet2("/Sprites/Head.png");
 	public static Spritesheet2 sheet_body = new Spritesheet2("/Sprites/Body.png");
 	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Sprites/Armor_Head.png");
-
+	public static Spritesheet sheet_tree = new Spritesheet("/Sprites/Tree.png");
+	public static Spritesheet sheet_tree_tops = new Spritesheet("/Sprites/Tree_Tops.png");
+	public static Spritesheet sheet_tree_branches = new Spritesheet("/Sprites/Tree_Branches.png");
 	public static Menu menu;
 	private Snowman snowman;
 	private Image background;
 	private JFrame frame;
 	private String username;
 	private int x, y;
-
+	private Tree tree;
 	public void init() {
 
 		Utils.startTimerMillis();
@@ -80,9 +83,10 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(username, x, y, 46, 96, Id.Player);
 		console = new Console(player);
 		snowman = new Snowman(x - 1000, 300, 64, 64, handler, Id.Dragon);
-
+		tree=new Tree(x,x,32,32,4,Id.Empty);
 		handler.addEntity(player);
 		handler.addEntity(snowman);
+		handler.addTile(tree);
 		mininghandler.init();
 		sm.playSound(2);
 
@@ -91,7 +95,6 @@ public class Game extends Canvas implements Runnable {
 		addMouseMotionListener(m);
 		addMouseWheelListener(m);
 		m.mouseItem = Id.Empty;
-
 		addKeyListener(new Key(this));
 
 		background = new Image("/Backgrounds/Background_1.png");

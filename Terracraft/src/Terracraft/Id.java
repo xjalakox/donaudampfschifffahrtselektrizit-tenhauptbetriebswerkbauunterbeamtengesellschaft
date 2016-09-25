@@ -13,7 +13,8 @@ public enum Id {
 	Player, NetPlayer, Stone, Dragon, Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"), Grass(
 			new Sprite(Game.sheet, 13, 1, 1, 1), "block", Recipe.Test), Empty(new Sprite(Game.sheet, 14, 1, 1, 1),
 					"empty", 0, "empty"), Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block",
-							Recipe.Workbench), Door(new Sprite(Game.sheet, 9, 2, 1, 1), "block"),
+							Recipe.Workbench), Door(new Sprite(Game.sheet, 9, 2, 1, 1), "block"),Tree(new Sprite(Game.sheet, 8, 1, 1, 1),
+									"Tree", 0, "block"),
 
 	// Tool
 	Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 4, "tool"), Hammer(new Sprite(Game.sheet, 4, 1, 1, 1), "iron",
@@ -116,6 +117,8 @@ public enum Id {
 			return Workbench;
 		case "Door":
 			return Door;
+		case "Tree":
+			return Tree;
 		}
 		return null;
 	}
@@ -138,6 +141,8 @@ public enum Id {
 			return "Workbench";
 		case Door:
 			return "Door";
+		case Tree:
+			return "Tree";
 		default:
 			break;
 		}
@@ -154,6 +159,8 @@ public enum Id {
 			return new Workbench(0, 0, 64, 32, Id.Workbench);
 		case "Door":
 			return new Door(0, 0, 32, 96, Id.Door);
+		case "Tree":
+			return new Tree(0,0,32,32,5,Id.Tree);
 		}
 		return null;
 	}
