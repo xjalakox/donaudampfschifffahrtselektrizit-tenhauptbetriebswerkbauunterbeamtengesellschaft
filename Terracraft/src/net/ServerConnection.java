@@ -24,7 +24,7 @@ public class ServerConnection {
 	private static List<NetUser> users;
 	private static List<Connection> connections;
 	private static Handler handler;
-	private static ServerTick tick;
+	//private static ServerTick tick;
 	private static ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 	public static boolean killServer;
 
@@ -53,8 +53,8 @@ public class ServerConnection {
 
 		Network.register(server);
 		handler = new Handler("Server");
-		tick = new ServerTick(handler);
-		tick.start();
+		//tick = new ServerTick(handler);
+		//tick.start();
 		players = new HashMap<NetUser, NetPlayer>();
 		users = new ArrayList<NetUser>();
 		connections = new ArrayList<Connection>();

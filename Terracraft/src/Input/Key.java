@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import crafting.Recipe;
-import net.Network.Inventory;
 import terracraft.Game;
 import terracraft.Id;
 import terracraft.Utils;
@@ -12,13 +11,30 @@ import terracraft.Utils;
 public class Key implements KeyListener {
 
 	private int key;
-	private boolean exiting;
 	public static boolean run = false, d = false, w = false, shift = false, a = false, s = false;
+	
+	private Game game;
+	
+	public Key(){
+		
+	}
+	
+	public Key(Game game){
+		this.game = game;
+	}
 
 	public void keyPressed(KeyEvent k) {
 		key = k.getKeyCode();
-		if (k.getKeyCode() == KeyEvent.VK_ESCAPE && !exiting) {
-			exiting = true;
+		if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			if(Game.menu.isOpen()){
+				Game.menu.close();
+			}else {
+				Game.menu.open();
+			}
+			
+			
+			
+			/*exiting = true;
 			String itemids[] = new String[40];
 			for (int i = 0; i < Game.player.Inventory.size(); i++) {
 				itemids[i] = Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i];
@@ -26,7 +42,7 @@ public class Key implements KeyListener {
 
 			Inventory request = new Inventory();
 			request.itemids = itemids;
-			Game.client.sendTCP(request);
+			Game.client.sendTCP(request);*/
 		}
 		if (k.getKeyCode() == KeyEvent.VK_Z) {
 			Recipe[] j = Recipe.getCraftableRecipes();
@@ -44,6 +60,9 @@ public class Key implements KeyListener {
 					}
 				}
 
+				break;
+			case KeyEvent.VK_R:
+				game.reinitialize();
 				break;
 			case KeyEvent.VK_D:
 				d = true;

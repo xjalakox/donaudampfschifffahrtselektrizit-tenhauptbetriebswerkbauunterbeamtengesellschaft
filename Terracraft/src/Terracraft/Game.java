@@ -26,15 +26,16 @@ import gfx.Image;
 import gfx.Sprite;
 import gfx.Spritesheet;
 import gfx.Spritesheet2;
+import gui.Menu;
 import input.Key;
 import input.Mouse;
 import net.Network.*;
 import net.registerlogin.Login;
 
+@SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable {
 
-	private static final long serialVersionUID = 1337L;
-	private static final int width = 320, height = 180, scale = 4;
+	private static final int WIDTH = 320, HEIGHT = 180, SCALE = 4;
 	private static boolean running = false;
 
 	private static Thread thread;
@@ -55,6 +56,7 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_body = new Spritesheet2("/Sprites/Body.png");
 	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Sprites/Armor_Head.png");
 
+	public static Menu menu;
 	private Snowman snowman;
 	private Image background;
 	private JFrame frame;
@@ -84,12 +86,13 @@ public class Game extends Canvas implements Runnable {
 		mininghandler.init();
 		sm.playSound(2);
 
+		menu = new Menu(getWidth() / 2 - 100, -400, 250, 400);
 		addMouseListener(m);
 		addMouseMotionListener(m);
 		addMouseWheelListener(m);
 		m.mouseItem = Id.Empty;
 
-		addKeyListener(new Key());
+		addKeyListener(new Key(this));
 
 		background = new Image("/Backgrounds/Background_1.png");
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
@@ -101,6 +104,11 @@ public class Game extends Canvas implements Runnable {
 		/** INIT ENDE **/
 
 		System.out.println(Utils.getTimerMillis() + " um das Spiel zu laden");
+	}
+
+	public void reinitialize() {
+		menu = new Menu(getWidth() / 2 - 100, -400, 250, 400);
+		frame.setSize(WIDTH * SCALE, HEIGHT * SCALE);
 
 	}
 
@@ -126,6 +134,10 @@ public class Game extends Canvas implements Runnable {
 		mininghandler.render(g);
 		map.render(g);
 		console.render(g);
+		menu.render(g2d);
+		g.setColor(Color.BLACK);
+		g.fillRect(menu.quit_button.Bounds().x, menu.quit_button.Bounds().y, menu.quit_button.Bounds().width, menu.quit_button.Bounds().height);
+		g.drawRect(m.x, m.y, 2, 2);
 
 		g.dispose();
 		bs.show();
@@ -139,6 +151,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		mininghandler.tick();
 		handler.tick();
+		menu.tick();
 		player.sendPosition();
 	}
 
@@ -199,10 +212,10 @@ public class Game extends Canvas implements Runnable {
 			paint = new RadialGradientPaint(mpoint, 200, new float[] { 0, 1f },
 					new Color[] { new Color(0, 0, 0, 0), new Color(0, 0, 0, 255) });
 		}
-		g2d.setPaint(paint); 
-		//g2d.setColor(Color.BLACK); 
+		g2d.setPaint(paint);
+		// g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, getWidth() - 1000, getHeight());
-		//g2d.fillRect(0, 0, getWidth(), getHeight() - 500);
+		// g2d.fillRect(0, 0, getWidth(), getHeight() - 500);
 	}
 
 	private void initNetWork() {
@@ -223,18 +236,18 @@ public class Game extends Canvas implements Runnable {
 		this.username = username;
 		this.frame = frame;
 		Game.client = client;
-		Dimension size = new Dimension(width * scale, height * scale);
+		Dimension size = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 		setPreferredSize(size);
 		setMinimumSize(size);
 		setMaximumSize(size);
 	}
 
 	public static int getFrameWidth() {
-		return width * scale;
+		return WIDTH * SCALE;
 	}
 
 	public static int getFrameHeight() {
-		return height * scale;
+		return HEIGHT * SCALE;
 	}
 
 	public static Rectangle getVisisbleArea() {

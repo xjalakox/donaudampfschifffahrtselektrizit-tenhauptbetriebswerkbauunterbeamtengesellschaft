@@ -1,6 +1,5 @@
 package tile;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import gfx.Sprite;

@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelListener;
 import crafting.Recipe;
 import net.Network.AddTile;
 import net.Network.HittingBlock;
+import net.Network.Inventory;
 import terracraft.Game;
 import terracraft.Id;
 import tile.Door;
@@ -27,6 +28,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public static boolean mousedown;
 	public Id mouseItem;
 	public int mouse_amount;
+	
+	private boolean exiting;
 
 	public void mouseClicked(MouseEvent m) {
 		x = m.getX();
@@ -34,7 +37,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void mouseEntered(MouseEvent m) {
-
 	}
 
 	public void mouseExited(MouseEvent m) {
@@ -44,6 +46,24 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mousePressed(MouseEvent m) {
 
 		if (m.getButton() == MouseEvent.BUTTON1) {
+			if(Game.menu.isOpen()){
+				if(normalCollision().intersects(Game.menu.quit_button.Bounds())){
+					if(!exiting){
+						exiting = true;
+						String itemids[] = new String[40];
+						for (int i = 0; i < Game.player.Inventory.size(); i++) {
+							itemids[i] = Game.player.Inventory.get(i) + "," + Game.player.Inventory_amount[i];
+						}
+
+						Inventory request = new Inventory();
+						request.itemids = itemids;
+						Game.client.sendTCP(request);
+					}
+				}
+				if(normalCollision().intersects(Game.menu.settings_button.Bounds())){
+					Game.menu.renderSettings(true);
+				}
+			}
 			if (!Game.player.isInventoryOpen()) {
 				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
 					mouseClick();
@@ -132,6 +152,10 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
 	public Rectangle Collision() {
 		return new Rectangle(lookingAtX, lookingAtY, 2, 2);
+	}
+	
+	public Rectangle normalCollision(){
+		return new Rectangle(x,y,2,2);
 	}
 
 	public void mouseMoved(MouseEvent m) {
