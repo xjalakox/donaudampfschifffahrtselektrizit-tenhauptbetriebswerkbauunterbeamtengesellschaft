@@ -15,7 +15,7 @@ public class Tile {
 	Handler handler;
 	Id id;
 	public int damage;
-	public boolean shouldRemove,underground;
+	public boolean shouldRemove,underground=true;
 
 	public Tile(int x, int y, int Width, int height,Id id) {
 		this.x = x;
