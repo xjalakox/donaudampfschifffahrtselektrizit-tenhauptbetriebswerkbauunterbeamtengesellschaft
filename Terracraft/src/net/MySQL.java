@@ -26,6 +26,7 @@ public class MySQL {
 			System.out.println("[MySQL] Trying to connect to the MySQL Server");
 			myConn = DriverManager.getConnection(host, users, pw);
 			System.out.println("[MySQL] Connected to the MySQL Server");
+			ServerConnection.serverLoaded = true;
 			query = myConn.createStatement();
 
 		} catch (SQLException e) {

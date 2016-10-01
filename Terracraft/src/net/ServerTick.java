@@ -1,15 +1,22 @@
 package net;
 
+import com.esotericsoftware.kryonet.Server;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.FullDVFactory;
+
+import net.Network.SendCoordinates;
 import terracraft.Handler;
+import terracraft.Id;
 
 public class ServerTick implements Runnable{
 	
 	private static Thread thread;
 	private static boolean running = false;
 	private Handler handler;
+	private Server server;
 	
-	ServerTick(Handler handler){
+	ServerTick(Handler handler, Server server){
 		this.handler = handler;
+		this.server = server;
 	}
 	
 	
@@ -19,6 +26,7 @@ public class ServerTick implements Runnable{
 
 	
 	public void tick() {
+		
 		handler.tick();
 	}
 

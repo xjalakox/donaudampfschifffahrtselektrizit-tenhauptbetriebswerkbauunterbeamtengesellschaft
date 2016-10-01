@@ -12,8 +12,9 @@ public class Slider extends Element{
 
 	public Slider(int x, int y, int width, int height, Text text) {
 		super(x, y, width, height);
+
+		ex = x + 100;
 		e = new Ellipse2D.Float(ex,y-6,25,25);
-		ex = x;
 	}
 
 	@Override

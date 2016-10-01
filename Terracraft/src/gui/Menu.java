@@ -59,7 +59,8 @@ public class Menu extends Element {
 				quit_button_text.y = tick;
 				settings_button_text.y = tick;
 				settings.y = tick;
-				settings.sound_slider.y = tick;
+				settings.musicvol_slider.y = tick;
+				settings.soundvol_slider.y = tick;
 			}
 		} else if (y < tick + 500 && MenuOpen) {
 			y += 25;
@@ -68,7 +69,8 @@ public class Menu extends Element {
 			quit_button_text.y = y + 50;
 			settings_button_text.y = y + 140;
 			settings.y = y;
-			settings.sound_slider.y = y + 25;
+			settings.musicvol_slider.y = y + 25;
+			settings.soundvol_slider.y = y + 85;
 		}
 	}
 

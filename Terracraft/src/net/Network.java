@@ -14,9 +14,11 @@ public class Network {
 
 		kryo.register(String.class);
 		kryo.register(int.class);
-		kryo.register(Id.class);
 		kryo.register(String[].class);
+		kryo.register(boolean.class);
 
+		kryo.register(Id.class);
+		
 		kryo.register(LoginRequest.class);
 		kryo.register(LoginResponse.class);
 		kryo.register(RegisterRequest.class);
@@ -97,6 +99,8 @@ public class Network {
 	static public class KillClient {
 
 	}
+	
+	
 
 	public static void sendCoordinates(Client client, int x, int y, String username, Id tool, String type) {
 		SendCoordinates coordinates = new SendCoordinates();

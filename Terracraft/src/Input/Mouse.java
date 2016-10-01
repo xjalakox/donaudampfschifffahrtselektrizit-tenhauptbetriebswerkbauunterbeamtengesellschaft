@@ -67,8 +67,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 						Game.menu.renderSettings(false);
 					}
 				}
-				if (normalCollision().intersects(Game.menu.settings.sound_slider.Bounds())) {
-					Game.menu.settings.sound_slider.ex = m.getX();
+				if (normalCollision().intersects(Game.menu.settings.musicvol_slider.Bounds())) {
+					Game.menu.settings.musicvol_slider.ex = m.getX();
+				}
+				if (normalCollision().intersects(Game.menu.settings.soundvol_slider.Bounds())) {
+					Game.menu.settings.soundvol_slider.ex = m.getX();
 				}
 			}
 			if (!Game.player.isInventoryOpen()) {
@@ -127,8 +130,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		y = m.getY();
 
 		if (Game.menu.isOpen()) {
-			if (normalCollision().intersects(Game.menu.settings.sound_slider.Bounds())) {
-				Game.menu.settings.sound_slider.ex = m.getX();
+			if (normalCollision().intersects(Game.menu.settings.musicvol_slider.Bounds())) {
+				Game.menu.settings.musicvol_slider.ex = m.getX();
+			}
+			if (normalCollision().intersects(Game.menu.settings.soundvol_slider.Bounds())) {
+				Game.menu.settings.soundvol_slider.ex = m.getX();
 			}
 		}
 

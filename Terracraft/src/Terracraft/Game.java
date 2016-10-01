@@ -66,6 +66,7 @@ public class Game extends Canvas implements Runnable {
 	private String username;
 	private int x, y;
 	private Tree tree;
+
 	public void init() {
 
 		Utils.startTimerMillis();
@@ -83,7 +84,7 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(username, x, y, 46, 96, Id.Player);
 		console = new Console(player);
 		snowman = new Snowman(x - 1000, 300, 64, 64, handler, Id.Dragon);
-		tree=new Tree(x,x,32,32,4,Id.Empty);
+		tree = new Tree(x, x, 32, 32, 4, Id.Empty);
 		handler.addEntity(player);
 		handler.addEntity(snowman);
 		handler.addTile(tree);
@@ -139,7 +140,8 @@ public class Game extends Canvas implements Runnable {
 		console.render(g);
 		menu.render(g2d);
 		g.setColor(Color.BLACK);
-		g.fillRect(menu.quit_button.Bounds().x, menu.quit_button.Bounds().y, menu.quit_button.Bounds().width, menu.quit_button.Bounds().height);
+		g.fillRect(menu.quit_button.Bounds().x, menu.quit_button.Bounds().y, menu.quit_button.Bounds().width,
+				menu.quit_button.Bounds().height);
 		g.drawRect(m.x, m.y, 2, 2);
 
 		g.dispose();

@@ -7,9 +7,11 @@ import javax.swing.JFrame;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.minlog.Log;
 
 import entity.Entity;
 import entity.NetPlayer;
+import entity.Player;
 import net.Network.*;
 import net.registerlogin.Login;
 import terracraft.Game;
@@ -23,6 +25,7 @@ public class ClientConnection {
 
 	public ClientConnection(Client client) {
 		client.start();
+		//Log.TRACE();
 
 		try {
 			client.connect(5000, "localhost", 54555, 54777);
