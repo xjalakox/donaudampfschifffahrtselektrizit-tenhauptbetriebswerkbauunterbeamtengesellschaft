@@ -84,7 +84,7 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(username, x, y, 46, 96, Id.Player);
 		console = new Console(player);
 		snowman = new Snowman(x - 1000, 300, 64, 64, handler, Id.Dragon);
-		tree = new Tree(x, x, 32, 32, 4, Id.Empty);
+		tree = new Tree(x, x, 32, 32, Id.Empty);
 		handler.addEntity(player);
 		handler.addEntity(snowman);
 		handler.addTile(tree);
