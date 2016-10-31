@@ -312,7 +312,7 @@ public class Player extends Entity {
 				if (!Inventory.get(j * 10 + i).equals(Id.Empty)) {
 					g.drawImage(Inventory.get(j * 10 + i).getImage().getBufferedImage(),
 							i * 74 + 20 + 16 + getX() - 650, 20 + getY() + 16 - 74 - 450 + 74 * j + 74, 32, 32, null);
-					if (Inventory.get(j * 10 + i).getType().equals("block")) {
+					if (Inventory.get(j * 10 + i).getType().equals("block")||Inventory.get(j * 10 + i).getType().equals("item")) {
 						g.setColor(Color.white);
 						g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 						g.drawString(Utils.toString(Inventory_amount[j * 10 + i]), i * 74 + getX() - 626,

@@ -18,8 +18,14 @@ public enum Id {
 
 	// Tool
 	Pickaxe(new Sprite(Game.sheet, 2, 1, 1, 1), "grass", 50, "tool"), Hammer(new Sprite(Game.sheet, 4, 1, 1, 1), "iron",
-			10, "tool"),OP_Pickaxe(new Sprite(Game.sheet, 10, 2, 1, 1), "grass", 1000000, "tool");
+			10, "tool"),OP_Pickaxe(new Sprite(Game.sheet, 10, 2, 1, 1), "grass", 1000000, "tool"),
 
+	
+	//Item
+	Wood(new Sprite(Game.sheet, 11, 2, 1, 1),"item");
+	
+	
+	
 	public String tool, block, type;
 	private int efficiency, amount;
 	private Sprite image;
@@ -121,6 +127,8 @@ public enum Id {
 			return Door;
 		case "Tree":
 			return Tree;
+		case "Wood":
+			return Wood;
 		}
 		return null;
 	}
@@ -147,6 +155,8 @@ public enum Id {
 			return "Door";
 		case Tree:
 			return "Tree";
+		case Wood:
+			return "Wood";
 		default:
 			break;
 		}

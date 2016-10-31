@@ -54,7 +54,7 @@ public class MiningHandler {
 
 		for (int i = 0; i < 10; i++) {
 			if (Mouse.mouseRotation == i) {
-				if (scrollbarTiles.get(i).getType().equals("block")) {
+				if (scrollbarTiles.get(i).getType().equals("block")||scrollbarTiles.get(i).getType().equals("item")) {
 					g.setColor(Color.white);
 					g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 					g.drawString(Utils.toString(scrollbar_amount[i]), (i * 74) + 34 + Game.player.getX() - 650 - 10,
@@ -70,7 +70,7 @@ public class MiningHandler {
 					g.drawImage(scrollbarTiles.get(i).getImage().getBufferedImage(),
 							(i * 74) + 34 + Game.player.getX() - 650, 36 + Game.player.getY() - 450, 32, 32, null);
 				}
-				if (scrollbarTiles.get(i).getType().equals("block")) {
+				if (scrollbarTiles.get(i).getType().equals("block")||scrollbarTiles.get(i).getType().equals("item")) {
 					g.setColor(Color.white);
 					g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 					g.drawString(Utils.toString(scrollbar_amount[i]), (i * 74) + Game.player.getX() - 626,
@@ -117,7 +117,7 @@ public class MiningHandler {
 						request.y = ti.getY();
 						Game.client.sendTCP(request);
 						Game.handler.setToBeRemoved(ti.getX(), ti.getY());
-
+						if(!ti.getId().equals(Id.Tree)){
 						for (int i = 0; i < 40; i++) {
 							if (Game.player.Inventory.get(i).equals(ti.getId())) {
 								Game.player.Inventory_amount[i] += 1;
@@ -139,7 +139,30 @@ public class MiningHandler {
 
 							}
 						}
+						}else{
+							for (int i = 0; i < 40; i++) {
+								if (Game.player.Inventory.get(i).equals(Id.Wood)) {
+									Game.player.Inventory_amount[i] += Utils.RandomInt(7,10);
+									itemexists = true;
+								}
+							}
 
+							if (!itemexists) {
+
+								for (int i = 0; i < 40; i++) {
+									if (!itemdeployed) {
+										if (Game.player.Inventory.get(i).equals(Id.Empty)) {
+											Game.player.Inventory.set(i, Id.Wood);
+											Game.player.Inventory_amount[i] = Utils.RandomInt(7,10);
+											System.out.println(Game.player.Inventory_amount[i]);
+											itemdeployed = true;
+
+										}
+									}
+
+								}
+							}
+						}
 						ti.setAsRemoved();
 						itemdeployed = false;
 						itemexists = false;
