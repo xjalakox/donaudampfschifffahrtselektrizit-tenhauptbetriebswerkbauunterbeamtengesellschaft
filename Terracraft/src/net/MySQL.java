@@ -1,5 +1,6 @@
 package net;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ public class MySQL {
 	}
 
 	public void connect() {
-		String host = "jdbc:mysql://80.82.219.161:3306/terra";
+	/*	String host = "jdbc:mysql://80.82.219.161:3306/terra";
 		String users = "terra";
 		String pw = "GRhibrC0VOVhr8qS";
 		try {
@@ -33,7 +34,18 @@ public class MySQL {
 			ServerConnection.killServer = true;
 			System.out.println("Connection to the Database failed. Killing Server");
 			e.printStackTrace();
+		}*/
+		
+		try {
+			Class.forName("org.sqlite.JDBC");
+			myConn = DriverManager.getConnection("jdbc:sqlite:test.db");
+			ServerConnection.serverLoaded = true;
+			query = myConn.createStatement();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
 		}
+		System.out.println("Opened database successfully");
 	}
 
 	public void disconnect() {

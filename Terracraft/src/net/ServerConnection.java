@@ -9,7 +9,6 @@ import java.util.Map;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 
 import entity.NetPlayer;
 import net.Network.*;
@@ -30,11 +29,11 @@ public class ServerConnection {
 	public static boolean killServer;
 	public static boolean serverLoaded = false;
 
-	public static void main(String[] args) throws IOException {
+	public ServerConnection() throws IOException {
 		Server server = new Server(131072, 16384);
 		server.start();
 		Network.register(server);
-		//Log.TRACE();
+		// Log.TRACE();
 
 		Utils.startTimerMillis();
 		try {
