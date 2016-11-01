@@ -185,22 +185,24 @@ public abstract class Entity {
 			}
 
 			for (Tile ti : handler.tile2) {
+				if (!ti.getId().equals(Id.Tree)) {
+					if (getBottom().intersects(ti.getTop())) {
 
-				if (getBottom().intersects(ti.getTop())) {
-					if (ti.getId().equals(Id.Door)) {
-						if (!((Door) ti).isOpen()) {
+						if (ti.getId().equals(Id.Door)) {
+							if (!((Door) ti).isOpen()) {
+								gravity = 0f;
+								jumping = false;
+								falling = false;
+								y = ti.getY() - 90;
+							}
+						} else {
+
 							gravity = 0f;
 							jumping = false;
 							falling = false;
-							y = ti.getY() - 90;
+							y = ti.getY() - 87;
+
 						}
-					} else {
-
-						gravity = 0f;
-						jumping = false;
-						falling = false;
-						y = ti.getY() - 87;
-
 					}
 				}
 			}
@@ -215,8 +217,7 @@ public abstract class Entity {
 	}
 
 	public Rectangle getBottom() {
-		return new Rectangle(getX() + 6, getY() + height - 16, width-10, 16);
-
+		return new Rectangle(getX() + 6, getY() + height - 16, width - 10, 16);
 
 	}
 
@@ -234,7 +235,7 @@ public abstract class Entity {
 
 	public Rectangle getTop() {
 
-		return new Rectangle(getX() + 5, getY(), width-10, 16);
+		return new Rectangle(getX() + 5, getY(), width - 10, 16);
 
 	}
 

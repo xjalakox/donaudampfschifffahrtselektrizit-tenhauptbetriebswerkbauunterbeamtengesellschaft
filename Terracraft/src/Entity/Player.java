@@ -58,7 +58,6 @@ public class Player extends Entity {
 		// Inventory.set(3, Id.Pickaxe);
 	}
 
-
 	public void render(Graphics g) {
 		g.setColor(Color.blue);
 		g.drawRect(getX() + 6, getY() + height - 16, width - 10, 16);
@@ -84,15 +83,15 @@ public class Player extends Entity {
 		y += velY;
 
 		for (Tile ti : handler.tile2) {
-			if (ti.getId().equals(Id.Grass)||ti.getId().equals(Id.Dirt)) {
+			if (ti.getId().equals(Id.Grass) || ti.getId().equals(Id.Dirt) || ti.getId().equals(Id.Stone)
+					|| ti.getId().equals(Id.Copper) || ti.getId().equals(Id.Gold) || ti.getId().equals(Id.Platinum)) {
 				testForCollision(ti);
-			}else if(ti.getId().equals(Id.Door)){
-				if(!((Door) ti).isOpen()){
+			} else if (ti.getId().equals(Id.Door)) {
+				if (!((Door) ti).isOpen()) {
 					testForCollision(ti);
 				}
 			}
-			
-			
+
 		}
 
 		// Movement
@@ -312,7 +311,8 @@ public class Player extends Entity {
 				if (!Inventory.get(j * 10 + i).equals(Id.Empty)) {
 					g.drawImage(Inventory.get(j * 10 + i).getImage().getBufferedImage(),
 							i * 74 + 20 + 16 + getX() - 650, 20 + getY() + 16 - 74 - 450 + 74 * j + 74, 32, 32, null);
-					if (Inventory.get(j * 10 + i).getType().equals("block")||Inventory.get(j * 10 + i).getType().equals("item")) {
+					if (Inventory.get(j * 10 + i).getType().equals("block")
+							|| Inventory.get(j * 10 + i).getType().equals("item")) {
 						g.setColor(Color.white);
 						g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 						g.drawString(Utils.toString(Inventory_amount[j * 10 + i]), i * 74 + getX() - 626,
@@ -362,7 +362,7 @@ public class Player extends Entity {
 	public Rectangle closedInventoryBounds() {
 		return new Rectangle(20 + getX() - 650 - 5, 20 + getY() - 450 - 5, 74 * 10, 74);
 	}
-	
+
 	public void renderLookingBlock(Graphics g) {
 		int x = 0;
 		int y = 0;
@@ -400,10 +400,12 @@ public class Player extends Entity {
 		Game.m.lookingAtY = y;
 		g.setColor(Color.RED);
 		if (Mouse.mouseRotation >= 0
-				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")&&Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null  ) {
+				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")
+				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null) {
 			g.drawImage(Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y,
 					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
-					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getHeight(),
+					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage()
+							.getHeight(),
 					null);
 		}
 		g.drawRect(getX() - 650, getY() - 440, Game.getFrameWidth(), 700);
@@ -415,11 +417,10 @@ public class Player extends Entity {
 		} else {
 			return new Rectangle(getX() - 615 - 7, getY() - 140 + 0 * 48, 0, 0);
 		}
-		
+
 	}
 
-	
-	public void testForCollision(Tile ti){
+	public void testForCollision(Tile ti) {
 		if (getTop().intersects(ti.getBottom())) {
 			setVelY(0);
 			y = ti.getY() + 33;

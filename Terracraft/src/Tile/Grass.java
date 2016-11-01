@@ -65,12 +65,5 @@ public class Grass extends Tile {
 		}
 	}
 
-	public void mapRender(Graphics g) {
-
-		if (blockOnTop) {
-			renderMap(g, sprite2);
-		} else {
-			renderMap(g, sprite);
-		}
-	}
+	
 }
