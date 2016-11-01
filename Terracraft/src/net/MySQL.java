@@ -14,38 +14,53 @@ import tile.source.Tile;
 public class MySQL {
 	private java.sql.Connection myConn;
 	private Statement query;
+	private boolean local = true;
+	private int block_id = 0;
 
 	public MySQL() {
 		connect();
 	}
 
 	public void connect() {
-	/*	String host = "jdbc:mysql://80.82.219.161:3306/terra";
-		String users = "terra";
-		String pw = "GRhibrC0VOVhr8qS";
-		try {
-			System.out.println("[MySQL] Trying to connect to the MySQL Server");
-			myConn = DriverManager.getConnection(host, users, pw);
-			System.out.println("[MySQL] Connected to the MySQL Server");
-			ServerConnection.serverLoaded = true;
-			query = myConn.createStatement();
-
-		} catch (SQLException e) {
-			ServerConnection.killServer = true;
-			System.out.println("Connection to the Database failed. Killing Server");
-			e.printStackTrace();
-		}*/
-		
 		try {
 			Class.forName("org.sqlite.JDBC");
-			myConn = DriverManager.getConnection("jdbc:sqlite:test.db");
+			myConn = DriverManager.getConnection("jdbc:sqlite:terra.db");
+			System.out.println("[SQLITE] Connected to Offline DB 'terra.db'");
 			ServerConnection.serverLoaded = true;
 			query = myConn.createStatement();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Opened database successfully");
+	}
+
+	public void OfflineDB() {
+		try {
+			Class.forName("org.sqlite.JDBC");
+			myConn = DriverManager.getConnection("jdbc:sqlite:terra.db");
+			System.out.println("[SQLITE] Changed to Offline DB 'terra.db'");
+			query = myConn.createStatement();
+			local = true;
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		}
+	}
+
+	public void OnlineDB() {
+		String host = "jdbc:mysql://80.82.219.161:3306/terra";
+		String users = "terra";
+		String pw = "GRhibrC0VOVhr8qS";
+		try {
+			System.out.println("[MySQL] Trying to connect to the online Server");
+			myConn = DriverManager.getConnection(host, users, pw);
+			System.out.println("[MySQL] Connected to the Server");
+			query = myConn.createStatement();
+			local = false;
+
+		} catch (SQLException e) {
+			System.out.println("Connection to the Database failed. Check your Connection or use OfflineDB instead!");
+			e.printStackTrace();
+		}
 	}
 
 	public void disconnect() {
@@ -158,13 +173,18 @@ public class MySQL {
 		try {
 			ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 			ResultSet myRs = query.executeQuery("select * from blocks");
-			;
+
 			while (myRs.next()) {
 				Tile t = Id.getTile(myRs.getString("TileID"));
+				int id = myRs.getInt("Id");
+				if (id > block_id) {
+					block_id = id;
+				}
 				t.setX(myRs.getInt("x"));
 				t.setY(myRs.getInt("y"));
 				LoadingTilesIntoList.add(t);
 			}
+			
 			return LoadingTilesIntoList;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -176,9 +196,10 @@ public class MySQL {
 		try {
 			int x = ti.getX();
 			int y = ti.getY();
-
-			query.executeUpdate("INSERT INTO blocks VALUES (" + 0 + ", " + x + ", " + y + ", " + "'"
+			block_id++;
+			query.executeUpdate("INSERT INTO blocks VALUES (" + block_id + ", " + x + ", " + y + ", " + "'"
 					+ ti.getId().toString() + "')");
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -19,18 +19,18 @@ import tile.source.Tile;
 
 public class ServerConnection {
 
-	private static MySQL mysql;
-	private static Map<NetUser, NetPlayer> players;
-	private static List<NetUser> users;
-	private static List<Connection> connections;
-	private static Handler handler;
-	// private static ServerTick tick;
-	private static ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
+	MySQL mysql;
+	Map<NetUser, NetPlayer> players;
+	List<NetUser> users;
+	List<Connection> connections;
+	Handler handler;
+	Server server;
+	ArrayList<Tile> LoadingTilesIntoList = new ArrayList<Tile>();
 	public static boolean killServer;
 	public static boolean serverLoaded = false;
 
 	public ServerConnection() throws IOException {
-		Server server = new Server(131072, 16384);
+		server = new Server(131072, 16384);
 		server.start();
 		Network.register(server);
 		// Log.TRACE();

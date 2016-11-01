@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +29,15 @@ public class ServerGui extends JFrame implements ActionListener {
 	private JLabel traffic_incomming;
 	private JLabel traffic_outgoing;
 
-	private boolean starting, started, stopping, stopped, restarting, restarted;
-	private boolean connecting, connected, disconnecting, disconnected;
+	private boolean starting, stopping;
+	private boolean connecting, disconnecting;
+
+	ServerConnection conn;
 
 	private Font font;
 
 	public ServerGui(ServerConnection conn) {
+		this.conn = conn;
 		super.setSize(415, 500);
 		super.setVisible(true);
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -86,7 +90,8 @@ public class ServerGui extends JFrame implements ActionListener {
 		players.setBounds(50, 120, 400, 50);
 		players.setFont(font);
 
-		status = new JLabel("Server gestartet : ");
+		status = new JLabel("Server gestartet!");
+		status.setForeground(Color.GREEN);
 		status.setVisible(true);
 		status.setBounds(50, 180, 400, 50);
 		status.setFont(font);
@@ -132,8 +137,12 @@ public class ServerGui extends JFrame implements ActionListener {
 		start_button.setEnabled(true);
 		start_button.setBackground(Color.GREEN);
 
+		conn.server.stop();
+		conn.mysql.disconnect();
+		status.setForeground(Color.RED);
+		status.setText("Server gestoppt!");
+
 		stopping = false;
-		stopped = true;
 	}
 
 	public void startServer() {
@@ -144,8 +153,18 @@ public class ServerGui extends JFrame implements ActionListener {
 		stop_button.setEnabled(true);
 		stop_button.setBackground(Color.RED);
 
+		try {
+			conn.server.start();
+			conn.server.bind(54555, 54777);
+		} catch (IOException e) {
+			System.out.println("Beim Server Start ist ein Fehler aufgetreten");
+			e.printStackTrace();
+		}
+
+		status.setForeground(Color.GREEN);
+		status.setText("Server gestartet!");
+
 		starting = false;
-		started = true;
 	}
 
 	public void changeToOfflineDB() {
@@ -156,8 +175,12 @@ public class ServerGui extends JFrame implements ActionListener {
 		switch_to_local_button.setEnabled(false);
 		switch_to_local_button.setBackground(Color.GRAY);
 
+		stopServer();
+		conn.mysql.OfflineDB();
+		clearTileList();
+		startServer();
+
 		disconnecting = false;
-		disconnected = true;
 
 	}
 
@@ -169,12 +192,21 @@ public class ServerGui extends JFrame implements ActionListener {
 		switch_to_online_button.setEnabled(false);
 		switch_to_online_button.setBackground(Color.GRAY);
 
+		stopServer();
+		conn.mysql.OnlineDB();
+		clearTileList();
+		startServer();
+
 		connecting = false;
-		connected = true;
 	}
-	
-	public void clearTileList(){
-		
+
+	public void clearTileList() {
+		conn.LoadingTilesIntoList.clear();
+		conn.handler.tile.clear();
+		conn.LoadingTilesIntoList = conn.mysql.LoadMap();
+		for (Tile ti : conn.LoadingTilesIntoList) {
+			conn.handler.addTile(ti);
+		}
 	}
 
 	@Override
