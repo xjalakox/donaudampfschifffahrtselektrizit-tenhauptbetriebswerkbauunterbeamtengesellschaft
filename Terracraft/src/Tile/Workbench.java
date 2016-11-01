@@ -25,12 +25,6 @@ public class Workbench extends Tile {
 
 	}
 
-	public void mapRender(Graphics g) {
-
-		renderMap(g, sprite);
-
-	}
-
 }
 
 

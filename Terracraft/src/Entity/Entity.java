@@ -185,7 +185,7 @@ public abstract class Entity {
 			}
 
 			for (Tile ti : handler.tile2) {
-
+				if(!ti.getId().equals(Id.Tree)){
 				if (getBottom().intersects(ti.getTop())) {
 					if (ti.getId().equals(Id.Door)) {
 						if (!((Door) ti).isOpen()) {
@@ -203,6 +203,7 @@ public abstract class Entity {
 
 					}
 				}
+			}
 			}
 		}
 		setVelY((int) gravity);

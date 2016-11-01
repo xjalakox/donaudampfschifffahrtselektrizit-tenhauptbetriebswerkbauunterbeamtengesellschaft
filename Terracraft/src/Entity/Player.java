@@ -84,7 +84,7 @@ public class Player extends Entity {
 		y += velY;
 
 		for (Tile ti : handler.tile2) {
-			if (ti.getId().equals(Id.Grass)||ti.getId().equals(Id.Dirt)) {
+			if (ti.getId().equals(Id.Grass)||ti.getId().equals(Id.Dirt)||ti.getId().equals(Id.Stone)||ti.getId().equals(Id.Copper)||ti.getId().equals(Id.Gold)||ti.getId().equals(Id.Platinum)) {
 				testForCollision(ti);
 			}else if(ti.getId().equals(Id.Door)){
 				if(!((Door) ti).isOpen()){
