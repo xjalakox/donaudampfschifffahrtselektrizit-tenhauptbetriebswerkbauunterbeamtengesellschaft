@@ -109,7 +109,7 @@ public class Key implements KeyListener {
 				Game.player.Inventory.set(4, Id.Workbench);
 				Game.player.Inventory_amount[4] = 15;
 				Game.player.Inventory.set(5, Id.Pickaxe);
-				Game.player.Inventory.set(8, Id.Gold);
+				Game.player.Inventory.set(8, Id.Tree);
 				Game.player.Inventory_amount[8]=15;
 				Game.player.Inventory.set(9, Id.OP_Pickaxe);
 				break;

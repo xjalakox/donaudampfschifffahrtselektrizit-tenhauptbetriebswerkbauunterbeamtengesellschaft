@@ -39,7 +39,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int WIDTH = 320, HEIGHT = 180, SCALE = 4;
 	private static boolean running = false;
 
-	private static Thread thread;
+	private Thread thread;
 	public static Handler handler;
 	public static Player player;
 	public static Camera cam;
@@ -140,13 +140,11 @@ public class Game extends Canvas implements Runnable {
 		handler.render(g);
 
 		renderTestFlashLight(g2d);
-		mininghandler.render(g);
+		mininghandler.render(g2d);
 		map.render(g);
 		console.render(g);
 		menu.render(g2d);
 		g.setColor(Color.BLACK);
-		g.fillRect(menu.quit_button.Bounds().x, menu.quit_button.Bounds().y, menu.quit_button.Bounds().width,
-				menu.quit_button.Bounds().height);
 		g.drawRect(m.x, m.y, 2, 2);
 
 		g.dispose();
@@ -173,7 +171,7 @@ public class Game extends Canvas implements Runnable {
 		thread.start();
 	}
 
-	public synchronized static void stop() {
+	public synchronized void stop() {
 		if (!running)
 			return;
 		running = false;
@@ -224,7 +222,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		g2d.setPaint(paint);
 		// g2d.setColor(Color.BLACK);
-		g2d.fillRect(0, 0, getWidth() - 1000, getHeight());
+		// g2d.fillRect(0, 0, getWidth() - 1000, getHeight());
 		// g2d.fillRect(0, 0, getWidth(), getHeight() - 500);
 	}
 

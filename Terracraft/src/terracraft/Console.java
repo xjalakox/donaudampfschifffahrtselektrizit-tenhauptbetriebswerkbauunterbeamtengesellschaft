@@ -18,8 +18,7 @@ public class Console {
 	}
 
 	public void render(Graphics g) {
-		// TODO Ein Int den man gut nutzen kann um nur bei bestimmten Ticks
-		// etwas zu zeichnen etc.
+		// TODO Ein Int um nur bei bestimmten Ticks etwas zu zeichnen etc.
 		if (consoleOpen) {
 			renderConsole(g);
 			if (TextToDrawInConsole != null) {
@@ -66,7 +65,11 @@ public class Console {
 
 	public void executeCommand(String[] args) {
 		if (args[0].equalsIgnoreCase("fly")) {
-			player.fly = true;
+			if (player.fly) {
+				player.fly = false;
+			} else {
+				player.fly = true;
+			}
 		}
 		if (args[0].equalsIgnoreCase("give")) {
 			boolean breakout = false;

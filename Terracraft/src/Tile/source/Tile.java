@@ -14,7 +14,6 @@ public class Tile {
 	public int x, y, width, height, velX, velY, mapX, mapY;
 	Handler handler;
 	Id id;
-	private Sprite currentSprite=new Sprite(Game.sheet, 7, 1, 1, 1);
 	public int damage;
 	public boolean shouldRemove, blockOnTop = true, blockOnLeft = true, blockOnRight = true, blockOnBottom = true;
 
@@ -26,7 +25,7 @@ public class Tile {
 		this.id = id;
 	}
 
-	public void renderMap(Graphics g) {
+	public void renderMap(Graphics g, Sprite sprite) {
 		// tick++;
 		// if(tick>=60){
 		// tick=0;
@@ -48,7 +47,7 @@ public class Tile {
 			mapY = (Game.player.getY() - 430 + 103 + 30) - Utils.toInt(tmp);
 		}
 		if (Game.map.getBounds().intersects(new Rectangle(mapX, mapY, 2, 2))) {
-			g.drawImage(currentSprite.getBufferedImage(), mapX, mapY, 2, 2, null);
+			g.drawImage(sprite.getBufferedImage(), mapX, mapY, 2, 2, null);
 		}
 
 	}
@@ -244,55 +243,38 @@ public class Tile {
 
 		if (!blockOnBottom && !blockOnLeft && !blockOnRight && !blockOnTop) {
 			g.drawImage(alone.getBufferedImage(), x, y, width, height, null);
-			currentSprite=alone;
 		} else if (blockOnBottom && !blockOnLeft && !blockOnRight && !blockOnTop) {
 			g.drawImage(bottom.getBufferedImage(), x, y, width, height, null);
-			currentSprite=bottom;
 		} else if (blockOnTop && !blockOnLeft && !blockOnRight && !blockOnBottom) {
 			g.drawImage(top.getBufferedImage(), x, y, width, height, null);
-			currentSprite=top;
 		} else if (blockOnRight && !blockOnLeft && !blockOnBottom && !blockOnTop) {
 			g.drawImage(right.getBufferedImage(), x, y, width, height, null);
-			currentSprite=right;
 		} else if (blockOnLeft && !blockOnBottom && !blockOnRight && !blockOnTop) {
 			g.drawImage(left.getBufferedImage(), x, y, width, height, null);
-			currentSprite=left;
 		} else if (blockOnLeft && blockOnBottom && !blockOnRight && !blockOnTop) {//
 			g.drawImage(bottomleft.getBufferedImage(), x, y, width, height, null);
-			currentSprite=bottomleft;
 		} else if (blockOnLeft && !blockOnBottom && blockOnRight && !blockOnTop) {
 			g.drawImage(leftright.getBufferedImage(), x, y, width, height, null);
-			currentSprite=leftright;
 		} else if (blockOnLeft && !blockOnBottom && !blockOnRight && blockOnTop) {
 			g.drawImage(topleft.getBufferedImage(), x, y, width, height, null);
-			currentSprite=topleft;
 		} else if (!blockOnLeft && blockOnBottom && blockOnRight && !blockOnTop) {
 			g.drawImage(bottomright.getBufferedImage(), x, y, width, height, null);
-			currentSprite=bottomright;
 		} else if (!blockOnLeft && !blockOnBottom && blockOnRight && blockOnTop) {
 			g.drawImage(topright.getBufferedImage(), x, y, width, height, null);
-			currentSprite=topright;
 		} else if (blockOnLeft && blockOnBottom && blockOnRight && blockOnTop) {
 			g.drawImage(all.getBufferedImage(), x, y, width, height, null);
-			currentSprite=all;
 		} else if (!blockOnLeft && blockOnBottom && !blockOnRight && blockOnTop) {
 			g.drawImage(bottomtop.getBufferedImage(), x, y, width, height, null);
-			currentSprite=bottomtop;
 		} else if (!blockOnLeft && blockOnBottom && blockOnRight && blockOnTop) {
 			g.drawImage(bottomrighttop.getBufferedImage(), x, y, width, height, null);
-			currentSprite=bottomrighttop;
 		} else if (blockOnLeft && blockOnBottom && !blockOnRight && blockOnTop) {
 			g.drawImage(bottomlefttop.getBufferedImage(), x, y, width, height, null);
-			currentSprite=bottomlefttop;
 		} else if (blockOnLeft && !blockOnBottom && blockOnRight && blockOnTop) {
 			g.drawImage(topleftright.getBufferedImage(), x, y, width, height, null);
-			currentSprite=topleftright;
 		} else if (blockOnLeft && blockOnBottom && blockOnRight && !blockOnTop) {
 			g.drawImage(bottomleftright.getBufferedImage(), x, y, width, height, null);
-			currentSprite=bottomleftright;
 		} else {
 			g.drawImage(all.getBufferedImage(), x, y, width, height, null);
-			currentSprite=all;
 		}
 
 	}

@@ -37,19 +37,19 @@ public class Map {
 		g.drawString(Game.player.getX() + " " + Game.player.getY(), Game.player.getX() ,
 				Game.player.getY() + 94 - 400 - 74);
 
-//		for (Entity e : Game.handler.entity2) {
-//			if (e.getId().equals(Id.NetPlayer)) {
-//				online = true;
-////				g.drawString("Username: " + ((NetPlayer) e).getUsername(), Game.player.getX() ,
-////						Game.player.getY() + 134 - 400 - 74 + playerCounter * 40);
-////				g.drawString(e.getX() + " " + e.getY(), Game.player.getX() ,
-////						Game.player.getY() + 154 - 400 - 74 + playerCounter * 40);
-//				playerCounter += 1;
-//			}
-//		}
-//		if (online == true) {
-//			g.drawString("Andere Positionen:", Game.player.getX() , Game.player.getY() + 114 - 400 - 74);
-//		}
+		for (Entity e : Game.handler.entity2) {
+			if (e.getId().equals(Id.NetPlayer)) {
+				online = true;
+				g.drawString("Username: " + ((NetPlayer) e).getUsername(), Game.player.getX() ,
+						Game.player.getY() + 134 - 400 - 74 + playerCounter * 40);
+				g.drawString(e.getX() + " " + e.getY(), Game.player.getX() ,
+						Game.player.getY() + 154 - 400 - 74 + playerCounter * 40);
+				playerCounter += 1;
+			}
+		}
+		if (online == true) {
+			g.drawString("Andere Positionen:", Game.player.getX() , Game.player.getY() + 114 - 400 - 74);
+		}
 		g.drawImage(this.getBufferedImage(map), Game.player.getX() + 200, Game.player.getY() - 430, 360, 220, null);
 
 		online = false;
@@ -58,7 +58,7 @@ public class Map {
 		for (Tile ti : Game.handler.tile2) {
 			if (Game.handler.shouldRenderMap(ti)) {
 
-				ti.renderMap(g);
+				ti.mapRender(g);
 			}
 		}
 		g.drawImage(player_head.getBufferedImage(), Game.player.getX() + 200 + 175 - 16,

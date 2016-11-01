@@ -44,6 +44,11 @@ public class Door extends Tile {
 		this.open = open;
 	}
 
+	public void mapRender(Graphics g) {
+
+		renderMap(g, sprite);
+
+	}
 
 	public void changeState() {
 		if (open) {

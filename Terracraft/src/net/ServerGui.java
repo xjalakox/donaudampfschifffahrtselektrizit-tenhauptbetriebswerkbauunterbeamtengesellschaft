@@ -32,7 +32,7 @@ public class ServerGui extends JFrame implements ActionListener {
 	private boolean starting, stopping;
 	private boolean connecting, disconnecting;
 
-	ServerConnection conn;
+	private ServerConnection conn;
 
 	private Font font;
 
@@ -45,6 +45,7 @@ public class ServerGui extends JFrame implements ActionListener {
 		super.setLayout(null);
 		super.setTitle("( ͡° ͜ʖ ͡°) Server GUI ( ͡° ͜ʖ ͡°)");
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		super.setResizable(false);
 
 		font = new Font("Arial", Font.PLAIN, 28);
 
@@ -225,6 +226,8 @@ public class ServerGui extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == restart_button) {
 			stopServer();
+			status.setText("Server restartet!");
+			status.setForeground(Color.YELLOW);
 			startServer();
 			return;
 		}
