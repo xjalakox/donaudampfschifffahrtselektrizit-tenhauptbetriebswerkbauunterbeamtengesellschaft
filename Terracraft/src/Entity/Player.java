@@ -30,7 +30,6 @@ public class Player extends Entity {
 	private Sprite2[] head = new Sprite2[21];
 	private Sprite2[] body = new Sprite2[21];
 	private Sprite2[] armor_head = new Sprite2[21];
-	private Sprite inventory_background = new Sprite(Game.sheet, 1, 1, 1, 1);
 	public int spritex, spritey;
 	public boolean fly;
 	public ArrayList<Id> Inventory = new ArrayList<Id>();
@@ -71,10 +70,8 @@ public class Player extends Entity {
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g.drawString(getUsername(), getX(), getY() - 10);
-		if (isInventoryOpen()) {
-			Inventory(g);
-		} else {
-			gotRecipes = false;
+		if (!isInventoryOpen()) {
+			setGotRecipes(false);
 		}
 	}
 
@@ -302,46 +299,7 @@ public class Player extends Entity {
 		}
 	}
 
-	public void Inventory(Graphics g) {
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 4; j++) {
-
-				g.drawImage(inventory_background.getBufferedImage(), i * 74 + 20 + getX() - 650,
-						20 + getY() - 450 + 74 * j, 64, 64, null);
-				if (!Inventory.get(j * 10 + i).equals(Id.Empty)) {
-					g.drawImage(Inventory.get(j * 10 + i).getImage().getBufferedImage(),
-							i * 74 + 20 + 16 + getX() - 650, 20 + getY() + 16 - 74 - 450 + 74 * j + 74, 32, 32, null);
-					if (Inventory.get(j * 10 + i).getType().equals("block")
-							|| Inventory.get(j * 10 + i).getType().equals("item")) {
-						g.setColor(Color.white);
-						g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-						g.drawString(Utils.toString(Inventory_amount[j * 10 + i]), i * 74 + getX() - 626,
-								getY() + 74 * j - 300 - 74);
-					}
-				}
-
-			}
-		}
-		if (!Game.m.mouseItem.equals(Id.Empty)) {
-			g.drawImage(Game.m.mouseItem.getImage().getBufferedImage(), Game.m.lookingAtX, Game.m.lookingAtY, 32, 32,
-					null);
-		}
-
-		// Craftable Items
-		if (!gotRecipes) {
-			recipes = Recipe.getCraftableRecipes();
-			gotRecipes = true;
-		}
-		for (int i = 0; i < recipes.length; i++) {
-			if (recipes[i] != null) {
-				g.drawImage(inventory_background.getBufferedImage(), getX() - 615 - 7, getY() - 140 + i * 48, 48, 48,
-						null);
-				g.drawImage(Id.toId(recipes[i].getName()).getImage().getBufferedImage(), getX() - 615,
-						getY() - 140 + i * 48 + 8, 32, 32, null);
-
-			}
-		}
-	}
+	
 
 	public boolean isInventoryOpen() {
 		return inventoryOpen;
@@ -448,5 +406,13 @@ public class Player extends Entity {
 			x = ti.getX() - 46;
 
 		}
+	}
+
+	public boolean isGotRecipes() {
+		return gotRecipes;
+	}
+
+	public void setGotRecipes(boolean gotRecipes) {
+		this.gotRecipes = gotRecipes;
 	}
 }

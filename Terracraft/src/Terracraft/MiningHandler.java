@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import crafting.Recipe;
 import gfx.Sprite;
 import input.Mouse;
 import net.Network.RemoveTile;
@@ -16,6 +17,7 @@ public class MiningHandler {
 	public static int[] scrollbar_amount = new int[10];
 	private Sprite[] scrollsprite = new Sprite[10];
 	private Sprite scrollspriteaimed = new Sprite(Game.sheet, 3, 1, 1, 1);
+	private Sprite inventory_background = new Sprite(Game.sheet, 1, 1, 1, 1);
 	private int tick;
 	public static Id equippedTool;
 
@@ -38,7 +40,9 @@ public class MiningHandler {
 
 	@SuppressWarnings("unchecked")
 	public void render(Graphics2D g) {
-
+		if (Game.player.isInventoryOpen()) {
+			renderInventory(g);
+		}
 		scrollbarTiles = (ArrayList<Id>) Game.player.Inventory.clone();
 		for (int i = 0; i < 10; i++) {
 			scrollbar_amount[i] = Game.player.Inventory_amount[i];
@@ -169,6 +173,45 @@ public class MiningHandler {
 		}
 		if (tick < 30) {
 			tick++;
+		}
+	}
+
+	public void renderInventory(Graphics2D g) {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 4; j++) {
+
+				g.drawImage(inventory_background.getBufferedImage(), i * 74 + 20, 20 + 74 * j, 64, 64, null);
+				if (!Game.player.Inventory.get(j * 10 + i).equals(Id.Empty)) {
+					g.drawImage(Game.player.Inventory.get(j * 10 + i).getImage().getBufferedImage(), i * 74 + 20 + 16,
+							20 + 16 - 74 + 74 * j + 74, 32, 32, null);
+					if (Game.player.Inventory.get(j * 10 + i).getType().equals("block")
+							|| Game.player.Inventory.get(j * 10 + i).getType().equals("item")) {
+						g.setColor(Color.white);
+						g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+						g.drawString(Utils.toString(Game.player.Inventory_amount[j * 10 + i]), i * 74 + 25,
+								74 * j + 76);
+					}
+				}
+
+			}
+		}
+		if (!Game.m.mouseItem.equals(Id.Empty)) {
+			g.drawImage(Game.m.mouseItem.getImage().getBufferedImage(), Game.m.lookingAtX, Game.m.lookingAtY, 32, 32,
+					null);
+		}
+
+		// Craftable Items
+		if (!Game.player.isGotRecipes()) {
+			Game.player.recipes = Recipe.getCraftableRecipes();
+			Game.player.setGotRecipes(true);
+		}
+		for (int i = 0; i < Game.player.recipes.length; i++) {
+			if (Game.player.recipes[i] != null) {
+				g.drawImage(inventory_background.getBufferedImage(), 20, 20 + 74 * 4 + i * 48, 48, 48, null);
+				g.drawImage(Id.toId(Game.player.recipes[i].getName()).getImage().getBufferedImage(), 28,
+						20 + 74 * 4 + i * 48 + 8, 32, 32, null);
+
+			}
 		}
 	}
 }
