@@ -57,6 +57,14 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet2 sheet_body = new Spritesheet2("/Sprites/Body.png");
 	public static Spritesheet2 sheet_armor_head = new Spritesheet2("/Sprites/Armor_Head.png");
 	public static Spritesheet sheet_tree = new Spritesheet("/Sprites/Tree.png");
+	public static Spritesheet sheet_grass = new Spritesheet("/Sprites/Grass.png");
+	public static Spritesheet sheet_dirt = new Spritesheet("/Sprites/Dirt.png");
+	public static Spritesheet sheet_wood_block = new Spritesheet("/Sprites/Wood_Block.png");
+	public static Spritesheet sheet_stone = new Spritesheet("/Sprites/Stone.png");
+	public static Spritesheet sheet_tin = new Spritesheet("/Sprites/Tin.png");
+	public static Spritesheet sheet_copper = new Spritesheet("/Sprites/Copper.png");
+	public static Spritesheet sheet_gold = new Spritesheet("/Sprites/Gold.png");
+	public static Spritesheet sheet_platinum = new Spritesheet("/Sprites/Platinum.png");
 	public static Spritesheet sheet_tree_tops = new Spritesheet("/Sprites/Tree_Tops.png");
 	public static Spritesheet sheet_tree_branches = new Spritesheet("/Sprites/Tree_Branches.png");
 	public static Menu menu;

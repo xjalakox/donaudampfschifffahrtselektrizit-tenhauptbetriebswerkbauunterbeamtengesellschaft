@@ -11,47 +11,47 @@ import terracraft.Utils;
 
 public class Tile {
 
-	public int x, y, width, height, velX, velY,mapX,mapY;
+	public int x, y, width, height, velX, velY, mapX, mapY;
 	Handler handler;
 	Id id;
 	public int damage;
-	public boolean shouldRemove,underground=true;
+	public boolean shouldRemove, blockOnTop = true, blockOnLeft = true, blockOnRight = true, blockOnBottom = true;
 
-	public Tile(int x, int y, int Width, int height,Id id) {
+	public Tile(int x, int y, int Width, int height, Id id) {
 		this.x = x;
 		this.y = y;
 		this.width = Width;
 		this.height = height;
 		this.id = id;
 	}
-	public void renderMap(Graphics g,Sprite sprite){
-//		tick++;
-//		if(tick>=60){
-//			tick=0;
-//		
+
+	public void renderMap(Graphics g, Sprite sprite) {
+		// tick++;
+		// if(tick>=60){
+		// tick=0;
+		//
 		double tmp;
-		if((Game.player.getX()+Game.player.getBreite()/2)<x){
-			tmp=(x-Game.player.getX())/16;
-			mapX=(Game.player.getX() + 200+175)+Utils.toInt(tmp);
-		}else{
-			tmp=(Game.player.getX()-x)/16;
-			mapX=(Game.player.getX() + 200+175)-Utils.toInt(tmp);;
+		if ((Game.player.getX() + Game.player.getBreite() / 2) < x) {
+			tmp = (x - Game.player.getX()) / 16;
+			mapX = (Game.player.getX() + 200 + 175) + Utils.toInt(tmp);
+		} else {
+			tmp = (Game.player.getX() - x) / 16;
+			mapX = (Game.player.getX() + 200 + 175) - Utils.toInt(tmp);
+			;
 		}
-		if((Game.player.getY()+Game.player.getHeight()/2)<y){
-			tmp=(y-Game.player.getY())/16;
-			mapY=(Game.player.getY() - 430+103+30)+Utils.toInt(tmp);
-		}else{
-			tmp=(Game.player.getY()-y)/16;
-			mapY=(Game.player.getY() - 430+103+30)-Utils.toInt(tmp);
+		if ((Game.player.getY() + Game.player.getHeight() / 2) < y) {
+			tmp = (y - Game.player.getY()) / 16;
+			mapY = (Game.player.getY() - 430 + 103 + 30) + Utils.toInt(tmp);
+		} else {
+			tmp = (Game.player.getY() - y) / 16;
+			mapY = (Game.player.getY() - 430 + 103 + 30) - Utils.toInt(tmp);
 		}
-		if(Game.map.getBounds().intersects(new Rectangle(mapX,mapY,2,2))){
-			g.drawImage(sprite.getBufferedImage(),mapX,mapY,2,2,null);
+		if (Game.map.getBounds().intersects(new Rectangle(mapX, mapY, 2, 2))) {
+			g.drawImage(sprite.getBufferedImage(), mapX, mapY, 2, 2, null);
 		}
 
-	
-		
-		
 	}
+
 	public int getMapX() {
 		return mapX;
 	}
@@ -68,20 +68,20 @@ public class Tile {
 		this.mapY = mapY;
 	}
 
-	public  void render(Graphics g){
-		
+	public void render(Graphics g) {
+
 	}
 
-	public  void tick(){
-	
+	public void tick() {
+
 	}
-	
+
 	public boolean shouldRemove() {
 		return shouldRemove;
 	}
-	
-	public void setAsRemoved(){
-		shouldRemove=true;
+
+	public void setAsRemoved() {
+		shouldRemove = true;
 	}
 
 	public int getX() {
@@ -139,44 +139,143 @@ public class Tile {
 	public void setId(Id id) {
 		this.id = id;
 	}
-	
-	public Rectangle getBounds(){
-		return new Rectangle(x,y,width,height);
+
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, width, height);
 	}
-	public Rectangle getBoundsTop(){
-		return new Rectangle(x + 200,y - 430,9,10);
+
+	public Rectangle getBoundsTop() {
+		return new Rectangle(x + 200, y - 430, 9, 10);
 	}
-	public Rectangle getRight(){
-		return new Rectangle(x+width-5,y+5,5,height-10);
+
+	public Rectangle getRight() {
+		return new Rectangle(x + width - 5, y + 5, 5, height - 10);
 	}
-	public Rectangle getLeft(){
-		return new Rectangle(x,y+5,5,height-10);
+
+	public Rectangle getLeft() {
+		return new Rectangle(x, y + 5, 5, height - 10);
 	}
-	public Rectangle getBottom(){
-		return new Rectangle(x,y+height-8,width,8);
+
+	public Rectangle getBottom() {
+		return new Rectangle(x, y + height - 8, width, 8);
 	}
-	public Rectangle getTop(){
-		return new Rectangle(x+2,y,width-4,8);
+
+	public Rectangle getTop() {
+		return new Rectangle(x + 2, y, width - 4, 8);
 	}
-	
-	public Rectangle getTileTop(){
-		return new Rectangle(x,y-height,width,height);
+
+	public Rectangle getTileBottom() {
+		return new Rectangle(x, y + height, width, height);
 	}
-	
-	public int getDamage(){
+
+	public Rectangle getTileTop() {
+		return new Rectangle(x, y - height, width, height);
+	}
+
+	public Rectangle getTileLeft() {
+		return new Rectangle(x - width, y, width, height);
+	}
+
+	public Rectangle getTileRight() {
+		return new Rectangle(x + width, y, width, height);
+	}
+
+	public int getDamage() {
 		return damage;
 	}
-	
-	public void setHealth(int damage){
+
+	public void setHealth(int damage) {
 		this.damage = damage;
 	}
-	
-	public void addDamage(int damage){
+
+	public void addDamage(int damage) {
 		this.damage -= damage;
 	}
+
 	public void mapRender(Graphics g) {
-		
-		
+
 	}
-	
+
+	public void checkForBlockonTop() {
+		blockOnTop = false;
+		for (Tile ti : Game.handler.tile2) {
+			if (getTileTop().intersects(ti.getBounds()) && ti.getId().equals(this.getId())) {
+				blockOnTop = true;
+			}
+
+		}
+	}
+
+	public void checkForBlockonBottom() {
+		blockOnBottom = false;
+		for (Tile ti : Game.handler.tile2) {
+			if (getTileBottom().intersects(ti.getBounds()) && ti.getId().equals(this.getId())) {
+				blockOnBottom = true;
+			}
+
+		}
+	}
+
+	public void checkForBlockonRight() {
+		blockOnRight = false;
+		for (Tile ti : Game.handler.tile2) {
+			if (getTileRight().intersects(ti.getBounds()) && ti.getId().equals(this.getId())) {
+				blockOnRight = true;
+			}
+
+		}
+	}
+
+	public void checkForBlockonLeft() {
+		blockOnLeft = false;
+		for (Tile ti : Game.handler.tile2) {
+			if (getTileLeft().intersects(ti.getBounds()) && ti.getId().equals(this.getId())) {
+				blockOnLeft = true;
+			}
+
+		}
+	}
+
+	public void drawTile(Graphics g, int x, int y, int width, int height, Sprite alone, Sprite left, Sprite right,
+			Sprite top, Sprite bottom, Sprite bottomright, Sprite bottomleft, Sprite bottomtop, Sprite leftright,
+			Sprite topleft, Sprite topright, Sprite all, Sprite bottomrighttop, Sprite bottomlefttop,
+			Sprite topleftright, Sprite bottomleftright) {
+
+		if (!blockOnBottom && !blockOnLeft && !blockOnRight && !blockOnTop) {
+			g.drawImage(alone.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnBottom && !blockOnLeft && !blockOnRight && !blockOnTop) {
+			g.drawImage(bottom.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnTop && !blockOnLeft && !blockOnRight && !blockOnBottom) {
+			g.drawImage(top.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnRight && !blockOnLeft && !blockOnBottom && !blockOnTop) {
+			g.drawImage(right.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && !blockOnBottom && !blockOnRight && !blockOnTop) {
+			g.drawImage(left.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && blockOnBottom && !blockOnRight && !blockOnTop) {//
+			g.drawImage(bottomleft.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && !blockOnBottom && blockOnRight && !blockOnTop) {
+			g.drawImage(leftright.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && !blockOnBottom && !blockOnRight && blockOnTop) {
+			g.drawImage(topleft.getBufferedImage(), x, y, width, height, null);
+		} else if (!blockOnLeft && blockOnBottom && blockOnRight && !blockOnTop) {
+			g.drawImage(bottomright.getBufferedImage(), x, y, width, height, null);
+		} else if (!blockOnLeft && !blockOnBottom && blockOnRight && blockOnTop) {
+			g.drawImage(topright.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && blockOnBottom && blockOnRight && blockOnTop) {
+			g.drawImage(all.getBufferedImage(), x, y, width, height, null);
+		} else if (!blockOnLeft && blockOnBottom && !blockOnRight && blockOnTop) {
+			g.drawImage(bottomtop.getBufferedImage(), x, y, width, height, null);
+		} else if (!blockOnLeft && blockOnBottom && blockOnRight && blockOnTop) {
+			g.drawImage(bottomrighttop.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && blockOnBottom && !blockOnRight && blockOnTop) {
+			g.drawImage(bottomlefttop.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && !blockOnBottom && blockOnRight && blockOnTop) {
+			g.drawImage(topleftright.getBufferedImage(), x, y, width, height, null);
+		} else if (blockOnLeft && blockOnBottom && blockOnRight && !blockOnTop) {
+			g.drawImage(bottomleftright.getBufferedImage(), x, y, width, height, null);
+		} else {
+			g.drawImage(all.getBufferedImage(), x, y, width, height, null);
+		}
+
+	}
 }
