@@ -246,27 +246,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		for (int i = 0; i < 10; i++) {
 			if (Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX() - 650,
 					20 + Game.player.getY() - 450 + 74 * 0, 64, 64))) {
-				// if (mouseItem.equals(Id.Empty)) {
-				// mouseItem = Game.player.Inventory.get(0 * 10 + i);
-				// Game.player.Inventory.set(0 * 10 + i, Id.Empty);
-				// mouse_amount = Game.player.Inventory_amount[0 * 10 + i];
-				// } else {
-				// if (mouseItem.equals(Game.player.Inventory.get(0 * 10 + i))
-				// && mouseItem.getType().equals("block")) {
-				// Game.player.Inventory_amount[0 * 10 + i] += mouse_amount;
-				// mouseItem = Id.Empty;
-				// mouse_amount = 0;
-				// } else {
-				// int temporary_amount = Game.player.Inventory_amount[0 * 10 +
-				// i];
-				// Id temporary = Game.player.Inventory.get(0 * 10 + i);
-				// Game.player.Inventory_amount[0 * 10 + i] = mouse_amount;
-				// Game.player.Inventory.set(0 * 10 + i, mouseItem);
-				// mouseItem = temporary;
-				// mouse_amount = temporary_amount;
-				// }
-
-				// }
 				mouseRotation = i;
 
 			}

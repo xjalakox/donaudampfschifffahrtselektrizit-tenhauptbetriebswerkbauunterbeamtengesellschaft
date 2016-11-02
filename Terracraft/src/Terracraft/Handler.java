@@ -88,8 +88,6 @@ public class Handler {
 		return false;
 	}
 
-
-
 	public void remove() {
 		for (int i = 0; i < tile.size(); i++) {
 			if (tile.get(i).shouldRemove()) {

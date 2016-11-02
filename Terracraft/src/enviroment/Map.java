@@ -67,8 +67,6 @@ public class Map {
 		g.drawImage(player_head.getBufferedImage(), 640 + 200 + 175 - 16, 5 + 103 + 30 - 8, 32, 32, null);
 		g.drawImage(player_armor_head.getBufferedImage(), 640 + 200 + 175 - 16, 5 + 103 + 30 - 8, 32, 32, null);
 		g.drawImage(this.getBufferedImage(mapframe), 640 + 200, 5, 360, 220, null);
-		g.setColor(Color.red);
-		// g.fillRect(840, 5, 360, 220);
 	}
 
 	public void tick() {

@@ -54,17 +54,16 @@ public class Player extends Entity {
 				Inventory_amount[10 * j + i] = 0;
 			}
 		}
-		// Inventory.set(3, Id.Pickaxe);
 	}
 
 	public void render(Graphics g) {
-		g.setColor(Color.blue);
-		g.drawRect(getX() + 6, getY() + height - 16, width - 10, 16);
-		g.setColor(Color.green);
-		g.drawRect(getX() + width - 5, getY() + 5, 5, height - 10);
-		g.setColor(Color.black);
-		g.drawRect(getX(), getY() + 5, 5, height - 10);
-		g.setColor(Color.cyan);
+		// g.setColor(Color.blue);
+		// g.drawRect(getX() + 6, getY() + height - 16, width - 10, 16);
+		// g.setColor(Color.green);
+		// g.drawRect(getX() + width - 5, getY() + 5, 5, height - 10);
+		// g.setColor(Color.black);
+		// g.drawRect(getX(), getY() + 5, 5, height - 10);
+		// g.setColor(Color.cyan);
 		drawPlayer(g);
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -347,18 +346,6 @@ public class Player extends Entity {
 		Game.m.lookingAtX = x;
 		Game.m.lookingAtY = y;
 		g.setColor(Color.RED);
-		// if (Mouse.mouseRotation >= 0
-		// &&
-		// Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")
-		// &&
-		// Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage()
-		// != null) {
-		// g.drawImage(Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(),
-		// x, y,
-		// 16,16,
-		// null);
-		// }
-		g.drawRect(getX() - 650, getY() - 440, Game.getFrameWidth(), 700);
 	}
 
 	public void testForCollision(Tile ti) {

@@ -37,14 +37,6 @@ public class Tree extends Tile {
 	}
 
 	public void render(Graphics g) {
-//		g.setColor(Color.blue);
-//		g.drawRect(x, y - (level + 5) * 32, width, height + (level + 5) * 32);
-//		g.setColor(Color.green);
-//		g.drawRect(x + width - 5, y - (level + 5) * 32 + 5, 5, height + (level + 5) * 32 - 10);
-//		g.setColor(Color.black);
-//		g.drawRect(x, y - (level + 5) * 32 + 5, 5, height + (level + 5) * 32 - 10);
-//		g.setColor(Color.cyan);
-//		g.drawRect(x, y - (level + 5) * 32 + height + (level + 5) * 32 - 8, width, 8);
 		g.drawImage(root_middle.getBufferedImage(), x, y, 32, 32, null);
 		g.drawImage(root_left.getBufferedImage(), x - 32 + 6, y, 32, 32, null);
 		g.drawImage(root_right.getBufferedImage(), x + 32 - 6, y, 32, 32, null);

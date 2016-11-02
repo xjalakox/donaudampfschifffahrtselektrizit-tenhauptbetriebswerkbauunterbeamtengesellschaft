@@ -262,6 +262,4 @@ public class Game extends Canvas implements Runnable {
 		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameWidth(), 700);
 	}
 
-	
-
 }

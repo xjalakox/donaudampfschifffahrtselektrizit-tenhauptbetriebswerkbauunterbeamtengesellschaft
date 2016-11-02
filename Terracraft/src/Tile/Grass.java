@@ -39,18 +39,6 @@ public class Grass extends Tile {
 
 		drawTile(g, x, y, width, height, alone, left, right, top, bottom, bottomright, bottomleft, bottomtop, leftright,
 				topleft, topright, all, bottomrighttop, bottomlefttop, topleftright, bottomleftright);
-
-		/*
-		 * g.setColor(Color.WHITE);
-		 * g.drawRect(getBottom().x,getBottom().y,getBottom().width,getBottom().
-		 * height); g.setColor(Color.BLUE);
-		 * g.drawRect(getTop().x,getTop().y,getTop().width,getTop().height);
-		 * g.setColor(Color.RED);
-		 * g.drawRect(getLeft().x,getLeft().y,getLeft().width,getLeft().height);
-		 * g.setColor(Color.YELLOW);
-		 * g.drawRect(getRight().x,getRight().y,getRight().width,getRight().
-		 * height);
-		 */
 	}
 
 	public void tick() {

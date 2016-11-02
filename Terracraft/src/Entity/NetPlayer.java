@@ -46,7 +46,6 @@ public class NetPlayer extends Entity {
 	}
 
 	public void tick() {
-		// System.out.println("Clicked: "+clicked+" Click: "+click);
 		if (goLeft) {
 			x -= 4;
 			moving = 2;
@@ -101,35 +100,6 @@ public class NetPlayer extends Entity {
 			framedelay = 0;
 		}
 
-//		for (Tile ti : handler.tile2) {
-//
-//			if (getTop().intersects(ti.getBottom())) {
-//				setVelY(0);
-//				y = ti.getY() + 33;
-//				jumping = false;
-//				falling = true;
-//				gravity = 0;
-//			}
-//			if (getBottom().intersects(ti.getTop())) {
-//				setVelY(0);
-//				y = ti.getY() - 90;
-//			} else if (!jumping) {
-//				falling = true;
-//			}
-//
-//			if (getLeft().intersects(ti.getRight())) {
-//				setVelX(0);
-//				x = ti.getX() + 33;
-//			}
-//			if (getRight().intersects(ti.getLeft())) {
-//				setVelX(0);
-//				x = ti.getX() - 46;
-//			}
-//		}
-
-//		if (falling) {
-//			falling();
-//		}
 
 	}
 

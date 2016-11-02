@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Image {
-	
+
 	private BufferedImage image;
 
 	public Image(String path) {
@@ -16,16 +16,16 @@ public class Image {
 		} catch (IOException e) {
 		}
 	}
-	
-	public BufferedImage getBufferedImage(){
+
+	public BufferedImage getBufferedImage() {
 		return image;
 	}
-	
-	public int getWidth(){
+
+	public int getWidth() {
 		return image.getWidth();
 	}
-	
-	public int getHeight(){
+
+	public int getHeight() {
 		return image.getHeight();
 	}
 
