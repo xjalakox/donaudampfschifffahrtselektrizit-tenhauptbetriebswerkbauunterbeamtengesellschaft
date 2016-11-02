@@ -88,13 +88,7 @@ public class Handler {
 		return false;
 	}
 
-	public boolean shouldRenderMap(Tile ti) {
-		if (Game.getVisisbleAreaMap() != null && ti.getBounds().intersects(Game.getVisisbleAreaMap())) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+
 
 	public void remove() {
 		for (int i = 0; i < tile.size(); i++) {

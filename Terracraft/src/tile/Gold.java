@@ -35,7 +35,6 @@ public class Gold extends Tile {
 	}
 
 	public void render(Graphics g) {
-		System.out.println("test");
 		drawTile(g, x, y, width, height, alone, left, right, top, bottom, bottomright, bottomleft, bottomtop, leftright,
 				topleft, topright, all, bottomrighttop, bottomlefttop, topleftright, bottomleftright);
 	}

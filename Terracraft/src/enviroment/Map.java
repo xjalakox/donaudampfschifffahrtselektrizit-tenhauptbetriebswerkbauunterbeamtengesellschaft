@@ -11,6 +11,7 @@ import entity.NetPlayer;
 import gfx.Sprite2;
 import terracraft.Game;
 import terracraft.Id;
+import terracraft.Utils;
 import tile.source.Tile;
 
 public class Map {
@@ -29,7 +30,7 @@ public class Map {
 		}
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 //		g.setColor(Color.black);
 //		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -50,23 +51,22 @@ public class Map {
 //		if (online == true) {
 //			g.drawString("Andere Positionen:", Game.player.getX() , Game.player.getY() + 114 - 400 - 74);
 //		}
-		g.drawImage(this.getBufferedImage(map), Game.player.getX() + 200, Game.player.getY() - 430, 360, 220, null);
-
+		g.drawImage(this.getBufferedImage(map),640+ 200, 5, 360, 220, null);
 		online = false;
 		playerCounter = 0;
-
 		for (Tile ti : Game.handler.tile2) {
-			if (Game.handler.shouldRenderMap(ti)) {
+			if (shouldRenderMap(ti)) {
 
-				ti.mapRender(g);
+				renderMap(g,ti);
 			}
 		}
-		g.drawImage(player_head.getBufferedImage(), Game.player.getX() + 200 + 175 - 16,
-				Game.player.getY() - 430 + 103 + 30 - 8, 32, 32, null);
-		g.drawImage(player_armor_head.getBufferedImage(), Game.player.getX() + 200 + 175 - 16,
-				Game.player.getY() - 430 + 103 + 30 - 8, 32, 32, null);
-		g.drawImage(this.getBufferedImage(mapframe), Game.player.getX() + 200, Game.player.getY() - 430, 360, 220,
-				null);
+		g.drawImage(player_head.getBufferedImage(), 640 + 200 + 175 - 16,
+				5 + 103 + 30 - 8, 32, 32, null);
+		g.drawImage(player_armor_head.getBufferedImage(), 640 + 200 + 175 - 16,
+				5 + 103 + 30 - 8, 32, 32, null);
+		g.drawImage(this.getBufferedImage(mapframe),640+ 200, 5, 360, 220, null);
+		g.setColor(Color.red);
+//		g.fillRect(840, 5, 360, 220);
 	}
 
 	public void tick() {
@@ -81,7 +81,41 @@ public class Map {
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(Game.player.getX() + 200, Game.player.getY() - 430, 360, 220);
+		return new Rectangle(845, 5, 350, 220);
 	}
+	public void renderMap(Graphics2D g,Tile ti) {
+		int mapX,mapY;
+		double tmp;
+		if ((Game.player.getX() + Game.player.getBreite() / 2) < ti.getX()) {
+			tmp = (ti.getX() -Game.player.getX()) / 16;
+			mapX = (640 + 200 + 175) + Utils.toInt(tmp);
+		} else {
+			tmp = (Game.player.getX() - ti.getX()) / 16;
+			mapX = (640 + 200 + 175) - Utils.toInt(tmp);
+			;
+		}
+		if ((Game.player.getY() + Game.player.getHeight() / 2) < ti.getY() ) {
+			tmp = (ti.getY() - Game.player.getY()) / 16;
+			mapY = (5 + 103 + 30) + Utils.toInt(tmp);
+		} else {
+			tmp = (Game.player.getY() - ti.getY() ) / 16;
+			mapY = (5 + 103 + 30) - Utils.toInt(tmp);
+		}
+		if (getBounds().intersects(new Rectangle(mapX, mapY, 2, 2))) {
+			g.drawImage(ti.getCurrentSprite().getBufferedImage(), mapX, mapY, 2, 2, null);
+		}
 
+	}
+	
+	public boolean shouldRenderMap(Tile ti) {
+		if (getVisisbleAreaMap() != null && ti.getBounds().intersects(getVisisbleAreaMap())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static Rectangle getVisisbleAreaMap() {
+		return new Rectangle(640 - 650 - 1920, 360 - 440 - 1050, Game.getFrameWidth() * 4, 700 * 4);
+	}
 }

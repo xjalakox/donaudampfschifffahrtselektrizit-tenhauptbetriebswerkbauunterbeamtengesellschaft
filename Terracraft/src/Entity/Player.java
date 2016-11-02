@@ -73,6 +73,9 @@ public class Player extends Entity {
 		if (!isInventoryOpen()) {
 			setGotRecipes(false);
 		}
+		
+		
+		
 	}
 
 	public void tick() {
@@ -309,18 +312,13 @@ public class Player extends Entity {
 		this.inventoryOpen = inventoryOpen;
 	}
 
-	public Rectangle InventoryBounds() {
-		return new Rectangle(20 + getX() - 650 - 5, 20 + getY() - 450 - 5, 74 * 10, 74 * 4);
-	}
+	
 
 	public void sendPosition() {
 		Network.sendCoordinates(Game.client, x, y, username, MiningHandler.equippedTool, "udp");
 	}
 
-	public Rectangle closedInventoryBounds() {
-		return new Rectangle(20 + getX() - 650 - 5, 20 + getY() - 450 - 5, 74 * 10, 74);
-	}
-
+	
 	public void renderLookingBlock(Graphics g) {
 		int x = 0;
 		int y = 0;
@@ -369,14 +367,7 @@ public class Player extends Entity {
 		g.drawRect(getX() - 650, getY() - 440, Game.getFrameWidth(), 700);
 	}
 
-	public Rectangle recipeBounds() {
-		if (recipes.length >= 1) {
-			return new Rectangle(getX() - 615 - 7, getY() - 140, 48, recipes.length * 48);
-		} else {
-			return new Rectangle(getX() - 615 - 7, getY() - 140 + 0 * 48, 0, 0);
-		}
-
-	}
+	
 
 	public void testForCollision(Tile ti) {
 		if (getTop().intersects(ti.getBottom())) {
