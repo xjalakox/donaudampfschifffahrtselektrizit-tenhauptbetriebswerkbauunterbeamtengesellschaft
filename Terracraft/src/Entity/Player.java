@@ -65,7 +65,6 @@ public class Player extends Entity {
 		g.setColor(Color.black);
 		g.drawRect(getX(), getY() + 5, 5, height - 10);
 		g.setColor(Color.cyan);
-		g.drawRect(getX() + 5, getY(), width - 10, 16);
 		drawPlayer(g);
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -73,9 +72,7 @@ public class Player extends Entity {
 		if (!isInventoryOpen()) {
 			setGotRecipes(false);
 		}
-		
-		
-		
+
 	}
 
 	public void tick() {
@@ -302,8 +299,6 @@ public class Player extends Entity {
 		}
 	}
 
-	
-
 	public boolean isInventoryOpen() {
 		return inventoryOpen;
 	}
@@ -312,13 +307,10 @@ public class Player extends Entity {
 		this.inventoryOpen = inventoryOpen;
 	}
 
-	
-
 	public void sendPosition() {
 		Network.sendCoordinates(Game.client, x, y, username, MiningHandler.equippedTool, "udp");
 	}
 
-	
 	public void renderLookingBlock(Graphics g) {
 		int x = 0;
 		int y = 0;
@@ -355,19 +347,19 @@ public class Player extends Entity {
 		Game.m.lookingAtX = x;
 		Game.m.lookingAtY = y;
 		g.setColor(Color.RED);
-		if (Mouse.mouseRotation >= 0
-				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")
-				&& Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage() != null) {
-			g.drawImage(Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(), x, y,
-					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage().getWidth(),
-					Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage()
-							.getHeight(),
-					null);
-		}
+		// if (Mouse.mouseRotation >= 0
+		// &&
+		// Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("block")
+		// &&
+		// Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage()
+		// != null) {
+		// g.drawImage(Game.mininghandler.scrollbarTiles.get(Mouse.mouseRotation).getImage().getBufferedImage(),
+		// x, y,
+		// 16,16,
+		// null);
+		// }
 		g.drawRect(getX() - 650, getY() - 440, Game.getFrameWidth(), 700);
 	}
-
-	
 
 	public void testForCollision(Tile ti) {
 		if (getTop().intersects(ti.getBottom())) {
@@ -405,5 +397,22 @@ public class Player extends Entity {
 
 	public void setGotRecipes(boolean gotRecipes) {
 		this.gotRecipes = gotRecipes;
+	}
+
+	public Rectangle InventoryBounds() {
+		return new Rectangle(20 + getX() - 650, 20 + getY() - 450, 74 * 10, 74 * 4);
+	}
+
+	public Rectangle closedInventoryBounds() {
+		return new Rectangle(20 + getX() - 650, 20 + getY() - 450, 74 * 10, 74);
+	}
+
+	public Rectangle recipeBounds() {
+		if (recipes.length >= 1) {
+			return new Rectangle(getX() - 615 - 7, getY() - 140, 48, recipes.length * 48);
+		} else {
+			return new Rectangle(getX() - 615 - 7, getY() - 140 + 0 * 48, 0, 0);
+		}
+
 	}
 }

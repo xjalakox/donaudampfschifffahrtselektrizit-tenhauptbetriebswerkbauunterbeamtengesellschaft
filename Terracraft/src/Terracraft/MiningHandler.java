@@ -88,10 +88,12 @@ public class MiningHandler {
 		if (Mouse.pressed && Mouse.mouseRotation < 10 && Mouse.mouseRotation > -1 && tick == 30
 				&& Mouse.degradedTile.getBounds().intersects(Game.player.getArea())) {
 			tick = 0;
-			if (!scrollbarTiles.get(Mouse.mouseRotation).getType().equals("block")) {
-				if (scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("tool")
-						&& Mouse.degradedTile.getId().getType().equalsIgnoreCase("block")) {
-					Mouse.degradedTile.addDamage(scrollbarTiles.get(Mouse.mouseRotation).getEfficiency());
+			if (Game.player.isClick() || Game.player.isClicked()) {
+				if (!scrollbarTiles.get(Mouse.mouseRotation).getType().equals("block")) {
+					if (scrollbarTiles.get(Mouse.mouseRotation).getType().equalsIgnoreCase("tool")
+							&& Mouse.degradedTile.getId().getType().equalsIgnoreCase("block")) {
+						Mouse.degradedTile.addDamage(scrollbarTiles.get(Mouse.mouseRotation).getEfficiency());
+					}
 				}
 			}
 		}
