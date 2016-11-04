@@ -132,6 +132,7 @@ public class Game extends Canvas implements Runnable {
 
 		Graphics g = bs.getDrawGraphics();
 		Graphics2D g2d = (Graphics2D) g.create();
+		Graphics2D g2d2 = (Graphics2D) g.create();
 
 		g2d.setColor(new Color(135, 206, 250));
 		g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -144,10 +145,10 @@ public class Game extends Canvas implements Runnable {
 		//renderTestFlashLight(g2d);
 
 		//new Lighting(550, 550, g2d);
-		mininghandler.render(g2d);
-		map.render(g2d);
-		console.render(g2d);
-		menu.render(g2d);
+		mininghandler.render(g);
+		map.render(g);
+		console.render(g, g2d);
+		menu.render(g2d2);
 
 		g2d.setColor(Color.BLACK);
 		g2d.drawRect(m.x, m.y, 2, 2);

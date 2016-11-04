@@ -30,32 +30,7 @@ public class Map {
 		}
 	}
 
-	public void render(Graphics2D g) {
-
-		// g.setColor(Color.black);
-		// g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		// g.drawString("Eigene Position:", Game.player.getX() ,
-		// Game.player.getY() + 74 - 400 - 74);
-		// g.drawString(Game.player.getX() + " " + Game.player.getY(),
-		// Game.player.getX() ,
-		// Game.player.getY() + 94 - 400 - 74);
-		//
-		// for (Entity e : Game.handler.entity2) {
-		// if (e.getId().equals(Id.NetPlayer)) {
-		// online = true;
-		// g.drawString("Username: " + ((NetPlayer) e).getUsername(),
-		// Game.player.getX() ,
-		// Game.player.getY() + 134 - 400 - 74 + playerCounter * 40);
-		// g.drawString(e.getX() + " " + e.getY(), Game.player.getX() ,
-		// Game.player.getY() + 154 - 400 - 74 + playerCounter * 40);
-		// playerCounter += 1;
-		// }
-		// }
-		// if (online == true) {
-		// g.drawString("Andere Positionen:", Game.player.getX() ,
-		// Game.player.getY() + 114 - 400 - 74);
-		// }
-		g.drawImage(this.getBufferedImage(map), Game.player.getX() + 200, Game.player.getY() - 430, 360, 220, null);
+	public void render(Graphics g) {
 
 		// g.setColor(Color.black);
 		// g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -109,7 +84,7 @@ public class Map {
 		return new Rectangle(845, 5, 350, 220);
 	}
 
-	public void renderMap(Graphics2D g, Tile ti) {
+	public void renderMap(Graphics g, Tile ti) {
 		int mapX, mapY;
 		double tmp;
 		if ((Game.player.getX() + Game.player.getBreite() / 2) < ti.getX()) {

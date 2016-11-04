@@ -2,6 +2,7 @@ package terracraft;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import entity.Player;
@@ -18,7 +19,7 @@ public class Console {
 		TextToDrawInConsole = "";
 	}
 
-	public void render(Graphics2D g) {
+	public void render(Graphics g,Graphics2D g2d) {
 		// TODO Ein Int um nur bei bestimmten Ticks etwas zu zeichnen etc.
 		if (consoleOpen) {
 			renderConsole(g);
@@ -35,11 +36,11 @@ public class Console {
 				g.drawLine(320 + player.getX(), 210 + player.getY(), 320 + player.getX(), 771);
 			}
 		} else {
-			player.renderLookingBlock(g);
+			player.renderLookingBlock(g2d);
 		}
 	}
 
-	private void renderConsole(Graphics2D g) {
+	private void renderConsole(Graphics g) {
 		Color ConsoleColor = new Color(200, 0, 200, 50);
 		g.setColor(ConsoleColor);
 		g.fillRect(315 + player.getX(), 10 + player.getY(), 300, 200);
@@ -48,7 +49,7 @@ public class Console {
 		g.drawRect(315 + player.getX(), 210 + player.getY(), 300, 30);
 	}
 
-	private void renderKeyInput(Graphics2D g, String keyToDraw) {
+	private void renderKeyInput(Graphics g, String keyToDraw) {
 		g.setColor(Color.BLUE);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g.drawString(keyToDraw, player.getX() + 320, player.getY() + 230);

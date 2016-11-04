@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -67,6 +68,11 @@ public abstract class Element {
 
 	public Rectangle Bounds() {
 		return new Rectangle(x, y, width, height);
+	}
+
+	public void render(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

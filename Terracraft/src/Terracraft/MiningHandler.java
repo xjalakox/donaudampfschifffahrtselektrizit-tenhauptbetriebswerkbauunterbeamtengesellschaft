@@ -2,6 +2,7 @@ package terracraft;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class MiningHandler {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void render(Graphics2D g) {
+	public void render(Graphics g) {
 		if (Game.player.isInventoryOpen()) {
 			renderInventory(g);
 		}
@@ -178,7 +179,7 @@ public class MiningHandler {
 		}
 	}
 
-	public void renderInventory(Graphics2D g) {
+	public void renderInventory(Graphics g) {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 4; j++) {
 
