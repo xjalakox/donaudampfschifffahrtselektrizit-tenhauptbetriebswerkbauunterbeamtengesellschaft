@@ -15,10 +15,10 @@ public class Door extends Tile {
 
 	public Door(int x, int y, int Width, int height, Id id) {
 		super(x, y, Width, height, id);
+		setHealth(100);
 	}
 
 	public void render(Graphics2D g) {
-		// setHealth(100);
 		g.setColor(Color.red);
 		g.drawRect(x, y, width, height);
 

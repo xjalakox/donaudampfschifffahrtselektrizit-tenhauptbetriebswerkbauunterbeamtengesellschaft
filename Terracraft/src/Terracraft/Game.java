@@ -266,8 +266,4 @@ public class Game extends Canvas implements Runnable {
 		return new Rectangle(player.getX() - 650, player.getY() - 440, getFrameWidth(), 700);
 	}
 
-	public static Rectangle getVisisbleAreaMap() {
-		return new Rectangle(player.getX() - 650 - 1920, player.getY() - 440 - 1050, getFrameWidth() * 4, 700 * 4);
-	}
-
 }

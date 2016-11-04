@@ -9,7 +9,7 @@ import terracraft.Utils;
 import tile.source.Tile;
 
 public class Tree extends Tile {
-	private int level,level_right,level_left;
+	private int level, level_right, level_left;
 	private Sprite tree_middle = new Sprite(Game.sheet_tree, 1, 1, 1, 1, 20, 2);
 	private Sprite root_right = new Sprite(Game.sheet_tree, 2, 7, 1, 1, 20, 2);
 	private Sprite root_left = new Sprite(Game.sheet_tree, 3, 7, 1, 1, 20, 2);
@@ -31,27 +31,19 @@ public class Tree extends Tile {
 		generateBranchLeft();
 		generateTop();
 		generateHeight();
-		level_right=Utils.RandomInt(2,level);
-		level_left=Utils.RandomInt(2,level);
+		level_right = Utils.RandomInt(2, level);
+		level_left = Utils.RandomInt(2, level);
 		setHealth(400);
 	}
 
 	public void render(Graphics2D g) {
-//		g.setColor(Color.blue);
-//		g.drawRect(x, y - (level + 5) * 32, width, height + (level + 5) * 32);
-//		g.setColor(Color.green);
-//		g.drawRect(x + width - 5, y - (level + 5) * 32 + 5, 5, height + (level + 5) * 32 - 10);
-//		g.setColor(Color.black);
-//		g.drawRect(x, y - (level + 5) * 32 + 5, 5, height + (level + 5) * 32 - 10);
-//		g.setColor(Color.cyan);
-//		g.drawRect(x, y - (level + 5) * 32 + height + (level + 5) * 32 - 8, width, 8);
 		g.drawImage(root_middle.getBufferedImage(), x, y, 32, 32, null);
 		g.drawImage(root_left.getBufferedImage(), x - 32 + 6, y, 32, 32, null);
 		g.drawImage(root_right.getBufferedImage(), x + 32 - 6, y, 32, 32, null);
 		for (int i = 1; i <= level; i++) {
 			g.drawImage(tree_middle.getBufferedImage(), x, y - 32 * i, 32, 32, null);
 		}
-		g.drawImage(branch_right.getBufferedImage(), x + 32 - 6, y - 32 *level_right, 32, 32, null);
+		g.drawImage(branch_right.getBufferedImage(), x + 32 - 6, y - 32 * level_right, 32, 32, null);
 		g.drawImage(branch_left.getBufferedImage(), x - 32 + 6, y - 32 * level_left, 32, 32, null);
 		g.drawImage(top.getBufferedImage(), x - 32 * 2 + 14, y - 32 * (level) - 32 * 5, 32 * 5 - 28, 32 * 5, null);
 	}

@@ -73,31 +73,34 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				if (normalCollision().intersects(Game.menu.settings.soundvol_slider.Bounds())) {
 					Game.menu.settings.soundvol_slider.ex = m.getX();
 				}
-			}
-			if (!Game.player.isInventoryOpen()) {
-				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
-					mouseClick();
-
-				} else {
-					clickInventoryClosed();
-				}
 			} else {
-				if (!Collision().intersects(Game.player.InventoryBounds())) {
-					if (!Collision().intersects(Game.player.recipeBounds())) {
+				if (!Game.player.isInventoryOpen()) {
+					if (!Collision().intersects(Game.player.closedInventoryBounds())) {
 						mouseClick();
+
 					} else {
-						recipeClick();
+						clickInventoryClosed();
 					}
 				} else {
-					clickInventory();
+					if (!Collision().intersects(Game.player.InventoryBounds())) {
+						if (!Collision().intersects(Game.player.recipeBounds())) {
+							mouseClick();
+							System.out.println("mouseClick");
+						} else {
+							recipeClick();
+						}
+					} else {
+						clickInventory();
+						System.out.println("inventoryClick");
+
+					}
 
 				}
-
+				mousedown = true;
 			}
-			mousedown = true;
 		}
 
-		if (m.getButton() == MouseEvent.BUTTON3) {
+		if (m.getButton() == MouseEvent.BUTTON3 && !Game.menu.isOpen()) {
 			if (!Game.player.isInventoryOpen()) {
 				if (!Collision().intersects(Game.player.closedInventoryBounds())) {
 					placeBlock();
@@ -209,8 +212,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 4; j++) {
 
-				if (Collision().intersects(new Rectangle(i * 74 + 20,
-						20 + 74 * j, 64, 64))) {
+				if (Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX() - 650,
+						20 + 74 * j + Game.player.getY() - 450, 64, 64))) {
 					if (mouseItem.equals(Id.Empty)) {
 						mouseItem = Game.player.Inventory.get(j * 10 + i);
 						Game.player.Inventory.set(j * 10 + i, Id.Empty);
@@ -243,27 +246,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		for (int i = 0; i < 10; i++) {
 			if (Collision().intersects(new Rectangle(i * 74 + 20 + Game.player.getX() - 650,
 					20 + Game.player.getY() - 450 + 74 * 0, 64, 64))) {
-//				if (mouseItem.equals(Id.Empty)) {
-//					mouseItem = Game.player.Inventory.get(0 * 10 + i);
-//					Game.player.Inventory.set(0 * 10 + i, Id.Empty);
-//					mouse_amount = Game.player.Inventory_amount[0 * 10 + i];
-//				} else {
-//					if (mouseItem.equals(Game.player.Inventory.get(0 * 10 + i))
-//							&& mouseItem.getType().equals("block")) {
-//						Game.player.Inventory_amount[0 * 10 + i] += mouse_amount;
-//						mouseItem = Id.Empty;
-//						mouse_amount = 0;
-//					} else {
-//						int temporary_amount = Game.player.Inventory_amount[0 * 10 + i];
-//						Id temporary = Game.player.Inventory.get(0 * 10 + i);
-//						Game.player.Inventory_amount[0 * 10 + i] = mouse_amount;
-//						Game.player.Inventory.set(0 * 10 + i, mouseItem);
-//						mouseItem = temporary;
-//						mouse_amount = temporary_amount;
-//					}
-
-//				}
-				mouseRotation=i;
+				mouseRotation = i;
 
 			}
 		}
@@ -280,7 +263,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				if (Game.mininghandler.scrollbarTiles.get(mouseRotation).equals(Id.Door)) {
 					request.x = lookingAtX;
 					request.y = lookingAtY - 64;
-				}else{
+				} else {
 					request.x = lookingAtX;
 					request.y = lookingAtY;
 				}
