@@ -14,8 +14,7 @@ import tile.source.Tile;
 public class MySQL {
 	private java.sql.Connection myConn;
 	private Statement query;
-	private boolean local = true;
-	private int block_id = 0;
+	public int block_id = 0;
 
 	public MySQL() {
 		connect();
@@ -40,7 +39,6 @@ public class MySQL {
 			myConn = DriverManager.getConnection("jdbc:sqlite:terra.db");
 			System.out.println("[SQLITE] Changed to Offline DB 'terra.db'");
 			query = myConn.createStatement();
-			local = true;
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 		}
@@ -55,8 +53,6 @@ public class MySQL {
 			myConn = DriverManager.getConnection(host, users, pw);
 			System.out.println("[MySQL] Connected to the Server");
 			query = myConn.createStatement();
-			local = false;
-
 		} catch (SQLException e) {
 			System.out.println("Connection to the Database failed. Check your Connection or use OfflineDB instead!");
 			e.printStackTrace();
@@ -184,7 +180,7 @@ public class MySQL {
 				t.setY(myRs.getInt("y"));
 				LoadingTilesIntoList.add(t);
 			}
-			
+
 			return LoadingTilesIntoList;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -200,7 +196,6 @@ public class MySQL {
 			query.executeUpdate("INSERT INTO blocks VALUES (" + block_id + ", " + x + ", " + y + ", " + "'"
 					+ ti.getId().toString() + "')");
 
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -208,7 +203,7 @@ public class MySQL {
 
 	public boolean isAdmin(String username) {
 		try {
-			ResultSet myRs = query.executeQuery("select 'isAdmin' from users WHERE 'username' = " + username);
+			ResultSet myRs = query.executeQuery("select `isAdmin` from `users` WHERE `username` = '" + username + "'");
 			;
 			while (myRs.next()) {
 				if (myRs.getInt("isAdmin") == 1) {
@@ -223,10 +218,9 @@ public class MySQL {
 		return false;
 	}
 
-	public void deleteTiles() {
+	public void deleteBlocks() {
 		try {
 			query.executeUpdate("DELETE FROM `blocks`");
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -308,5 +302,4 @@ public class MySQL {
 		}
 		return 0;
 	}
-
 }

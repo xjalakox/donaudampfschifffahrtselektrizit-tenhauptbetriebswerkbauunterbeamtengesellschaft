@@ -25,7 +25,7 @@ public class ClientConnection {
 
 	public ClientConnection(Client client) {
 		client.start();
-		//Log.TRACE();
+		// Log.TRACE();
 
 		try {
 			client.connect(5000, "localhost", 54555, 54777);

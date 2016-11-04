@@ -1,6 +1,6 @@
 package tile;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import gfx.Sprite;
 import terracraft.Game;
@@ -35,7 +35,7 @@ public class Grass extends Tile {
 		setHealth(100);
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		drawTile(g, x, y, width, height, alone, left, right, top, bottom, bottomright, bottomleft, bottomtop, leftright,
 				topleft, topright, all, bottomrighttop, bottomlefttop, topleftright, bottomleftright);

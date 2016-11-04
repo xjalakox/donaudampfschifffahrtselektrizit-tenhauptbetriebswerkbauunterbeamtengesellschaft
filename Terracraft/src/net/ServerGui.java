@@ -139,7 +139,6 @@ public class ServerGui extends JFrame implements ActionListener {
 		start_button.setBackground(Color.GREEN);
 
 		conn.server.stop();
-		conn.mysql.disconnect();
 		status.setForeground(Color.RED);
 		status.setText("Server gestoppt!");
 
@@ -178,6 +177,7 @@ public class ServerGui extends JFrame implements ActionListener {
 
 		stopServer();
 		conn.mysql.OfflineDB();
+		conn.mysql.block_id = 0;
 		clearTileList();
 		startServer();
 
@@ -195,6 +195,7 @@ public class ServerGui extends JFrame implements ActionListener {
 
 		stopServer();
 		conn.mysql.OnlineDB();
+		conn.mysql.block_id = 0;
 		clearTileList();
 		startServer();
 

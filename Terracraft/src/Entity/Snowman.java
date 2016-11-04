@@ -1,7 +1,7 @@
 package entity;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import gfx.Sprite;
@@ -24,7 +24,7 @@ public class Snowman extends Entity {
 		}
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.setColor(Color.red);
 		g.drawImage(sprite[frame].getBufferedImage(), x, y, width, height, null);
 		/*g.setColor(Color.WHITE);

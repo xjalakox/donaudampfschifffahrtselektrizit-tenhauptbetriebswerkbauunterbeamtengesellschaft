@@ -1,6 +1,6 @@
 package terracraft;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 
 import entity.Entity;
@@ -21,7 +21,7 @@ public class Handler {
 	public LinkedList<Tile> tile = new LinkedList<Tile>();
 	public LinkedList<Tile> tile2 = new LinkedList<Tile>();
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		if (type == "Client") {
 			for (Tile ti : tile2) {
 				if (shouldRender(ti)) {

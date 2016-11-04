@@ -1,7 +1,7 @@
 package tile;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import gfx.Sprite;
 import terracraft.Game;
@@ -17,7 +17,7 @@ public class Door extends Tile {
 		super(x, y, Width, height, id);
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		// setHealth(100);
 		g.setColor(Color.red);
 		g.drawRect(x, y, width, height);

@@ -2,7 +2,6 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import gfx.Sprite2;
@@ -35,7 +34,7 @@ public class NetPlayer extends Entity {
 		}
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 		g.setColor(Color.blue);
 		g.drawRect(x, y, width, height);
@@ -178,7 +177,7 @@ public class NetPlayer extends Entity {
 		this.username = username;
 	}
 
-	public void drawPlayer(Graphics g) {
+	public void drawPlayer(Graphics2D g) {
 
 		if (moving == -1 && !jumping && !falling) {
 			g.drawImage(legs[1].getBufferedImage(), x - 10, y + 2, 70, 96, null);

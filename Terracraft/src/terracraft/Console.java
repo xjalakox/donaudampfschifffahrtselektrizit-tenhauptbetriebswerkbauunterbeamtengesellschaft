@@ -2,9 +2,10 @@ package terracraft;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import entity.Player;
+import net.Network.DeleteMapRequest;
 
 public class Console {
 
@@ -17,7 +18,7 @@ public class Console {
 		TextToDrawInConsole = "";
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		// TODO Ein Int um nur bei bestimmten Ticks etwas zu zeichnen etc.
 		if (consoleOpen) {
 			renderConsole(g);
@@ -38,7 +39,7 @@ public class Console {
 		}
 	}
 
-	private void renderConsole(Graphics g) {
+	private void renderConsole(Graphics2D g) {
 		Color ConsoleColor = new Color(200, 0, 200, 50);
 		g.setColor(ConsoleColor);
 		g.fillRect(315 + player.getX(), 10 + player.getY(), 300, 200);
@@ -47,7 +48,7 @@ public class Console {
 		g.drawRect(315 + player.getX(), 210 + player.getY(), 300, 30);
 	}
 
-	private void renderKeyInput(Graphics g, String keyToDraw) {
+	private void renderKeyInput(Graphics2D g, String keyToDraw) {
 		g.setColor(Color.BLUE);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g.drawString(keyToDraw, player.getX() + 320, player.getY() + 230);
@@ -93,6 +94,12 @@ public class Console {
 			}
 			// 2 Arg Block
 			// 3 Arg Anzahl
+		}
+		
+		if(args[0].equalsIgnoreCase("delete")){
+			DeleteMapRequest request = new DeleteMapRequest();
+			request.username = Game.player.getUsername();
+			Game.client.sendTCP(request);
 		}
 
 	}

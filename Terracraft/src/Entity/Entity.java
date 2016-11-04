@@ -1,6 +1,6 @@
 package entity;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import terracraft.Game;
@@ -62,7 +62,7 @@ public abstract class Entity {
 		return new Rectangle(x - 128, y - 128, 96 * 3 + width, 96 * 3 + height);
 	}
 
-	public abstract void render(Graphics g);
+	public abstract void render(Graphics2D g);
 
 	public abstract void tick();
 

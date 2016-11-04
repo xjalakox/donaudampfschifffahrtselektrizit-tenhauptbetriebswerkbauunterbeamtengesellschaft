@@ -36,7 +36,7 @@ public class Tree extends Tile {
 		setHealth(400);
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 //		g.setColor(Color.blue);
 //		g.drawRect(x, y - (level + 5) * 32, width, height + (level + 5) * 32);
 //		g.setColor(Color.green);

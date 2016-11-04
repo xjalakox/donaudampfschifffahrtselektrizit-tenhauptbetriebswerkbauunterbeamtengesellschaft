@@ -18,7 +18,7 @@ public class Network {
 		kryo.register(boolean.class);
 
 		kryo.register(Id.class);
-		
+
 		kryo.register(LoginRequest.class);
 		kryo.register(LoginResponse.class);
 		kryo.register(RegisterRequest.class);
@@ -33,6 +33,7 @@ public class Network {
 		kryo.register(RemoveTile.class);
 		kryo.register(Inventory.class);
 		kryo.register(KillClient.class);
+		kryo.register(DeleteMapRequest.class);
 	}
 
 	static public class LoginRequest {
@@ -100,7 +101,9 @@ public class Network {
 
 	}
 	
-	
+	static public class DeleteMapRequest {
+		public String username;
+	}
 
 	public static void sendCoordinates(Client client, int x, int y, String username, Id tool, String type) {
 		SendCoordinates coordinates = new SendCoordinates();

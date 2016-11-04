@@ -8,7 +8,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import crafting.Recipe;
-import gfx.Sprite;
 import gfx.Sprite2;
 import input.Key;
 import input.Mouse;
@@ -17,9 +16,8 @@ import net.Network.HittingBlock;
 import terracraft.Game;
 import terracraft.Id;
 import terracraft.MiningHandler;
-import terracraft.Utils;
-import tile.source.Tile;
 import tile.Door;
+import tile.source.Tile;
 
 public class Player extends Entity {
 	private String username;
@@ -57,7 +55,7 @@ public class Player extends Entity {
 		// Inventory.set(3, Id.Pickaxe);
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.setColor(Color.blue);
 		g.drawRect(getX() + 6, getY() + height - 16, width - 10, 16);
 		g.setColor(Color.green);
@@ -66,6 +64,7 @@ public class Player extends Entity {
 		g.drawRect(getX(), getY() + 5, 5, height - 10);
 		g.setColor(Color.cyan);
 		g.drawRect(getX() + 5, getY(), width - 10, 16);
+
 		drawPlayer(g);
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -299,8 +298,6 @@ public class Player extends Entity {
 		}
 	}
 
-	
-
 	public boolean isInventoryOpen() {
 		return inventoryOpen;
 	}
@@ -321,7 +318,7 @@ public class Player extends Entity {
 		return new Rectangle(20 + getX() - 650 - 5, 20 + getY() - 450 - 5, 74 * 10, 74);
 	}
 
-	public void renderLookingBlock(Graphics g) {
+	public void renderLookingBlock(Graphics2D g) {
 		int x = 0;
 		int y = 0;
 		int x2 = Game.m.getX() - Game.cam.getX();

@@ -21,6 +21,7 @@ import audio.SoundManager;
 import entity.Entity;
 import entity.Player;
 import entity.Snowman;
+import enviroment.Lighting;
 import enviroment.Map;
 import gfx.Image;
 import gfx.Sprite;
@@ -73,6 +74,7 @@ public class Game extends Canvas implements Runnable {
 	private JFrame frame;
 	private String username;
 	private int x, y;
+	public static boolean isAdmin = false;
 
 	public void init() {
 
@@ -131,23 +133,27 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		Graphics2D g2d = (Graphics2D) g.create();
 
-		g.setColor(new Color(135, 206, 250));
-		g.fillRect(0, 0, getWidth(), getHeight());
-		g.translate(cam.getX(), cam.getY());
-		g.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8,
+		g2d.setColor(new Color(135, 206, 250));
+		g2d.fillRect(0, 0, getWidth(), getHeight());
+		g2d.translate(cam.getX(), cam.getY());
+		g2d.drawImage(background.getBufferedImage(), player.getX() / 2 + player.getX() / 8,
 				player.getY() / 2 + player.getY() / 8, background.getWidth() * 2, background.getHeight() * 2, null);
 
-		handler.render(g);
+		handler.render(g2d);
 
-		renderTestFlashLight(g2d);
+		//renderTestFlashLight(g2d);
+
+		//new Lighting(550, 550, g2d);
 		mininghandler.render(g2d);
-		map.render(g);
-		console.render(g);
+		map.render(g2d);
+		console.render(g2d);
 		menu.render(g2d);
-		g.setColor(Color.BLACK);
-		g.drawRect(m.x, m.y, 2, 2);
+
+		g2d.setColor(Color.BLACK);
+		g2d.drawRect(m.x, m.y, 2, 2);
 
 		g.dispose();
+		g2d.dispose();
 		bs.show();
 	}
 
@@ -215,15 +221,13 @@ public class Game extends Canvas implements Runnable {
 		mpoint.x = m.getX();
 		mpoint.y = m.getY();
 
-		Paint paint = Color.BLACK;
+		Paint paint = new Color(0, 0, 0, 0);
 		if (mpoint != null) {
 			paint = new RadialGradientPaint(mpoint, 200, new float[] { 0, 1f },
-					new Color[] { new Color(0, 0, 0, 0), new Color(0, 0, 0, 255) });
+					new Color[] { new Color(0, 0, 0, 0), new Color(0, 0, 0, 225) });
 		}
 		g2d.setPaint(paint);
-		// g2d.setColor(Color.BLACK);
-		// g2d.fillRect(0, 0, getWidth() - 1000, getHeight());
-		// g2d.fillRect(0, 0, getWidth(), getHeight() - 500);
+		g2d.fillRect(0, 0, getWidth(), getHeight());
 	}
 
 	private void initNetWork() {

@@ -227,6 +227,14 @@ public class ServerConnection {
 						connection.sendTCP(response);
 					}
 
+					if (object instanceof DeleteMapRequest) {
+
+						DeleteMapRequest request = (DeleteMapRequest) object;
+						if (mysql.isAdmin(request.username)) {
+							mysql.deleteBlocks();
+						}
+					}
+
 				}
 			}
 

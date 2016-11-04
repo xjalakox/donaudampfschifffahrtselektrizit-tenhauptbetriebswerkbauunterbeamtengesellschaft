@@ -1,6 +1,6 @@
 package tile.source;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import gfx.Sprite;
@@ -26,7 +26,7 @@ public class Tile {
 		this.id = id;
 	}
 
-	public void renderMap(Graphics g) {
+	public void renderMap(Graphics2D g) {
 		// tick++;
 		// if(tick>=60){
 		// tick=0;
@@ -69,7 +69,7 @@ public class Tile {
 		this.mapY = mapY;
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 	}
 
@@ -193,7 +193,7 @@ public class Tile {
 		this.damage -= damage;
 	}
 
-	public void mapRender(Graphics g) {
+	public void mapRender(Graphics2D g) {
 
 	}
 
@@ -237,7 +237,7 @@ public class Tile {
 		}
 	}
 
-	public void drawTile(Graphics g, int x, int y, int width, int height, Sprite alone, Sprite left, Sprite right,
+	public void drawTile(Graphics2D g, int x, int y, int width, int height, Sprite alone, Sprite left, Sprite right,
 			Sprite top, Sprite bottom, Sprite bottomright, Sprite bottomleft, Sprite bottomtop, Sprite leftright,
 			Sprite topleft, Sprite topright, Sprite all, Sprite bottomrighttop, Sprite bottomlefttop,
 			Sprite topleftright, Sprite bottomleftright) {

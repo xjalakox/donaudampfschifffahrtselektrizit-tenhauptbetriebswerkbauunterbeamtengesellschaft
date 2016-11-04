@@ -29,7 +29,7 @@ public class Map {
 		}
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
 //		g.setColor(Color.black);
 //		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));

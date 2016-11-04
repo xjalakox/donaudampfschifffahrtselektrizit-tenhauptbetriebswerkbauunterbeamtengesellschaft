@@ -1,6 +1,6 @@
 package tile;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import gfx.Sprite;
 import terracraft.Game;
@@ -16,7 +16,7 @@ public class Workbench extends Tile {
 		setHealth(100);
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.drawImage(sprite.getBufferedImage(), x, y, width, height, null);
 
 	}
