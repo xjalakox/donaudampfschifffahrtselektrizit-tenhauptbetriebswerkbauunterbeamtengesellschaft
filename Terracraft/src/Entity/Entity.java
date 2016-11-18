@@ -11,7 +11,8 @@ import tile.source.Tile;
 
 public abstract class Entity {
 
-	public int x, y, width, height, velX, velY;
+
+	public int x, y, width, height, velX, velY, health;
 	public boolean removed, clicked, click;
 	public Handler handler;
 	public Id id;
@@ -237,6 +238,14 @@ public abstract class Entity {
 
 		return new Rectangle(getX() + 5, getY(), width - 10, 16);
 
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 
 	public void setPosition(int x, int y) {

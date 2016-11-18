@@ -2,6 +2,8 @@ package terracraft;
 
 import static java.lang.Math.toIntExact;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 import crafting.Recipe;
@@ -125,6 +127,10 @@ public final class Utils {
 		long actualtime = System.currentTimeMillis();
 		long difference = actualtime - nanostimer;
 		return "Gebrauchte Zeit " + difference + " Nanosekunden";
+	}
+	
+	public static void sortArray(Id[] a, Comparator c){
+		Arrays.sort(a, c);
 	}
 
 }

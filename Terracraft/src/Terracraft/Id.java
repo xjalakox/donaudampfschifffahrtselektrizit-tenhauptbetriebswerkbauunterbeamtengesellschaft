@@ -10,8 +10,8 @@ import tile.source.Tile;
 public enum Id {
 
 	// Block
-	Player, NetPlayer, Dragon, Dirt(new Sprite(Game.sheet, 6, 1, 1, 1), "block"), Grass(
-			new Sprite(Game.sheet, 13, 1, 1, 1), "block", Recipe.Test), Empty(new Sprite(Game.sheet, 14, 1, 1, 1),
+	Player, NetPlayer, Dragon, Dirt(new Sprite(Game.sheet, 13, 1, 1, 1), "block",Recipe.Test), Grass(
+			new Sprite(Game.sheet, 7, 1, 1, 1), "block", Recipe.Test), Empty(new Sprite(Game.sheet, 14, 1, 1, 1),
 					"empty", 0,
 					"empty"), Workbench(new Sprite(Game.sheet, 1, 2, 2, 1), "block", Recipe.Workbench), Door(
 							new Sprite(Game.sheet, 9, 2, 1, 1),
@@ -19,7 +19,8 @@ public enum Id {
 									new Sprite(Game.sheet_stone, 2, 2, 1, 1, 16, 2),
 									"block"), Platinum(new Sprite(Game.sheet_platinum, 2, 2, 1, 1, 16, 2), "block"), Gold(
 											new Sprite(Game.sheet_gold, 2, 2, 1, 1, 16, 2),
-											"block"), Copper(new Sprite(Game.sheet_copper, 2, 2, 1, 1, 16, 2), "block"),
+											 "block"), Copper(new Sprite(Game.sheet_copper, 2, 2, 1, 1, 16, 2), "block"),
+	Chest(new Sprite(Game.sheet, 13, 2, 1, 1), "block"),
 
 
 	// Tool
@@ -142,6 +143,10 @@ public enum Id {
 			return Gold;
 		case "Platinum":
 			return Platinum;
+		case "Chest":
+			return Chest;
+		case "Dirt":
+			return Dirt;
 		}
 		return null;
 	}
@@ -158,8 +163,6 @@ public enum Id {
 			return "OP_Pickaxe";
 		case Hammer:
 			return "Hammer";
-		case Dirt:
-			return "Dirt";
 		case Empty:
 			return "Empty";
 		case Workbench:
@@ -178,6 +181,10 @@ public enum Id {
 			return "Gold";
 		case Platinum:
 			return "Platinum";
+		case Chest:
+			return "Chest";
+		case Dirt:
+			return "Dirt";
 		default:
 			break;
 		}
@@ -190,6 +197,8 @@ public enum Id {
 			return null;
 		case "Grass":
 			return new Grass(0, 0, 32, 32, Id.Grass);
+		case "Dirt":
+			return new Dirt(0,0,32,32,Id.Dirt);
 		case "Workbench":
 			return new Workbench(0, 0, 64, 32, Id.Workbench);
 		case "Door":
@@ -204,6 +213,8 @@ public enum Id {
 			return new Gold(0, 0, 32, 32, Id.Gold);
 		case "Platinum":
 			return new Platinum(0, 0, 32, 32, Id.Platinum);
+		case "Chest":
+			return new Chest(0,0,32,32,Id.Chest);
 		}
 		return null;
 	}

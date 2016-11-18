@@ -1,11 +1,16 @@
 package net;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import com.esotericsoftware.kryonet.Server;
 import com.sun.org.apache.xerces.internal.impl.dv.xs.FullDVFactory;
 
 import net.Network.SendCoordinates;
 import terracraft.Handler;
 import terracraft.Id;
+import worldgeneration.Gen;
+import worldgeneration.Element;
 
 public class ServerTick implements Runnable{
 	
@@ -21,9 +26,9 @@ public class ServerTick implements Runnable{
 	
 	
 	public void init() {
+		Gen g=new Gen();
 		
 	}
-
 	
 	public void tick() {
 		

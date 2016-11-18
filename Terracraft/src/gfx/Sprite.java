@@ -14,6 +14,10 @@ public class Sprite {
 	public Sprite(Spritesheet sheet, int x, int y, int a, int b, int i, int abstand) {
 		image = sheet.getSprite2(x, y, a, b, i, abstand);
 	}
+	
+	public Sprite(Spritesheet sheet, int x, int y, int a, int b, int width,int height, int abstand) {
+		image = sheet.getSprite3(x, y, a, b, width, height, abstand);
+	}
 
 	public BufferedImage getBufferedImage() {
 		return image;

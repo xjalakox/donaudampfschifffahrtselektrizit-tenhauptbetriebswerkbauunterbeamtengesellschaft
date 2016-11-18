@@ -125,7 +125,7 @@ public class ServerConnection {
 							}
 						}
 
-						for (Tile ti : handler.tile) {
+						for (Tile ti : handler.tile2) {
 							AddTile tile = new AddTile();
 							tile.x = ti.getX();
 							tile.y = ti.getY();
@@ -233,6 +233,16 @@ public class ServerConnection {
 						if (mysql.isAdmin(request.username)) {
 							mysql.deleteBlocks();
 						}
+					}
+					
+					if(object instanceof openDoor){
+						openDoor request = (openDoor) object;
+						for(NetUser u : users){
+							if (u.isConnected()) {
+								u.getConnection().sendTCP(request);
+							}
+						}
+						
 					}
 
 				}

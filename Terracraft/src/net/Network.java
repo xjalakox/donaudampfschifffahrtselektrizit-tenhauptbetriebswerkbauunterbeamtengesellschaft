@@ -34,6 +34,7 @@ public class Network {
 		kryo.register(Inventory.class);
 		kryo.register(KillClient.class);
 		kryo.register(DeleteMapRequest.class);
+		kryo.register(openDoor.class);
 	}
 
 	static public class LoginRequest {
@@ -103,6 +104,10 @@ public class Network {
 	
 	static public class DeleteMapRequest {
 		public String username;
+	}
+	
+	static public class openDoor {
+		public int x,y;
 	}
 
 	public static void sendCoordinates(Client client, int x, int y, String username, Id tool, String type) {

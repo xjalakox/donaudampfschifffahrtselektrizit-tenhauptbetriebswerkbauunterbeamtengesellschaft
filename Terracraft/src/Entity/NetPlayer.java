@@ -54,9 +54,13 @@ public class NetPlayer extends Entity {
 			moving = 1;
 		}
 		if (goUp) {
+			jumping=true;
+			falling =false;
 			y -= 4;
 		}
 		if (goDown) {
+			falling=true;
+			jumping=false;
 			y += 4;
 		}
 

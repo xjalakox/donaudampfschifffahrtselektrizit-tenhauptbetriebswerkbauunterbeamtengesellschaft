@@ -7,14 +7,16 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import crafting.Recipe;
 import net.Network.AddTile;
 import net.Network.HittingBlock;
 import net.Network.Inventory;
+import net.Network.openDoor;
 import terracraft.Game;
 import terracraft.Id;
+import tile.Chest;
 import tile.Door;
 import tile.source.Tile;
+import crafting.Recipe;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -151,11 +153,18 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 		return y;
 	}
 
-	public boolean lookIfOccupied() {
+	
+		
+	
+	public Id lookIfOccupied(){
 		Tile dummyTile = Id.getTile(Game.player.Inventory.get(mouseRotation).toString());
 		for (Tile ti : Game.handler.tile2) {
 			if (ti.getBounds().intersects(Collision())) {
 				if (ti.getId() == Id.Door) {
+					openDoor request = new openDoor();
+					request.x = ti.getX();
+					request.y = ti.getY();
+					Game.client.sendUDP(request);
 					((Door) ti).changeState();
 				}
 			}
@@ -163,19 +172,18 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				if (dummyTile.getId().equals(Id.Door)) {
 					if (ti.getBounds().intersects(
 							new Rectangle(lookingAtX, lookingAtY - 64, dummyTile.getWidth(), dummyTile.getHeight()))) {
-						return true;
+						return ti.getId();
 					}
 				} else {
 					if (ti.getBounds().intersects(
 							new Rectangle(lookingAtX, lookingAtY, dummyTile.getWidth(), dummyTile.getHeight()))) {
-						return true;
+						return ti.getId();
 					}
 				}
 			}
 		}
-		return false;
+		return Id.Empty;
 	}
-
 	public Rectangle Collision() {
 		return new Rectangle(lookingAtX, lookingAtY, 2, 2);
 	}
@@ -254,11 +262,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	private void placeBlock() {
-		if (!Game.console.consoleOpen && !lookIfOccupied()
+		Id currentId=lookIfOccupied();
+		if (!Game.console.consoleOpen 
 				&& !Game.player.getBounds().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))
 				&& Game.player.getArea().intersects(new Rectangle(lookingAtX, lookingAtY, 32, 32))) {
 			if (Game.mininghandler.scrollbarTiles.get(mouseRotation).getType().equalsIgnoreCase("block")
 					&& Game.player.Inventory_amount[mouseRotation] >= 1) {
+				if(currentId.equals(Id.Empty)){
 				AddTile request = new AddTile();
 				if (Game.mininghandler.scrollbarTiles.get(mouseRotation).equals(Id.Door)) {
 					request.x = lookingAtX;
@@ -276,6 +286,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 				Game.handler.addTile(ti);
 
 				Game.player.Inventory_amount[mouseRotation] -= 1;
+				}else if(currentId.equals(Id.Chest)){
+					for(Tile ti:Game.handler.tile2){
+						if(ti.getId().equals(Id.Chest)&&ti.getX()==lookingAtX&&ti.getY()==lookingAtY){
+							((Chest) ti).changeOpen();
+						}
+					}
+					
+				}
 			}
 		}
 	}

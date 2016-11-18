@@ -17,20 +17,22 @@ import net.registerlogin.Login;
 import terracraft.Game;
 import terracraft.Id;
 import terracraft.Utils;
+import tile.Door;
 import tile.source.Tile;
 
 public class ClientConnection {
 	private static Game terracraft = null;
 	private boolean logged = false;
 
-	public ClientConnection(Client client) {
+	public ClientConnection(final Client client) {
 		client.start();
 		// Log.TRACE();
 
 		try {
-			client.connect(5000, "localhost", 54555, 54777);
+			client.connect(5000, "10.3.0.178", 54555, 54777);
 		} catch (IOException e) {
-			System.out.println("Keine Verbindung zum Server möglich. Snipe Client vom Hochhaus");
+			System.out
+					.println("Keine Verbindung zum Server möglich. Snipe Client vom Hochhaus");
 			Login.killClient = true;
 			System.exit(0);
 			e.printStackTrace();
@@ -47,7 +49,8 @@ public class ClientConnection {
 				if (object instanceof SpawnResponse) {
 					SpawnResponse response = (SpawnResponse) object;
 					JFrame frame = new JFrame("TerraCraft");
-					terracraft = new Game(response.x, response.y, response.username, frame, client);
+					terracraft = new Game(response.x, response.y,
+							response.username, frame, client);
 					frame.add(terracraft);
 					frame.pack();
 					frame.setBounds(0, 0, 320 * 4, 180 * 4);
@@ -59,8 +62,8 @@ public class ClientConnection {
 				}
 				if (object instanceof NetUserSpawnResponse && logged) {
 					NetUserSpawnResponse response = (NetUserSpawnResponse) object;
-					NetPlayer netplayer = new NetPlayer(response.username, response.x, response.y, 46, 96,
-							Id.NetPlayer);
+					NetPlayer netplayer = new NetPlayer(response.username,
+							response.x, response.y, 46, 96, Id.NetPlayer);
 					Game.handler.addEntity(netplayer);
 				}
 				if (object instanceof AddTile && logged) {
@@ -76,7 +79,8 @@ public class ClientConnection {
 				}
 				if (object instanceof SendCoordinates && logged) {
 					SendCoordinates response = (SendCoordinates) object;
-					Game.handler.setPlayerPosition(response.username, response.x, response.y, response.tool);
+					Game.handler.setPlayerPosition(response.username,
+							response.x, response.y, response.tool);
 				}
 				if (object instanceof RemoveTile && logged) {
 					RemoveTile response = (RemoveTile) object;
@@ -86,7 +90,8 @@ public class ClientConnection {
 					HittingBlock response = (HittingBlock) object;
 					for (Entity e : Game.handler.entity) {
 						if (e.getId() == Id.NetPlayer
-								&& (((NetPlayer) e).getUsername()).equalsIgnoreCase(response.username)) {
+								&& (((NetPlayer) e).getUsername())
+										.equalsIgnoreCase(response.username)) {
 							e.click = response.click;
 							e.clicked = response.clicked;
 						}
@@ -97,9 +102,23 @@ public class ClientConnection {
 
 					for (int i = 0; i < response.itemids.length; i++) {
 						if (Utils.isNotNull(response.itemids[i])) {
-							String[] SplitInventoryData = response.itemids[i].split(",");
-							Game.player.Inventory.set(i, Id.toId(SplitInventoryData[0]));
-							Game.player.Inventory_amount[i] = Utils.toInt(SplitInventoryData[1]);
+							String[] SplitInventoryData = response.itemids[i]
+									.split(",");
+							Game.player.Inventory.set(i,
+									Id.toId(SplitInventoryData[0]));
+							Game.player.Inventory_amount[i] = Utils
+									.toInt(SplitInventoryData[1]);
+						}
+					}
+				}
+				if (object instanceof openDoor) {
+					openDoor response = (openDoor) object;
+
+					for (Tile t : Game.handler.tile2) {
+						if (t.getId() == Id.Door) {
+							if(response.x == t.getX() && response.y == t.getY()){
+								((Door) t).changeState();
+							}
 						}
 					}
 				}

@@ -68,6 +68,7 @@ public class Game extends Canvas implements Runnable {
 	public static Spritesheet sheet_platinum = new Spritesheet("/Sprites/Platinum.png");
 	public static Spritesheet sheet_tree_tops = new Spritesheet("/Sprites/Tree_Tops.png");
 	public static Spritesheet sheet_tree_branches = new Spritesheet("/Sprites/Tree_Branches.png");
+	public static Spritesheet sheet_chest = new Spritesheet("/Sprites/Chest.png");
 	public static Menu menu;
 	private Snowman snowman;
 	private Image background;

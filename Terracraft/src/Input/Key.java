@@ -11,7 +11,8 @@ import terracraft.Utils;
 public class Key implements KeyListener {
 
 	private int key;
-	public static boolean run = false, d = false, w = false, shift = false, a = false, s = false;
+	public static boolean run = false, d = false, w = false, shift = false,
+			a = false, s = false;
 
 	private Game game;
 
@@ -24,26 +25,27 @@ public class Key implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent k) {
-		if (!Game.menu.isOpen()) {
-			key = k.getKeyCode();
-			if (k.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				if (Game.menu.isOpen()) {
-					Game.menu.close();
-				} else {
-					Game.menu.open();
-				}
-
-				/*
-				 * exiting = true; String itemids[] = new String[40]; for (int i
-				 * = 0; i < Game.player.Inventory.size(); i++) { itemids[i] =
-				 * Game.player.Inventory.get(i) + "," +
-				 * Game.player.Inventory_amount[i]; }
-				 * 
-				 * Inventory request = new Inventory(); request.itemids =
-				 * itemids; Game.client.sendTCP(request);
-				 */
+		key = k.getKeyCode();
+		if (key == KeyEvent.VK_ESCAPE) {
+			Game.player.setInventoryOpen(false);
+			if (Game.menu.isOpen()) {
+				Game.menu.close();
+			} else {
+				Game.menu.open();
 			}
-			if (k.getKeyCode() == KeyEvent.VK_Z) {
+
+			/*
+			 * exiting = true; String itemids[] = new String[40]; for (int i =
+			 * 0; i < Game.player.Inventory.size(); i++) { itemids[i] =
+			 * Game.player.Inventory.get(i) + "," +
+			 * Game.player.Inventory_amount[i]; }
+			 * 
+			 * Inventory request = new Inventory(); request.itemids = itemids;
+			 * Game.client.sendTCP(request);
+			 */
+		}
+		if (!Game.menu.isOpen()) {
+			if (key == KeyEvent.VK_Z) {
 				Recipe[] j = Recipe.getCraftableRecipes();
 				for (int i = 0; i < j.length; i++) {
 				}
@@ -51,6 +53,16 @@ public class Key implements KeyListener {
 			if (!Game.console.consoleOpen) {
 				switch (key) {
 				case KeyEvent.VK_W:
+					w = true;
+					if (!Game.player.jumping && !Game.player.falling) {
+						if (!Game.player.jumping && !Game.player.falling) {
+							Game.player.jumping = true;
+							Game.player.gravity = 17.0f;
+						}
+					}
+
+					break;
+				case KeyEvent.VK_SPACE:
 					w = true;
 					if (!Game.player.jumping && !Game.player.falling) {
 						if (!Game.player.jumping && !Game.player.falling) {
@@ -105,11 +117,13 @@ public class Key implements KeyListener {
 					break;
 				case KeyEvent.VK_0:
 					// Mouse.mouseRotation = 9;
-					Game.player.Inventory.set(4, Id.Workbench);
-					Game.player.Inventory_amount[4] = 15;
+					Game.player.Inventory.set(4, Id.Stone);
+					Game.player.Inventory_amount[4] = 150;
 					Game.player.Inventory.set(5, Id.Pickaxe);
-					Game.player.Inventory.set(8, Id.Tree);
-					Game.player.Inventory_amount[8] = 15;
+					Game.player.Inventory.set(7, Id.Door);
+					Game.player.Inventory_amount[7] = 15;
+					Game.player.Inventory.set(20, Id.Tree);
+					Game.player.Inventory_amount[20] = 20;
 					Game.player.Inventory.set(9, Id.OP_Pickaxe);
 					break;
 				case KeyEvent.VK_E:
@@ -160,7 +174,8 @@ public class Key implements KeyListener {
 			break;
 		case KeyEvent.VK_ENTER:
 			if (Game.console.consoleOpen) {
-				String without = Utils.removeFirstChar(Game.console.TextToDrawInConsole);
+				String without = Utils
+						.removeFirstChar(Game.console.TextToDrawInConsole);
 				String[] commands = without.split("\\s");
 				Game.console.executeCommand(commands);
 				Game.console.consoleOpen = false;

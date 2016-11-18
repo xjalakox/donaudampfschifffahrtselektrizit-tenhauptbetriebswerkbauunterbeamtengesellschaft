@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import crafting.Recipe;
 import gfx.Sprite2;
@@ -16,6 +17,7 @@ import net.Network.HittingBlock;
 import terracraft.Game;
 import terracraft.Id;
 import terracraft.MiningHandler;
+import terracraft.Utils;
 import tile.Door;
 import tile.source.Tile;
 
@@ -52,6 +54,7 @@ public class Player extends Entity {
 				Inventory_amount[10 * j + i] = 0;
 			}
 		}
+		setHealth(100);
 	}
 
 	public void render(Graphics2D g) {
